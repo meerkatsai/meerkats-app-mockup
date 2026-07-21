@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meerkats.ai — App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff; --off:#FAFAF9; --tint:#FFF7F2; --panel:#F6F6F4;
+  --ember:#EA580C; --ember-hover:#C2410C; --ember-dim:rgba(234,88,12,.08);
+  --ink-900:#0B0B0C; --ink-700:#2A2A2E; --ink-500:#5C5C63; --ink-400:#8A8A92;
+  --rule-soft:#E5E4E1;
+  --good:#0F6E56; --good-bg:#E4F3EE; --watch:#9A6410; --watch-bg:#FBF0DD; --bad:#B23A3A; --bad-bg:#FBEBEB; --info:#3A5A7A; --info-bg:#EAF0F6;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --serif:'Source Serif 4',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --r:14px; --r-sm:8px; --nav-w:236px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--sans);color:var(--ink-900);background:var(--off);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit}
+.mono{font-family:var(--mono)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:var(--rule-soft);border-radius:99px;border:3px solid var(--off)}
+
+/* ---------- BANNER ---------- */
+#banner{background:var(--ink-900);color:#fff;padding:9px 44px 9px 18px;font-size:13px;display:flex;align-items:center;gap:14px;position:relative;z-index:40}
+#banner b{color:#fff}
+#banner .hl{color:#FDBA8C}
+#banner .cta{background:#fff;color:var(--ink-900);border-radius:99px;padding:5px 15px;font-weight:600;font-size:12.5px;flex:none;transition:.14s}
+#banner .cta:hover{background:#FDBA8C}
+#banner .x{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#8A8A92;font-size:16px;padding:4px}
+#banner .x:hover{color:#fff}
+
+/* ---------- SHELL ---------- */
+#shell{display:flex;height:calc(100vh - 40px)}
+#shell.nobanner{height:100vh}
+
+/* ---------- SIDEBAR ---------- */
+#nav{width:var(--nav-w);flex:none;background:var(--white);border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;overflow:visible;padding:14px 10px 10px}
+.brand{display:flex;align-items:center;gap:8px;padding:2px 8px 12px}
+.brand .logo{width:24px;height:24px;border-radius:7px;background:var(--ember);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;font-family:var(--serif)}
+.brand .wd{font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:-.01em}
+.brand .wd i{font-style:normal;color:var(--ember)}
+.ws-wrap{position:relative;margin-bottom:10px}
+.store{display:flex;align-items:center;gap:10px;width:100%;border:1px solid var(--rule-soft);border-radius:12px;padding:9px 11px;transition:.12s;text-align:left;background:var(--white)}
+.store:hover{border-color:var(--ink-400)}
+.store .sd{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#EA580C,#C2410C);color:#fff;display:grid;place-items:center;font-size:13px;flex:none;font-weight:700}
+.store .wk{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400);display:block;line-height:1.3}
+.store .wn{font-size:13.5px;font-weight:700;line-height:1.25;display:block}
+.store .cx{margin-left:auto;color:var(--ink-400);font-size:10px}
+.ws-menu{position:absolute;top:calc(100% + 6px);left:0;right:-8px;background:var(--white);border:1px solid var(--rule-soft);border-radius:14px;box-shadow:0 16px 48px rgba(11,11,12,.16);padding:6px;z-index:80;display:none}
+.ws-menu.on{display:block}
+.wrow{display:flex;align-items:center;gap:11px;width:100%;padding:8px 10px;border-radius:9px;font-size:13px;font-weight:600;color:var(--ink-900);text-align:left;transition:.1s}
+.wrow:hover{background:var(--off)}
+.wrow.on{background:var(--tint)}
+.wrow .wa{width:26px;height:26px;border-radius:7px;background:var(--ink-900);color:#fff;display:grid;place-items:center;font-size:11px;flex:none;font-weight:700}
+.wrow.on .wa{background:linear-gradient(135deg,#EA580C,#C2410C)}
+.wrow .def{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.03em;color:var(--good);background:var(--good-bg);border-radius:99px;padding:2px 8px;flex:none}
+.wrow .chk{margin-left:auto;color:var(--ember);font-weight:700;font-size:13px;flex:none}
+.ws-menu .sep{height:1px;background:var(--rule-soft);margin:5px 4px}
+.wrow.create{font-weight:600;color:var(--ink-700)}
+.wrow.create .wa{background:transparent;border:1px dashed var(--rule-soft);color:var(--ink-500);font-size:14px;font-weight:500}
+.nav-sec{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-400);padding:10px 10px 4px;display:flex;align-items:center}
+.nav-sec .dots{margin-left:auto;color:var(--ink-400);font-size:12px;letter-spacing:0;cursor:pointer;padding:0 2px}
+.nav-sec .plus{margin-left:auto;color:var(--ink-400);cursor:pointer;font-size:13px;padding:0 2px}
+.nav-sec .plus:hover,.nav-sec .dots:hover{color:var(--ink-900)}
+.ni{position:relative;display:flex;align-items:center;gap:10px;padding:6.5px 10px;border-radius:9px;font-size:13.5px;color:var(--ink-500);font-weight:500;transition:background .12s,color .12s;text-align:left;width:100%}
+.ni:hover{background:var(--off);color:var(--ink-900)}
+.ni.active{background:var(--tint);color:var(--ember);font-weight:600}
+.ni .gi{width:18px;text-align:center;flex:none;opacity:.9}
+.ni .gi svg{width:16px;height:16px;vertical-align:-3px}
+.ni .lab{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ni .badge{font-size:9.5px;font-weight:700;letter-spacing:.04em;background:var(--ember-dim);color:var(--ember);border-radius:99px;padding:2px 8px;flex:none;display:inline-flex;align-items:center;gap:3px}
+.ni .caret{color:var(--ink-400);font-size:9px;flex:none;transition:.15s}
+.ni-wrap{position:relative}
+.ni-wrap:hover>.ni .caret{transform:translateX(2px);color:var(--ink-900)}
+/* flyout */
+.fly{position:absolute;left:calc(100% + 2px);top:-6px;background:var(--white);border:1px solid var(--rule-soft);border-radius:12px;box-shadow:0 12px 40px rgba(11,11,12,.13);min-width:238px;padding:6px;display:none;z-index:60}
+.ni-wrap:hover .fly{display:block}
+.fly .fi{display:flex;align-items:center;gap:9px;width:100%;padding:8px 11px;border-radius:8px;font-size:13px;color:var(--ink-700);font-weight:500;text-align:left;transition:.12s}
+.fly .fi:hover{background:var(--off)}
+.fly .fi.on{background:var(--tint);color:var(--ember);font-weight:600}
+.fly .fi .lk{margin-left:auto;color:var(--ink-400);font-size:11px}
+.fly .fi .bt{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--info);background:var(--info-bg);border-radius:99px;padding:1px 7px}
+.fly .fi .bt.lk2{margin-left:6px}
+.fly .sep{height:1px;background:var(--rule-soft);margin:5px 4px}
+.fly .create{color:var(--ink-500);font-size:13px}
+.fly .create .ar{margin-left:auto;color:var(--ink-400)}
+.nav-foot{margin-top:auto;border-top:1px solid var(--rule-soft);padding-top:8px}
+/* data spine tree */
+#spineKids{display:flex;flex-direction:column}
+#spineKids.closed{display:none}
+.sni{display:block;width:100%;text-align:left;padding:5px 10px 5px 38px;border-radius:8px;font-size:12.5px;color:var(--ink-500);font-weight:500;transition:.1s}
+.sni:hover{background:var(--off);color:var(--ink-900)}
+.sni.active{background:var(--tint);color:var(--ember);font-weight:600}
+/* chat side panel */
+#body{display:flex;flex:1;min-height:0}
+#chat{width:380px;flex:none;border-left:1px solid var(--rule-soft);background:var(--white);display:none;flex-direction:column;overflow-y:auto}
+#chat.on{display:flex}
+.chat-h{display:flex;align-items:center;padding:14px 16px 0}
+.chat-h .cbadge{font-size:11px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:4px 11px;display:inline-flex;gap:5px;align-items:center}
+.chat-h .x{margin-left:auto;color:var(--ink-400);font-size:15px;padding:4px}
+.chat-h .x:hover{color:var(--ink-900)}
+.chat-body{padding:26px 22px;display:flex;flex-direction:column;flex:1}
+.chat-body h2{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.015em;margin:26px 0 18px}
+.chat-ask{border:1.5px solid var(--ink-900);border-radius:14px;background:var(--white);padding:13px 14px;box-shadow:0 8px 26px rgba(11,11,12,.05)}
+.chat-ask .in{display:flex;align-items:center;gap:9px}
+.chat-ask input{flex:1;border:none;outline:none;font-family:inherit;font-size:13.5px;background:transparent;color:var(--ink-900)}
+.chat-ask input::placeholder{color:var(--ink-400)}
+.chat-ask .send{width:29px;height:29px;border-radius:99px;background:var(--ember);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+.chat-ask .send:hover{background:var(--ember-hover)}
+.chat-ask .foot{display:flex;gap:6px;margin-top:10px;align-items:center}
+.chat-ask .foot .mchip{font-size:10.5px;padding:3px 9px}
+.chat-sugg{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.chat-sugg button{text-align:left;border:1px solid var(--rule-soft);border-radius:10px;padding:10px 13px;font-size:12.5px;color:var(--ink-700);font-weight:500;transition:.12s}
+.chat-sugg button:hover{border-color:var(--ember);color:var(--ink-900)}
+.chat-foot{margin-top:auto;padding-top:18px;font-size:11px;color:var(--ink-400);text-align:center}
+.nav-foot .ni{font-size:13px}
+.who{display:flex;align-items:center;gap:9px;padding:9px 10px 4px}
+.who .av{width:27px;height:27px;border-radius:99px;background:var(--ink-900);color:#fff;display:grid;place-items:center;font-size:11.5px;font-weight:600;flex:none}
+.who b{font-size:12.5px;display:block;line-height:1.25}
+.who span{font-size:11px;color:var(--ink-400)}
+
+/* ---------- MAIN ---------- */
+#main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.topbar{flex:none;background:var(--white);border-bottom:1px solid var(--rule-soft);padding:13px 26px;display:flex;align-items:center;gap:10px}
+.topbar h1{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:-.01em;margin-right:8px}
+.topbar .bt{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--info);background:var(--info-bg);border-radius:99px;padding:2px 8px}
+.ctl{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--rule-soft);border-radius:9px;padding:7px 13px;font-size:13px;font-weight:500;color:var(--ink-700);background:var(--white);transition:.12s}
+.ctl:hover{border-color:var(--ink-400)}
+.ctl .cd{color:var(--ink-400);font-size:9px}
+.icbtn{width:34px;height:34px;border:1px solid var(--rule-soft);border-radius:9px;display:grid;place-items:center;color:var(--ink-500);transition:.12s;font-size:14px}
+.icbtn:hover{border-color:var(--ink-400);color:var(--ink-900)}
+.icbtn.ai{color:var(--ember);border-color:#F5CBB0;width:34px}
+.icbtn.ai:hover{background:var(--tint)}
+.spacer{flex:1}
+#scroll{flex:1;overflow-y:auto}
+.wrap{max-width:1120px;margin:0 auto;padding:26px 30px 48px;width:100%}
+.screen{display:none}
+.screen.on{display:block}
+
+/* ---------- SHARED ---------- */
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)}
+.card{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white)}
+.btn{background:var(--ink-900);color:#fff;border-radius:99px;padding:10px 22px;font-size:13.5px;font-weight:600;transition:.14s;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:var(--ember)}
+.btn.orange{background:var(--ember)}
+.btn.orange:hover{background:var(--ember-hover)}
+.btn.ghost{background:transparent;color:var(--ink-700);border:1px solid var(--rule-soft)}
+.btn.ghost:hover{border-color:var(--ink-900);color:var(--ink-900);background:transparent}
+.btn.sm{padding:7px 15px;font-size:12.5px}
+.delta{font-size:11.5px;font-weight:600;font-family:var(--mono)}
+.delta.up{color:var(--good)}.delta.dn{color:var(--bad)}.delta.mut{color:var(--ink-400)}
+.pill{font-size:10px;font-weight:700;letter-spacing:.05em;border-radius:99px;padding:2px 8px}
+.pill.free{color:var(--good);background:var(--good-bg)}
+.pill.fdn{color:var(--info);background:var(--info-bg)}
+.pill.ent{color:var(--watch);background:var(--watch-bg)}
+
+/* gated teaser */
+.gate{min-height:62vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+.gate .lockring{width:64px;height:64px;border-radius:99px;border:1.5px solid #F5CBB0;background:var(--tint);display:grid;place-items:center;margin-bottom:22px}
+.gate .lockring svg{width:24px;height:24px;stroke:var(--ember)}
+.gate h2{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px}
+.gate p{color:var(--ink-500);font-size:14.5px;max-width:56ch;line-height:1.65;margin-bottom:26px}
+.gate .gplan{margin-top:14px;font-size:12px;color:var(--ink-400)}
+
+/* ---------- ANALYST (AI) ---------- */
+.ai-hero{text-align:center;padding:34px 0 8px}
+.ai-hero h2{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.015em;margin:10px 0 8px}
+.ai-hero p{color:var(--ink-500);font-size:15px;max-width:58ch;margin:0 auto}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0 6px}
+.pillar{border:1px solid var(--rule-soft);border-radius:var(--r);padding:20px;background:var(--white);text-align:left}
+.pillar .ic{width:34px;height:34px;border-radius:9px;background:var(--tint);display:grid;place-items:center;color:var(--ember);font-size:15px;margin-bottom:12px}
+.pillar h3{font-family:var(--serif);font-size:16.5px;font-weight:600;margin-bottom:5px}
+.pillar p{font-size:13px;color:var(--ink-500);line-height:1.55}
+.askbox{border:1.5px solid var(--ink-900);border-radius:16px;background:var(--white);padding:16px 18px;margin:26px 0 18px;box-shadow:0 10px 34px rgba(11,11,12,.06)}
+.askbox .in{display:flex;align-items:center;gap:12px}
+.askbox input{flex:1;border:none;outline:none;font-family:inherit;font-size:15px;color:var(--ink-900);background:transparent}
+.askbox input::placeholder{color:var(--ink-400)}
+.askbox .send{width:34px;height:34px;border-radius:99px;background:var(--ember);color:#fff;display:grid;place-items:center;font-size:14px;transition:.14s}
+.askbox .send:hover{background:var(--ember-hover)}
+.askbox .foot{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.mchip{font-size:11.5px;color:var(--ink-500);border:1px solid var(--rule-soft);border-radius:99px;padding:4px 11px;display:inline-flex;gap:6px;align-items:center}
+.mchip .d{width:6px;height:6px;border-radius:99px;background:var(--good)}
+.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.preset{border:1px solid var(--rule-soft);border-radius:12px;background:var(--white);padding:15px 16px;text-align:left;font-size:13px;color:var(--ink-700);font-weight:500;line-height:1.45;transition:.14s;display:flex;flex-direction:column;gap:8px}
+.preset:hover{border-color:var(--ember);transform:translateY(-1px)}
+.preset .pi{color:var(--ember);font-size:15px}
+.ai-note{text-align:center;color:var(--ink-400);font-size:12px;margin-top:22px}
+.ai-note a{color:var(--ember);text-decoration:none;font-weight:600}
+
+/* history */
+.filterbar{display:flex;gap:8px;margin-bottom:16px;align-items:center}
+.search{flex:1;display:flex;align-items:center;gap:9px;border:1px solid var(--rule-soft);border-radius:10px;background:var(--white);padding:9px 13px}
+.search input{border:none;outline:none;flex:1;font-family:inherit;font-size:13.5px;background:transparent;color:var(--ink-900)}
+.hrow{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid var(--rule-soft);transition:.12s;cursor:pointer}
+.hrow:last-child{border-bottom:none}
+.hrow:hover{background:var(--off)}
+.hrow .hic{width:32px;height:32px;border-radius:9px;background:var(--tint);color:var(--ember);display:grid;place-items:center;flex:none;font-size:14px}
+.hrow b{font-size:13.5px;font-weight:600;display:block}
+.hrow .sub{font-size:12px;color:var(--ink-400);margin-top:1px}
+.hrow .when{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-400);flex:none}
+
+/* automations */
+.arow{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--rule-soft)}
+.arow:last-child{border-bottom:none}
+.arow .st{width:8px;height:8px;border-radius:99px;flex:none}
+.arow b{font-size:13.5px;display:block}
+.arow .sub{font-size:12px;color:var(--ink-400)}
+.arow .cad{font-family:var(--mono);font-size:11px;color:var(--ink-500);background:var(--off);border:1px solid var(--rule-soft);border-radius:99px;padding:3px 10px}
+.toggle{width:34px;height:19px;border-radius:99px;background:var(--good);position:relative;flex:none;cursor:pointer}
+.toggle:after{content:'';position:absolute;width:15px;height:15px;border-radius:99px;background:#fff;top:2px;right:2px}
+.toggle.off{background:var(--rule-soft)}
+.toggle.off:after{right:auto;left:2px}
+.appr{border:1px solid #F5CBB0;background:var(--tint);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.appr b{font-size:13.5px}
+.appr .sub{font-size:12.5px;color:var(--ink-500)}
+
+/* library */
+.libgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.libitem{border:1px solid var(--rule-soft);border-radius:12px;background:var(--white);overflow:hidden;transition:.14s;cursor:pointer}
+.libitem:hover{border-color:var(--ink-400);transform:translateY(-1px)}
+.libitem .thumb{height:96px;display:grid;place-items:center;font-size:26px;border-bottom:1px solid var(--rule-soft)}
+.libitem .meta{padding:10px 12px}
+.libitem .meta b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.libitem .meta span{font-size:11px;color:var(--ink-400);font-family:var(--mono)}
+
+/* ---------- SUMMARY ---------- */
+.palette{display:flex;align-items:center;gap:9px;border:1px solid var(--rule-soft);border-radius:10px;background:var(--white);padding:9px 13px;margin-bottom:20px;max-width:340px}
+.palette input{border:none;outline:none;flex:1;font-family:inherit;font-size:13px;background:transparent;color:var(--ink-900)}
+.ssec{margin-bottom:10px}
+.ssec-h{display:flex;align-items:center;gap:9px;padding:10px 2px;cursor:pointer;user-select:none}
+.ssec-h .chev{color:var(--ink-400);font-size:10px;transition:.15s;width:12px}
+.ssec.closed .chev{transform:rotate(-90deg)}
+.ssec-h h3{font-size:13.5px;font-weight:600}
+.ssec-h .cnt{font-family:var(--mono);font-size:10.5px;color:var(--ink-400)}
+.ssec-h .pinhint{margin-left:auto;font-size:11.5px;color:var(--ink-400);opacity:0;transition:.12s}
+.ssec-h:hover .pinhint{opacity:1}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-bottom:16px}
+.ssec.closed .tiles{display:none}
+.tile{border:1px solid var(--rule-soft);border-radius:var(--r);padding:15px 16px 13px;background:var(--white);position:relative;min-width:0;transition:.14s}
+.tile:hover{border-color:var(--ink-400)}
+.tile .grip{position:absolute;top:10px;right:10px;color:var(--ink-400);opacity:0;transition:.12s;cursor:grab;font-size:11px;letter-spacing:1px}
+.tile:hover .grip{opacity:.7}
+.tile .pin{position:absolute;top:8px;right:26px;color:var(--ink-400);opacity:0;transition:.12s;font-size:12px}
+.tile:hover .pin{opacity:.7}
+.tile .pin:hover,.tile.pinned .pin{opacity:1;color:var(--ember)}
+.tile .l{font-size:12px;color:var(--ink-500);display:flex;align-items:center;gap:6px;padding-right:34px}
+.tile .src{width:15px;height:15px;border-radius:5px;display:inline-grid;place-items:center;font-size:8.5px;font-weight:700;color:#fff;flex:none}
+.src.shopify{background:#5E8E3E}.src.blend{background:var(--ink-900)}.src.mk{background:var(--ember)}.src.meta{background:#1877F2}.src.google{background:#F9AB00;color:#111}
+.tile .v{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-top:8px;line-height:1.05;font-variant-numeric:tabular-nums}
+.tile .v .u{font-size:12px;color:var(--ink-400);font-weight:500;letter-spacing:0}
+.tile .foot{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;min-height:17px}
+.tile .settgt{font-size:11.5px;color:var(--ink-400);text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}
+.tile .settgt:hover{color:var(--ember)}
+.tile .tgt{font-size:11px;color:var(--ink-400)}
+.tile .tgt b{color:var(--good);font-weight:600}
+.spark{margin-top:10px;height:26px;width:100%}
+.spark polyline{fill:none;stroke:var(--ember);stroke-width:1.6}
+.spark .fillp{fill:var(--ember-dim);stroke:none}
+
+/* ---------- ATTRIBUTION ---------- */
+.atoolbar{display:flex;gap:8px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--rule-soft);border-radius:9px;overflow:hidden;background:var(--white)}
+.seg button{padding:7px 14px;font-size:12.5px;font-weight:500;color:var(--ink-500)}
+.seg button.on{background:var(--ink-900);color:#fff;font-weight:600}
+.attr-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+.dtable{width:100%;border-collapse:collapse;font-size:13px}
+.dtable th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);text-align:right;padding:11px 14px;border-bottom:1px solid var(--rule-soft);white-space:nowrap;font-weight:500}
+.dtable th:first-child{text-align:left}
+.dtable td{padding:12px 14px;border-bottom:1px solid var(--rule-soft);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dtable td:first-child{text-align:left;font-weight:600}
+.dtable tr:last-child td{border-bottom:none}
+.dtable tbody tr{transition:.1s}
+.dtable tbody tr:hover{background:var(--off)}
+.chdot{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:9px;vertical-align:0}
+.roas.hi{color:var(--good);font-weight:600}.roas.lo{color:var(--bad);font-weight:600}
+.sidecard{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white);padding:16px 18px;margin-bottom:14px}
+.sidecard h4{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:13px}
+.livedot{width:7px;height:7px;border-radius:99px;background:var(--good);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.lorder{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--rule-soft);font-size:12px}
+.lorder:last-child{border-bottom:none}
+.lorder .t{font-family:var(--mono);font-size:10.5px;color:var(--ink-400);width:44px;flex:none}
+.lorder b{font-variant-numeric:tabular-nums}
+.lorder .path{color:var(--ink-400);font-size:11px;margin-left:auto;text-align:right}
+.ovl{display:flex;flex-direction:column;gap:8px}
+.ovl .or{display:flex;align-items:center;gap:9px;font-size:12px}
+.ovl .or .ol{width:104px;flex:none;color:var(--ink-700)}
+.ovl .track{flex:1;height:14px;background:var(--off);border-radius:4px;overflow:hidden}
+.ovl .fill{height:100%;border-radius:4px}
+.ovl .ov{font-family:var(--mono);font-size:11px;color:var(--ink-500);width:34px;text-align:right}
+
+/* model selector dropdown panel */
+.pop{position:absolute;background:var(--white);border:1px solid var(--rule-soft);border-radius:14px;box-shadow:0 18px 50px rgba(11,11,12,.16);z-index:70;display:none}
+.pop.on{display:block}
+#modelPop{width:560px;top:52px;left:0;display:none;grid-template-columns:220px 1fr}
+#modelPop.on{display:grid}
+.mlist{border-right:1px solid var(--rule-soft);padding:8px;max-height:400px;overflow-y:auto}
+.mrow{display:flex;align-items:center;gap:8px;width:100%;padding:9px 11px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--ink-700);text-align:left;transition:.1s}
+.mrow:hover{background:var(--off)}
+.mrow.on{background:var(--tint);color:var(--ember);font-weight:600}
+.mrow .lk{margin-left:auto;font-size:10px;color:var(--ink-400)}
+.mdetail{padding:18px 20px}
+.mdetail h4{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:7px}
+.mdetail .desc{font-size:12.5px;color:var(--ink-500);line-height:1.6;margin-bottom:13px}
+.mdetail .bf{font-size:12px;margin-bottom:9px;line-height:1.55}
+.mdetail .bf b{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:2px}
+.mdetail .help{font-size:12px;color:var(--ember);font-weight:600;margin-top:8px;display:inline-block;cursor:pointer}
+#setPop{width:280px;top:52px;padding:14px 16px}
+.setrow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--rule-soft);font-size:12.5px}
+.setrow:last-child{border-bottom:none}
+.setrow .sl{color:var(--ink-500)}
+.setrow .sv{font-weight:600;display:flex;align-items:center;gap:5px}
+.setrow .sv .cd{color:var(--ink-400);font-size:9px}
+
+/* columns modal */
+#modal{position:fixed;inset:0;background:rgba(11,11,12,.4);z-index:90;display:none;align-items:center;justify-content:center;padding:30px}
+#modal.on{display:flex}
+.modal-in{background:var(--white);border-radius:18px;width:760px;max-width:100%;max-height:82vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(11,11,12,.3)}
+.modal-h{padding:18px 22px;border-bottom:1px solid var(--rule-soft);display:flex;align-items:center}
+.modal-h h3{font-family:var(--serif);font-size:18px;font-weight:600}
+.modal-h .x{margin-left:auto;color:var(--ink-400);font-size:18px;padding:4px}
+.modal-h .x:hover{color:var(--ink-900)}
+.modal-b{display:grid;grid-template-columns:1fr 1fr;min-height:380px;overflow:hidden}
+.mcol{padding:16px 20px;overflow-y:auto;max-height:56vh}
+.mcol.left{border-right:1px solid var(--rule-soft)}
+.mtabs{display:flex;gap:2px;border-bottom:1px solid var(--rule-soft);margin:10px 0 12px}
+.mtab{padding:7px 11px;font-size:12.5px;font-weight:500;color:var(--ink-500);border-bottom:2px solid transparent}
+.mtab.on{color:var(--ink-900);border-bottom-color:var(--ember);font-weight:600}
+.mitem{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:13px;transition:.1s}
+.mitem:hover{background:var(--off)}
+.mitem .add{margin-left:auto;color:var(--ember);font-weight:700;opacity:0;transition:.1s;cursor:pointer}
+.mitem:hover .add{opacity:1}
+.mitem.inuse{opacity:.42}
+.mitem.inuse .add{display:none}
+.acol{display:flex;align-items:center;gap:10px;border:1px solid var(--rule-soft);border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:13px;background:var(--white);font-weight:500}
+.acol .grip{color:var(--ink-400);cursor:grab;font-size:11px;letter-spacing:1px}
+.acol .rm{margin-left:auto;color:var(--ink-400);cursor:pointer;font-size:14px}
+.acol .rm:hover{color:var(--bad)}
+.modal-f{padding:14px 22px;border-top:1px solid var(--rule-soft);display:flex;gap:10px;justify-content:flex-end}
+.newmetric{color:var(--ember);font-weight:600;font-size:12.5px;cursor:pointer;padding:8px 10px;display:inline-block}
+
+/* ---------- MEDIA MANAGER ---------- */
+.mmtabs{display:flex;gap:2px;border-bottom:1px solid var(--rule-soft);margin-bottom:20px;overflow-x:auto}
+.mmtab{padding:10px 15px;font-size:13.5px;font-weight:500;color:var(--ink-500);border-bottom:2px solid transparent;white-space:nowrap;display:flex;gap:7px;align-items:center}
+.mmtab:hover{color:var(--ink-900)}
+.mmtab.on{color:var(--ink-900);border-bottom-color:var(--ember);font-weight:600}
+.mmtab .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-400)}
+.mmgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.mmcard{border:1px solid var(--rule-soft);border-radius:12px;overflow:hidden;background:var(--white);transition:.14s}
+.mmcard:hover{border-color:var(--ink-400)}
+.mmcard .th{height:120px;display:grid;place-items:center;font-size:28px;position:relative}
+.mmcard .roas-tag{position:absolute;top:8px;left:8px;font-family:var(--mono);font-size:10px;font-weight:600;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;border:1px solid var(--rule-soft)}
+.mmcard .st-tag{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:99px}
+.mmcard .meta{padding:10px 12px;font-size:12.5px}
+.mmcard .meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px}
+.mmcard .meta span{font-size:11px;color:var(--ink-400)}
+
+/* ---------- WEBSITE ---------- */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.kpis.k4{grid-template-columns:repeat(4,1fr)}
+.kpi{border:1px solid var(--rule-soft);border-radius:var(--r);padding:15px 16px 13px;background:var(--white);min-width:0}
+.kpi .l{font-size:12px;color:var(--ink-500);display:flex;gap:6px;align-items:center}
+.kpi .v{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-top:7px;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .v .u{font-size:12px;color:var(--ink-400);font-weight:500}
+.kpi .foot{margin-top:8px;display:flex;gap:8px;align-items:center}
+.chartcard{padding:20px 22px}
+.chartcard h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.chartcard .sub{font-size:11.5px;color:var(--ink-400);margin-bottom:14px}
+.legend{display:flex;gap:16px;font-size:11.5px;color:var(--ink-500);margin-top:10px}
+.legend .li{display:flex;gap:6px;align-items:center}
+.legend .sw{width:10px;height:3px;border-radius:2px}
+
+/* ---------- RETENTION ---------- */
+.utable{width:100%;border-collapse:collapse;font-size:13px}
+.utable th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);text-align:right;padding:10px 14px;border-bottom:1px solid var(--rule-soft);font-weight:500}
+.utable th:first-child{text-align:left}
+.utable td{padding:11px 14px;border-bottom:1px solid var(--rule-soft);text-align:right;font-variant-numeric:tabular-nums}
+.utable td:first-child{text-align:left;font-weight:600}
+.utable tr:last-child td{border-bottom:none}
+
+/* ---------- DISCOVERY ---------- */
+.promptrow{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
+.promptrow:last-child{border-bottom:none}
+.promptrow .q{flex:1;font-weight:500}
+.presence{font-family:var(--mono);font-size:12px;font-weight:600}
+.presence.hi{color:var(--good)}.presence.md{color:var(--watch)}.presence.lo{color:var(--bad)}
+.mention{font-size:11px;border-radius:99px;padding:2px 9px;font-weight:600}
+.mention.y{color:var(--good);background:var(--good-bg)}
+.mention.n{color:var(--ink-400);background:var(--off);border:1px solid var(--rule-soft)}
+
+/* ---------- SETTINGS ---------- */
+.set-grid{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start}
+.setnav .sn-sec{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-400);padding:14px 10px 5px}
+.setnav .sn-i{display:block;width:100%;text-align:left;padding:7px 10px;border-radius:8px;font-size:13px;color:var(--ink-500);font-weight:500;transition:.1s}
+.setnav .sn-i:hover{background:var(--white);color:var(--ink-900)}
+.setnav .sn-i.on{background:var(--tint);color:var(--ember);font-weight:600}
+.setnav .sn-i .nw{font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:1px 6px;margin-left:6px}
+.setpane{display:none}
+.setpane.on{display:block}
+.trow{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
+.trow:last-child{border-bottom:none}
+.trow .av2{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:600;flex:none}
+.trow b{display:block;font-size:13px}
+.trow .em{font-size:11.5px;color:var(--ink-400)}
+.trow .role{margin-left:auto;font-size:12px;border:1px solid var(--rule-soft);border-radius:99px;padding:4px 12px;color:var(--ink-700);font-weight:500;display:flex;gap:5px;align-items:center}
+.perm{font-size:10.5px;border-radius:99px;padding:2px 8px;font-weight:600}
+.perm.y{color:var(--good);background:var(--good-bg)}
+.perm.n{color:var(--ink-400);background:var(--off);border:1px solid var(--rule-soft)}
+.costrow{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
+.costrow:last-child{border-bottom:none}
+.costrow .ci{width:30px;height:30px;border-radius:8px;background:var(--off);border:1px solid var(--rule-soft);display:grid;place-items:center;font-size:13px;flex:none}
+.costrow .stt{margin-left:auto}
+/* plans */
+.planhead{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.bill{display:inline-flex;border:1px solid var(--rule-soft);border-radius:99px;overflow:hidden;background:var(--white)}
+.bill button{padding:6px 16px;font-size:12px;font-weight:600;color:var(--ink-500)}
+.bill button.on{background:var(--ink-900);color:#fff}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.plan{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white);padding:20px;position:relative}
+.plan.pop2{border-color:var(--ember);border-width:1.5px}
+.plan .rec{position:absolute;top:-9px;left:18px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--ember);color:#fff;border-radius:99px;padding:2px 9px}
+.plan h4{font-family:var(--serif);font-size:18px;font-weight:600}
+.plan .pr{font-size:26px;font-weight:600;margin:9px 0 2px;letter-spacing:-.02em}
+.plan .pr .u{font-size:12px;color:var(--ink-400);font-weight:500}
+.plan .gmv{font-size:11px;color:var(--ink-400);margin-bottom:13px}
+.plan ul{list-style:none;font-size:12.5px;color:var(--ink-700);display:flex;flex-direction:column;gap:7px;margin:13px 0 17px}
+.plan ul li{display:flex;gap:8px}
+.plan ul li:before{content:'✓';color:var(--good);font-weight:700;flex:none}
+.addons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.addon{border:1px dashed var(--rule-soft);border-radius:12px;padding:13px 14px;background:var(--white);font-size:12px}
+.addon b{display:block;font-size:12.5px;margin-bottom:2px}
+.addon .ap{font-family:var(--mono);font-size:11px;color:var(--ember);font-weight:600}
+/* brand vault */
+.bv-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.bv-card{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white);padding:18px}
+.bv-card h5{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.swatches{display:flex;gap:8px}
+.sw2{width:44px;height:44px;border-radius:10px;border:1px solid var(--rule-soft);position:relative}
+.sw2 span{position:absolute;bottom:-17px;left:0;font-family:var(--mono);font-size:8.5px;color:var(--ink-400);white-space:nowrap}
+.logorow{display:flex;gap:10px}
+.logobox{flex:1;height:74px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--rule-soft)}
+.logobox.dark{background:var(--ink-900)}
+.lw{font-family:var(--serif);font-weight:700;font-size:15px}
+.lw i{font-style:normal;color:var(--ember)}
+@media(max-width:1000px){.tiles,.kpis,.kpis.k4{grid-template-columns:repeat(2,1fr)}.pillars,.presets,.plans{grid-template-columns:1fr}.attr-grid{grid-template-columns:1fr}.libgrid,.mmgrid,.addons{grid-template-columns:repeat(2,1fr)}.set-grid{grid-template-columns:1fr}}
+</style></head>
+<body>
+
+<div id="shell" class="nobanner">
+<!-- ============ SIDEBAR ============ -->
+<nav id="nav">
+  <div class="brand"><div class="logo">m</div><div class="wd">meerkats<i>.ai</i></div></div>
+  <div class="ws-wrap">
+    <button class="store" onclick="toggleWs(event)"><span class="sd">P</span><span><span class="wk">Workspace</span><span class="wn">Purity Naturals</span></span><span class="cx">▼</span></button>
+    <div class="ws-menu" id="wsMenu">
+      <button class="wrow"><span class="wa">D</span>Default Workspace<span class="def">Default</span></button>
+      <button class="wrow"><span class="wa">V</span>varanch_1</button>
+      <button class="wrow"><span class="wa">V</span>Varanchi</button>
+      <button class="wrow on"><span class="wa">P</span>Purity Naturals<span class="chk">✓</span></button>
+      <button class="wrow"><span class="wa">D</span>demo_purity</button>
+      <button class="wrow"><span class="wa">P</span>Progen_method</button>
+      <div class="sep"></div>
+      <button class="wrow create"><span class="wa">＋</span>Create Workspace</button>
+    </div>
+  </div>
+
+  <button class="ni" data-go="analyst"><span class="gi">✦</span><span class="lab">Chat</span><span class="badge">✦ Chat 2.0</span></button>
+  <button class="ni" data-go="history"><span class="gi">↺</span><span class="lab">History</span></button>
+  <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
+  <button class="ni" data-go="library"><span class="gi">▤</span><span class="lab">Library</span></button>
+
+  <div class="nav-sec">Core Activities <span class="dots">⋮</span></div>
+  <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
+
+  <div class="ni-wrap">
+    <button class="ni" data-go="attribution"><span class="gi">◔</span><span class="lab">Marketing Acquisition</span><span class="caret">›</span></button>
+    <div class="fly">
+      <button class="fi" data-go="attribution">Attribution</button>
+      <button class="fi" data-go="g-sourcemedium">Source / Medium <span class="lk">🔒</span></button>
+      <button class="fi" data-go="ppsurvey">Post-Purchase Survey</button>
+      <button class="fi" data-go="g-adenrich">Ad Enrichment <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-compass">Measurement Studio <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-mmm">Marketing Mix Modeling <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-increment">Incrementality <span class="lk">🔒</span></button>
+      <div class="sep"></div>
+      <button class="fi create">Create new <span class="ar">›</span></button>
+    </div>
+  </div>
+
+  <div class="ni-wrap">
+    <button class="ni" data-go="media"><span class="gi">▧</span><span class="lab">Creative Analysis</span><span class="caret">›</span></button>
+    <div class="fly">
+      <button class="fi" data-go="g-creative">Creative Analysis <span class="lk">🔒</span></button>
+      <button class="fi" data-go="media">Competitor Analysis</button>
+      <div class="sep"></div>
+      <button class="fi create">Create new <span class="ar">›</span></button>
+    </div>
+  </div>
+
+  <div class="ni-wrap">
+    <button class="ni" data-go="website"><span class="gi">◫</span><span class="lab">Website Conversion</span><span class="caret">›</span></button>
+    <div class="fly">
+      <button class="fi" data-go="website">Overall Website Performance</button>
+      <button class="fi" data-go="g-funnel">Website Funnel and Paths <span class="lk">🔒</span></button>
+      <button class="fi" data-go="sitesearch">Site Search</button>
+      <button class="fi" data-go="g-bundle">Bundle Analysis <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-journey">Product Journey <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-product">Product Analysis <span class="lk">🔒</span></button>
+      <div class="sep"></div>
+      <button class="fi create">Create new <span class="ar">›</span></button>
+    </div>
+  </div>
+
+  <div class="ni-wrap">
+    <button class="ni" data-go="retention"><span class="gi">◎</span><span class="lab">Customer Retention</span><span class="caret">›</span></button>
+    <div class="fly">
+      <button class="fi" data-go="g-segments">Customer Segments <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-cohorts">Cohort Analysis <span class="lk">🔒</span></button>
+      <button class="fi" data-go="g-flow">Flow Enrichment <span class="lk">🔒</span></button>
+      <button class="fi" data-go="retention">Email &amp; SMS Attribution <span class="bt">BETA</span></button>
+      <div class="sep"></div>
+      <button class="fi create">Create new <span class="ar">›</span></button>
+    </div>
+  </div>
+
+  <div class="ni-wrap">
+    <button class="ni" data-go="aivis"><span class="gi">◍</span><span class="lab">Discovery</span><span class="caret">›</span></button>
+    <div class="fly">
+      <button class="fi" data-go="aivis">AI Visibility</button>
+      <button class="fi" data-go="social">Social Monitoring</button>
+      <button class="fi" data-go="g-keyword">Keyword Intelligence <span class="bt">BETA</span><span class="lk" style="margin-left:6px">🔒</span></button>
+      <div class="sep"></div>
+      <button class="fi create">Create new <span class="ar">›</span></button>
+    </div>
+  </div>
+
+  <div class="nav-sec">Data</div>
+  <button class="ni" id="spineHead" onclick="toggleSpine()"><span class="gi">◇</span><span class="lab">Data Spine</span><span class="caret" id="spineCaret" style="transform:rotate(90deg)">›</span></button>
+  <div id="spineKids">
+    <button class="sni" data-spine="dashboard">Dashboard</button>
+    <button class="sni" data-spine="cdp">CDP Analytics</button>
+    <button class="sni" data-spine="adperf">Ad Performance</button>
+    <button class="sni" data-spine="ingest">Ingest Events</button>
+    <button class="sni" data-spine="google">Google</button>
+    <button class="sni" data-spine="meta">Meta</button>
+    <button class="sni" data-spine="shopify">Shopify</button>
+    <button class="sni" data-spine="attribution">Attribution</button>
+  </div>
+  <button class="ni" data-go="integrations"><span class="gi">⌗</span><span class="lab">Integrations</span></button>
+  <button class="ni" data-go="settings"><span class="gi">⚙</span><span class="lab">Settings</span></button>
+
+  <div class="nav-foot">
+    <div class="who"><div class="av">S</div><div><b>Santanu</b><span>santanu@meerkats.ai</span></div><span class="cx" style="margin-left:auto;color:var(--ink-400);font-size:10px">▼</span></div>
+  </div>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<div id="main">
+  <div class="topbar">
+    <h1 id="tb-title">Summary</h1>
+    <span class="bt" id="tb-beta" style="display:none">BETA</span>
+    <span class="spacer"></span>
+    <button class="ctl">▤ &nbsp;Last 14 Days <span class="cd">▼</span></button>
+    <button class="ctl" id="cmp">Previous period <span class="cd">▼</span></button>
+    <button class="icbtn ai" title="Open chat" onclick="toggleChat()">✦</button>
+    <button class="icbtn" title="Refresh">⟳</button>
+    <button class="icbtn" title="More">⋮</button>
+  </div>
+
+  <div id="body">
+  <div id="scroll"><div class="wrap">
+
+  <!-- ======== ANALYST ======== -->
+  <section class="screen" id="s-analyst">
+    <div class="ai-hero" style="padding:110px 0 8px">
+      <h2>Hi Santanu, how can I help…</h2>
+    </div>
+    <div class="askbox">
+      <div class="in"><span style="color:var(--ember);font-size:16px">✦</span><input placeholder="Ask anything about your store — “why did MER dip on Tuesday?”"><button class="send">↑</button></div>
+      <div class="foot"><span class="mchip"><span class="d"></span>Purity Naturals · live</span><span class="mchip">Auto model</span><span class="mchip">Attribution: Last Click · 30d</span></div>
+    </div>
+    <div class="presets">
+      <button class="preset"><span class="pi">◔</span>Manage my Meta Ads — find fatigue, shift budget to winners</button>
+      <button class="preset"><span class="pi">⌖</span>Measure Google's incremental lift on branded search</button>
+      <button class="preset"><span class="pi">↗</span>Build a 12-month forecast from current cohort curves</button>
+      <button class="preset"><span class="pi">▧</span>Make new creatives from my top 3 winners</button>
+      <button class="preset"><span class="pi">◎</span>Find what actually drives new-customer purchases</button>
+      <button class="preset"><span class="pi">▤</span>Create a weekly marketing performance report</button>
+    </div>
+  </section>
+
+  <!-- ======== HISTORY ======== -->
+  <section class="screen" id="s-history">
+    <div class="filterbar">
+      <div class="search">⌕ <input placeholder="Search past chats and work…"></div>
+      <button class="ctl">All users <span class="cd">▼</span></button>
+      <button class="ctl">All sources <span class="cd">▼</span></button>
+    </div>
+    <div class="card">
+      <div class="hrow"><div class="hic">✦</div><div><b>Why did blended MER dip below 2.4× last Tuesday?</b><div class="sub">Answer grounded in Attribution · 6 sources cited</div></div><span class="when">2h ago</span></div>
+      <div class="hrow"><div class="hic">▧</div><div><b>Generate 4 statics from the “Glow Ritual” winner</b><div class="sub">4 artifacts saved to Library</div></div><span class="when">Yesterday</span></div>
+      <div class="hrow"><div class="hic">◔</div><div><b>Weekly performance report — Jul 7–13</b><div class="sub">Scheduled automation · emailed to 3 teammates</div></div><span class="when">Jul 14</span></div>
+      <div class="hrow"><div class="hic">⌖</div><div><b>Audit Google brand-term overlap with Meta retargeting</b><div class="sub">2 recommendations · 1 approved</div></div><span class="when">Jul 11</span></div>
+      <div class="hrow"><div class="hic">◎</div><div><b>Which cohort has the best 60-day LTV?</b><div class="sub">Answer grounded in Retention</div></div><span class="when">Jul 9</span></div>
+    </div>
+  </section>
+
+  <!-- ======== AUTOMATIONS ======== -->
+  <section class="screen" id="s-automations">
+    <div class="appr"><span style="font-size:16px">⏳</span><div><b>2 actions waiting for your approval</b><div class="sub">Analyst queues every change — nothing ships without a human yes.</div></div><span class="spacer"></span><button class="btn sm orange">Review queue</button></div>
+    <div class="card">
+      <div class="arow"><span class="st" style="background:var(--good)"></span><div><b>Weekly marketing performance report</b><div class="sub">Every Monday 8:00 → email + Slack #growth</div></div><span class="spacer"></span><span class="cad">WEEKLY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--good)"></span><div><b>Meta fatigue watch — pause ads past frequency 4.0</b><div class="sub">Daily 6:00 · queues pauses for approval</div></div><span class="spacer"></span><span class="cad">DAILY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--good)"></span><div><b>Budget guardrail — alert if blended CAC &gt; ₹950</b><div class="sub">Hourly check · Slack alert</div></div><span class="spacer"></span><span class="cad">HOURLY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--rule-soft)"></span><div><b>Creative refresh brief from monthly winners</b><div class="sub">1st of month · drafts to Library</div></div><span class="spacer"></span><span class="cad">MONTHLY</span><div class="toggle off"></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--ink-400);margin-top:14px">Automations run on the <b>Automate</b> plan. Recurring jobs use your default attribution model (Last Click · 30d) unless overridden.</p>
+  </section>
+
+  <!-- ======== LIBRARY ======== -->
+  <section class="screen" id="s-library">
+    <div class="filterbar">
+      <div class="search">⌕ <input placeholder="Search files and artifacts…"></div>
+      <button class="ctl">Type <span class="cd">▼</span></button>
+      <button class="ctl">Source <span class="cd">▼</span></button>
+      <div class="seg"><button class="on">▦</button><button>≡</button></div>
+      <button class="btn sm">＋ New</button>
+    </div>
+    <div class="libgrid">
+      <div class="libitem"><div class="thumb" style="background:var(--tint)">▧</div><div class="meta"><b>glow-ritual-static-v4.png</b><span>Analyst · Jul 18</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--info-bg)">▤</div><div class="meta"><b>Weekly report — Jul 7–13</b><span>Automation · Jul 14</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--good-bg)">◔</div><div class="meta"><b>MER-forecast-12mo.csv</b><span>Analyst · Jul 12</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--watch-bg)">▶</div><div class="meta"><b>ugc-hook-test-b.mp4</b><span>Upload · Jul 10</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--panel)">▧</div><div class="meta"><b>summer-sale-hero-2.png</b><span>Upload · Jul 8</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--tint)">✦</div><div class="meta"><b>creative-brief-refresh.md</b><span>Analyst · Jul 1</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--info-bg)">▧</div><div class="meta"><b>competitor-adfeed-jun.zip</b><span>Competitors · Jun 30</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--good-bg)">▤</div><div class="meta"><b>cohort-ltv-analysis.pdf</b><span>Analyst · Jun 27</span></div></div>
+    </div>
+  </section>
+
+  <!-- ======== SUMMARY ======== -->
+  <section class="screen" id="s-summary">
+    <div class="palette">⌕ <input id="secSearch" placeholder="Search sections…" oninput="filterSections(this.value)"></div>
+
+    <div class="ssec" data-name="pins">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>📌 Pins</h3><span class="cnt">4 tiles</span><span class="pinhint">drag to reorder</span></div>
+      <div class="tiles">
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended MER</div><div class="v">3.12<span class="u">×</span></div><div class="foot"><span class="delta up">▲ 8.4%</span><span class="tgt">target 3.0× <b>hit</b></span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,20 14,18 28,21 42,15 56,16 70,11 84,9 100,6"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Net Revenue</div><div class="v">₹48.2<span class="u">L</span></div><div class="foot"><span class="delta up">▲ 12.1%</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,22 14,19 28,17 42,18 56,13 70,12 84,8 100,5"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended CAC</div><div class="v">₹887</div><div class="foot"><span class="delta dn">▲ 4.2%</span><span class="tgt">target ₹950</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,10 14,12 28,9 42,13 56,14 70,12 84,16 100,15"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Contribution Margin</div><div class="v">₹11.6<span class="u">L</span></div><div class="foot"><span class="delta up">▲ 6.8%</span><span class="settgt">Set target</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,19 14,20 28,16 42,17 56,12 70,13 84,9 100,7"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ssec" data-name="store">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Store</h3><span class="cnt">4 tiles</span><span class="pinhint">pin tiles to top</span></div>
+      <div class="tiles">
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Orders</div><div class="v">1,284</div><div class="foot"><span class="delta up">▲ 9.6%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>AOV</div><div class="v">₹1,873</div><div class="foot"><span class="delta up">▲ 2.3%</span><span class="settgt">Set target</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>New Customers</div><div class="v">712</div><div class="foot"><span class="delta up">▲ 14.8%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Returning Rate</div><div class="v">31.4<span class="u">%</span></div><div class="foot"><span class="delta mut">— 0.2%</span></div></div>
+      </div>
+    </div>
+
+    <div class="ssec" data-name="custom metrics">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Custom Metrics</h3><span class="cnt">2 tiles</span><span class="pinhint">＋ new custom metric</span></div>
+      <div class="tiles">
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CM2 / Order</div><div class="v">₹904</div><div class="foot"><span class="delta up">▲ 3.1%</span><span class="tgt">target ₹850 <b>hit</b></span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Payback Days</div><div class="v">42</div><div class="foot"><span class="delta up">▼ 5 days</span><span class="settgt">Set target</span></div></div>
+      </div>
+    </div>
+
+    <div class="ssec" data-name="attribution">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Attribution</h3><span class="cnt">4 tiles</span></div>
+      <div class="tiles">
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src meta">f</span>Meta ROAS</div><div class="v">2.84<span class="u">×</span></div><div class="foot"><span class="delta up">▲ 6.2%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src google">G</span>Google ROAS</div><div class="v">3.91<span class="u">×</span></div><div class="foot"><span class="delta up">▲ 1.9%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Ad Spend</div><div class="v">₹12.4<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 3.0%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Tracked Conversions</div><div class="v">96.2<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.8%</span><span class="tgt">click-ID matched</span></div></div>
+      </div>
+    </div>
+
+    <div class="ssec" data-name="web analytics">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Web Analytics</h3><span class="cnt">4 tiles</span></div>
+      <div class="tiles">
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta up">▲ 11.2%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CVR</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta dn">▼ 0.11pp</span><span class="settgt">Set target</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Bounce Rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta mut">▲ 1.3pp</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>LPV → ATC</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.6pp</span></div></div>
+      </div>
+    </div>
+
+    <div class="ssec" data-name="expenses">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Expenses</h3><span class="cnt">3 tiles</span></div>
+      <div class="tiles">
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>COGS</div><div class="v">₹16.9<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 8.1%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Shipping</div><div class="v">₹3.2<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 4.4%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Gateway Fees</div><div class="v">₹0.96<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 2.1%</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== ATTRIBUTION ======== -->
+  <section class="screen" id="s-attribution">
+    <div class="atoolbar" style="position:relative">
+      <button class="ctl" id="modelBtn" onclick="togglePop('modelPop')">Model: <b>&nbsp;Last Click</b> <span class="cd">▼</span></button>
+      <button class="ctl" onclick="togglePop('setPop')">⚙ Settings <span class="cd">▼</span></button>
+      <div class="seg"><button class="on">Channels</button><button>Custom Categories ✦</button></div>
+      <span class="spacer"></span>
+      <button class="ctl" onclick="document.getElementById('modal').classList.add('on')">▥ Select Columns</button>
+      <button class="ctl">⤓ Export</button>
+
+      <!-- model selector popover -->
+      <div class="pop" id="modelPop">
+        <div class="mlist">
+          <button class="mrow" onclick="pickModel(this,'first')">First Click</button>
+          <button class="mrow on" onclick="pickModel(this,'last')">Last Click</button>
+          <button class="mrow" onclick="pickModel(this,'total')">Total Impact <span class="lk">🔒</span></button>
+          <button class="mrow" onclick="pickModel(this,'cdv')">Clicks &amp; Determ. Views <span class="lk">🔒</span></button>
+          <button class="mrow" onclick="pickModel(this,'mk')">Meerkats Attribution <span class="lk">🔒</span></button>
+          <button class="mrow" onclick="pickModel(this,'mkpv')">Meerkats + Platform Views <span class="lk">🔒</span></button>
+          <button class="mrow" onclick="pickModel(this,'linall')">Linear All <span class="lk">🔒</span></button>
+          <button class="mrow" onclick="pickModel(this,'linpaid')">Linear Paid <span class="lk">🔒</span></button>
+        </div>
+        <div class="mdetail" id="mdetail">
+          <h4>Last Click</h4>
+          <div class="desc">Gives 100% of the credit to the last ad click before purchase, matched deterministically on click-ID. The strictest, most conservative read of paid performance.</div>
+          <div class="bf"><b>Best for</b>Judging bottom-of-funnel efficiency and making budget-cut decisions you can defend.</div>
+          <div class="bf"><b>Use when</b>You need numbers that reconcile 1:1 with orders — board reporting, kill/scale calls.</div>
+          <span class="help">Which model is right for me? →</span>
+        </div>
+      </div>
+      <!-- settings popover -->
+      <div class="pop" id="setPop">
+        <div class="setrow"><span class="sl">Attribution Window</span><span class="sv">30 days <span class="cd">▼</span></span></div>
+        <div class="setrow"><span class="sl">Subscription Filter</span><span class="sv">All orders <span class="cd">▼</span></span></div>
+        <div class="setrow"><span class="sl">Accounting Mode</span><span class="sv">Cash <span class="cd">▼</span></span></div>
+      </div>
+    </div>
+
+    <div class="attr-grid">
+      <div class="card" style="overflow-x:auto">
+        <table class="dtable">
+          <thead><tr><th>Channel</th><th>Spend</th><th>Sessions</th><th>Orders</th><th>New Cust.</th><th>Revenue</th><th>CPA</th><th>ROAS</th></tr></thead>
+          <tbody>
+            <tr><td><span class="chdot" style="background:#1877F2"></span>Meta Ads</td><td>₹6,84,200</td><td>31,240</td><td>418</td><td>301</td><td>₹19,43,000</td><td>₹1,637</td><td class="roas hi">2.84×</td></tr>
+            <tr><td><span class="chdot" style="background:#F9AB00"></span>Google Ads</td><td>₹4,12,800</td><td>18,660</td><td>352</td><td>214</td><td>₹16,14,000</td><td>₹1,173</td><td class="roas hi">3.91×</td></tr>
+            <tr><td><span class="chdot" style="background:#7C3AED"></span>Klaviyo Email</td><td>₹38,000</td><td>9,420</td><td>176</td><td>22</td><td>₹4,86,000</td><td>₹216</td><td class="roas hi">12.8×</td></tr>
+            <tr><td><span class="chdot" style="background:#0F6E56"></span>Organic Search</td><td>—</td><td>14,830</td><td>151</td><td>96</td><td>₹4,12,000</td><td>—</td><td class="roas">—</td></tr>
+            <tr><td><span class="chdot" style="background:#8A8A92"></span>Direct</td><td>—</td><td>8,120</td><td>124</td><td>41</td><td>₹3,58,000</td><td>—</td><td class="roas">—</td></tr>
+            <tr><td><span class="chdot" style="background:#E1306C"></span>Instagram Organic</td><td>—</td><td>3,240</td><td>44</td><td>29</td><td>₹1,04,000</td><td>—</td><td class="roas">—</td></tr>
+            <tr><td><span class="chdot" style="background:#B23A3A"></span>Affiliates</td><td>₹29,400</td><td>1,910</td><td>19</td><td>9</td><td>₹52,000</td><td>₹1,547</td><td class="roas lo">1.77×</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="sidecard">
+          <h4>Channel Overlap</h4>
+          <div class="ovl">
+            <div class="or"><span class="ol">Meta only</span><div class="track"><div class="fill" style="width:46%;background:#1877F2"></div></div><span class="ov">46%</span></div>
+            <div class="or"><span class="ol">Google only</span><div class="track"><div class="fill" style="width:27%;background:#F9AB00"></div></div><span class="ov">27%</span></div>
+            <div class="or"><span class="ol">Meta ∩ Google</span><div class="track"><div class="fill" style="width:18%;background:var(--ember)"></div></div><span class="ov">18%</span></div>
+            <div class="or"><span class="ol">3+ touchpoints</span><div class="track"><div class="fill" style="width:9%;background:var(--ink-900)"></div></div><span class="ov">9%</span></div>
+          </div>
+          <div style="font-size:11px;color:var(--ink-400);margin-top:12px">18% of buyers clicked both Meta and Google — dedup'd once by click-ID, never double-counted.</div>
+        </div>
+        <div class="sidecard">
+          <h4><span class="livedot"></span>Live Orders</h4>
+          <div id="liveorders">
+            <div class="lorder"><span class="t">now</span><b>₹2,340</b><span class="path">Meta → Email</span></div>
+            <div class="lorder"><span class="t">1m</span><b>₹1,120</b><span class="path">Google Brand</span></div>
+            <div class="lorder"><span class="t">3m</span><b>₹4,870</b><span class="path">Meta → Direct</span></div>
+            <div class="lorder"><span class="t">6m</span><b>₹1,873</b><span class="path">Organic</span></div>
+            <div class="lorder"><span class="t">9m</span><b>₹960</b><span class="path">Email</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== POST-PURCHASE SURVEY ======== -->
+  <section class="screen" id="s-ppsurvey">
+    <div class="kpis k4">
+      <div class="kpi"><div class="l">Responses</div><div class="v">431</div><div class="foot"><span class="delta up">▲ 22%</span></div></div>
+      <div class="kpi"><div class="l">Response rate</div><div class="v">33.6<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 1.8pp</span></div></div>
+      <div class="kpi"><div class="l">Top answer</div><div class="v" style="font-size:17px;margin-top:11px">Instagram</div><div class="foot"><span class="delta mut">38% of responses</span></div></div>
+      <div class="kpi"><div class="l">Survey status</div><div class="v" style="font-size:17px;margin-top:11px;color:var(--good)">● Live</div><div class="foot"><span class="delta mut">on order-status page</span></div></div>
+    </div>
+    <div class="card" style="padding:20px 22px">
+      <h4 style="font-size:13px;font-weight:600;margin-bottom:14px">“How did you first hear about us?” — last 14 days</h4>
+      <div class="ovl">
+        <div class="or"><span class="ol" style="width:130px">Instagram</span><div class="track" style="height:18px"><div class="fill" style="width:38%;background:#E1306C"></div></div><span class="ov">38%</span></div>
+        <div class="or"><span class="ol" style="width:130px">Friend / family</span><div class="track" style="height:18px"><div class="fill" style="width:21%;background:var(--good)"></div></div><span class="ov">21%</span></div>
+        <div class="or"><span class="ol" style="width:130px">Google search</span><div class="track" style="height:18px"><div class="fill" style="width:17%;background:#F9AB00"></div></div><span class="ov">17%</span></div>
+        <div class="or"><span class="ol" style="width:130px">YouTube</span><div class="track" style="height:18px"><div class="fill" style="width:12%;background:#B23A3A"></div></div><span class="ov">12%</span></div>
+        <div class="or"><span class="ol" style="width:130px">Other</span><div class="track" style="height:18px"><div class="fill" style="width:12%;background:var(--ink-400)"></div></div><span class="ov">12%</span></div>
+      </div>
+      <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;border-left:2px solid var(--ember);padding-left:11px">✦ Analyst: survey says 38% discover via Instagram, but last-click gives IG organic 3.4% of revenue — classic dark-social gap. Consider a “fair-share” custom category.</div>
+    </div>
+    <div style="margin-top:14px"><button class="btn sm ghost">✎ Edit survey</button> <button class="btn sm ghost" style="margin-left:6px">＋ New question</button></div>
+  </section>
+
+  <!-- ======== MEDIA MANAGER ======== -->
+  <section class="screen" id="s-media">
+    <div class="mmtabs">
+      <button class="mmtab on" onclick="mmTab(this)">Uploaded Files <span class="n">24</span></button>
+      <button class="mmtab" onclick="mmTab(this)">Analyst Generations <span class="n">12</span></button>
+      <button class="mmtab" onclick="mmTab(this)">Published Ads <span class="n">38</span></button>
+      <button class="mmtab" onclick="mmTab(this)">Product Imagery <span class="n">56</span></button>
+      <button class="mmtab" onclick="mmTab(this)">Competitors <span class="n">7</span></button>
+      <button class="mmtab" onclick="mmTab(this)">Trash</button>
+    </div>
+    <div class="filterbar">
+      <div class="search">⌕ <input placeholder="Search media…"></div>
+      <button class="ctl">Status <span class="cd">▼</span></button>
+      <button class="ctl">ROAS <span class="cd">▼</span></button>
+      <div class="seg"><button class="on">▦</button><button>≡</button></div>
+      <button class="btn sm">↑ Upload</button>
+    </div>
+    <div class="mmgrid">
+      <div class="mmcard"><div class="th" style="background:var(--tint)">▧<span class="roas-tag">ROAS 4.2×</span><span class="st-tag" style="background:var(--good)"></span></div><div class="meta"><b>glow-ritual-ugc-01.mp4</b><span>Meta · Active</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--info-bg)">▧<span class="roas-tag">ROAS 3.1×</span><span class="st-tag" style="background:var(--good)"></span></div><div class="meta"><b>summer-sale-static-a.png</b><span>Meta · Active</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--watch-bg)">▧<span class="roas-tag">ROAS 1.4×</span><span class="st-tag" style="background:var(--watch)"></span></div><div class="meta"><b>founder-story-v2.mp4</b><span>Meta · Fatiguing</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--bad-bg)">▧<span class="roas-tag">ROAS 0.8×</span><span class="st-tag" style="background:var(--bad)"></span></div><div class="meta"><b>discount-banner-old.png</b><span>Meta · Paused</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--good-bg)">▶<span class="roas-tag">ROAS 5.0×</span><span class="st-tag" style="background:var(--good)"></span></div><div class="meta"><b>routine-demo-15s.mp4</b><span>Google · Active</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--panel)">▧</div><div class="meta"><b>competitor—kama-hook.png</b><span>Brand Tracker · Kama</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--panel)">▧</div><div class="meta"><b>competitor—plum-carousel</b><span>Ad Feed · Plum</span></div></div>
+      <div class="mmcard"><div class="th" style="background:var(--tint)">✦</div><div class="meta"><b>gen—glow-variant-04.png</b><span>Analyst Generation</span></div></div>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-400);margin-top:16px">Competitor Brand Tracker follows 7 brands · ad feed refreshed 2h ago.</p>
+  </section>
+
+  <!-- ======== WEBSITE PERFORMANCE ======== -->
+  <section class="screen" id="s-website">
+    <div class="kpis">
+      <div class="kpi"><div class="l">Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta up">▲ 11.2%</span></div></div>
+      <div class="kpi"><div class="l">Conversion rate</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta dn">▼ 0.11pp</span></div></div>
+      <div class="kpi"><div class="l">Add-to-cart rate</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.6pp</span></div></div>
+      <div class="kpi"><div class="l">Checkout start</div><div class="v">3.1<span class="u">%</span></div><div class="foot"><span class="delta mut">— 0.0pp</span></div></div>
+      <div class="kpi"><div class="l">Bounce rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta dn">▲ 1.3pp</span></div></div>
+    </div>
+    <div class="card chartcard">
+      <h4>Sessions vs Conversion rate</h4>
+      <div class="sub">Last 14 days · hover any point to trace the session in Journeys</div>
+      <svg viewBox="0 0 720 180" style="width:100%;height:180px">
+        <g stroke="var(--rule-soft)" stroke-width="1"><line x1="0" y1="45" x2="720" y2="45"/><line x1="0" y1="90" x2="720" y2="90"/><line x1="0" y1="135" x2="720" y2="135"/></g>
+        <polyline fill="rgba(234,88,12,.07)" stroke="none" points="0,180 0,120 55,112 110,118 165,98 220,104 275,88 330,92 385,72 440,80 495,64 550,58 605,66 660,48 720,42 720,180"/>
+        <polyline fill="none" stroke="var(--ember)" stroke-width="2" points="0,120 55,112 110,118 165,98 220,104 275,88 330,92 385,72 440,80 495,64 550,58 605,66 660,48 720,42"/>
+        <polyline fill="none" stroke="var(--ink-900)" stroke-width="1.6" stroke-dasharray="4 4" points="0,96 55,100 110,92 165,98 220,90 275,96 330,102 385,94 440,100 495,106 550,98 605,108 660,104 720,110"/>
+      </svg>
+      <div class="legend"><span class="li"><span class="sw" style="background:var(--ember)"></span>Sessions</span><span class="li"><span class="sw" style="background:var(--ink-900)"></span>Conversion rate</span></div>
+    </div>
+    <div class="attr-grid" style="margin-top:16px;grid-template-columns:1fr 1fr">
+      <div class="card" style="padding:18px 20px">
+        <h4 style="font-size:13px;font-weight:600;margin-bottom:12px">Top landing pages</h4>
+        <div class="ovl">
+          <div class="or"><span class="ol" style="width:150px">/glow-ritual-kit</span><div class="track" style="height:16px"><div class="fill" style="width:78%;background:var(--ember)"></div></div><span class="ov" style="width:52px">21.4k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/ (home)</span><div class="track" style="height:16px"><div class="fill" style="width:64%;background:var(--ember)"></div></div><span class="ov" style="width:52px">17.6k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/vitamin-c-serum</span><div class="track" style="height:16px"><div class="fill" style="width:41%;background:var(--ember)"></div></div><span class="ov" style="width:52px">11.2k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/summer-sale</span><div class="track" style="height:16px"><div class="fill" style="width:30%;background:var(--ember)"></div></div><span class="ov" style="width:52px">8.3k</span></div>
+        </div>
+      </div>
+      <div class="card" style="padding:18px 20px">
+        <h4 style="font-size:13px;font-weight:600;margin-bottom:12px">Device split</h4>
+        <div class="ovl">
+          <div class="or"><span class="ol" style="width:150px">Mobile</span><div class="track" style="height:16px"><div class="fill" style="width:81%;background:var(--ink-900)"></div></div><span class="ov" style="width:52px">81%</span></div>
+          <div class="or"><span class="ol" style="width:150px">Desktop</span><div class="track" style="height:16px"><div class="fill" style="width:16%;background:var(--ink-400)"></div></div><span class="ov" style="width:52px">16%</span></div>
+          <div class="or"><span class="ol" style="width:150px">Tablet</span><div class="track" style="height:16px"><div class="fill" style="width:3%;background:var(--rule-soft)"></div></div><span class="ov" style="width:52px">3%</span></div>
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;border-left:2px solid var(--ember);padding-left:11px">✦ Mobile CVR is 1.31% vs desktop 2.42% — mobile checkout is your biggest single leak.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== SITE SEARCH ======== -->
+  <section class="screen" id="s-sitesearch">
+    <div class="kpis k4">
+      <div class="kpi"><div class="l">Searches</div><div class="v">4,218</div><div class="foot"><span class="delta up">▲ 7.4%</span></div></div>
+      <div class="kpi"><div class="l">Search → purchase</div><div class="v">4.9<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.4pp</span></div></div>
+      <div class="kpi"><div class="l">Zero-result rate</div><div class="v">11.2<span class="u">%</span></div><div class="foot"><span class="delta dn">▲ 2.1pp</span></div></div>
+      <div class="kpi"><div class="l">Top query</div><div class="v" style="font-size:17px;margin-top:11px">“vitamin c”</div><div class="foot"><span class="delta mut">612 searches</span></div></div>
+    </div>
+    <div class="card">
+      <table class="utable">
+        <thead><tr><th>Query</th><th>Searches</th><th>CTR</th><th>CVR</th><th>Revenue</th></tr></thead>
+        <tbody>
+          <tr><td>vitamin c</td><td>612</td><td>64%</td><td>6.8%</td><td>₹78,000</td></tr>
+          <tr><td>glow kit</td><td>488</td><td>71%</td><td>8.2%</td><td>₹91,000</td></tr>
+          <tr><td>sunscreen</td><td>402</td><td>58%</td><td>4.1%</td><td>₹31,000</td></tr>
+          <tr><td>niacinamide</td><td>319</td><td>61%</td><td>5.5%</td><td>₹36,000</td></tr>
+          <tr><td style="color:var(--bad)">retinol ⚠ zero results</td><td>238</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======== RETENTION (EMAIL & SMS) ======== -->
+  <section class="screen" id="s-retention">
+    <div class="filterbar">
+      <div class="seg"><button class="on">Overview</button><button>Campaigns</button></div>
+      <span class="spacer"></span>
+      <button class="ctl">ESP: Klaviyo <span class="cd">▼</span></button>
+    </div>
+    <div class="kpis k4">
+      <div class="kpi"><div class="l">Email revenue</div><div class="v">₹4.86<span class="u">L</span></div><div class="foot"><span class="delta up">▲ 18.3%</span></div></div>
+      <div class="kpi"><div class="l">% of total revenue</div><div class="v">10.1<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 1.1pp</span></div></div>
+      <div class="kpi"><div class="l">Flows vs campaigns</div><div class="v">62<span class="u">/38</span></div><div class="foot"><span class="delta mut">flow-led</span></div></div>
+      <div class="kpi"><div class="l">Rev / recipient</div><div class="v">₹11.4</div><div class="foot"><span class="delta up">▲ 6.0%</span></div></div>
+    </div>
+    <div class="card">
+      <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">UTM Channel Breakdown</div>
+      <table class="utable">
+        <thead><tr><th>UTM channel</th><th>Sessions</th><th>Orders</th><th>Revenue</th><th>CVR</th><th>AOV</th></tr></thead>
+        <tbody>
+          <tr><td>email / klaviyo-flow</td><td>5,860</td><td>121</td><td>₹3,02,000</td><td>2.07%</td><td>₹2,496</td></tr>
+          <tr><td>email / klaviyo-campaign</td><td>3,560</td><td>55</td><td>₹1,84,000</td><td>1.54%</td><td>₹3,345</td></tr>
+          <tr><td>sms / recart</td><td>1,140</td><td>18</td><td>₹41,000</td><td>1.58%</td><td>₹2,278</td></tr>
+          <tr><td>email / transactional</td><td>2,210</td><td>9</td><td>₹19,000</td><td>0.41%</td><td>₹2,111</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======== AI VISIBILITY ======== -->
+  <section class="screen" id="s-aivis">
+    <div class="kpis k4">
+      <div class="kpi"><div class="l">Presence score</div><div class="v">61<span class="u">/100</span></div><div class="foot"><span class="delta up">▲ 9</span></div></div>
+      <div class="kpi"><div class="l">Tracked prompts</div><div class="v">24</div><div class="foot"><span class="delta mut">across 4 assistants</span></div></div>
+      <div class="kpi"><div class="l">Brand mentioned</div><div class="v">14<span class="u">/24</span></div><div class="foot"><span class="delta up">▲ 3</span></div></div>
+      <div class="kpi"><div class="l">Share vs top rival</div><div class="v">0.8<span class="u">×</span></div><div class="foot"><span class="delta mut">vs Plum</span></div></div>
+    </div>
+    <div class="card">
+      <div style="padding:16px 18px 4px;display:flex;align-items:center"><span style="font-size:13px;font-weight:600">Tracked prompts</span><span class="spacer"></span><button class="btn sm ghost">＋ Track prompt</button></div>
+      <div class="promptrow"><span class="q">“best vitamin C serum in India”</span><span class="mention y">Mentioned</span><span class="presence hi">#2</span></div>
+      <div class="promptrow"><span class="q">“affordable clean skincare brands”</span><span class="mention y">Mentioned</span><span class="presence hi">#1</span></div>
+      <div class="promptrow"><span class="q">“glow kit for oily skin”</span><span class="mention y">Mentioned</span><span class="presence md">#4</span></div>
+      <div class="promptrow"><span class="q">“best sunscreen under ₹500”</span><span class="mention n">Not cited</span><span class="presence lo">—</span></div>
+      <div class="promptrow"><span class="q">“Purity Naturals vs Plum — which is better?”</span><span class="mention y">Mentioned</span><span class="presence md">#2</span></div>
+    </div>
+  </section>
+
+  <!-- ======== SOCIAL MONITORING ======== -->
+  <section class="screen" id="s-social">
+    <div class="kpis k4">
+      <div class="kpi"><div class="l">Comments scanned</div><div class="v">1,842</div><div class="foot"><span class="delta mut">last 14 days</span></div></div>
+      <div class="kpi"><div class="l">Risk flagged</div><div class="v">23</div><div class="foot"><span class="delta dn">▲ 8</span></div></div>
+      <div class="kpi"><div class="l">Sentiment</div><div class="v">+72</div><div class="foot"><span class="delta up">▲ 4</span></div></div>
+      <div class="kpi"><div class="l">Avg. response time</div><div class="v">3.2<span class="u">h</span></div><div class="foot"><span class="delta up">▼ 0.8h</span></div></div>
+    </div>
+    <div class="card">
+      <div class="promptrow"><span class="q">“Order stuck for 9 days, no reply from support 😡” — Meta ad comment</span><span class="mention" style="color:var(--bad);background:var(--bad-bg)">High risk</span><span class="presence lo">Shipping</span></div>
+      <div class="promptrow"><span class="q">“Does this work for sensitive skin?” — IG post</span><span class="mention" style="color:var(--watch);background:var(--watch-bg)">Question</span><span class="presence md">Product</span></div>
+      <div class="promptrow"><span class="q">“Third reorder. Obsessed with the glow kit ✨” — Meta ad</span><span class="mention y">Positive</span><span class="presence hi">Praise</span></div>
+      <div class="promptrow"><span class="q">“Price went up again?” — IG reel</span><span class="mention" style="color:var(--watch);background:var(--watch-bg)">Watch</span><span class="presence md">Pricing</span></div>
+    </div>
+  </section>
+
+  <!-- ======== DATA SPINE (generic) ======== -->
+  <section class="screen" id="s-spine">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <p id="spine-desc" style="font-size:13px;color:var(--ink-500);max-width:78ch"></p>
+      <span class="spacer"></span>
+      <span class="perm y" style="flex:none">● Syncing live</span>
+    </div>
+    <div class="kpis k4">
+      <div class="kpi"><div class="l">Events · 24h</div><div class="v" id="spine-k1">48,211</div><div class="foot"><span class="delta up">▲ 6.1%</span></div></div>
+      <div class="kpi"><div class="l">Match rate</div><div class="v" id="spine-k2">96.2<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.8pp</span></div></div>
+      <div class="kpi"><div class="l">Last event</div><div class="v" id="spine-k3">2<span class="u">s ago</span></div><div class="foot"><span class="delta mut">p95 latency 1.4s</span></div></div>
+      <div class="kpi"><div class="l">Schema errors · 24h</div><div class="v" id="spine-k4">0</div><div class="foot"><span class="delta up">clean</span></div></div>
+    </div>
+    <div class="card">
+      <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">Recent events</div>
+      <table class="utable">
+        <thead><tr><th>Time</th><th style="text-align:left">Event</th><th style="text-align:left">Source</th><th style="text-align:left">Identity</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:32:08</td><td style="text-align:left;font-weight:500">checkout_completed · ₹2,340</td><td style="text-align:left">Shopify</td><td style="text-align:left" class="mono" style="font-size:11px">gclid ✓ · profile #8841</td><td><span class="perm y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:32:01</td><td style="text-align:left;font-weight:500">ad_click · summer-sale-static-a</td><td style="text-align:left">Meta</td><td style="text-align:left" class="mono" style="font-size:11px">fbclid ✓ · profile #9107</td><td><span class="perm y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:31:44</td><td style="text-align:left;font-weight:500">page_view · /glow-ritual-kit</td><td style="text-align:left">Pixel</td><td style="text-align:left" class="mono" style="font-size:11px">anon → profile #9107</td><td><span class="perm y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:31:12</td><td style="text-align:left;font-weight:500">email_click · winback-flow-3</td><td style="text-align:left">Klaviyo</td><td style="text-align:left" class="mono" style="font-size:11px">email hash ✓ · #7212</td><td><span class="perm y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:30:58</td><td style="text-align:left;font-weight:500">ad_click · brand-exact</td><td style="text-align:left">Google</td><td style="text-align:left" class="mono" style="font-size:11px">gclid ✓ · unresolved</td><td><span class="perm n">Pending</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======== INTEGRATIONS ======== -->
+  <section class="screen" id="s-integrations">
+    <p style="font-size:13px;color:var(--ink-500);margin-bottom:18px;max-width:78ch">Every connector feeds the same data spine — connect once, and Chat, Cockpit, and Attribution all read from one reconciled source of truth.</p>
+    <div class="libgrid">
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#E8F3E4;font-size:20px;font-weight:700;color:#5E8E3E">S</div><div class="meta"><b>Shopify</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#FDF3E0;font-size:20px;font-weight:700;color:#F9AB00">G</div><div class="meta"><b>Google Ads</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#E7F0FD;font-size:20px;font-weight:700;color:#1877F2">f</div><div class="meta"><b>Meta Ads</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#F1EBFB;font-size:20px;font-weight:700;color:#7C3AED">K</div><div class="meta"><b>Klaviyo</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--panel);font-size:20px;font-weight:700;color:var(--ink-500)">GA</div><div class="meta"><b>GA4</b><span style="color:var(--ember);font-family:var(--sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--panel);font-size:20px;font-weight:700;color:var(--ink-500)">R</div><div class="meta"><b>Razorpay</b><span style="color:var(--ember);font-family:var(--sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--panel);font-size:20px;font-weight:700;color:var(--ink-500)">A</div><div class="meta"><b>Amazon Ads</b><span style="color:var(--ember);font-family:var(--sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--tint);font-size:20px;color:var(--ember)">＋</div><div class="meta"><b>Request a connector</b><span>50+ in catalog</span></div></div>
+    </div>
+  </section>
+
+  <!-- ======== GATED (template target) ======== -->
+  <section class="screen" id="s-gate">
+    <div class="gate">
+      <div class="lockring"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 018 0v3.5"/></svg></div>
+      <h2 id="gate-title">Keyword Intelligence</h2>
+      <p id="gate-desc">See which search queries triggered your paid keywords across Google, Amazon, and Bing…</p>
+      <button class="btn orange" onclick="go('settings');setPane('plans')">Upgrade</button>
+      <div class="gplan" id="gate-plan">Included in the <b>Foundation</b> plan</div>
+    </div>
+  </section>
+
+  <!-- ======== SETTINGS ======== -->
+  <section class="screen" id="s-settings">
+    <div class="set-grid">
+      <div class="setnav card" style="padding:8px;background:var(--off);border:none">
+        <div class="sn-sec">General</div>
+        <button class="sn-i" data-pane="business" onclick="setPane('business')">Business Details</button>
+        <button class="sn-i on" data-pane="team" onclick="setPane('team')">Team</button>
+        <button class="sn-i" data-pane="business" onclick="setPane('business')">Customer Data Deletion</button>
+        <div class="sn-sec">Plans &amp; Payment</div>
+        <button class="sn-i" data-pane="plans" onclick="setPane('plans')">Plans</button>
+        <button class="sn-i" data-pane="plans" onclick="setPane('plans')">Invoices</button>
+        <button class="sn-i" data-pane="plans" onclick="setPane('plans')">AI Usage</button>
+        <div class="sn-sec">Account Configuration</div>
+        <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Cost Settings</button>
+        <button class="sn-i" data-pane="pixel" onclick="setPane('pixel')">Pixel Settings</button>
+        <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Reports &amp; Notifications</button>
+        <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Traffic Rules · UTM Builder</button>
+        <div class="sn-sec">AI Settings</div>
+        <button class="sn-i" data-pane="brand" onclick="setPane('brand')">Brand Vault <span class="nw">NEW</span></button>
+        <button class="sn-i" data-pane="analystset" onclick="setPane('analystset')">Analyst</button>
+        <button class="sn-i" data-pane="analystset" onclick="setPane('analystset')">Tasks · Action Log</button>
+      </div>
+
+      <div>
+        <!-- team -->
+        <div class="setpane on" id="p-team">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Team</h3><span class="spacer"></span><button class="btn sm">＋ Invite teammate</button></div>
+          <div class="card">
+            <div class="trow"><div class="av2" style="background:var(--ink-900)">S</div><div><b>Santanu</b><span class="em">santanu@meerkats.ai</span></div><span class="spacer"></span><span class="perm y">Expenses</span><span class="perm y">PII</span><span class="role">Admin <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+            <div class="trow"><div class="av2" style="background:var(--ember)">V</div><div><b>Vinay</b><span class="em">vinay@meerkats.ai</span></div><span class="spacer"></span><span class="perm y">Expenses</span><span class="perm n">PII</span><span class="role">Editor <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+            <div class="trow"><div class="av2" style="background:var(--info)">A</div><div><b>Agency — RiseHigh</b><span class="em">team@risehigh.in</span></div><span class="spacer"></span><span class="perm n">Expenses</span><span class="perm n">PII</span><span class="role">Viewer <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+          </div>
+          <p style="font-size:12px;color:var(--ink-400);margin-top:12px">Role-based access with per-member Expenses and PII permissions. Viewers see dashboards, never raw customer data.</p>
+        </div>
+
+        <!-- plans -->
+        <div class="setpane" id="p-plans">
+          <div class="planhead"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Plans</h3><span style="font-size:12px;color:var(--ink-400)">GMV-tiered · billed on trailing 12-month GMV</span><span class="spacer"></span><div class="bill"><button onclick="billTo(this,'mo')">Monthly</button><button class="on" onclick="billTo(this,'yr')">Annual</button></div></div>
+          <div class="plans">
+            <div class="plan"><h4>Free</h4><div class="pr">₹0</div><div class="gmv">Your current plan</div><ul><li>Channel performance dashboards</li><li>First / Last-Click attribution</li><li>Standard Shopify metrics</li><li>Analyst — 20 questions / mo</li></ul><button class="btn ghost sm" style="width:100%">Current plan</button></div>
+            <div class="plan pop2"><span class="rec">Recommended</span><h4>Foundation</h4><div class="pr"><span data-yr="₹1,82,000" data-mo="₹18,900">₹1,82,000</span><span class="u"> / yr</span></div><div class="gmv">Up to ₹8 Cr GMV</div><ul><li>Multi-touch attribution (all models)</li><li>Custom dashboards &amp; metrics</li><li>Segments &amp; SQL editor</li><li>Creative &amp; Product Analysis</li></ul><button class="btn orange sm" style="width:100%">Upgrade</button></div>
+            <div class="plan"><h4>Automate</h4><div class="pr"><span data-yr="₹6,24,000" data-mo="₹64,900">₹6,24,000</span><span class="u"> / yr</span></div><div class="gmv">Up to ₹25 Cr GMV</div><ul><li>Everything in Foundation</li><li>Analyst Automations</li><li>Analyst Specialists</li><li>Approval-gated actions at scale</li></ul><button class="btn sm" style="width:100%">Talk to sales</button></div>
+          </div>
+          <div class="addons">
+            <div class="addon"><b>Data Warehouse Sync</b><span class="ap">₹4,15,000 / yr</span></div>
+            <div class="addon"><b>Conversion Add-On</b><span class="ap">₹15,800 / yr</span></div>
+            <div class="addon"><b>Retention Add-On</b><span class="ap">₹65,700 / yr</span></div>
+            <div class="addon"><b>Measurement Studio</b><span class="ap">Enterprise · custom</span></div>
+          </div>
+        </div>
+
+        <!-- cost -->
+        <div class="setpane" id="p-cost">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Cost Settings</h3><span class="spacer"></span><button class="btn sm">＋ Add cost</button></div>
+          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:14px">These inputs power every profit metric — contribution margin, CM2, and true CAC all read from here.</p>
+          <div class="card">
+            <div class="costrow"><div class="ci">▣</div><div><b>COGS</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Per-variant, synced from Shopify</div></div><span class="spacer"></span><span class="perm y stt">Added</span></div>
+            <div class="costrow"><div class="ci">➔</div><div><b>Shipping</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Tiered by zone · avg ₹64/order</div></div><span class="spacer"></span><span class="perm y stt">Added</span></div>
+            <div class="costrow"><div class="ci">%</div><div><b>Gateway costs</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Razorpay 2.0% + GST</div></div><span class="spacer"></span><span class="perm y stt">Added</span></div>
+            <div class="costrow"><div class="ci">✎</div><div><b>Custom expenses</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Agency retainer, tools, warehousing</div></div><span class="spacer"></span><span class="perm n stt">Not added</span></div>
+          </div>
+        </div>
+
+        <!-- pixel -->
+        <div class="setpane" id="p-pixel">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Meerkats Pixel</h3><span class="spacer"></span><span class="perm y">● Receiving events</span></div>
+          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:14px">First-party pixel with deterministic click-ID capture — the substrate under every attribution number in the app.</p>
+          <div class="card">
+            <div class="costrow"><div class="ci">⚙</div><div><b>Installation</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Shopify theme app embed · v3.2</div></div><span class="spacer"></span><span class="perm y stt">Installed</span></div>
+            <div class="costrow"><div class="ci">⚡</div><div><b>Custom events</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">quiz_complete, sample_request</div></div><span class="spacer"></span><span class="perm y stt">2 active</span></div>
+            <div class="costrow"><div class="ci">↻</div><div><b>Subscription order settings</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Recharge — renewals excluded from CAC</div></div><span class="spacer"></span><span class="perm y stt">Configured</span></div>
+            <div class="costrow"><div class="ci">▤</div><div><b>Pixel events manager</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">98.7% capture rate · 0 errors 24h</div></div><span class="spacer"></span><button class="btn sm ghost">Open</button></div>
+          </div>
+        </div>
+
+        <!-- brand vault -->
+        <div class="setpane" id="p-brand">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Brand Vault</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><button class="btn sm">＋ Add asset</button></div>
+          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:14px">Everything the Analyst needs to generate on-brand — logos, palette, type, and voice. Used by creative generation and report styling.</p>
+          <div class="bv-grid">
+            <div class="bv-card"><h5>Logos &amp; icons</h5><div class="logorow"><div class="logobox"><span class="lw">purity<i>.</i></span></div><div class="logobox dark"><span class="lw" style="color:#fff">purity<i>.</i></span></div></div></div>
+            <div class="bv-card"><h5>Palette</h5><div class="swatches" style="margin-bottom:20px"><div class="sw2" style="background:#EA580C"><span>#EA580C</span></div><div class="sw2" style="background:#0B0B0C"><span>#0B0B0C</span></div><div class="sw2" style="background:#FFF7F2"><span>#FFF7F2</span></div><div class="sw2" style="background:#FAFAF9"><span>#FAFAF9</span></div></div></div>
+            <div class="bv-card"><h5>Typography</h5><div style="font-family:var(--serif);font-size:19px;font-weight:600">Source Serif 4 — headlines</div><div style="font-size:13px;color:var(--ink-500);margin-top:4px">Inter — product &amp; body copy</div></div>
+            <div class="bv-card"><h5>Voice</h5><div style="font-size:12.5px;color:var(--ink-700);line-height:1.6">Warm, evidence-led, never hypey. Claims must cite the ritual study or verified reviews. Hindi-English mix OK on social.</div></div>
+          </div>
+        </div>
+
+        <!-- analyst settings -->
+        <div class="setpane" id="p-analystset">
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Analyst Settings</h3></div>
+          <div class="card">
+            <div class="costrow"><div class="ci">◔</div><div><b>Default attribution model</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Used by agents &amp; automations</div></div><span class="spacer"></span><span class="role">Last Click · 30d <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+            <div class="costrow"><div class="ci">◇</div><div><b>Slack integration</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">#growth — reports &amp; approvals in-channel</div></div><span class="spacer"></span><span class="perm y stt">Connected</span></div>
+            <div class="costrow"><div class="ci">✓</div><div><b>Action approvals</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Every mutation requires a human yes</div></div><span class="spacer"></span><div class="toggle"></div></div>
+            <div class="costrow"><div class="ci">▤</div><div><b>Action log</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">14 actions this month · all approved</div></div><span class="spacer"></span><button class="btn sm ghost">View log</button></div>
+          </div>
+        </div>
+
+        <!-- business (stub) -->
+        <div class="setpane" id="p-business">
+          <h3 style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:14px">Business Details</h3>
+          <div class="card">
+            <div class="costrow"><div class="ci">◉</div><div><b>Store</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Purity Naturals · puritynaturals.in</div></div></div>
+            <div class="costrow"><div class="ci">₹</div><div><b>Currency &amp; timezone</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">INR · Asia/Kolkata (+05:30)</div></div></div>
+            <div class="costrow"><div class="ci">⌫</div><div><b>Customer data deletion</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">GDPR / DPDP requests — 2 processed</div></div><span class="spacer"></span><button class="btn sm ghost">Manage</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div></div>
+
+  <!-- ======== CHAT SIDE PANEL ======== -->
+  <aside id="chat">
+    <div class="chat-h"><span class="cbadge">✦ Chat 2.0</span><button class="x" onclick="toggleChat(false)">✕</button></div>
+    <div class="chat-body">
+      <h2 id="chat-greet">Good afternoon, Santanu!</h2>
+      <div class="chat-ask">
+        <div class="in"><span style="color:var(--ember);font-size:14px">✦</span><input placeholder="Ask anything…"><button class="send">↑</button></div>
+        <div class="foot"><span class="mchip"><span class="d"></span>Purity Naturals</span><span class="mchip">Auto model</span></div>
+      </div>
+      <div class="chat-sugg">
+        <button>Why did blended MER dip on Tuesday?</button>
+        <button>Which creative is fatiguing fastest right now?</button>
+        <button>Draft this week's performance summary</button>
+      </div>
+      <div class="chat-foot">Answers are grounded in your data spine — every number links to its source.</div>
+    </div>
+  </aside>
+  </div>
+</div>
+</div>
+
+<!-- ======== SELECT COLUMNS MODAL ======== -->
+<div id="modal">
+  <div class="modal-in">
+    <div class="modal-h"><h3>Select Columns</h3><button class="x" onclick="document.getElementById('modal').classList.remove('on')">✕</button></div>
+    <div class="modal-b">
+      <div class="mcol left">
+        <div class="search">⌕ <input placeholder="Search metrics…"></div>
+        <div class="mtabs"><button class="mtab on">All</button><button class="mtab">Default</button><button class="mtab">Custom Metrics</button></div>
+        <div class="mitem inuse"><span>Spend</span><span class="add">＋</span></div>
+        <div class="mitem inuse"><span>Sessions</span><span class="add">＋</span></div>
+        <div class="mitem inuse"><span>Orders</span><span class="add">＋</span></div>
+        <div class="mitem inuse"><span>Revenue</span><span class="add">＋</span></div>
+        <div class="mitem inuse"><span>CPA</span><span class="add">＋</span></div>
+        <div class="mitem inuse"><span>ROAS</span><span class="add">＋</span></div>
+        <div class="mitem"><span>New Customer ROAS</span><span class="add">＋</span></div>
+        <div class="mitem"><span>Contribution Margin</span><span class="add">＋</span></div>
+        <div class="mitem"><span>CTR</span><span class="add">＋</span></div>
+        <div class="mitem"><span>CPM</span><span class="add">＋</span></div>
+        <div class="mitem"><span>AOV</span><span class="add">＋</span></div>
+        <div class="mitem"><span>CM2 / Order <span class="pill fdn" style="margin-left:6px">CUSTOM</span></span><span class="add">＋</span></div>
+        <button class="newmetric">＋ Custom Metric</button>
+      </div>
+      <div class="mcol">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:11px">Active columns · drag to reorder</div>
+        <div class="acol"><span class="grip">⋮⋮</span>Spend<span class="rm">✕</span></div>
+        <div class="acol"><span class="grip">⋮⋮</span>Sessions<span class="rm">✕</span></div>
+        <div class="acol"><span class="grip">⋮⋮</span>Orders<span class="rm">✕</span></div>
+        <div class="acol"><span class="grip">⋮⋮</span>New Customers<span class="rm">✕</span></div>
+        <div class="acol"><span class="grip">⋮⋮</span>Revenue<span class="rm">✕</span></div>
+        <div class="acol"><span class="grip">⋮⋮</span>CPA<span class="rm">✕</span></div>
+        <div class="acol"><span class="grip">⋮⋮</span>ROAS<span class="rm">✕</span></div>
+      </div>
+    </div>
+    <div class="modal-f"><button class="btn ghost sm" onclick="document.getElementById('modal').classList.remove('on')">Cancel</button><button class="btn sm" onclick="document.getElementById('modal').classList.remove('on')">Apply columns</button></div>
+  </div>
+</div>
+
+<script>
+/* ---------- screen registry ---------- */
+const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations',0],library:['Library',0],
+summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
+website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
+aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0]};
+
+const SPINE={
+dashboard:{t:'Data Spine — Dashboard',d:'Health of the whole spine at a glance — event volume, identity match rate, and connector freshness across every source.'},
+cdp:{t:'CDP Analytics',d:'Unified customer profiles stitched from pixel, orders, ads, and email — one identity graph under every report.'},
+adperf:{t:'Ad Performance',d:'Raw ad-level performance as ingested from every platform, before any attribution model is applied.'},
+ingest:{t:'Ingest Events',d:'The live event firehose — every click, view, and order entering the spine, with schema validation on write.'},
+google:{t:'Google — Source',d:'Google Ads ingestion: campaigns, cost, and gclid click stream, reconciled against orders nightly and on-demand.'},
+meta:{t:'Meta — Source',d:'Meta ingestion: campaigns, spend, and fbclid click stream, deduplicated against the first-party pixel.'},
+shopify:{t:'Shopify — Source',d:'Orders, refunds, customers, and catalog synced in real time — the revenue spine every metric reconciles to.'},
+attribution:{t:'Attribution — Spine',d:'The deterministic click-ID join layer: how raw events become attributed revenue, with full lineage per order.'}};
+
+const GATES={
+'g-keyword':{t:'Keyword Intelligence',b:1,d:'See which search queries triggered your paid keywords across Google, Amazon, and Bing, with match type and campaign context. Evaluate performance across the full funnel: impressions, clicks, spend, conversions, revenue, and ROAS, all in one view.',p:'Foundation'},
+'g-bundle':{t:'Bundle Analysis',b:0,d:'See which products are most often bought together and how bundles impact average order value and revenue — then let Analyst draft the bundle offers worth testing.',p:'Foundation'},
+'g-sourcemedium':{t:'Source / Medium',b:0,d:'A GA-style source/medium view rebuilt on first-party click-ID data — every session tied to real orders, no sampling, no modeled gaps.',p:'Foundation'},
+'g-adenrich':{t:'Ad Enrichment',b:0,d:'Push enriched conversion signals back to Google and Meta so their bidding algorithms optimize toward contribution margin, not just purchases.',p:'Foundation'},
+'g-compass':{t:'Measurement Studio',b:0,d:'A sales-led measurement engine for teams that need geo-testing, holdouts, and custom incrementality studies designed with our measurement team.',p:'Enterprise'},
+'g-mmm':{t:'Marketing Mix Modeling',b:0,d:'Top-down MMM that triangulates with your click-ID attribution — see base vs incremental revenue by channel with calibrated confidence ranges.',p:'Enterprise'},
+'g-increment':{t:'Incrementality — GeoLift',b:0,d:'Run geo-holdout experiments to measure the true incremental lift of each channel — the ground truth your attribution models calibrate against.',p:'Enterprise'},
+'g-creative':{t:'Creative Analysis',b:0,d:'Break every ad into its creative atoms — hook, format, angle, talent — and see which atoms actually drive ROAS across your whole account.',p:'Foundation'},
+'g-funnel':{t:'Website Funnel and Paths',b:0,d:'Follow real sessions step-by-step from landing to purchase. Find the exact page where each cohort leaks and quantify what fixing it is worth.',p:'Foundation'},
+'g-journey':{t:'Product Journey',b:0,d:'Trace how shoppers move between products before buying — entry products, cross-sell paths, and the pages that convert browsers into buyers.',p:'Foundation'},
+'g-product':{t:'Product Analysis',b:0,d:'Per-product P&L: sessions, conversion, returns, and contribution margin by SKU — know which products fund the business and which quietly drain it.',p:'Foundation'},
+'g-segments':{t:'Customer Segments',b:0,d:'An RFM segment builder on your full order history — whales, loyalists, at-risk — synced to Klaviyo and Meta as living audiences.',p:'Foundation'},
+'g-cohorts':{t:'Cohort Analysis',b:0,d:'Retention heatmaps by acquisition month, channel, and first product — see which cohorts pay back and project LTV with confidence.',p:'Foundation'},
+'g-flow':{t:'Flow Enrichment',b:0,d:'Enrich Klaviyo flows with Meerkats signals — predicted LTV, churn risk, and attribution-verified purchase intent — for smarter triggers.',p:'Foundation'}};
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('#nav .ni').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.fly .fi').forEach(n=>n.classList.remove('on'));
+  document.querySelectorAll('.sni').forEach(n=>n.classList.remove('active'));
+  const beta=document.getElementById('tb-beta');
+  if(GATES[id]){
+    const g=GATES[id];
+    document.getElementById('s-gate').classList.add('on');
+    document.getElementById('gate-title').textContent=g.t;
+    document.getElementById('gate-desc').textContent=g.d;
+    document.getElementById('gate-plan').innerHTML='Included in the <b>'+g.p+'</b> plan';
+    document.getElementById('tb-title').textContent=g.t;
+    beta.style.display=g.b?'inline-block':'none';
+  }else{
+    document.getElementById('s-'+id).classList.add('on');
+    document.getElementById('tb-title').textContent=TITLES[id][0];
+    beta.style.display=TITLES[id][1]?'inline-block':'none';
+  }
+  const nav=document.querySelector('#nav .ni[data-go="'+id+'"]');
+  if(nav)nav.classList.add('active');
+  const fly=document.querySelector('.fly .fi[data-go="'+id+'"]');
+  if(fly){fly.classList.add('on');fly.closest('.ni-wrap').querySelector('.ni').classList.add('active');}
+  document.getElementById('scroll').scrollTop=0;
+  document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
+  document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
+  if(id==='analyst')toggleChat(false);
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+
+/* workspace switcher */
+function toggleWs(e){
+  e.stopPropagation();
+  document.getElementById('wsMenu').classList.toggle('on');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.ws-wrap'))document.getElementById('wsMenu').classList.remove('on');
+});
+document.querySelectorAll('#wsMenu .wrow:not(.create)').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#wsMenu .wrow').forEach(r=>{r.classList.remove('on');const c=r.querySelector('.chk');if(c)c.remove();});
+  b.classList.add('on');
+  const chk=document.createElement('span');chk.className='chk';chk.textContent='✓';b.appendChild(chk);
+  const name=b.childNodes[1].textContent.trim();
+  document.querySelector('.store .wn').textContent=name;
+  document.querySelector('.store .sd').textContent=name[0].toUpperCase();
+  document.getElementById('wsMenu').classList.remove('on');
+}));
+
+/* data spine */
+function toggleSpine(){
+  const kids=document.getElementById('spineKids');
+  kids.classList.toggle('closed');
+  document.getElementById('spineCaret').style.transform=kids.classList.contains('closed')?'':'rotate(90deg)';
+}
+document.querySelectorAll('.sni').forEach(b=>b.addEventListener('click',()=>{
+  const s=SPINE[b.dataset.spine];
+  go('spine');
+  document.getElementById('tb-title').textContent=s.t;
+  document.getElementById('spine-desc').textContent=s.d;
+  b.classList.add('active');
+  document.getElementById('spineHead').classList.add('active');
+}));
+
+/* chat panel */
+function toggleChat(force){
+  const c=document.getElementById('chat');
+  const on=typeof force==='boolean'?force:!c.classList.contains('on');
+  c.classList.toggle('on',on);
+  if(on){
+    const h=new Date().getHours();
+    document.getElementById('chat-greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', Santanu!';
+  }
+}
+
+/* popovers */
+function togglePop(id){
+  const p=document.getElementById(id);
+  const was=p.classList.contains('on');
+  document.querySelectorAll('.pop').forEach(x=>x.classList.remove('on'));
+  if(!was)p.classList.add('on');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.pop')&&!e.target.closest('.ctl'))document.querySelectorAll('.pop').forEach(x=>x.classList.remove('on'));
+});
+
+/* model selector */
+const MODELS={
+first:{t:'First Click',d:'Gives 100% of credit to the first recorded touch — the click that started the journey.',bf:'Understanding which channels open new customer journeys and fill the top of funnel.',uw:'Planning prospecting budgets and judging awareness channels fairly.',lock:0},
+last:{t:'Last Click',d:'Gives 100% of the credit to the last ad click before purchase, matched deterministically on click-ID. The strictest, most conservative read of paid performance.',bf:'Judging bottom-of-funnel efficiency and making budget-cut decisions you can defend.',uw:'You need numbers that reconcile 1:1 with orders — board reporting, kill/scale calls.',lock:0},
+total:{t:'Total Impact',d:'Blends deterministic clicks with modeled view-through and halo effects for the fullest picture of each channel’s contribution.',bf:'Understanding true channel value including views, brand halo, and assisted paths.',uw:'Setting channel-level budgets where upper-funnel does real work.',lock:1},
+cdv:{t:'Clicks & Deterministic Views',d:'Click-ID attribution plus only the view-through events we can verify deterministically — no modeling, no guesswork.',bf:'Teams that want view credit without statistical modeling.',uw:'Meta-heavy accounts where verified views matter.',lock:1},
+mk:{t:'Meerkats Attribution',d:'Our multi-touch model: deterministic click paths weighted by observed conversion contribution across the whole journey.',bf:'A single trustworthy number balancing first- and last-touch bias.',uw:'Day-to-day optimization once you trust the substrate.',lock:1},
+mkpv:{t:'Meerkats + Platform Views',d:'Meerkats Attribution enriched with platform-reported view events, reconciled against your first-party spine.',bf:'Comparing against in-platform numbers on equal footing.',uw:'Negotiating with channel reps armed with both views.',lock:1},
+linall:{t:'Linear All',d:'Splits credit equally across every touchpoint in the journey — paid, owned, and organic.',bf:'A neutral baseline view of the whole path to purchase.',uw:'Auditing how concentrated your journeys really are.',lock:1},
+linpaid:{t:'Linear Paid',d:'Splits credit equally across paid touchpoints only.',bf:'Comparing paid channels to each other without organic noise.',uw:'Pure media-mix reviews.',lock:1}};
+function pickModel(row,key){
+  document.querySelectorAll('.mrow').forEach(r=>r.classList.remove('on'));row.classList.add('on');
+  const m=MODELS[key];
+  document.getElementById('mdetail').innerHTML='<h4>'+m.t+(m.lock?' <span class="pill fdn" style="vertical-align:2px">FOUNDATION</span>':'')+'</h4><div class="desc">'+m.d+'</div><div class="bf"><b>Best for</b>'+m.bf+'</div><div class="bf"><b>Use when</b>'+m.uw+'</div>'+(m.lock?'<button class="btn orange sm" style="margin-top:6px" onclick="go(\'settings\');setPane(\'plans\')">Upgrade to use</button>':'')+'<br><span class="help">Which model is right for me? →</span>';
+  if(!m.lock)document.getElementById('modelBtn').innerHTML='Model: <b>&nbsp;'+m.t+'</b> <span class="cd">▼</span>';
+  event.stopPropagation();
+}
+
+/* summary section filter */
+function filterSections(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('.ssec').forEach(s=>{s.style.display=s.dataset.name.includes(q)?'':'none'});
+}
+
+/* media manager tabs */
+function mmTab(t){document.querySelectorAll('.mmtab').forEach(x=>x.classList.remove('on'));t.classList.add('on');}
+
+/* settings panes */
+function setPane(id){
+  go('settings');
+  document.querySelectorAll('.setpane').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.querySelectorAll('.sn-i').forEach(i=>i.classList.remove('on'));
+  const clicked=(typeof event!=='undefined'&&event&&event.target)?event.target.closest('.sn-i'):null;
+  (clicked||document.querySelector('.sn-i[data-pane="'+id+'"]')).classList.add('on');
+}
+
+/* billing toggle */
+function billTo(btn,mode){
+  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('.plan .pr span[data-yr]').forEach(s=>{s.textContent=mode==='yr'?s.dataset.yr:s.dataset.mo});
+  document.querySelectorAll('.plan .pr .u').forEach(u=>{if(u.previousElementSibling&&u.previousElementSibling.dataset)u.textContent=mode==='yr'?' / yr':' / mo'});
+}
+
+/* live orders drip */
+const PATHS=[['₹1,340','Meta → Email'],['₹2,870','Google Brand'],['₹960','Organic'],['₹3,420','Meta → Direct'],['₹1,873','Email']];
+let li=0;
+setInterval(()=>{
+  const feed=document.getElementById('liveorders');if(!feed)return;
+  const p=PATHS[li++%PATHS.length];
+  const row=document.createElement('div');row.className='lorder';
+  row.innerHTML='<span class="t">now</span><b>'+p[0]+'</b><span class="path">'+p[1]+'</span>';
+  feed.prepend(row);
+  while(feed.children.length>5)feed.removeChild(feed.lastChild);
+},7000);
+
+go('summary');
+</script>
+</body></html>
