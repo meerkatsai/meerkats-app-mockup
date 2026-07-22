@@ -531,11 +531,25 @@
   <!-- ======== MY QUEUE ======== -->
   <section class="screen" id="s-queue">
     <div class="qhead">
-      <div class="me"><span class="lav">SK</span><div><b style="font-size:13.5px">Sneha Kulkarni</b><div style="font-size:11.5px;color:var(--color-ink-400)">Dietitian · 18 active leads</div></div></div>
+      <div class="me"><span class="lav" id="q-av">SK</span>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:11.5px;color:var(--color-ink-400)">Queue of</span>
+            <select id="q-op" class="field" style="padding:4px 9px;font-weight:600;font-size:13px" onchange="setQueueOp(this.value)"></select>
+          </div>
+          <div style="font-size:11.5px;color:var(--color-ink-400);margin-top:3px" id="q-sub">Dietitian · — active leads</div>
+        </div>
+      </div>
       <span class="spacer"></span>
-      <span class="tag tag-w">● Available</span>
-      <button class="ctl">Sort: Priority <span class="cd">▼</span></button>
+      <span class="tag tag-w" id="q-avail">● Available</span>
+      <select id="q-sort" class="field" style="padding:7px 11px;font-size:13px;font-weight:500" onchange="setSort(this.value)">
+        <option value="priority">Sort: Priority</option>
+        <option value="newest">Sort: Newest assigned</option>
+        <option value="attempts">Sort: Most attempts</option>
+        <option value="name">Sort: Name A–Z</option>
+      </select>
     </div>
+    <p style="font-size:11.5px;color:var(--color-ink-400);margin:-6px 0 16px">You're signed in as an <b>admin</b>, so you can open any dietitian's queue. A dietitian signing in lands on their own queue — no picker, no one else's leads.</p>
     <div id="queueBands"></div>
   </section>
 
@@ -1017,23 +1031,23 @@ queue:['My Queue',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Perfo
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
-{n:'Subramani G',ph:'+91 91498 43316',id:'con_Oi9JLbbuVs5P',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:3,last:'RNR',lastc:'r',st:'Acquisition',nx:'Follow-up',due:'2 days overdue',band:'over'},
-{n:'Baldeep Kaur',ph:'+91 98867 20114',id:'con_dq6qrG-623lO',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:2,last:'Busy',lastc:'w',st:'Acquisition',nx:'Call back',due:'1 day overdue',band:'over'},
-{n:'Ziya Noori',ph:'+91 78295 61120',id:'con_txYcRROdmCc_',src:'google',cam:'Search · Dietitian near me',op:'Sneha Kulkarni',att:4,last:'RNR',lastc:'r',st:'Acquisition',nx:'Final attempt',due:'4 hours overdue',band:'over'},
-{n:'Saba Shaikh',ph:'+91 90084 55231',id:'con_xenM-1MgWMt8',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Discussed with family',due:'3 hours overdue',band:'over'},
-{n:'Kinjal Mehta',ph:'+91 99024 78310',id:'con_5PFcTa9BLrC9',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Send pricing',due:'Today 15:00',band:'today'},
-{n:'Dani Fernandes',ph:'+91 81234 09876',id:'con_FjngVNOMnjdA',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:2,last:'RNR',lastc:'r',st:'Acquisition',nx:'Retry call',due:'Today 16:30',band:'today'},
-{n:'Sayyed Zahra Rizvi',ph:'+91 70223 44810',id:'con_rkOO57g8_Nss',src:'google',cam:'Search · Obesity clinic',op:'Sneha Kulkarni',att:1,last:'Busy',lastc:'w',st:'Acquisition',nx:'Retry call',due:'Today 18:00',band:'today'},
-{n:'Adhvika Gupta',ph:'+91 96321 55407',id:'con_3b5sAN0debuJ',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 12 min ago',band:'new'},
-{n:'Muskan Nadeem Ali',ph:'+91 88617 23098',id:'con_AxOMxIanbSJn',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 26 min ago',band:'new'},
-{n:'Darshan Sawant',ph:'+91 97401 66285',id:'con_TyA2LxGkYR3v',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 41 min ago',band:'new'},
-{n:'Shruti Nair',ph:'+91 90350 71142',id:'con_WGwjyBSMwACM',src:'google',cam:'Search · Dietitian near me',op:'Sneha Kulkarni',att:2,last:'Connected',lastc:'g',st:'Engagement',nx:'Callback after salary',due:'28 Jul',band:'later'},
-{n:'Sylvia Cacacie',ph:'+91 99458 30027',id:'con_d5xfF6AW9ai9',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:3,last:'Connected',lastc:'g',st:'Intent',nx:'Consult 26 Jul 11:00',due:'26 Jul',band:'later'},
-{n:'Ujjwal Kumar',ph:'+91 89712 40663',id:'con_m4T2n9Gx8MDh',src:'google',cam:'Search · Obesity clinic',op:'Dr. Anjali Rao',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Send diet plan',due:'Today 17:00',band:'other'},
-{n:'Uma Upadhyay',ph:'+91 93412 88705',id:'con_8ZleB_tIJYY7',src:'meta',cam:'Advantage+ · GLP-1',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'8 min ago',band:'other'},
-{n:'Syeda Seema Farrah',ph:'+91 90190 33218',id:'con_G752iqp9pEaF',src:'google',cam:'Search · WL Bangalore',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'19 min ago',band:'other'},
-{n:'Rahul Deshpande',ph:'+91 98450 12277',id:'con_Kp2mNvQr8xTz',src:'meta',cam:'Reels · Transformation',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'34 min ago',band:'other'},
-{n:'Meera Iyer',ph:'+91 97390 55841',id:'con_Vb7hLsDf3nQw',src:'google',cam:'Search · Dietitian near me',op:'Ritu Sharma',att:5,last:'RNR',lastc:'r',st:'Risk',nx:'Dormant — 5 attempts',due:'—',band:'other'}];
+{n:'Subramani G',ph:'+91 91498 43316',id:'con_Oi9JLbbuVs5P',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:3,last:'RNR',lastc:'r',st:'Acquisition',nx:'Follow-up',due:'2 days overdue',band:'over',ageH:96},
+{n:'Baldeep Kaur',ph:'+91 98867 20114',id:'con_dq6qrG-623lO',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:2,last:'Busy',lastc:'w',st:'Acquisition',nx:'Call back',due:'1 day overdue',band:'over',ageH:72},
+{n:'Ziya Noori',ph:'+91 78295 61120',id:'con_txYcRROdmCc_',src:'google',cam:'Search · Dietitian near me',op:'Sneha Kulkarni',att:4,last:'RNR',lastc:'r',st:'Acquisition',nx:'Final attempt',due:'4 hours overdue',band:'over',ageH:52},
+{n:'Saba Shaikh',ph:'+91 90084 55231',id:'con_xenM-1MgWMt8',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Discussed with family',due:'3 hours overdue',band:'over',ageH:51},
+{n:'Kinjal Mehta',ph:'+91 99024 78310',id:'con_5PFcTa9BLrC9',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Send pricing',due:'Today 15:00',band:'today',ageH:30},
+{n:'Dani Fernandes',ph:'+91 81234 09876',id:'con_FjngVNOMnjdA',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:2,last:'RNR',lastc:'r',st:'Acquisition',nx:'Retry call',due:'Today 16:30',band:'today',ageH:28},
+{n:'Sayyed Zahra Rizvi',ph:'+91 70223 44810',id:'con_rkOO57g8_Nss',src:'google',cam:'Search · Obesity clinic',op:'Sneha Kulkarni',att:1,last:'Busy',lastc:'w',st:'Acquisition',nx:'Retry call',due:'Today 18:00',band:'today',ageH:26},
+{n:'Adhvika Gupta',ph:'+91 96321 55407',id:'con_3b5sAN0debuJ',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 12 min ago',band:'new',ageH:0.2},
+{n:'Muskan Nadeem Ali',ph:'+91 88617 23098',id:'con_AxOMxIanbSJn',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 26 min ago',band:'new',ageH:0.4},
+{n:'Darshan Sawant',ph:'+91 97401 66285',id:'con_TyA2LxGkYR3v',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 41 min ago',band:'new',ageH:0.7},
+{n:'Shruti Nair',ph:'+91 90350 71142',id:'con_WGwjyBSMwACM',src:'google',cam:'Search · Dietitian near me',op:'Sneha Kulkarni',att:2,last:'Connected',lastc:'g',st:'Engagement',nx:'Callback after salary',due:'28 Jul',band:'later',ageH:120},
+{n:'Sylvia Cacacie',ph:'+91 99458 30027',id:'con_d5xfF6AW9ai9',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:3,last:'Connected',lastc:'g',st:'Intent',nx:'Consult 26 Jul 11:00',due:'26 Jul',band:'later',ageH:140},
+{n:'Ujjwal Kumar',ph:'+91 89712 40663',id:'con_m4T2n9Gx8MDh',src:'google',cam:'Search · Obesity clinic',op:'Dr. Anjali Rao',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Send diet plan',due:'Today 17:00',band:'today',ageH:20},
+{n:'Uma Upadhyay',ph:'+91 93412 88705',id:'con_8ZleB_tIJYY7',src:'meta',cam:'Advantage+ · GLP-1',op:'Dr. Anjali Rao',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 8 min ago',band:'new',ageH:0.13},
+{n:'Syeda Seema Farrah',ph:'+91 90190 33218',id:'con_G752iqp9pEaF',src:'google',cam:'Search · WL Bangalore',op:'Dr. Anjali Rao',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 19 min ago',band:'new',ageH:0.3},
+{n:'Rahul Deshpande',ph:'+91 98450 12277',id:'con_Kp2mNvQr8xTz',src:'meta',cam:'Reels · Transformation',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'34 min ago',band:'other',ageH:0.6},
+{n:'Meera Iyer',ph:'+91 97390 55841',id:'con_Vb7hLsDf3nQw',src:'google',cam:'Search · Dietitian near me',op:'Ritu Sharma',att:5,last:'RNR',lastc:'r',st:'Risk',nx:'Dormant — 5 attempts',due:'—',band:'other',ageH:200}];
 
 const BANDS=[
 {k:'over',t:'Overdue follow-ups',c:'var(--color-bad)',h:'Call these first — SLA already breached'},
@@ -1044,21 +1058,51 @@ const BANDS=[
 const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
 const srcTag=s=>s==='google'?'<span class="tag tag-g">Google</span>':'<span class="tag tag-m">Meta</span>';
 
+/* the queue is bound to an operator identity, never to the workspace.
+   An operator signing in gets their own leads with no picker; an
+   admin/manager picks whose queue to open. */
+let QOP='Sneha Kulkarni', QSORT='priority';
+const OPS=['Sneha Kulkarni','Dr. Anjali Rao','Priya Menon','Ritu Sharma'];
+function setQueueOp(v){QOP=v;renderQueue();}
+function setSort(v){QSORT=v;renderQueue();}
+
+function qrow(l,od){
+  const i=LEADS.indexOf(l);
+  return '<div class="lrow'+(od?' lrow-od':'')+'">'+
+  '<span class="lav">'+ini(l.n)+'</span>'+
+  '<div class="who2"><b onclick="openLead('+i+')">'+l.n+'</b><span>'+l.ph+'</span></div>'+
+  '<div class="meta2">'+srcTag(l.src)+'<span class="tag">'+l.cam+'</span>'+(l.att?'<span class="tag tag-'+l.lastc+'">'+l.last+' · att '+l.att+'</span>':'<span class="tag">New lead</span>')+'</div>'+
+  '<div class="nx'+(od?' odd':'')+'"><b>'+l.nx+'</b>'+l.due+'</div>'+
+  '<div class="acts"><button class="mini mini-call" onclick="openSheet('+i+')">☎ Call</button></div></div>';
+}
+
 function renderQueue(){
   const wrap=document.getElementById('queueBands');if(!wrap)return;
-  wrap.innerHTML=BANDS.map(b=>{
-    const rows=LEADS.filter(l=>l.band===b.k);
-    if(!rows.length)return '';
-    return '<div class="band"><div class="band-h"><span class="bd" style="background:'+b.c+'"></span><h3>'+b.t+'</h3><span class="n">'+rows.length+'</span>'+(b.h?'<span class="hint">'+b.h+'</span>':'')+'</div>'+
-    rows.map(l=>{const i=LEADS.indexOf(l);const od=b.k==='over';
-      return '<div class="lrow'+(od?' lrow-od':'')+'">'+
-      '<span class="lav">'+ini(l.n)+'</span>'+
-      '<div class="who2"><b onclick="openLead('+i+')">'+l.n+'</b><span>'+l.ph+'</span></div>'+
-      '<div class="meta2">'+srcTag(l.src)+'<span class="tag">'+l.cam+'</span>'+(l.att?'<span class="tag tag-'+l.lastc+'">'+l.last+' · att '+l.att+'</span>':'<span class="tag">New lead</span>')+'</div>'+
-      '<div class="nx'+(od?' odd':'')+'"><b>'+l.nx+'</b>'+l.due+'</div>'+
-      '<div class="acts"><button class="mini mini-wa">◈</button><button class="mini mini-call" onclick="openSheet('+i+')">☎ Call</button></div></div>';
-    }).join('')+'</div>';
-  }).join('');
+  const sel=document.getElementById('q-op');
+  if(sel&&!sel.options.length)sel.innerHTML=OPS.map(o=>'<option'+(o===QOP?' selected':'')+'>'+o+'</option>').join('');
+  const active=LEADS.filter(l=>l.op===QOP&&l.band!=='other');
+  document.getElementById('q-av').textContent=ini(QOP);
+  document.getElementById('q-sub').textContent='Dietitian · '+active.length+' active lead'+(active.length===1?'':'s');
+  const avail=document.getElementById('q-avail');
+  if(avail){const leave=QOP==='Priya Menon';avail.textContent=leave?'○ On leave':'● Available';avail.className=leave?'tag':'tag tag-w';}
+  if(!active.length){
+    wrap.innerHTML='<div class="card" style="padding:44px;text-align:center;color:var(--color-ink-400);font-size:13px">Queue clear — no calls due for '+QOP+'. New assignments land here with a 30-minute first-touch SLA.</div>';
+    return;
+  }
+  if(QSORT==='priority'){
+    wrap.innerHTML=BANDS.map(b=>{
+      const rows=active.filter(l=>l.band===b.k);
+      if(!rows.length)return '';
+      return '<div class="band"><div class="band-h"><span class="bd" style="background:'+b.c+'"></span><h3>'+b.t+'</h3><span class="n">'+rows.length+'</span>'+(b.h?'<span class="hint">'+b.h+'</span>':'')+'</div>'+
+      rows.map(l=>qrow(l,b.k==='over')).join('')+'</div>';
+    }).join('');
+  }else{
+    const sorted=[...active];
+    if(QSORT==='newest')sorted.sort((a,b)=>(a.ageH??999)-(b.ageH??999));
+    if(QSORT==='attempts')sorted.sort((a,b)=>b.att-a.att);
+    if(QSORT==='name')sorted.sort((a,b)=>a.n.localeCompare(b.n));
+    wrap.innerHTML=sorted.map(l=>qrow(l,l.band==='over')).join('');
+  }
 }
 
 let VIEW='all';
