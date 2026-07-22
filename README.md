@@ -7,7 +7,7 @@ A single self-contained `index.html` — no build step, no dependencies.
 ## Structure
 
 - **Chat** — conversational entry point, with History, Automations, and Library
-- **Core Activities** — Cockpit, Marketing Acquisition, Creative Analysis, Website Conversion, Customer Retention, Discovery
+- **Core Activities** — Cockpit, CRM (My Queue, All Leads, Team, Performance), Marketing Acquisition, Creative Analysis, Website Conversion, Customer Retention, Discovery
 - **Data** — Data Spine (Dashboard, CDP Analytics, Ad Performance, Ingest Events, Google, Meta, Shopify, Attribution), Integrations, Settings
 
 ## Run locally

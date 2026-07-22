@@ -588,14 +588,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
 
   <div class="ni-wrap">
-    <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">Leads</span><span class="caret">›</span></button>
+    <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">CRM</span><span class="caret">›</span></button>
     <div class="fly">
       <button class="fi" data-go="queue">My Queue <span class="bt" style="background:var(--bad-bg);color:var(--bad)">4 DUE</span></button>
       <button class="fi" data-go="allleads">All Leads</button>
-      <button class="fi" data-go="crmteam">Dietitians</button>
-      <button class="fi" data-go="crmperf">Team Performance</button>
+      <button class="fi" data-go="crmteam">Team</button>
+      <button class="fi" data-go="crmperf">Performance</button>
       <div class="sep"></div>
-      <button class="fi create" onclick="setPane('leaddesk')">Configure Lead Desk <span class="ar">›</span></button>
+      <button class="fi create" onclick="setPane('leaddesk')">Configure CRM <span class="ar">›</span></button>
     </div>
   </div>
 
@@ -1280,7 +1280,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Reports &amp; Notifications</button>
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Traffic Rules · UTM Builder</button>
         <div class="sn-sec">Modules</div>
-        <button class="sn-i" data-pane="leaddesk" onclick="setPane('leaddesk')">Lead Desk <span class="nw">NEW</span></button>
+        <button class="sn-i" data-pane="leaddesk" onclick="setPane('leaddesk')">CRM <span class="nw">NEW</span></button>
         <div class="sn-sec">AI Settings</div>
         <button class="sn-i" data-pane="brand" onclick="setPane('brand')">Brand Vault <span class="nw">NEW</span></button>
         <button class="sn-i" data-pane="analystset" onclick="setPane('analystset')">Analyst</button>
@@ -1364,7 +1364,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
         <!-- lead desk config -->
         <div class="setpane" id="p-leaddesk">
-          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Lead Desk</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><div class="toggle"></div></div>
+          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">CRM</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><div class="toggle"></div></div>
           <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:16px;max-width:76ch">A thin operating layer for teams who work leads by phone. Everything below is per-workspace configuration — no code changes to onboard the next client.</p>
 
           <div class="sec-h">Vocabulary</div>
@@ -1492,7 +1492,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
     <div class="reveal" id="rv-notint">
       <div class="fld"><label>Reason</label><select><option>Price too high</option><option>Chose another clinic</option><option>Just browsing</option><option>Health condition — not eligible</option><option>Never enquired</option></select></div>
-      <p style="font-size:11.5px;color:var(--ink-400)">Moves to <b>Risk</b> and removes from your queue. Reasons roll up into Team Performance.</p>
+      <p style="font-size:11.5px;color:var(--ink-400)">Moves to <b>Risk</b> and removes from your queue. Reasons roll up into CRM Performance.</p>
     </div>
 
     <div class="reveal" id="rv-wrong">
@@ -1551,7 +1551,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['My Queue',0],allleads:['All Leads',0],crmteam:['Dietitians',0],crmperf:['Team Performance',0],lead:['Lead',0]};
+queue:['My Queue',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
