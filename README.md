@@ -43,5 +43,8 @@ npm run build    # minified dist/styles.css
 
 ## Deploy
 
-Static site. Vercel serves it as-is — `dist/styles.css` is committed, so no
-build step is required. Point Vercel at the repo root with no framework preset.
+Vercel builds the site from source: `vercel.json` runs `npm run build:site`,
+which compiles Tailwind and assembles the deployable site into `public/`
+(`index.html` + `dist/styles.css`). No framework preset needed — just import
+the repo. `dist/styles.css` is also committed so the repo works served
+statically (e.g. `npm run serve`) without any build.
