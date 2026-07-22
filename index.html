@@ -573,7 +573,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="wrow"><span class="wa">V</span>Varanchi</button>
       <button class="wrow on"><span class="wa">P</span>Purity Naturals<span class="chk">✓</span></button>
       <button class="wrow"><span class="wa">D</span>demo_purity</button>
-      <button class="wrow"><span class="wa">P</span>Progen_method</button>
+      <button class="wrow"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--ember);background:var(--ember-dim)">CRM</span></button>
       <div class="sep"></div>
       <button class="wrow create"><span class="wa">＋</span>Create Workspace</button>
     </div>
@@ -595,7 +595,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="fi" data-go="crmteam">Team</button>
       <button class="fi" data-go="crmperf">Performance</button>
       <div class="sep"></div>
-      <button class="fi create" onclick="setPane('leaddesk')">Configure CRM <span class="ar">›</span></button>
+      <button class="fi create" onclick="setPane('leaddesk')">CRM Configuration <span class="ar">›</span></button>
     </div>
   </div>
 
@@ -1280,7 +1280,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Reports &amp; Notifications</button>
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Traffic Rules · UTM Builder</button>
         <div class="sn-sec">Modules</div>
-        <button class="sn-i" data-pane="leaddesk" onclick="setPane('leaddesk')">CRM <span class="nw">NEW</span></button>
+        <button class="sn-i" data-pane="leaddesk" onclick="setPane('leaddesk')">CRM Configuration <span class="nw">NEW</span></button>
         <div class="sn-sec">AI Settings</div>
         <button class="sn-i" data-pane="brand" onclick="setPane('brand')">Brand Vault <span class="nw">NEW</span></button>
         <button class="sn-i" data-pane="analystset" onclick="setPane('analystset')">Analyst</button>
@@ -1364,14 +1364,30 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
         <!-- lead desk config -->
         <div class="setpane" id="p-leaddesk">
-          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">CRM</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><div class="toggle"></div></div>
+          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">CRM Configuration</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><span style="font-size:12px;color:var(--good);font-weight:600;margin-right:10px">Enabled</span><div class="toggle"></div></div>
           <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:16px;max-width:76ch">A thin operating layer for teams who work leads by phone. Everything below is per-workspace configuration — no code changes to onboard the next client.</p>
+
+          <div class="card" style="margin-bottom:20px;padding:16px 18px;background:var(--tint);border-color:#F5CBB0">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px">
+              <span class="lav" style="width:38px;height:38px;background:linear-gradient(135deg,#EA580C,#C2410C);color:#fff;font-size:14px">P</span>
+              <div><b style="font-size:15px">Progen Method</b><div style="font-size:12px;color:var(--ink-500)">Weight-loss &amp; metabolic health clinic · progenmethod.com</div></div>
+              <span class="spacer"></span>
+              <span class="tag w">CRM active since 18 Jul 2026</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;font-size:12px">
+              <div><div style="color:var(--ink-400);margin-bottom:3px">Clinics</div><b>Bangalore — HSR, Indiranagar<br>Mumbai — Andheri</b></div>
+              <div><div style="color:var(--ink-400);margin-bottom:3px">Lead sources</div><b>Google Ads · Meta Ads<br>Website form · WhatsApp</b></div>
+              <div><div style="color:var(--ink-400);margin-bottom:3px">Currency &amp; timezone</div><b>INR · Asia/Kolkata<br>+05:30</b></div>
+              <div><div style="color:var(--ink-400);margin-bottom:3px">Programs sold</div><b>3-month transformation<br>6-month metabolic</b></div>
+            </div>
+          </div>
 
           <div class="sec-h">Vocabulary</div>
           <div class="card" style="margin-bottom:18px">
             <div class="cfgrow"><span class="cl">Operator label</span><input value="Dietitian" style="width:150px"><span style="color:var(--ink-400)">/</span><input value="Dietitians" style="width:150px"><span style="font-size:11.5px;color:var(--ink-400)">singular / plural — used across every screen</span></div>
             <div class="cfgrow"><span class="cl">Work item label</span><input value="Lead" style="width:150px"><span style="color:var(--ink-400)">/</span><input value="Leads" style="width:150px"></div>
             <div class="cfgrow"><span class="cl">Key conversion event</span><input value="Consultation booked" style="width:230px"></div>
+            <div class="cfgrow"><span class="cl">Consultation types</span><input value="Free discovery call — 15 min" style="width:230px"><input value="Paid consult — 45 min" style="width:200px"></div>
           </div>
 
           <div class="sec-h">Dispositions <span class="hint">— what an operator can log, and where each one moves the lead</span></div>
@@ -1754,6 +1770,7 @@ function go(id){
   document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
   if(id==='analyst')toggleChat(false);
+  if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 
@@ -1765,13 +1782,20 @@ function toggleWs(e){
 document.addEventListener('click',e=>{
   if(!e.target.closest('.ws-wrap'))document.getElementById('wsMenu').classList.remove('on');
 });
-document.querySelectorAll('#wsMenu .wrow:not(.create)').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('#wsMenu .wrow').forEach(r=>{r.classList.remove('on');const c=r.querySelector('.chk');if(c)c.remove();});
-  b.classList.add('on');
-  const chk=document.createElement('span');chk.className='chk';chk.textContent='✓';b.appendChild(chk);
-  const name=b.childNodes[1].textContent.trim();
+function setWorkspace(name){
+  if(document.querySelector('.store .wn').textContent===name)return;
   document.querySelector('.store .wn').textContent=name;
   document.querySelector('.store .sd').textContent=name[0].toUpperCase();
+  document.querySelectorAll('#wsMenu .wrow:not(.create)').forEach(r=>{
+    r.classList.remove('on');const c=r.querySelector('.chk');if(c)c.remove();
+    if(r.childNodes[1].textContent.trim()===name){
+      r.classList.add('on');
+      const chk=document.createElement('span');chk.className='chk';chk.textContent='✓';r.appendChild(chk);
+    }
+  });
+}
+document.querySelectorAll('#wsMenu .wrow:not(.create)').forEach(b=>b.addEventListener('click',()=>{
+  setWorkspace(b.childNodes[1].textContent.trim());
   document.getElementById('wsMenu').classList.remove('on');
 }));
 
