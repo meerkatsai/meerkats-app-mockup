@@ -1,0 +1,15 @@
+{
+  "name": "meerkats-app-mockup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hi-fidelity interactive mockup of the Meerkats.ai growth intelligence product",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/styles.css --minify",
+    "dev": "tailwindcss -i ./src/input.css -o ./dist/styles.css --watch",
+    "serve": "python3 serve.py"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

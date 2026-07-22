@@ -4,561 +4,7 @@
 <title>Meerkats.ai — App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --white:#fff; --off:#FAFAF9; --tint:#FFF7F2; --panel:#F6F6F4;
-  --ember:#EA580C; --ember-hover:#C2410C; --ember-dim:rgba(234,88,12,.08);
-  --ink-900:#0B0B0C; --ink-700:#2A2A2E; --ink-500:#5C5C63; --ink-400:#8A8A92;
-  --rule-soft:#E5E4E1;
-  --good:#0F6E56; --good-bg:#E4F3EE; --watch:#9A6410; --watch-bg:#FBF0DD; --bad:#B23A3A; --bad-bg:#FBEBEB; --info:#3A5A7A; --info-bg:#EAF0F6;
-  --sans:'Inter',system-ui,-apple-system,sans-serif;
-  --serif:'Source Serif 4',Georgia,serif;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
-  --r:14px; --r-sm:8px; --nav-w:236px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{font-family:var(--sans);color:var(--ink-900);background:var(--off);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit}
-.mono{font-family:var(--mono)}
-::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:var(--rule-soft);border-radius:99px;border:3px solid var(--off)}
-
-/* ---------- BANNER ---------- */
-#banner{background:var(--ink-900);color:#fff;padding:9px 44px 9px 18px;font-size:13px;display:flex;align-items:center;gap:14px;position:relative;z-index:40}
-#banner b{color:#fff}
-#banner .hl{color:#FDBA8C}
-#banner .cta{background:#fff;color:var(--ink-900);border-radius:99px;padding:5px 15px;font-weight:600;font-size:12.5px;flex:none;transition:.14s}
-#banner .cta:hover{background:#FDBA8C}
-#banner .x{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#8A8A92;font-size:16px;padding:4px}
-#banner .x:hover{color:#fff}
-
-/* ---------- SHELL ---------- */
-#shell{display:flex;height:calc(100vh - 40px)}
-#shell.nobanner{height:100vh}
-
-/* ---------- SIDEBAR ---------- */
-#nav{width:var(--nav-w);flex:none;background:var(--white);border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;overflow:visible;padding:14px 10px 10px}
-.brand{display:flex;align-items:center;gap:8px;padding:2px 8px 12px}
-.brand .logo{width:24px;height:24px;border-radius:7px;background:var(--ember);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;font-family:var(--serif)}
-.brand .wd{font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:-.01em}
-.brand .wd i{font-style:normal;color:var(--ember)}
-.ws-wrap{position:relative;margin-bottom:10px}
-.store{display:flex;align-items:center;gap:10px;width:100%;border:1px solid var(--rule-soft);border-radius:12px;padding:9px 11px;transition:.12s;text-align:left;background:var(--white)}
-.store:hover{border-color:var(--ink-400)}
-.store .sd{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#EA580C,#C2410C);color:#fff;display:grid;place-items:center;font-size:13px;flex:none;font-weight:700}
-.store .wk{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400);display:block;line-height:1.3}
-.store .wn{font-size:13.5px;font-weight:700;line-height:1.25;display:block}
-.store .cx{margin-left:auto;color:var(--ink-400);font-size:10px}
-.ws-menu{position:absolute;top:calc(100% + 6px);left:0;right:-8px;background:var(--white);border:1px solid var(--rule-soft);border-radius:14px;box-shadow:0 16px 48px rgba(11,11,12,.16);padding:6px;z-index:80;display:none}
-.ws-menu.on{display:block}
-.wrow{display:flex;align-items:center;gap:11px;width:100%;padding:8px 10px;border-radius:9px;font-size:13px;font-weight:600;color:var(--ink-900);text-align:left;transition:.1s}
-.wrow:hover{background:var(--off)}
-.wrow.on{background:var(--tint)}
-.wrow .wa{width:26px;height:26px;border-radius:7px;background:var(--ink-900);color:#fff;display:grid;place-items:center;font-size:11px;flex:none;font-weight:700}
-.wrow.on .wa{background:linear-gradient(135deg,#EA580C,#C2410C)}
-.wrow .def{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.03em;color:var(--good);background:var(--good-bg);border-radius:99px;padding:2px 8px;flex:none}
-.wrow .chk{margin-left:auto;color:var(--ember);font-weight:700;font-size:13px;flex:none}
-.ws-menu .sep{height:1px;background:var(--rule-soft);margin:5px 4px}
-.wrow.create{font-weight:600;color:var(--ink-700)}
-.wrow.create .wa{background:transparent;border:1px dashed var(--rule-soft);color:var(--ink-500);font-size:14px;font-weight:500}
-.nav-sec{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-400);padding:10px 10px 4px;display:flex;align-items:center}
-.nav-sec .dots{margin-left:auto;color:var(--ink-400);font-size:12px;letter-spacing:0;cursor:pointer;padding:0 2px}
-.nav-sec .plus{margin-left:auto;color:var(--ink-400);cursor:pointer;font-size:13px;padding:0 2px}
-.nav-sec .plus:hover,.nav-sec .dots:hover{color:var(--ink-900)}
-.ni{position:relative;display:flex;align-items:center;gap:10px;padding:6.5px 10px;border-radius:9px;font-size:13.5px;color:var(--ink-500);font-weight:500;transition:background .12s,color .12s;text-align:left;width:100%}
-.ni:hover{background:var(--off);color:var(--ink-900)}
-.ni.active{background:var(--tint);color:var(--ember);font-weight:600}
-.ni .gi{width:18px;text-align:center;flex:none;opacity:.9}
-.ni .gi svg{width:16px;height:16px;vertical-align:-3px}
-.ni .lab{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ni .badge{font-size:9.5px;font-weight:700;letter-spacing:.04em;background:var(--ember-dim);color:var(--ember);border-radius:99px;padding:2px 8px;flex:none;display:inline-flex;align-items:center;gap:3px}
-.ni .caret{color:var(--ink-400);font-size:9px;flex:none;transition:.15s}
-.ni-wrap{position:relative}
-.ni-wrap:hover>.ni .caret{transform:translateX(2px);color:var(--ink-900)}
-/* flyout */
-.fly{position:absolute;left:calc(100% + 2px);top:-6px;background:var(--white);border:1px solid var(--rule-soft);border-radius:12px;box-shadow:0 12px 40px rgba(11,11,12,.13);min-width:238px;padding:6px;display:none;z-index:60}
-.ni-wrap:hover .fly{display:block}
-.fly .fi{display:flex;align-items:center;gap:9px;width:100%;padding:8px 11px;border-radius:8px;font-size:13px;color:var(--ink-700);font-weight:500;text-align:left;transition:.12s}
-.fly .fi:hover{background:var(--off)}
-.fly .fi.on{background:var(--tint);color:var(--ember);font-weight:600}
-.fly .fi .lk{margin-left:auto;color:var(--ink-400);font-size:11px}
-.fly .fi .bt{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--info);background:var(--info-bg);border-radius:99px;padding:1px 7px}
-.fly .fi .bt.lk2{margin-left:6px}
-.fly .sep{height:1px;background:var(--rule-soft);margin:5px 4px}
-.fly .create{color:var(--ink-500);font-size:13px}
-.fly .create .ar{margin-left:auto;color:var(--ink-400)}
-.nav-foot{margin-top:auto;border-top:1px solid var(--rule-soft);padding-top:8px}
-/* data spine tree */
-#spineKids{display:flex;flex-direction:column}
-#spineKids.closed{display:none}
-.sni{display:block;width:100%;text-align:left;padding:5px 10px 5px 38px;border-radius:8px;font-size:12.5px;color:var(--ink-500);font-weight:500;transition:.1s}
-.sni:hover{background:var(--off);color:var(--ink-900)}
-.sni.active{background:var(--tint);color:var(--ember);font-weight:600}
-/* chat side panel */
-#body{display:flex;flex:1;min-height:0}
-#chat{width:380px;flex:none;border-left:1px solid var(--rule-soft);background:var(--white);display:none;flex-direction:column;overflow-y:auto}
-#chat.on{display:flex}
-.chat-h{display:flex;align-items:center;padding:14px 16px 0}
-.chat-h .cbadge{font-size:11px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:4px 11px;display:inline-flex;gap:5px;align-items:center}
-.chat-h .x{margin-left:auto;color:var(--ink-400);font-size:15px;padding:4px}
-.chat-h .x:hover{color:var(--ink-900)}
-.chat-body{padding:26px 22px;display:flex;flex-direction:column;flex:1}
-.chat-body h2{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.015em;margin:26px 0 18px}
-.chat-ask{border:1.5px solid var(--ink-900);border-radius:14px;background:var(--white);padding:13px 14px;box-shadow:0 8px 26px rgba(11,11,12,.05)}
-.chat-ask .in{display:flex;align-items:center;gap:9px}
-.chat-ask input{flex:1;border:none;outline:none;font-family:inherit;font-size:13.5px;background:transparent;color:var(--ink-900)}
-.chat-ask input::placeholder{color:var(--ink-400)}
-.chat-ask .send{width:29px;height:29px;border-radius:99px;background:var(--ember);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
-.chat-ask .send:hover{background:var(--ember-hover)}
-.chat-ask .foot{display:flex;gap:6px;margin-top:10px;align-items:center}
-.chat-ask .foot .mchip{font-size:10.5px;padding:3px 9px}
-.chat-sugg{display:flex;flex-direction:column;gap:8px;margin-top:16px}
-.chat-sugg button{text-align:left;border:1px solid var(--rule-soft);border-radius:10px;padding:10px 13px;font-size:12.5px;color:var(--ink-700);font-weight:500;transition:.12s}
-.chat-sugg button:hover{border-color:var(--ember);color:var(--ink-900)}
-.chat-foot{margin-top:auto;padding-top:18px;font-size:11px;color:var(--ink-400);text-align:center}
-.nav-foot .ni{font-size:13px}
-.who{display:flex;align-items:center;gap:9px;padding:9px 10px 4px}
-.who .av{width:27px;height:27px;border-radius:99px;background:var(--ink-900);color:#fff;display:grid;place-items:center;font-size:11.5px;font-weight:600;flex:none}
-.who b{font-size:12.5px;display:block;line-height:1.25}
-.who span{font-size:11px;color:var(--ink-400)}
-
-/* ---------- MAIN ---------- */
-#main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;position:relative}
-.topbar{flex:none;background:var(--white);border-bottom:1px solid var(--rule-soft);padding:13px 26px;display:flex;align-items:center;gap:10px}
-.topbar h1{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:-.01em;margin-right:8px}
-.topbar .bt{font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--info);background:var(--info-bg);border-radius:99px;padding:2px 8px}
-.ctl{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--rule-soft);border-radius:9px;padding:7px 13px;font-size:13px;font-weight:500;color:var(--ink-700);background:var(--white);transition:.12s}
-.ctl:hover{border-color:var(--ink-400)}
-.ctl .cd{color:var(--ink-400);font-size:9px}
-.icbtn{width:34px;height:34px;border:1px solid var(--rule-soft);border-radius:9px;display:grid;place-items:center;color:var(--ink-500);transition:.12s;font-size:14px}
-.icbtn:hover{border-color:var(--ink-400);color:var(--ink-900)}
-.icbtn.ai{color:var(--ember);border-color:#F5CBB0;width:34px}
-.icbtn.ai:hover{background:var(--tint)}
-.spacer{flex:1}
-#scroll{flex:1;overflow-y:auto}
-.wrap{max-width:1120px;margin:0 auto;padding:26px 30px 48px;width:100%}
-.screen{display:none}
-.screen.on{display:block}
-
-/* ---------- SHARED ---------- */
-.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-400)}
-.card{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white)}
-.btn{background:var(--ink-900);color:#fff;border-radius:99px;padding:10px 22px;font-size:13.5px;font-weight:600;transition:.14s;display:inline-flex;align-items:center;gap:7px}
-.btn:hover{background:var(--ember)}
-.btn.orange{background:var(--ember)}
-.btn.orange:hover{background:var(--ember-hover)}
-.btn.ghost{background:transparent;color:var(--ink-700);border:1px solid var(--rule-soft)}
-.btn.ghost:hover{border-color:var(--ink-900);color:var(--ink-900);background:transparent}
-.btn.sm{padding:7px 15px;font-size:12.5px}
-.delta{font-size:11.5px;font-weight:600;font-family:var(--mono)}
-.delta.up{color:var(--good)}.delta.dn{color:var(--bad)}.delta.mut{color:var(--ink-400)}
-.pill{font-size:10px;font-weight:700;letter-spacing:.05em;border-radius:99px;padding:2px 8px}
-.pill.free{color:var(--good);background:var(--good-bg)}
-.pill.fdn{color:var(--info);background:var(--info-bg)}
-.pill.ent{color:var(--watch);background:var(--watch-bg)}
-
-/* gated teaser */
-.gate{min-height:62vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
-.gate .lockring{width:64px;height:64px;border-radius:99px;border:1.5px solid #F5CBB0;background:var(--tint);display:grid;place-items:center;margin-bottom:22px}
-.gate .lockring svg{width:24px;height:24px;stroke:var(--ember)}
-.gate h2{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:-.01em;margin-bottom:12px}
-.gate p{color:var(--ink-500);font-size:14.5px;max-width:56ch;line-height:1.65;margin-bottom:26px}
-.gate .gplan{margin-top:14px;font-size:12px;color:var(--ink-400)}
-
-/* ---------- ANALYST (AI) ---------- */
-.ai-hero{text-align:center;padding:34px 0 8px}
-.ai-hero h2{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.015em;margin:10px 0 8px}
-.ai-hero p{color:var(--ink-500);font-size:15px;max-width:58ch;margin:0 auto}
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0 6px}
-.pillar{border:1px solid var(--rule-soft);border-radius:var(--r);padding:20px;background:var(--white);text-align:left}
-.pillar .ic{width:34px;height:34px;border-radius:9px;background:var(--tint);display:grid;place-items:center;color:var(--ember);font-size:15px;margin-bottom:12px}
-.pillar h3{font-family:var(--serif);font-size:16.5px;font-weight:600;margin-bottom:5px}
-.pillar p{font-size:13px;color:var(--ink-500);line-height:1.55}
-.askbox{border:1.5px solid var(--ink-900);border-radius:16px;background:var(--white);padding:16px 18px;margin:26px 0 18px;box-shadow:0 10px 34px rgba(11,11,12,.06)}
-.askbox .in{display:flex;align-items:center;gap:12px}
-.askbox input{flex:1;border:none;outline:none;font-family:inherit;font-size:15px;color:var(--ink-900);background:transparent}
-.askbox input::placeholder{color:var(--ink-400)}
-.askbox .send{width:34px;height:34px;border-radius:99px;background:var(--ember);color:#fff;display:grid;place-items:center;font-size:14px;transition:.14s}
-.askbox .send:hover{background:var(--ember-hover)}
-.askbox .foot{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
-.mchip{font-size:11.5px;color:var(--ink-500);border:1px solid var(--rule-soft);border-radius:99px;padding:4px 11px;display:inline-flex;gap:6px;align-items:center}
-.mchip .d{width:6px;height:6px;border-radius:99px;background:var(--good)}
-.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.preset{border:1px solid var(--rule-soft);border-radius:12px;background:var(--white);padding:15px 16px;text-align:left;font-size:13px;color:var(--ink-700);font-weight:500;line-height:1.45;transition:.14s;display:flex;flex-direction:column;gap:8px}
-.preset:hover{border-color:var(--ember);transform:translateY(-1px)}
-.preset .pi{color:var(--ember);font-size:15px}
-.ai-note{text-align:center;color:var(--ink-400);font-size:12px;margin-top:22px}
-.ai-note a{color:var(--ember);text-decoration:none;font-weight:600}
-
-/* history */
-.filterbar{display:flex;gap:8px;margin-bottom:16px;align-items:center}
-.search{flex:1;display:flex;align-items:center;gap:9px;border:1px solid var(--rule-soft);border-radius:10px;background:var(--white);padding:9px 13px}
-.search input{border:none;outline:none;flex:1;font-family:inherit;font-size:13.5px;background:transparent;color:var(--ink-900)}
-.hrow{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid var(--rule-soft);transition:.12s;cursor:pointer}
-.hrow:last-child{border-bottom:none}
-.hrow:hover{background:var(--off)}
-.hrow .hic{width:32px;height:32px;border-radius:9px;background:var(--tint);color:var(--ember);display:grid;place-items:center;flex:none;font-size:14px}
-.hrow b{font-size:13.5px;font-weight:600;display:block}
-.hrow .sub{font-size:12px;color:var(--ink-400);margin-top:1px}
-.hrow .when{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-400);flex:none}
-
-/* automations */
-.arow{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--rule-soft)}
-.arow:last-child{border-bottom:none}
-.arow .st{width:8px;height:8px;border-radius:99px;flex:none}
-.arow b{font-size:13.5px;display:block}
-.arow .sub{font-size:12px;color:var(--ink-400)}
-.arow .cad{font-family:var(--mono);font-size:11px;color:var(--ink-500);background:var(--off);border:1px solid var(--rule-soft);border-radius:99px;padding:3px 10px}
-.toggle{width:34px;height:19px;border-radius:99px;background:var(--good);position:relative;flex:none;cursor:pointer}
-.toggle:after{content:'';position:absolute;width:15px;height:15px;border-radius:99px;background:#fff;top:2px;right:2px}
-.toggle.off{background:var(--rule-soft)}
-.toggle.off:after{right:auto;left:2px}
-.appr{border:1px solid #F5CBB0;background:var(--tint);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.appr b{font-size:13.5px}
-.appr .sub{font-size:12.5px;color:var(--ink-500)}
-
-/* library */
-.libgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.libitem{border:1px solid var(--rule-soft);border-radius:12px;background:var(--white);overflow:hidden;transition:.14s;cursor:pointer}
-.libitem:hover{border-color:var(--ink-400);transform:translateY(-1px)}
-.libitem .thumb{height:96px;display:grid;place-items:center;font-size:26px;border-bottom:1px solid var(--rule-soft)}
-.libitem .meta{padding:10px 12px}
-.libitem .meta b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.libitem .meta span{font-size:11px;color:var(--ink-400);font-family:var(--mono)}
-
-/* ---------- SUMMARY ---------- */
-.palette{display:flex;align-items:center;gap:9px;border:1px solid var(--rule-soft);border-radius:10px;background:var(--white);padding:9px 13px;margin-bottom:20px;max-width:340px}
-.palette input{border:none;outline:none;flex:1;font-family:inherit;font-size:13px;background:transparent;color:var(--ink-900)}
-.ssec{margin-bottom:10px}
-.ssec-h{display:flex;align-items:center;gap:9px;padding:10px 2px;cursor:pointer;user-select:none}
-.ssec-h .chev{color:var(--ink-400);font-size:10px;transition:.15s;width:12px}
-.ssec.closed .chev{transform:rotate(-90deg)}
-.ssec-h h3{font-size:13.5px;font-weight:600}
-.ssec-h .cnt{font-family:var(--mono);font-size:10.5px;color:var(--ink-400)}
-.ssec-h .pinhint{margin-left:auto;font-size:11.5px;color:var(--ink-400);opacity:0;transition:.12s}
-.ssec-h:hover .pinhint{opacity:1}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-bottom:16px}
-.ssec.closed .tiles{display:none}
-.tile{border:1px solid var(--rule-soft);border-radius:var(--r);padding:15px 16px 13px;background:var(--white);position:relative;min-width:0;transition:.14s}
-.tile:hover{border-color:var(--ink-400)}
-.tile .grip{position:absolute;top:10px;right:10px;color:var(--ink-400);opacity:0;transition:.12s;cursor:grab;font-size:11px;letter-spacing:1px}
-.tile:hover .grip{opacity:.7}
-.tile .pin{position:absolute;top:8px;right:26px;color:var(--ink-400);opacity:0;transition:.12s;font-size:12px}
-.tile:hover .pin{opacity:.7}
-.tile .pin:hover,.tile.pinned .pin{opacity:1;color:var(--ember)}
-.tile .l{font-size:12px;color:var(--ink-500);display:flex;align-items:center;gap:6px;padding-right:34px}
-.tile .src{width:15px;height:15px;border-radius:5px;display:inline-grid;place-items:center;font-size:8.5px;font-weight:700;color:#fff;flex:none}
-.src.shopify{background:#5E8E3E}.src.blend{background:var(--ink-900)}.src.mk{background:var(--ember)}.src.meta{background:#1877F2}.src.google{background:#F9AB00;color:#111}
-.tile .v{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-top:8px;line-height:1.05;font-variant-numeric:tabular-nums}
-.tile .v .u{font-size:12px;color:var(--ink-400);font-weight:500;letter-spacing:0}
-.tile .foot{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;min-height:17px}
-.tile .settgt{font-size:11.5px;color:var(--ink-400);text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer}
-.tile .settgt:hover{color:var(--ember)}
-.tile .tgt{font-size:11px;color:var(--ink-400)}
-.tile .tgt b{color:var(--good);font-weight:600}
-.spark{margin-top:10px;height:26px;width:100%}
-.spark polyline{fill:none;stroke:var(--ember);stroke-width:1.6}
-.spark .fillp{fill:var(--ember-dim);stroke:none}
-
-/* ---------- ATTRIBUTION ---------- */
-.atoolbar{display:flex;gap:8px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
-.seg{display:inline-flex;border:1px solid var(--rule-soft);border-radius:9px;overflow:hidden;background:var(--white)}
-.seg button{padding:7px 14px;font-size:12.5px;font-weight:500;color:var(--ink-500)}
-.seg button.on{background:var(--ink-900);color:#fff;font-weight:600}
-.attr-grid{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
-.dtable{width:100%;border-collapse:collapse;font-size:13px}
-.dtable th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);text-align:right;padding:11px 14px;border-bottom:1px solid var(--rule-soft);white-space:nowrap;font-weight:500}
-.dtable th:first-child{text-align:left}
-.dtable td{padding:12px 14px;border-bottom:1px solid var(--rule-soft);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.dtable td:first-child{text-align:left;font-weight:600}
-.dtable tr:last-child td{border-bottom:none}
-.dtable tbody tr{transition:.1s}
-.dtable tbody tr:hover{background:var(--off)}
-.chdot{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:9px;vertical-align:0}
-.roas.hi{color:var(--good);font-weight:600}.roas.lo{color:var(--bad);font-weight:600}
-.sidecard{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white);padding:16px 18px;margin-bottom:14px}
-.sidecard h4{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:13px}
-.livedot{width:7px;height:7px;border-radius:99px;background:var(--good);animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.lorder{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--rule-soft);font-size:12px}
-.lorder:last-child{border-bottom:none}
-.lorder .t{font-family:var(--mono);font-size:10.5px;color:var(--ink-400);width:44px;flex:none}
-.lorder b{font-variant-numeric:tabular-nums}
-.lorder .path{color:var(--ink-400);font-size:11px;margin-left:auto;text-align:right}
-.ovl{display:flex;flex-direction:column;gap:8px}
-.ovl .or{display:flex;align-items:center;gap:9px;font-size:12px}
-.ovl .or .ol{width:104px;flex:none;color:var(--ink-700)}
-.ovl .track{flex:1;height:14px;background:var(--off);border-radius:4px;overflow:hidden}
-.ovl .fill{height:100%;border-radius:4px}
-.ovl .ov{font-family:var(--mono);font-size:11px;color:var(--ink-500);width:34px;text-align:right}
-
-/* model selector dropdown panel */
-.pop{position:absolute;background:var(--white);border:1px solid var(--rule-soft);border-radius:14px;box-shadow:0 18px 50px rgba(11,11,12,.16);z-index:70;display:none}
-.pop.on{display:block}
-#modelPop{width:560px;top:52px;left:0;display:none;grid-template-columns:220px 1fr}
-#modelPop.on{display:grid}
-.mlist{border-right:1px solid var(--rule-soft);padding:8px;max-height:400px;overflow-y:auto}
-.mrow{display:flex;align-items:center;gap:8px;width:100%;padding:9px 11px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--ink-700);text-align:left;transition:.1s}
-.mrow:hover{background:var(--off)}
-.mrow.on{background:var(--tint);color:var(--ember);font-weight:600}
-.mrow .lk{margin-left:auto;font-size:10px;color:var(--ink-400)}
-.mdetail{padding:18px 20px}
-.mdetail h4{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:7px}
-.mdetail .desc{font-size:12.5px;color:var(--ink-500);line-height:1.6;margin-bottom:13px}
-.mdetail .bf{font-size:12px;margin-bottom:9px;line-height:1.55}
-.mdetail .bf b{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:2px}
-.mdetail .help{font-size:12px;color:var(--ember);font-weight:600;margin-top:8px;display:inline-block;cursor:pointer}
-#setPop{width:280px;top:52px;padding:14px 16px}
-.setrow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--rule-soft);font-size:12.5px}
-.setrow:last-child{border-bottom:none}
-.setrow .sl{color:var(--ink-500)}
-.setrow .sv{font-weight:600;display:flex;align-items:center;gap:5px}
-.setrow .sv .cd{color:var(--ink-400);font-size:9px}
-
-/* columns modal */
-#modal{position:fixed;inset:0;background:rgba(11,11,12,.4);z-index:90;display:none;align-items:center;justify-content:center;padding:30px}
-#modal.on{display:flex}
-.modal-in{background:var(--white);border-radius:18px;width:760px;max-width:100%;max-height:82vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 80px rgba(11,11,12,.3)}
-.modal-h{padding:18px 22px;border-bottom:1px solid var(--rule-soft);display:flex;align-items:center}
-.modal-h h3{font-family:var(--serif);font-size:18px;font-weight:600}
-.modal-h .x{margin-left:auto;color:var(--ink-400);font-size:18px;padding:4px}
-.modal-h .x:hover{color:var(--ink-900)}
-.modal-b{display:grid;grid-template-columns:1fr 1fr;min-height:380px;overflow:hidden}
-.mcol{padding:16px 20px;overflow-y:auto;max-height:56vh}
-.mcol.left{border-right:1px solid var(--rule-soft)}
-.mtabs{display:flex;gap:2px;border-bottom:1px solid var(--rule-soft);margin:10px 0 12px}
-.mtab{padding:7px 11px;font-size:12.5px;font-weight:500;color:var(--ink-500);border-bottom:2px solid transparent}
-.mtab.on{color:var(--ink-900);border-bottom-color:var(--ember);font-weight:600}
-.mitem{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:13px;transition:.1s}
-.mitem:hover{background:var(--off)}
-.mitem .add{margin-left:auto;color:var(--ember);font-weight:700;opacity:0;transition:.1s;cursor:pointer}
-.mitem:hover .add{opacity:1}
-.mitem.inuse{opacity:.42}
-.mitem.inuse .add{display:none}
-.acol{display:flex;align-items:center;gap:10px;border:1px solid var(--rule-soft);border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:13px;background:var(--white);font-weight:500}
-.acol .grip{color:var(--ink-400);cursor:grab;font-size:11px;letter-spacing:1px}
-.acol .rm{margin-left:auto;color:var(--ink-400);cursor:pointer;font-size:14px}
-.acol .rm:hover{color:var(--bad)}
-.modal-f{padding:14px 22px;border-top:1px solid var(--rule-soft);display:flex;gap:10px;justify-content:flex-end}
-.newmetric{color:var(--ember);font-weight:600;font-size:12.5px;cursor:pointer;padding:8px 10px;display:inline-block}
-
-/* ---------- MEDIA MANAGER ---------- */
-.mmtabs{display:flex;gap:2px;border-bottom:1px solid var(--rule-soft);margin-bottom:20px;overflow-x:auto}
-.mmtab{padding:10px 15px;font-size:13.5px;font-weight:500;color:var(--ink-500);border-bottom:2px solid transparent;white-space:nowrap;display:flex;gap:7px;align-items:center}
-.mmtab:hover{color:var(--ink-900)}
-.mmtab.on{color:var(--ink-900);border-bottom-color:var(--ember);font-weight:600}
-.mmtab .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-400)}
-.mmgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.mmcard{border:1px solid var(--rule-soft);border-radius:12px;overflow:hidden;background:var(--white);transition:.14s}
-.mmcard:hover{border-color:var(--ink-400)}
-.mmcard .th{height:120px;display:grid;place-items:center;font-size:28px;position:relative}
-.mmcard .roas-tag{position:absolute;top:8px;left:8px;font-family:var(--mono);font-size:10px;font-weight:600;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 7px;border:1px solid var(--rule-soft)}
-.mmcard .st-tag{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:99px}
-.mmcard .meta{padding:10px 12px;font-size:12.5px}
-.mmcard .meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px}
-.mmcard .meta span{font-size:11px;color:var(--ink-400)}
-
-/* ---------- WEBSITE ---------- */
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
-.kpis.k4{grid-template-columns:repeat(4,1fr)}
-.kpi{border:1px solid var(--rule-soft);border-radius:var(--r);padding:15px 16px 13px;background:var(--white);min-width:0}
-.kpi .l{font-size:12px;color:var(--ink-500);display:flex;gap:6px;align-items:center}
-.kpi .v{font-size:24px;font-weight:600;letter-spacing:-.02em;margin-top:7px;line-height:1;font-variant-numeric:tabular-nums}
-.kpi .v .u{font-size:12px;color:var(--ink-400);font-weight:500}
-.kpi .foot{margin-top:8px;display:flex;gap:8px;align-items:center}
-.chartcard{padding:20px 22px}
-.chartcard h4{font-size:13px;font-weight:600;margin-bottom:4px}
-.chartcard .sub{font-size:11.5px;color:var(--ink-400);margin-bottom:14px}
-.legend{display:flex;gap:16px;font-size:11.5px;color:var(--ink-500);margin-top:10px}
-.legend .li{display:flex;gap:6px;align-items:center}
-.legend .sw{width:10px;height:3px;border-radius:2px}
-
-/* ---------- RETENTION ---------- */
-.utable{width:100%;border-collapse:collapse;font-size:13px}
-.utable th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-400);text-align:right;padding:10px 14px;border-bottom:1px solid var(--rule-soft);font-weight:500}
-.utable th:first-child{text-align:left}
-.utable td{padding:11px 14px;border-bottom:1px solid var(--rule-soft);text-align:right;font-variant-numeric:tabular-nums}
-.utable td:first-child{text-align:left;font-weight:600}
-.utable tr:last-child td{border-bottom:none}
-
-/* ---------- DISCOVERY ---------- */
-.promptrow{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
-.promptrow:last-child{border-bottom:none}
-.promptrow .q{flex:1;font-weight:500}
-.presence{font-family:var(--mono);font-size:12px;font-weight:600}
-.presence.hi{color:var(--good)}.presence.md{color:var(--watch)}.presence.lo{color:var(--bad)}
-.mention{font-size:11px;border-radius:99px;padding:2px 9px;font-weight:600}
-.mention.y{color:var(--good);background:var(--good-bg)}
-.mention.n{color:var(--ink-400);background:var(--off);border:1px solid var(--rule-soft)}
-
-/* ---------- SETTINGS ---------- */
-.set-grid{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start}
-.setnav .sn-sec{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-400);padding:14px 10px 5px}
-.setnav .sn-i{display:block;width:100%;text-align:left;padding:7px 10px;border-radius:8px;font-size:13px;color:var(--ink-500);font-weight:500;transition:.1s}
-.setnav .sn-i:hover{background:var(--white);color:var(--ink-900)}
-.setnav .sn-i.on{background:var(--tint);color:var(--ember);font-weight:600}
-.setnav .sn-i .nw{font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:1px 6px;margin-left:6px}
-.setpane{display:none}
-.setpane.on{display:block}
-.trow{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
-.trow:last-child{border-bottom:none}
-.trow .av2{width:30px;height:30px;border-radius:99px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:600;flex:none}
-.trow b{display:block;font-size:13px}
-.trow .em{font-size:11.5px;color:var(--ink-400)}
-.trow .role{margin-left:auto;font-size:12px;border:1px solid var(--rule-soft);border-radius:99px;padding:4px 12px;color:var(--ink-700);font-weight:500;display:flex;gap:5px;align-items:center}
-.perm{font-size:10.5px;border-radius:99px;padding:2px 8px;font-weight:600}
-.perm.y{color:var(--good);background:var(--good-bg)}
-.perm.n{color:var(--ink-400);background:var(--off);border:1px solid var(--rule-soft)}
-.costrow{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
-.costrow:last-child{border-bottom:none}
-.costrow .ci{width:30px;height:30px;border-radius:8px;background:var(--off);border:1px solid var(--rule-soft);display:grid;place-items:center;font-size:13px;flex:none}
-.costrow .stt{margin-left:auto}
-/* plans */
-.planhead{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.bill{display:inline-flex;border:1px solid var(--rule-soft);border-radius:99px;overflow:hidden;background:var(--white)}
-.bill button{padding:6px 16px;font-size:12px;font-weight:600;color:var(--ink-500)}
-.bill button.on{background:var(--ink-900);color:#fff}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
-.plan{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white);padding:20px;position:relative}
-.plan.pop2{border-color:var(--ember);border-width:1.5px}
-.plan .rec{position:absolute;top:-9px;left:18px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--ember);color:#fff;border-radius:99px;padding:2px 9px}
-.plan h4{font-family:var(--serif);font-size:18px;font-weight:600}
-.plan .pr{font-size:26px;font-weight:600;margin:9px 0 2px;letter-spacing:-.02em}
-.plan .pr .u{font-size:12px;color:var(--ink-400);font-weight:500}
-.plan .gmv{font-size:11px;color:var(--ink-400);margin-bottom:13px}
-.plan ul{list-style:none;font-size:12.5px;color:var(--ink-700);display:flex;flex-direction:column;gap:7px;margin:13px 0 17px}
-.plan ul li{display:flex;gap:8px}
-.plan ul li:before{content:'✓';color:var(--good);font-weight:700;flex:none}
-.addons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.addon{border:1px dashed var(--rule-soft);border-radius:12px;padding:13px 14px;background:var(--white);font-size:12px}
-.addon b{display:block;font-size:12.5px;margin-bottom:2px}
-.addon .ap{font-family:var(--mono);font-size:11px;color:var(--ember);font-weight:600}
-/* brand vault */
-.bv-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.bv-card{border:1px solid var(--rule-soft);border-radius:var(--r);background:var(--white);padding:18px}
-.bv-card h5{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.swatches{display:flex;gap:8px}
-.sw2{width:44px;height:44px;border-radius:10px;border:1px solid var(--rule-soft);position:relative}
-.sw2 span{position:absolute;bottom:-17px;left:0;font-family:var(--mono);font-size:8.5px;color:var(--ink-400);white-space:nowrap}
-.logorow{display:flex;gap:10px}
-.logobox{flex:1;height:74px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--rule-soft)}
-.logobox.dark{background:var(--ink-900)}
-.lw{font-family:var(--serif);font-weight:700;font-size:15px}
-.lw i{font-style:normal;color:var(--ember)}
-/* ---------- LEAD DESK ---------- */
-.band{margin-bottom:24px}
-.band-h{display:flex;align-items:center;gap:9px;margin-bottom:10px}
-.band-h .bd{width:8px;height:8px;border-radius:99px;flex:none}
-.band-h h3{font-size:13px;font-weight:700}
-.band-h .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-400)}
-.band-h .hint{margin-left:auto;font-size:11.5px;color:var(--ink-400)}
-.lrow{display:flex;align-items:center;gap:13px;padding:12px 16px;border:1px solid var(--rule-soft);border-radius:12px;background:var(--white);margin-bottom:8px;transition:.12s}
-.lrow:hover{border-color:var(--ink-400)}
-.lrow.od{border-left:3px solid var(--bad)}
-.lav{width:34px;height:34px;border-radius:99px;background:var(--panel);color:var(--ink-700);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
-.who2{min-width:0;width:180px;flex:none}
-.who2 b{font-size:13.5px;display:block;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.who2 b:hover{color:var(--ember)}
-.who2 span{font-family:var(--mono);font-size:11px;color:var(--ink-400)}
-.meta2{display:flex;gap:6px;align-items:center;flex-wrap:wrap;flex:1;min-width:0}
-.tag{font-size:10.5px;border-radius:99px;padding:2px 9px;border:1px solid var(--rule-soft);color:var(--ink-500);white-space:nowrap}
-.tag.g{border-color:#F2D69B;background:#FDF7E9;color:#8A6410}
-.tag.m{border-color:#BFD5F5;background:#EDF3FD;color:#1B4E8F}
-.tag.w{border-color:#B9E0CB;background:#E8F6EF;color:#0F6E56}
-.tag.r{border-color:#EFC4C4;background:var(--bad-bg);color:var(--bad)}
-.nx{font-size:11.5px;color:var(--ink-400);width:132px;flex:none;text-align:right}
-.nx b{display:block;color:var(--ink-700);font-size:12px;font-weight:600}
-.nx.odd b{color:var(--bad)}
-.acts{display:flex;gap:6px;flex:none}
-.mini{border:1px solid var(--rule-soft);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:600;color:var(--ink-700);transition:.12s;white-space:nowrap}
-.mini:hover{border-color:var(--ink-900);color:var(--ink-900)}
-.mini.call{background:var(--ember);border-color:var(--ember);color:#fff}
-.mini.call:hover{background:var(--ember-hover);border-color:var(--ember-hover);color:#fff}
-.mini.wa{color:#0F6E56;border-color:#B9E0CB}
-.qhead{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
-.qhead .me{display:flex;align-items:center;gap:9px;font-size:13px}
-.qhead .me .lav{width:30px;height:30px;background:var(--ink-900);color:#fff}
-/* saved views + bulk */
-.views{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
-.view{border:1px solid var(--rule-soft);border-radius:99px;padding:6px 14px;font-size:12.5px;font-weight:500;color:var(--ink-500);transition:.12s;background:var(--white)}
-.view:hover{border-color:var(--ink-400);color:var(--ink-900)}
-.view.on{background:var(--ink-900);border-color:var(--ink-900);color:#fff;font-weight:600}
-.view .n{font-family:var(--mono);font-size:10px;opacity:.62;margin-left:5px}
-.bulk{display:none;align-items:center;gap:12px;background:var(--ink-900);color:#fff;border-radius:12px;padding:11px 16px;margin-bottom:12px;font-size:13px}
-.bulk.on{display:flex}
-.bulk select{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:8px;color:#fff;padding:6px 10px;font-family:inherit;font-size:12.5px;outline:none}
-.bulk select option{color:var(--ink-900)}
-.bulk .gh{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:99px;padding:6px 14px;font-size:12.5px;font-weight:600}
-.ltable td .lav{width:26px;height:26px;font-size:10px}
-.ltable td:first-child{text-align:left}
-.ltable input[type=checkbox]{width:14px;height:14px;accent-color:var(--ember)}
-/* log sheet */
-#sheet{position:fixed;inset:0;background:rgba(11,11,12,.42);z-index:95;display:none;align-items:center;justify-content:center;padding:24px}
-#sheet.on{display:flex}
-.sheet-in{background:var(--white);border-radius:20px;width:520px;max-width:100%;max-height:88vh;overflow-y:auto;padding:20px 24px 24px;box-shadow:0 24px 70px rgba(11,11,12,.3)}
-.grab{width:38px;height:4px;border-radius:99px;background:var(--rule-soft);margin:0 auto 16px}
-.sheet-lead{display:flex;align-items:center;gap:11px;padding-bottom:15px;border-bottom:1px solid var(--rule-soft);margin-bottom:16px}
-.sheet-lead b{font-size:15px;display:block}
-.sheet-lead span{font-family:var(--mono);font-size:11.5px;color:var(--ink-400)}
-.sheet-lead .att{margin-left:auto;font-size:11px;color:var(--ink-400);text-align:right;flex:none}
-.slab{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-400);margin-bottom:9px;display:block}
-.chans{display:flex;gap:6px;margin-bottom:18px}
-.chan{flex:1;border:1px solid var(--rule-soft);border-radius:9px;padding:9px;font-size:12.5px;font-weight:600;color:var(--ink-500);transition:.12s}
-.chan.on{background:var(--ink-900);color:#fff;border-color:var(--ink-900)}
-.outs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.out{border:1.5px solid var(--rule-soft);border-radius:11px;padding:13px 12px;font-size:13.5px;font-weight:600;color:var(--ink-700);display:flex;align-items:center;gap:9px;transition:.12s}
-.out:hover{border-color:var(--ink-400)}
-.out.on{border-color:var(--ember);background:var(--tint);color:var(--ember)}
-.out .od2{width:9px;height:9px;border-radius:99px;flex:none}
-.reveal{display:none;padding-top:16px;margin-top:16px;border-top:1px dashed var(--rule-soft)}
-.reveal.on{display:block}
-.chips{display:flex;gap:7px;flex-wrap:wrap}
-.chip2{border:1px solid var(--rule-soft);border-radius:99px;padding:8px 15px;font-size:12.5px;font-weight:600;color:var(--ink-700);transition:.12s;background:var(--white)}
-.chip2:hover{border-color:var(--ink-900)}
-.chip2.on{background:var(--ember);border-color:var(--ember);color:#fff}
-.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-.fld label{font-size:12px;color:var(--ink-500);font-weight:500}
-.fld input,.fld select,.fld textarea{border:1px solid var(--rule-soft);border-radius:9px;padding:9px 11px;font-family:inherit;font-size:13px;color:var(--ink-900);background:var(--white);outline:none}
-.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--ember)}
-.sheet-f{display:flex;gap:9px;margin-top:20px}
-.sheet-f .btn{flex:1;justify-content:center}
-/* toast */
-#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink-900);color:#fff;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:500;z-index:120;opacity:0;transition:.28s;pointer-events:none;display:flex;gap:9px;align-items:center}
-#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-/* lead detail */
-.crmstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.cs{border:1px solid var(--rule-soft);border-radius:12px;padding:13px 15px;background:var(--white)}
-.cs .l{font-size:11.5px;color:var(--ink-500)}
-.cs .v2{font-size:13.5px;font-weight:600;margin-top:6px;display:flex;align-items:center;gap:7px}
-.cs select{border:1px solid var(--rule-soft);border-radius:8px;padding:5px 8px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-900);background:var(--white);outline:none;width:100%;margin-top:5px}
-.nextban{border:1px solid #F5CBB0;background:var(--tint);border-radius:12px;padding:13px 17px;display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.nextban b{font-size:13.5px}
-.nextban .sub{font-size:12.5px;color:var(--ink-500)}
-.tl{position:relative;padding-left:24px}
-.tl:before{content:'';position:absolute;left:5px;top:10px;bottom:10px;width:1px;background:var(--rule-soft)}
-.tli{position:relative;padding:10px 0}
-.tli .tdot{position:absolute;left:-24px;top:14px;width:11px;height:11px;border-radius:99px;border:2px solid var(--white);background:var(--ink-400)}
-.tli.gg .tdot{background:#F9AB00}.tli.mm .tdot{background:#1877F2}.tli.ff .tdot{background:var(--ember)}
-.tli.cc .tdot{background:var(--good)}.tli.rr .tdot{background:var(--bad)}.tli.ww .tdot{background:#25D366}
-.tli b{font-size:13px}
-.tli .tm{font-family:var(--mono);font-size:10.5px;color:var(--ink-400);float:right}
-.tli p{font-size:12.5px;color:var(--ink-500);margin-top:3px;max-width:70ch}
-.tscript{margin-top:9px;border:1px dashed var(--rule-soft);border-radius:9px;padding:11px 13px;font-size:12px;color:var(--ink-500);background:var(--off)}
-.tscript b{font-size:11.5px;color:var(--ink-700);display:block;margin-bottom:4px}
-/* config */
-.cfgrow{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
-.cfgrow:last-child{border-bottom:none}
-.cfgrow .cl{width:180px;flex:none;color:var(--ink-500);font-size:12.5px}
-.cfgrow input,.cfgrow select{border:1px solid var(--rule-soft);border-radius:8px;padding:7px 10px;font-family:inherit;font-size:12.5px;color:var(--ink-900);background:var(--white);outline:none}
-.cfgrow input:focus,.cfgrow select:focus{border-color:var(--ember)}
-.dispo{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--rule-soft);font-size:12.5px}
-.dispo:last-child{border-bottom:none}
-.dispo .dd{width:10px;height:10px;border-radius:99px;flex:none}
-.dispo b{width:118px;flex:none;font-size:12.5px}
-.dispo .maps{color:var(--ink-400);font-size:11.5px}
-.dispo .maps b2{color:var(--ink-700)}
-@media(max-width:1000px){.tiles,.kpis,.kpis.k4{grid-template-columns:repeat(2,1fr)}.pillars,.presets,.plans{grid-template-columns:1fr}.attr-grid{grid-template-columns:1fr}.libgrid,.mmgrid,.addons{grid-template-columns:repeat(2,1fr)}.set-grid{grid-template-columns:1fr}}
-</style></head>
+<link rel="stylesheet" href="dist/styles.css"></head>
 <body>
 
 <div id="shell" class="nobanner">
@@ -573,7 +19,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="wrow"><span class="wa">V</span>Varanchi</button>
       <button class="wrow on"><span class="wa">P</span>Purity Naturals<span class="chk">✓</span></button>
       <button class="wrow"><span class="wa">D</span>demo_purity</button>
-      <button class="wrow"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--ember);background:var(--ember-dim)">CRM</span></button>
+      <button class="wrow"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--color-ember);background:var(--color-ember-dim)">CRM</span></button>
       <div class="sep"></div>
       <button class="wrow create"><span class="wa">＋</span>Create Workspace</button>
     </div>
@@ -590,7 +36,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <div class="ni-wrap">
     <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">CRM</span><span class="caret">›</span></button>
     <div class="fly">
-      <button class="fi" data-go="queue">My Queue <span class="bt" style="background:var(--bad-bg);color:var(--bad)">4 DUE</span></button>
+      <button class="fi" data-go="queue">My Queue <span class="bt" style="background:var(--color-bad-bg);color:var(--color-bad)">4 DUE</span></button>
       <button class="fi" data-go="allleads">All Leads</button>
       <button class="fi" data-go="crmteam">Team</button>
       <button class="fi" data-go="crmperf">Performance</button>
@@ -677,7 +123,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <button class="ni" data-go="settings"><span class="gi">⚙</span><span class="lab">Settings</span></button>
 
   <div class="nav-foot">
-    <div class="who"><div class="av">S</div><div><b>Santanu</b><span>santanu@meerkats.ai</span></div><span class="cx" style="margin-left:auto;color:var(--ink-400);font-size:10px">▼</span></div>
+    <div class="who"><div class="av">S</div><div><b>Santanu</b><span>santanu@meerkats.ai</span></div><span class="cx" style="margin-left:auto;color:var(--color-ink-400);font-size:10px">▼</span></div>
   </div>
 </nav>
 
@@ -703,7 +149,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <h2>Hi Santanu, how can I help…</h2>
     </div>
     <div class="askbox">
-      <div class="in"><span style="color:var(--ember);font-size:16px">✦</span><input placeholder="Ask anything about your store — “why did MER dip on Tuesday?”"><button class="send">↑</button></div>
+      <div class="in"><span style="color:var(--color-ember);font-size:16px">✦</span><input placeholder="Ask anything about your store — “why did MER dip on Tuesday?”"><button class="send">↑</button></div>
       <div class="foot"><span class="mchip"><span class="d"></span>Purity Naturals · live</span><span class="mchip">Auto model</span><span class="mchip">Attribution: Last Click · 30d</span></div>
     </div>
     <div class="presets">
@@ -734,14 +180,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
   <!-- ======== AUTOMATIONS ======== -->
   <section class="screen" id="s-automations">
-    <div class="appr"><span style="font-size:16px">⏳</span><div><b>2 actions waiting for your approval</b><div class="sub">Analyst queues every change — nothing ships without a human yes.</div></div><span class="spacer"></span><button class="btn sm orange">Review queue</button></div>
+    <div class="appr"><span style="font-size:16px">⏳</span><div><b>2 actions waiting for your approval</b><div class="sub">Analyst queues every change — nothing ships without a human yes.</div></div><span class="spacer"></span><button class="btn btn-sm btn-orange">Review queue</button></div>
     <div class="card">
-      <div class="arow"><span class="st" style="background:var(--good)"></span><div><b>Weekly marketing performance report</b><div class="sub">Every Monday 8:00 → email + Slack #growth</div></div><span class="spacer"></span><span class="cad">WEEKLY</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--good)"></span><div><b>Meta fatigue watch — pause ads past frequency 4.0</b><div class="sub">Daily 6:00 · queues pauses for approval</div></div><span class="spacer"></span><span class="cad">DAILY</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--good)"></span><div><b>Budget guardrail — alert if blended CAC &gt; ₹950</b><div class="sub">Hourly check · Slack alert</div></div><span class="spacer"></span><span class="cad">HOURLY</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--rule-soft)"></span><div><b>Creative refresh brief from monthly winners</b><div class="sub">1st of month · drafts to Library</div></div><span class="spacer"></span><span class="cad">MONTHLY</span><div class="toggle off"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Weekly marketing performance report</b><div class="sub">Every Monday 8:00 → email + Slack #growth</div></div><span class="spacer"></span><span class="cad">WEEKLY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Meta fatigue watch — pause ads past frequency 4.0</b><div class="sub">Daily 6:00 · queues pauses for approval</div></div><span class="spacer"></span><span class="cad">DAILY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Budget guardrail — alert if blended CAC &gt; ₹950</b><div class="sub">Hourly check · Slack alert</div></div><span class="spacer"></span><span class="cad">HOURLY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Creative refresh brief from monthly winners</b><div class="sub">1st of month · drafts to Library</div></div><span class="spacer"></span><span class="cad">MONTHLY</span><div class="toggle off"></div></div>
     </div>
-    <p style="font-size:12px;color:var(--ink-400);margin-top:14px">Automations run on the <b>Automate</b> plan. Recurring jobs use your default attribution model (Last Click · 30d) unless overridden.</p>
+    <p style="font-size:12px;color:var(--color-ink-400);margin-top:14px">Automations run on the <b>Automate</b> plan. Recurring jobs use your default attribution model (Last Click · 30d) unless overridden.</p>
   </section>
 
   <!-- ======== LIBRARY ======== -->
@@ -751,17 +197,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="ctl">Type <span class="cd">▼</span></button>
       <button class="ctl">Source <span class="cd">▼</span></button>
       <div class="seg"><button class="on">▦</button><button>≡</button></div>
-      <button class="btn sm">＋ New</button>
+      <button class="btn btn-sm">＋ New</button>
     </div>
     <div class="libgrid">
-      <div class="libitem"><div class="thumb" style="background:var(--tint)">▧</div><div class="meta"><b>glow-ritual-static-v4.png</b><span>Analyst · Jul 18</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--info-bg)">▤</div><div class="meta"><b>Weekly report — Jul 7–13</b><span>Automation · Jul 14</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--good-bg)">◔</div><div class="meta"><b>MER-forecast-12mo.csv</b><span>Analyst · Jul 12</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--watch-bg)">▶</div><div class="meta"><b>ugc-hook-test-b.mp4</b><span>Upload · Jul 10</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--panel)">▧</div><div class="meta"><b>summer-sale-hero-2.png</b><span>Upload · Jul 8</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--tint)">✦</div><div class="meta"><b>creative-brief-refresh.md</b><span>Analyst · Jul 1</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--info-bg)">▧</div><div class="meta"><b>competitor-adfeed-jun.zip</b><span>Competitors · Jun 30</span></div></div>
-      <div class="libitem"><div class="thumb" style="background:var(--good-bg)">▤</div><div class="meta"><b>cohort-ltv-analysis.pdf</b><span>Analyst · Jun 27</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-tint)">▧</div><div class="meta"><b>glow-ritual-static-v4.png</b><span>Analyst · Jul 18</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-info-bg)">▤</div><div class="meta"><b>Weekly report — Jul 7–13</b><span>Automation · Jul 14</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-good-bg)">◔</div><div class="meta"><b>MER-forecast-12mo.csv</b><span>Analyst · Jul 12</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-watch-bg)">▶</div><div class="meta"><b>ugc-hook-test-b.mp4</b><span>Upload · Jul 10</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-panel)">▧</div><div class="meta"><b>summer-sale-hero-2.png</b><span>Upload · Jul 8</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-tint)">✦</div><div class="meta"><b>creative-brief-refresh.md</b><span>Analyst · Jul 1</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-info-bg)">▧</div><div class="meta"><b>competitor-adfeed-jun.zip</b><span>Competitors · Jun 30</span></div></div>
+      <div class="libitem"><div class="thumb" style="background:var(--color-good-bg)">▤</div><div class="meta"><b>cohort-ltv-analysis.pdf</b><span>Analyst · Jun 27</span></div></div>
     </div>
   </section>
 
@@ -772,57 +218,57 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="ssec" data-name="pins">
       <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>📌 Pins</h3><span class="cnt">4 tiles</span><span class="pinhint">drag to reorder</span></div>
       <div class="tiles">
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended MER</div><div class="v">3.12<span class="u">×</span></div><div class="foot"><span class="delta up">▲ 8.4%</span><span class="tgt">target 3.0× <b>hit</b></span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,20 14,18 28,21 42,15 56,16 70,11 84,9 100,6"/></svg></div>
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Net Revenue</div><div class="v">₹48.2<span class="u">L</span></div><div class="foot"><span class="delta up">▲ 12.1%</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,22 14,19 28,17 42,18 56,13 70,12 84,8 100,5"/></svg></div>
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended CAC</div><div class="v">₹887</div><div class="foot"><span class="delta dn">▲ 4.2%</span><span class="tgt">target ₹950</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,10 14,12 28,9 42,13 56,14 70,12 84,16 100,15"/></svg></div>
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Contribution Margin</div><div class="v">₹11.6<span class="u">L</span></div><div class="foot"><span class="delta up">▲ 6.8%</span><span class="settgt">Set target</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,19 14,20 28,16 42,17 56,12 70,13 84,9 100,7"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended MER</div><div class="v">3.12<span class="u">×</span></div><div class="foot"><span class="delta delta-up">▲ 8.4%</span><span class="tgt">target 3.0× <b>hit</b></span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,20 14,18 28,21 42,15 56,16 70,11 84,9 100,6"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Net Revenue</div><div class="v">₹48.2<span class="u">L</span></div><div class="foot"><span class="delta delta-up">▲ 12.1%</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,22 14,19 28,17 42,18 56,13 70,12 84,8 100,5"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended CAC</div><div class="v">₹887</div><div class="foot"><span class="delta delta-dn">▲ 4.2%</span><span class="tgt">target ₹950</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,10 14,12 28,9 42,13 56,14 70,12 84,16 100,15"/></svg></div>
+        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Contribution Margin</div><div class="v">₹11.6<span class="u">L</span></div><div class="foot"><span class="delta delta-up">▲ 6.8%</span><span class="settgt">Set target</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,19 14,20 28,16 42,17 56,12 70,13 84,9 100,7"/></svg></div>
       </div>
     </div>
 
     <div class="ssec" data-name="store">
       <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Store</h3><span class="cnt">4 tiles</span><span class="pinhint">pin tiles to top</span></div>
       <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Orders</div><div class="v">1,284</div><div class="foot"><span class="delta up">▲ 9.6%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>AOV</div><div class="v">₹1,873</div><div class="foot"><span class="delta up">▲ 2.3%</span><span class="settgt">Set target</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>New Customers</div><div class="v">712</div><div class="foot"><span class="delta up">▲ 14.8%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Returning Rate</div><div class="v">31.4<span class="u">%</span></div><div class="foot"><span class="delta mut">— 0.2%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Orders</div><div class="v">1,284</div><div class="foot"><span class="delta delta-up">▲ 9.6%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>AOV</div><div class="v">₹1,873</div><div class="foot"><span class="delta delta-up">▲ 2.3%</span><span class="settgt">Set target</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>New Customers</div><div class="v">712</div><div class="foot"><span class="delta delta-up">▲ 14.8%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Returning Rate</div><div class="v">31.4<span class="u">%</span></div><div class="foot"><span class="delta delta-mut">— 0.2%</span></div></div>
       </div>
     </div>
 
     <div class="ssec" data-name="custom metrics">
       <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Custom Metrics</h3><span class="cnt">2 tiles</span><span class="pinhint">＋ new custom metric</span></div>
       <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CM2 / Order</div><div class="v">₹904</div><div class="foot"><span class="delta up">▲ 3.1%</span><span class="tgt">target ₹850 <b>hit</b></span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Payback Days</div><div class="v">42</div><div class="foot"><span class="delta up">▼ 5 days</span><span class="settgt">Set target</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CM2 / Order</div><div class="v">₹904</div><div class="foot"><span class="delta delta-up">▲ 3.1%</span><span class="tgt">target ₹850 <b>hit</b></span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Payback Days</div><div class="v">42</div><div class="foot"><span class="delta delta-up">▼ 5 days</span><span class="settgt">Set target</span></div></div>
       </div>
     </div>
 
     <div class="ssec" data-name="attribution">
       <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Attribution</h3><span class="cnt">4 tiles</span></div>
       <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src meta">f</span>Meta ROAS</div><div class="v">2.84<span class="u">×</span></div><div class="foot"><span class="delta up">▲ 6.2%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src google">G</span>Google ROAS</div><div class="v">3.91<span class="u">×</span></div><div class="foot"><span class="delta up">▲ 1.9%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Ad Spend</div><div class="v">₹12.4<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 3.0%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Tracked Conversions</div><div class="v">96.2<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.8%</span><span class="tgt">click-ID matched</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src meta">f</span>Meta ROAS</div><div class="v">2.84<span class="u">×</span></div><div class="foot"><span class="delta delta-up">▲ 6.2%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src google">G</span>Google ROAS</div><div class="v">3.91<span class="u">×</span></div><div class="foot"><span class="delta delta-up">▲ 1.9%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Ad Spend</div><div class="v">₹12.4<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 3.0%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Tracked Conversions</div><div class="v">96.2<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.8%</span><span class="tgt">click-ID matched</span></div></div>
       </div>
     </div>
 
     <div class="ssec" data-name="web analytics">
       <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Web Analytics</h3><span class="cnt">4 tiles</span></div>
       <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta up">▲ 11.2%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CVR</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta dn">▼ 0.11pp</span><span class="settgt">Set target</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Bounce Rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta mut">▲ 1.3pp</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>LPV → ATC</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.6pp</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta delta-up">▲ 11.2%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CVR</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta delta-dn">▼ 0.11pp</span><span class="settgt">Set target</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Bounce Rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta delta-mut">▲ 1.3pp</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>LPV → ATC</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.6pp</span></div></div>
       </div>
     </div>
 
     <div class="ssec" data-name="expenses">
       <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Expenses</h3><span class="cnt">3 tiles</span></div>
       <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>COGS</div><div class="v">₹16.9<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 8.1%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Shipping</div><div class="v">₹3.2<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 4.4%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Gateway Fees</div><div class="v">₹0.96<span class="u">L</span></div><div class="foot"><span class="delta mut">▲ 2.1%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>COGS</div><div class="v">₹16.9<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 8.1%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Shipping</div><div class="v">₹3.2<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 4.4%</span></div></div>
+        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Gateway Fees</div><div class="v">₹0.96<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 2.1%</span></div></div>
       </div>
     </div>
   </section>
@@ -886,10 +332,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <div class="ovl">
             <div class="or"><span class="ol">Meta only</span><div class="track"><div class="fill" style="width:46%;background:#1877F2"></div></div><span class="ov">46%</span></div>
             <div class="or"><span class="ol">Google only</span><div class="track"><div class="fill" style="width:27%;background:#F9AB00"></div></div><span class="ov">27%</span></div>
-            <div class="or"><span class="ol">Meta ∩ Google</span><div class="track"><div class="fill" style="width:18%;background:var(--ember)"></div></div><span class="ov">18%</span></div>
-            <div class="or"><span class="ol">3+ touchpoints</span><div class="track"><div class="fill" style="width:9%;background:var(--ink-900)"></div></div><span class="ov">9%</span></div>
+            <div class="or"><span class="ol">Meta ∩ Google</span><div class="track"><div class="fill" style="width:18%;background:var(--color-ember)"></div></div><span class="ov">18%</span></div>
+            <div class="or"><span class="ol">3+ touchpoints</span><div class="track"><div class="fill" style="width:9%;background:var(--color-ink-900)"></div></div><span class="ov">9%</span></div>
           </div>
-          <div style="font-size:11px;color:var(--ink-400);margin-top:12px">18% of buyers clicked both Meta and Google — dedup'd once by click-ID, never double-counted.</div>
+          <div style="font-size:11px;color:var(--color-ink-400);margin-top:12px">18% of buyers clicked both Meta and Google — dedup'd once by click-ID, never double-counted.</div>
         </div>
         <div class="sidecard">
           <h4><span class="livedot"></span>Live Orders</h4>
@@ -908,23 +354,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <!-- ======== POST-PURCHASE SURVEY ======== -->
   <section class="screen" id="s-ppsurvey">
     <div class="kpis k4">
-      <div class="kpi"><div class="l">Responses</div><div class="v">431</div><div class="foot"><span class="delta up">▲ 22%</span></div></div>
-      <div class="kpi"><div class="l">Response rate</div><div class="v">33.6<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 1.8pp</span></div></div>
-      <div class="kpi"><div class="l">Top answer</div><div class="v" style="font-size:17px;margin-top:11px">Instagram</div><div class="foot"><span class="delta mut">38% of responses</span></div></div>
-      <div class="kpi"><div class="l">Survey status</div><div class="v" style="font-size:17px;margin-top:11px;color:var(--good)">● Live</div><div class="foot"><span class="delta mut">on order-status page</span></div></div>
+      <div class="kpi"><div class="l">Responses</div><div class="v">431</div><div class="foot"><span class="delta delta-up">▲ 22%</span></div></div>
+      <div class="kpi"><div class="l">Response rate</div><div class="v">33.6<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 1.8pp</span></div></div>
+      <div class="kpi"><div class="l">Top answer</div><div class="v" style="font-size:17px;margin-top:11px">Instagram</div><div class="foot"><span class="delta delta-mut">38% of responses</span></div></div>
+      <div class="kpi"><div class="l">Survey status</div><div class="v" style="font-size:17px;margin-top:11px;color:var(--color-good)">● Live</div><div class="foot"><span class="delta delta-mut">on order-status page</span></div></div>
     </div>
     <div class="card" style="padding:20px 22px">
       <h4 style="font-size:13px;font-weight:600;margin-bottom:14px">“How did you first hear about us?” — last 14 days</h4>
       <div class="ovl">
         <div class="or"><span class="ol" style="width:130px">Instagram</span><div class="track" style="height:18px"><div class="fill" style="width:38%;background:#E1306C"></div></div><span class="ov">38%</span></div>
-        <div class="or"><span class="ol" style="width:130px">Friend / family</span><div class="track" style="height:18px"><div class="fill" style="width:21%;background:var(--good)"></div></div><span class="ov">21%</span></div>
+        <div class="or"><span class="ol" style="width:130px">Friend / family</span><div class="track" style="height:18px"><div class="fill" style="width:21%;background:var(--color-good)"></div></div><span class="ov">21%</span></div>
         <div class="or"><span class="ol" style="width:130px">Google search</span><div class="track" style="height:18px"><div class="fill" style="width:17%;background:#F9AB00"></div></div><span class="ov">17%</span></div>
         <div class="or"><span class="ol" style="width:130px">YouTube</span><div class="track" style="height:18px"><div class="fill" style="width:12%;background:#B23A3A"></div></div><span class="ov">12%</span></div>
-        <div class="or"><span class="ol" style="width:130px">Other</span><div class="track" style="height:18px"><div class="fill" style="width:12%;background:var(--ink-400)"></div></div><span class="ov">12%</span></div>
+        <div class="or"><span class="ol" style="width:130px">Other</span><div class="track" style="height:18px"><div class="fill" style="width:12%;background:var(--color-ink-400)"></div></div><span class="ov">12%</span></div>
       </div>
-      <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;border-left:2px solid var(--ember);padding-left:11px">✦ Analyst: survey says 38% discover via Instagram, but last-click gives IG organic 3.4% of revenue — classic dark-social gap. Consider a “fair-share” custom category.</div>
+      <div style="font-size:11.5px;color:var(--color-ink-500);margin-top:14px;border-left:2px solid var(--color-ember);padding-left:11px">✦ Analyst: survey says 38% discover via Instagram, but last-click gives IG organic 3.4% of revenue — classic dark-social gap. Consider a “fair-share” custom category.</div>
     </div>
-    <div style="margin-top:14px"><button class="btn sm ghost">✎ Edit survey</button> <button class="btn sm ghost" style="margin-left:6px">＋ New question</button></div>
+    <div style="margin-top:14px"><button class="btn btn-sm btn-ghost">✎ Edit survey</button> <button class="btn btn-sm btn-ghost" style="margin-left:6px">＋ New question</button></div>
   </section>
 
   <!-- ======== MEDIA MANAGER ======== -->
@@ -942,59 +388,59 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="ctl">Status <span class="cd">▼</span></button>
       <button class="ctl">ROAS <span class="cd">▼</span></button>
       <div class="seg"><button class="on">▦</button><button>≡</button></div>
-      <button class="btn sm">↑ Upload</button>
+      <button class="btn btn-sm">↑ Upload</button>
     </div>
     <div class="mmgrid">
-      <div class="mmcard"><div class="th" style="background:var(--tint)">▧<span class="roas-tag">ROAS 4.2×</span><span class="st-tag" style="background:var(--good)"></span></div><div class="meta"><b>glow-ritual-ugc-01.mp4</b><span>Meta · Active</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--info-bg)">▧<span class="roas-tag">ROAS 3.1×</span><span class="st-tag" style="background:var(--good)"></span></div><div class="meta"><b>summer-sale-static-a.png</b><span>Meta · Active</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--watch-bg)">▧<span class="roas-tag">ROAS 1.4×</span><span class="st-tag" style="background:var(--watch)"></span></div><div class="meta"><b>founder-story-v2.mp4</b><span>Meta · Fatiguing</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--bad-bg)">▧<span class="roas-tag">ROAS 0.8×</span><span class="st-tag" style="background:var(--bad)"></span></div><div class="meta"><b>discount-banner-old.png</b><span>Meta · Paused</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--good-bg)">▶<span class="roas-tag">ROAS 5.0×</span><span class="st-tag" style="background:var(--good)"></span></div><div class="meta"><b>routine-demo-15s.mp4</b><span>Google · Active</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--panel)">▧</div><div class="meta"><b>competitor—kama-hook.png</b><span>Brand Tracker · Kama</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--panel)">▧</div><div class="meta"><b>competitor—plum-carousel</b><span>Ad Feed · Plum</span></div></div>
-      <div class="mmcard"><div class="th" style="background:var(--tint)">✦</div><div class="meta"><b>gen—glow-variant-04.png</b><span>Analyst Generation</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-tint)">▧<span class="roas-tag">ROAS 4.2×</span><span class="st-tag" style="background:var(--color-good)"></span></div><div class="meta"><b>glow-ritual-ugc-01.mp4</b><span>Meta · Active</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-info-bg)">▧<span class="roas-tag">ROAS 3.1×</span><span class="st-tag" style="background:var(--color-good)"></span></div><div class="meta"><b>summer-sale-static-a.png</b><span>Meta · Active</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-watch-bg)">▧<span class="roas-tag">ROAS 1.4×</span><span class="st-tag" style="background:var(--color-watch)"></span></div><div class="meta"><b>founder-story-v2.mp4</b><span>Meta · Fatiguing</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-bad-bg)">▧<span class="roas-tag">ROAS 0.8×</span><span class="st-tag" style="background:var(--color-bad)"></span></div><div class="meta"><b>discount-banner-old.png</b><span>Meta · Paused</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-good-bg)">▶<span class="roas-tag">ROAS 5.0×</span><span class="st-tag" style="background:var(--color-good)"></span></div><div class="meta"><b>routine-demo-15s.mp4</b><span>Google · Active</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-panel)">▧</div><div class="meta"><b>competitor—kama-hook.png</b><span>Brand Tracker · Kama</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-panel)">▧</div><div class="meta"><b>competitor—plum-carousel</b><span>Ad Feed · Plum</span></div></div>
+      <div class="mmcard"><div class="th2" style="background:var(--color-tint)">✦</div><div class="meta"><b>gen—glow-variant-04.png</b><span>Analyst Generation</span></div></div>
     </div>
-    <p style="font-size:11.5px;color:var(--ink-400);margin-top:16px">Competitor Brand Tracker follows 7 brands · ad feed refreshed 2h ago.</p>
+    <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:16px">Competitor Brand Tracker follows 7 brands · ad feed refreshed 2h ago.</p>
   </section>
 
   <!-- ======== WEBSITE PERFORMANCE ======== -->
   <section class="screen" id="s-website">
     <div class="kpis">
-      <div class="kpi"><div class="l">Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta up">▲ 11.2%</span></div></div>
-      <div class="kpi"><div class="l">Conversion rate</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta dn">▼ 0.11pp</span></div></div>
-      <div class="kpi"><div class="l">Add-to-cart rate</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.6pp</span></div></div>
-      <div class="kpi"><div class="l">Checkout start</div><div class="v">3.1<span class="u">%</span></div><div class="foot"><span class="delta mut">— 0.0pp</span></div></div>
-      <div class="kpi"><div class="l">Bounce rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta dn">▲ 1.3pp</span></div></div>
+      <div class="kpi"><div class="l">Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta delta-up">▲ 11.2%</span></div></div>
+      <div class="kpi"><div class="l">Conversion rate</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta delta-dn">▼ 0.11pp</span></div></div>
+      <div class="kpi"><div class="l">Add-to-cart rate</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.6pp</span></div></div>
+      <div class="kpi"><div class="l">Checkout start</div><div class="v">3.1<span class="u">%</span></div><div class="foot"><span class="delta delta-mut">— 0.0pp</span></div></div>
+      <div class="kpi"><div class="l">Bounce rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta delta-dn">▲ 1.3pp</span></div></div>
     </div>
     <div class="card chartcard">
       <h4>Sessions vs Conversion rate</h4>
       <div class="sub">Last 14 days · hover any point to trace the session in Journeys</div>
       <svg viewBox="0 0 720 180" style="width:100%;height:180px">
-        <g stroke="var(--rule-soft)" stroke-width="1"><line x1="0" y1="45" x2="720" y2="45"/><line x1="0" y1="90" x2="720" y2="90"/><line x1="0" y1="135" x2="720" y2="135"/></g>
+        <g stroke="var(--color-rule)" stroke-width="1"><line x1="0" y1="45" x2="720" y2="45"/><line x1="0" y1="90" x2="720" y2="90"/><line x1="0" y1="135" x2="720" y2="135"/></g>
         <polyline fill="rgba(234,88,12,.07)" stroke="none" points="0,180 0,120 55,112 110,118 165,98 220,104 275,88 330,92 385,72 440,80 495,64 550,58 605,66 660,48 720,42 720,180"/>
-        <polyline fill="none" stroke="var(--ember)" stroke-width="2" points="0,120 55,112 110,118 165,98 220,104 275,88 330,92 385,72 440,80 495,64 550,58 605,66 660,48 720,42"/>
-        <polyline fill="none" stroke="var(--ink-900)" stroke-width="1.6" stroke-dasharray="4 4" points="0,96 55,100 110,92 165,98 220,90 275,96 330,102 385,94 440,100 495,106 550,98 605,108 660,104 720,110"/>
+        <polyline fill="none" stroke="var(--color-ember)" stroke-width="2" points="0,120 55,112 110,118 165,98 220,104 275,88 330,92 385,72 440,80 495,64 550,58 605,66 660,48 720,42"/>
+        <polyline fill="none" stroke="var(--color-ink-900)" stroke-width="1.6" stroke-dasharray="4 4" points="0,96 55,100 110,92 165,98 220,90 275,96 330,102 385,94 440,100 495,106 550,98 605,108 660,104 720,110"/>
       </svg>
-      <div class="legend"><span class="li"><span class="sw" style="background:var(--ember)"></span>Sessions</span><span class="li"><span class="sw" style="background:var(--ink-900)"></span>Conversion rate</span></div>
+      <div class="legend"><span class="li"><span class="sw" style="background:var(--color-ember)"></span>Sessions</span><span class="li"><span class="sw" style="background:var(--color-ink-900)"></span>Conversion rate</span></div>
     </div>
     <div class="attr-grid" style="margin-top:16px;grid-template-columns:1fr 1fr">
       <div class="card" style="padding:18px 20px">
         <h4 style="font-size:13px;font-weight:600;margin-bottom:12px">Top landing pages</h4>
         <div class="ovl">
-          <div class="or"><span class="ol" style="width:150px">/glow-ritual-kit</span><div class="track" style="height:16px"><div class="fill" style="width:78%;background:var(--ember)"></div></div><span class="ov" style="width:52px">21.4k</span></div>
-          <div class="or"><span class="ol" style="width:150px">/ (home)</span><div class="track" style="height:16px"><div class="fill" style="width:64%;background:var(--ember)"></div></div><span class="ov" style="width:52px">17.6k</span></div>
-          <div class="or"><span class="ol" style="width:150px">/vitamin-c-serum</span><div class="track" style="height:16px"><div class="fill" style="width:41%;background:var(--ember)"></div></div><span class="ov" style="width:52px">11.2k</span></div>
-          <div class="or"><span class="ol" style="width:150px">/summer-sale</span><div class="track" style="height:16px"><div class="fill" style="width:30%;background:var(--ember)"></div></div><span class="ov" style="width:52px">8.3k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/glow-ritual-kit</span><div class="track" style="height:16px"><div class="fill" style="width:78%;background:var(--color-ember)"></div></div><span class="ov" style="width:52px">21.4k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/ (home)</span><div class="track" style="height:16px"><div class="fill" style="width:64%;background:var(--color-ember)"></div></div><span class="ov" style="width:52px">17.6k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/vitamin-c-serum</span><div class="track" style="height:16px"><div class="fill" style="width:41%;background:var(--color-ember)"></div></div><span class="ov" style="width:52px">11.2k</span></div>
+          <div class="or"><span class="ol" style="width:150px">/summer-sale</span><div class="track" style="height:16px"><div class="fill" style="width:30%;background:var(--color-ember)"></div></div><span class="ov" style="width:52px">8.3k</span></div>
         </div>
       </div>
       <div class="card" style="padding:18px 20px">
         <h4 style="font-size:13px;font-weight:600;margin-bottom:12px">Device split</h4>
         <div class="ovl">
-          <div class="or"><span class="ol" style="width:150px">Mobile</span><div class="track" style="height:16px"><div class="fill" style="width:81%;background:var(--ink-900)"></div></div><span class="ov" style="width:52px">81%</span></div>
-          <div class="or"><span class="ol" style="width:150px">Desktop</span><div class="track" style="height:16px"><div class="fill" style="width:16%;background:var(--ink-400)"></div></div><span class="ov" style="width:52px">16%</span></div>
-          <div class="or"><span class="ol" style="width:150px">Tablet</span><div class="track" style="height:16px"><div class="fill" style="width:3%;background:var(--rule-soft)"></div></div><span class="ov" style="width:52px">3%</span></div>
+          <div class="or"><span class="ol" style="width:150px">Mobile</span><div class="track" style="height:16px"><div class="fill" style="width:81%;background:var(--color-ink-900)"></div></div><span class="ov" style="width:52px">81%</span></div>
+          <div class="or"><span class="ol" style="width:150px">Desktop</span><div class="track" style="height:16px"><div class="fill" style="width:16%;background:var(--color-ink-400)"></div></div><span class="ov" style="width:52px">16%</span></div>
+          <div class="or"><span class="ol" style="width:150px">Tablet</span><div class="track" style="height:16px"><div class="fill" style="width:3%;background:var(--color-rule)"></div></div><span class="ov" style="width:52px">3%</span></div>
         </div>
-        <div style="font-size:11.5px;color:var(--ink-500);margin-top:14px;border-left:2px solid var(--ember);padding-left:11px">✦ Mobile CVR is 1.31% vs desktop 2.42% — mobile checkout is your biggest single leak.</div>
+        <div style="font-size:11.5px;color:var(--color-ink-500);margin-top:14px;border-left:2px solid var(--color-ember);padding-left:11px">✦ Mobile CVR is 1.31% vs desktop 2.42% — mobile checkout is your biggest single leak.</div>
       </div>
     </div>
   </section>
@@ -1002,10 +448,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <!-- ======== SITE SEARCH ======== -->
   <section class="screen" id="s-sitesearch">
     <div class="kpis k4">
-      <div class="kpi"><div class="l">Searches</div><div class="v">4,218</div><div class="foot"><span class="delta up">▲ 7.4%</span></div></div>
-      <div class="kpi"><div class="l">Search → purchase</div><div class="v">4.9<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.4pp</span></div></div>
-      <div class="kpi"><div class="l">Zero-result rate</div><div class="v">11.2<span class="u">%</span></div><div class="foot"><span class="delta dn">▲ 2.1pp</span></div></div>
-      <div class="kpi"><div class="l">Top query</div><div class="v" style="font-size:17px;margin-top:11px">“vitamin c”</div><div class="foot"><span class="delta mut">612 searches</span></div></div>
+      <div class="kpi"><div class="l">Searches</div><div class="v">4,218</div><div class="foot"><span class="delta delta-up">▲ 7.4%</span></div></div>
+      <div class="kpi"><div class="l">Search → purchase</div><div class="v">4.9<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.4pp</span></div></div>
+      <div class="kpi"><div class="l">Zero-result rate</div><div class="v">11.2<span class="u">%</span></div><div class="foot"><span class="delta delta-dn">▲ 2.1pp</span></div></div>
+      <div class="kpi"><div class="l">Top query</div><div class="v" style="font-size:17px;margin-top:11px">“vitamin c”</div><div class="foot"><span class="delta delta-mut">612 searches</span></div></div>
     </div>
     <div class="card">
       <table class="utable">
@@ -1015,7 +461,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <tr><td>glow kit</td><td>488</td><td>71%</td><td>8.2%</td><td>₹91,000</td></tr>
           <tr><td>sunscreen</td><td>402</td><td>58%</td><td>4.1%</td><td>₹31,000</td></tr>
           <tr><td>niacinamide</td><td>319</td><td>61%</td><td>5.5%</td><td>₹36,000</td></tr>
-          <tr><td style="color:var(--bad)">retinol ⚠ zero results</td><td>238</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td style="color:var(--color-bad)">retinol ⚠ zero results</td><td>238</td><td>—</td><td>—</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
@@ -1029,10 +475,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <button class="ctl">ESP: Klaviyo <span class="cd">▼</span></button>
     </div>
     <div class="kpis k4">
-      <div class="kpi"><div class="l">Email revenue</div><div class="v">₹4.86<span class="u">L</span></div><div class="foot"><span class="delta up">▲ 18.3%</span></div></div>
-      <div class="kpi"><div class="l">% of total revenue</div><div class="v">10.1<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 1.1pp</span></div></div>
-      <div class="kpi"><div class="l">Flows vs campaigns</div><div class="v">62<span class="u">/38</span></div><div class="foot"><span class="delta mut">flow-led</span></div></div>
-      <div class="kpi"><div class="l">Rev / recipient</div><div class="v">₹11.4</div><div class="foot"><span class="delta up">▲ 6.0%</span></div></div>
+      <div class="kpi"><div class="l">Email revenue</div><div class="v">₹4.86<span class="u">L</span></div><div class="foot"><span class="delta delta-up">▲ 18.3%</span></div></div>
+      <div class="kpi"><div class="l">% of total revenue</div><div class="v">10.1<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 1.1pp</span></div></div>
+      <div class="kpi"><div class="l">Flows vs campaigns</div><div class="v">62<span class="u">/38</span></div><div class="foot"><span class="delta delta-mut">flow-led</span></div></div>
+      <div class="kpi"><div class="l">Rev / recipient</div><div class="v">₹11.4</div><div class="foot"><span class="delta delta-up">▲ 6.0%</span></div></div>
     </div>
     <div class="card">
       <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">UTM Channel Breakdown</div>
@@ -1051,13 +497,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <!-- ======== AI VISIBILITY ======== -->
   <section class="screen" id="s-aivis">
     <div class="kpis k4">
-      <div class="kpi"><div class="l">Presence score</div><div class="v">61<span class="u">/100</span></div><div class="foot"><span class="delta up">▲ 9</span></div></div>
-      <div class="kpi"><div class="l">Tracked prompts</div><div class="v">24</div><div class="foot"><span class="delta mut">across 4 assistants</span></div></div>
-      <div class="kpi"><div class="l">Brand mentioned</div><div class="v">14<span class="u">/24</span></div><div class="foot"><span class="delta up">▲ 3</span></div></div>
-      <div class="kpi"><div class="l">Share vs top rival</div><div class="v">0.8<span class="u">×</span></div><div class="foot"><span class="delta mut">vs Plum</span></div></div>
+      <div class="kpi"><div class="l">Presence score</div><div class="v">61<span class="u">/100</span></div><div class="foot"><span class="delta delta-up">▲ 9</span></div></div>
+      <div class="kpi"><div class="l">Tracked prompts</div><div class="v">24</div><div class="foot"><span class="delta delta-mut">across 4 assistants</span></div></div>
+      <div class="kpi"><div class="l">Brand mentioned</div><div class="v">14<span class="u">/24</span></div><div class="foot"><span class="delta delta-up">▲ 3</span></div></div>
+      <div class="kpi"><div class="l">Share vs top rival</div><div class="v">0.8<span class="u">×</span></div><div class="foot"><span class="delta delta-mut">vs Plum</span></div></div>
     </div>
     <div class="card">
-      <div style="padding:16px 18px 4px;display:flex;align-items:center"><span style="font-size:13px;font-weight:600">Tracked prompts</span><span class="spacer"></span><button class="btn sm ghost">＋ Track prompt</button></div>
+      <div style="padding:16px 18px 4px;display:flex;align-items:center"><span style="font-size:13px;font-weight:600">Tracked prompts</span><span class="spacer"></span><button class="btn btn-sm btn-ghost">＋ Track prompt</button></div>
       <div class="promptrow"><span class="q">“best vitamin C serum in India”</span><span class="mention y">Mentioned</span><span class="presence hi">#2</span></div>
       <div class="promptrow"><span class="q">“affordable clean skincare brands”</span><span class="mention y">Mentioned</span><span class="presence hi">#1</span></div>
       <div class="promptrow"><span class="q">“glow kit for oily skin”</span><span class="mention y">Mentioned</span><span class="presence md">#4</span></div>
@@ -1069,25 +515,25 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <!-- ======== SOCIAL MONITORING ======== -->
   <section class="screen" id="s-social">
     <div class="kpis k4">
-      <div class="kpi"><div class="l">Comments scanned</div><div class="v">1,842</div><div class="foot"><span class="delta mut">last 14 days</span></div></div>
-      <div class="kpi"><div class="l">Risk flagged</div><div class="v">23</div><div class="foot"><span class="delta dn">▲ 8</span></div></div>
-      <div class="kpi"><div class="l">Sentiment</div><div class="v">+72</div><div class="foot"><span class="delta up">▲ 4</span></div></div>
-      <div class="kpi"><div class="l">Avg. response time</div><div class="v">3.2<span class="u">h</span></div><div class="foot"><span class="delta up">▼ 0.8h</span></div></div>
+      <div class="kpi"><div class="l">Comments scanned</div><div class="v">1,842</div><div class="foot"><span class="delta delta-mut">last 14 days</span></div></div>
+      <div class="kpi"><div class="l">Risk flagged</div><div class="v">23</div><div class="foot"><span class="delta delta-dn">▲ 8</span></div></div>
+      <div class="kpi"><div class="l">Sentiment</div><div class="v">+72</div><div class="foot"><span class="delta delta-up">▲ 4</span></div></div>
+      <div class="kpi"><div class="l">Avg. response time</div><div class="v">3.2<span class="u">h</span></div><div class="foot"><span class="delta delta-up">▼ 0.8h</span></div></div>
     </div>
     <div class="card">
-      <div class="promptrow"><span class="q">“Order stuck for 9 days, no reply from support 😡” — Meta ad comment</span><span class="mention" style="color:var(--bad);background:var(--bad-bg)">High risk</span><span class="presence lo">Shipping</span></div>
-      <div class="promptrow"><span class="q">“Does this work for sensitive skin?” — IG post</span><span class="mention" style="color:var(--watch);background:var(--watch-bg)">Question</span><span class="presence md">Product</span></div>
+      <div class="promptrow"><span class="q">“Order stuck for 9 days, no reply from support 😡” — Meta ad comment</span><span class="mention" style="color:var(--color-bad);background:var(--color-bad-bg)">High risk</span><span class="presence lo">Shipping</span></div>
+      <div class="promptrow"><span class="q">“Does this work for sensitive skin?” — IG post</span><span class="mention" style="color:var(--color-watch);background:var(--color-watch-bg)">Question</span><span class="presence md">Product</span></div>
       <div class="promptrow"><span class="q">“Third reorder. Obsessed with the glow kit ✨” — Meta ad</span><span class="mention y">Positive</span><span class="presence hi">Praise</span></div>
-      <div class="promptrow"><span class="q">“Price went up again?” — IG reel</span><span class="mention" style="color:var(--watch);background:var(--watch-bg)">Watch</span><span class="presence md">Pricing</span></div>
+      <div class="promptrow"><span class="q">“Price went up again?” — IG reel</span><span class="mention" style="color:var(--color-watch);background:var(--color-watch-bg)">Watch</span><span class="presence md">Pricing</span></div>
     </div>
   </section>
 
   <!-- ======== MY QUEUE ======== -->
   <section class="screen" id="s-queue">
     <div class="qhead">
-      <div class="me"><span class="lav">SK</span><div><b style="font-size:13.5px">Sneha Kulkarni</b><div style="font-size:11.5px;color:var(--ink-400)">Dietitian · 18 active leads</div></div></div>
+      <div class="me"><span class="lav">SK</span><div><b style="font-size:13.5px">Sneha Kulkarni</b><div style="font-size:11.5px;color:var(--color-ink-400)">Dietitian · 18 active leads</div></div></div>
       <span class="spacer"></span>
-      <span class="tag w">● Available</span>
+      <span class="tag tag-w">● Available</span>
       <button class="ctl">Sort: Priority <span class="cd">▼</span></button>
     </div>
     <div id="queueBands"></div>
@@ -1115,84 +561,84 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <section class="screen" id="s-lead">
     <div style="display:flex;align-items:center;gap:13px;margin-bottom:18px">
       <span class="lav" style="width:44px;height:44px;font-size:15px" id="ld-av">SU</span>
-      <div><h2 style="font-family:var(--serif);font-size:22px;font-weight:600" id="ld-name">Subramani G</h2>
-      <div style="font-size:12.5px;color:var(--ink-500)" id="ld-contact">maligaiammu@gmail.com · +91 91498 43316</div></div>
+      <div><h2 style="font-family:var(--font-serif);font-size:22px;font-weight:600" id="ld-name">Subramani G</h2>
+      <div style="font-size:12.5px;color:var(--color-ink-500)" id="ld-contact">maligaiammu@gmail.com · +91 91498 43316</div></div>
       <span class="spacer"></span>
-      <button class="mini wa">◈ WhatsApp</button>
-      <button class="mini call" onclick="openSheet(0)">☎ Call now</button>
+      <button class="mini mini-wa">◈ WhatsApp</button>
+      <button class="mini mini-call" onclick="openSheet(0)">☎ Call now</button>
     </div>
 
     <div class="nextban">
       <span style="font-size:16px">⏰</span>
       <div><b id="ld-next">Follow-up call — 2 days overdue</b><div class="sub">Set after RNR on 19 Jul · attempt 3 of 5</div></div>
       <span class="spacer"></span>
-      <button class="btn sm orange" onclick="openSheet(0)">Log interaction</button>
+      <button class="btn btn-sm btn-orange" onclick="openSheet(0)">Log interaction</button>
     </div>
 
     <div class="crmstrip">
       <div class="cs"><div class="l">Assigned to</div><select id="ld-op"><option>Sneha Kulkarni</option><option>Dr. Anjali Rao</option><option>Priya Menon</option><option>Ritu Sharma</option><option>— Unassigned —</option></select></div>
       <div class="cs"><div class="l">Assigned at</div><div class="v2">18 Jul · 10:24</div></div>
-      <div class="cs"><div class="l">Time to first touch</div><div class="v2" style="color:var(--good)">14 min ✓</div></div>
-      <div class="cs"><div class="l">Stage</div><div class="v2"><span class="tag g" id="ld-stage">Acquisition</span></div></div>
+      <div class="cs"><div class="l">Time to first touch</div><div class="v2" style="color:var(--color-good)">14 min ✓</div></div>
+      <div class="cs"><div class="l">Stage</div><div class="v2"><span class="tag tag-g" id="ld-stage">Acquisition</span></div></div>
     </div>
 
     <div class="card" style="padding:20px 22px">
       <div style="display:flex;align-items:center;margin-bottom:14px">
         <h4 style="font-size:13px;font-weight:600">Timeline</h4>
-        <span style="font-size:11.5px;color:var(--ink-400);margin-left:10px">ads, site, form, calls and WhatsApp in one stream</span>
+        <span style="font-size:11.5px;color:var(--color-ink-400);margin-left:10px">ads, site, form, calls and WhatsApp in one stream</span>
         <span class="spacer"></span>
         <button class="mini">＋ Add note</button>
       </div>
       <div class="tl">
-        <div class="tli rr"><span class="tdot"></span><span class="tm">19 Jul · 16:40</span><b>Call — Ring, no response</b><p>Attempt 3 · 0:00 · Sneha Kulkarni. Follow-up set for 20 Jul 11:00.</p></div>
-        <div class="tli cc"><span class="tdot"></span><span class="tm">18 Jul · 15:12</span><b>Call — Connected · 4m 12s</b><p>Sneha Kulkarni · Objection: <b>price</b>. Explained 3-month program pricing, asked to discuss with spouse. Wanted details on GLP-1 alternatives.</p>
+        <div class="tli tli-rr"><span class="tdot"></span><span class="tm">19 Jul · 16:40</span><b>Call — Ring, no response</b><p>Attempt 3 · 0:00 · Sneha Kulkarni. Follow-up set for 20 Jul 11:00.</p></div>
+        <div class="tli tli-cc"><span class="tdot"></span><span class="tm">18 Jul · 15:12</span><b>Call — Connected · 4m 12s</b><p>Sneha Kulkarni · Objection: <b>price</b>. Explained 3-month program pricing, asked to discuss with spouse. Wanted details on GLP-1 alternatives.</p>
           <div class="tscript"><b>🎙 Transcript &amp; AI summary</b>Available once call recording is connected — Phase 3. Chat will then answer “which objection appears most in lost consults?” across every dietitian.</div>
         </div>
-        <div class="tli ww"><span class="tdot"></span><span class="tm">18 Jul · 11:02</span><b>WhatsApp — outbound template sent</b><p>“Hi Subramani, this is Sneha from Progen…” · delivered, read 11:09</p></div>
+        <div class="tli tli-ww"><span class="tdot"></span><span class="tm">18 Jul · 11:02</span><b>WhatsApp — outbound template sent</b><p>“Hi Subramani, this is Sneha from Progen…” · delivered, read 11:09</p></div>
         <div class="tli"><span class="tdot"></span><span class="tm">18 Jul · 10:24</span><b>Lead assigned to Sneha Kulkarni</b><p>Round-robin · by Ops · <span class="mono" style="font-size:11px">engagement.lead_assigned</span></p></div>
-        <div class="tli ff"><span class="tdot"></span><span class="tm">18 Jul · 10:10</span><b>Form submitted — Free consultation</b><p>23 fields · goal: lose 12kg · age 41 · Bangalore · <span class="mono" style="font-size:11px">engagement.form_submitted</span></p></div>
+        <div class="tli tli-ff"><span class="tdot"></span><span class="tm">18 Jul · 10:10</span><b>Form submitted — Free consultation</b><p>23 fields · goal: lose 12kg · age 41 · Bangalore · <span class="mono" style="font-size:11px">engagement.form_submitted</span></p></div>
         <div class="tli"><span class="tdot"></span><span class="tm">18 Jul · 10:06</span><b>Page view — /weight-loss-bangalore</b><p>3m 41s on page · scrolled to pricing · viewed 2 testimonials</p></div>
-        <div class="tli gg"><span class="tdot"></span><span class="tm">18 Jul · 10:05</span><b>Google Ads click</b><p>Campaign 23790238693 · “weight loss clinic bangalore” · exact · ₹214 CPC · <span class="mono" style="font-size:11px">gclid ✓ matched</span></p></div>
+        <div class="tli tli-gg"><span class="tdot"></span><span class="tm">18 Jul · 10:05</span><b>Google Ads click</b><p>Campaign 23790238693 · “weight loss clinic bangalore” · exact · ₹214 CPC · <span class="mono" style="font-size:11px">gclid ✓ matched</span></p></div>
       </div>
     </div>
-    <p style="font-size:11.5px;color:var(--ink-400);margin-top:12px">This lead cost <b style="color:var(--ink-700)">₹214</b> to acquire and has taken <b style="color:var(--ink-700)">3 dietitian touches</b> so far — the join that turns CAC into true cost-per-consult.</p>
+    <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:12px">This lead cost <b style="color:var(--color-ink-700)">₹214</b> to acquire and has taken <b style="color:var(--color-ink-700)">3 dietitian touches</b> so far — the join that turns CAC into true cost-per-consult.</p>
   </section>
 
   <!-- ======== DIETITIANS (operators) ======== -->
   <section class="screen" id="s-crmteam">
     <div style="display:flex;align-items:center;margin-bottom:14px">
-      <p style="font-size:13px;color:var(--ink-500);max-width:70ch">Operators who can be assigned leads. The role label — “Dietitian” here — is a workspace setting, so the same module reads as “Sales Rep” or “Loan Officer” for another client.</p>
+      <p style="font-size:13px;color:var(--color-ink-500);max-width:70ch">Operators who can be assigned leads. The role label — “Dietitian” here — is a workspace setting, so the same module reads as “Sales Rep” or “Loan Officer” for another client.</p>
       <span class="spacer"></span>
-      <button class="btn sm">＋ Invite dietitian</button>
+      <button class="btn btn-sm">＋ Invite dietitian</button>
     </div>
     <div class="card">
-      <div class="trow"><div class="av2" style="background:var(--ember)">SK</div><div><b>Sneha Kulkarni</b><span class="em">sneha@progenmethod.com</span></div><span class="spacer"></span><span class="tag w">● Available</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">18 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:var(--info)">AR</div><div><b>Dr. Anjali Rao</b><span class="em">anjali@progenmethod.com</span></div><span class="spacer"></span><span class="tag w">● Available</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">22 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:#7C3AED">PM</div><div><b>Priya Menon</b><span class="em">priya@progenmethod.com</span></div><span class="spacer"></span><span class="tag">○ On leave</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">9 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:var(--good)">RS</div><div><b>Ritu Sharma</b><span class="em">ritu@progenmethod.com</span></div><span class="spacer"></span><span class="tag w">● Available</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">14 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:var(--ink-900)">VN</div><div><b>Vinay N</b><span class="em">vinay@progenmethod.com</span></div><span class="spacer"></span><span class="tag">—</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">—</span><span class="role">Manager <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-ember)">SK</div><div><b>Sneha Kulkarni</b><span class="em">sneha@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">18 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-info)">AR</div><div><b>Dr. Anjali Rao</b><span class="em">anjali@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">22 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:#7C3AED">PM</div><div><b>Priya Menon</b><span class="em">priya@progenmethod.com</span></div><span class="spacer"></span><span class="tag">○ On leave</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">9 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-good)">RS</div><div><b>Ritu Sharma</b><span class="em">ritu@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">14 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-ink-900)">VN</div><div><b>Vinay N</b><span class="em">vinay@progenmethod.com</span></div><span class="spacer"></span><span class="tag">—</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">—</span><span class="role">Manager <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
     </div>
-    <p style="font-size:11.5px;color:var(--ink-400);margin-top:12px">Dietitians sign in to a restricted view — My Queue only. They never see ad spend, creative, or attribution.</p>
+    <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:12px">Dietitians sign in to a restricted view — My Queue only. They never see ad spend, creative, or attribution.</p>
   </section>
 
   <!-- ======== TEAM PERFORMANCE ======== -->
   <section class="screen" id="s-crmperf">
     <div class="kpis">
-      <div class="kpi"><div class="l">Leads assigned</div><div class="v">312</div><div class="foot"><span class="delta up">▲ 18%</span></div></div>
-      <div class="kpi"><div class="l">Contact rate</div><div class="v">68<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 4pp</span></div></div>
-      <div class="kpi"><div class="l">Avg time to 1st call</div><div class="v">42<span class="u">min</span></div><div class="foot"><span class="delta dn">target 30min</span></div></div>
-      <div class="kpi"><div class="l">Consults booked</div><div class="v">86</div><div class="foot"><span class="delta up">▲ 12%</span></div></div>
-      <div class="kpi"><div class="l">Lead → paid</div><div class="v">11.2<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 1.4pp</span></div></div>
+      <div class="kpi"><div class="l">Leads assigned</div><div class="v">312</div><div class="foot"><span class="delta delta-up">▲ 18%</span></div></div>
+      <div class="kpi"><div class="l">Contact rate</div><div class="v">68<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 4pp</span></div></div>
+      <div class="kpi"><div class="l">Avg time to 1st call</div><div class="v">42<span class="u">min</span></div><div class="foot"><span class="delta delta-dn">target 30min</span></div></div>
+      <div class="kpi"><div class="l">Consults booked</div><div class="v">86</div><div class="foot"><span class="delta delta-up">▲ 12%</span></div></div>
+      <div class="kpi"><div class="l">Lead → paid</div><div class="v">11.2<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 1.4pp</span></div></div>
     </div>
     <div class="card" style="margin-bottom:16px">
       <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">By dietitian</div>
       <table class="utable">
         <thead><tr><th>Dietitian</th><th>Assigned</th><th>Contact %</th><th>Avg 1st call</th><th>RNR %</th><th>Consults</th><th>Converted</th><th>Revenue</th></tr></thead>
         <tbody>
-          <tr><td>Dr. Anjali Rao</td><td>96</td><td style="color:var(--good);font-weight:600">78%</td><td>21 min</td><td>19%</td><td>31</td><td>14</td><td>₹8,40,000</td></tr>
-          <tr><td>Sneha Kulkarni</td><td>88</td><td style="color:var(--good);font-weight:600">71%</td><td>34 min</td><td>24%</td><td>26</td><td>11</td><td>₹6,60,000</td></tr>
+          <tr><td>Dr. Anjali Rao</td><td>96</td><td style="color:var(--color-good);font-weight:600">78%</td><td>21 min</td><td>19%</td><td>31</td><td>14</td><td>₹8,40,000</td></tr>
+          <tr><td>Sneha Kulkarni</td><td>88</td><td style="color:var(--color-good);font-weight:600">71%</td><td>34 min</td><td>24%</td><td>26</td><td>11</td><td>₹6,60,000</td></tr>
           <tr><td>Ritu Sharma</td><td>74</td><td>64%</td><td>48 min</td><td>31%</td><td>19</td><td>7</td><td>₹4,20,000</td></tr>
-          <tr><td>Priya Menon</td><td>54</td><td style="color:var(--bad);font-weight:600">51%</td><td>96 min</td><td>42%</td><td>10</td><td>3</td><td>₹1,80,000</td></tr>
+          <tr><td>Priya Menon</td><td>54</td><td style="color:var(--color-bad);font-weight:600">51%</td><td>96 min</td><td>42%</td><td>10</td><td>3</td><td>₹1,80,000</td></tr>
         </tbody>
       </table>
     </div>
@@ -1204,33 +650,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="or"><span class="ol" style="width:160px">Meta · cost per lead</span><div class="track" style="height:16px"><div class="fill" style="width:31%;background:#1877F2"></div></div><span class="ov" style="width:70px">₹684</span></div>
         <div class="or"><span class="ol" style="width:160px">Meta · per consult</span><div class="track" style="height:16px"><div class="fill" style="width:88%;background:#1877F2"></div></div><span class="ov" style="width:70px">₹4,910</span></div>
       </div>
-      <div style="font-size:12px;color:var(--ink-500);margin-top:14px;border-left:2px solid var(--ember);padding-left:11px">✦ Meta looks cheaper per lead but costs <b>41% more per consult</b> — its leads answer the phone less often. Only visible because dietitian call outcomes live in the same spine as ad clicks.</div>
+      <div style="font-size:12px;color:var(--color-ink-500);margin-top:14px;border-left:2px solid var(--color-ember);padding-left:11px">✦ Meta looks cheaper per lead but costs <b>41% more per consult</b> — its leads answer the phone less often. Only visible because dietitian call outcomes live in the same spine as ad clicks.</div>
     </div>
   </section>
 
   <!-- ======== DATA SPINE (generic) ======== -->
   <section class="screen" id="s-spine">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
-      <p id="spine-desc" style="font-size:13px;color:var(--ink-500);max-width:78ch"></p>
+      <p id="spine-desc" style="font-size:13px;color:var(--color-ink-500);max-width:78ch"></p>
       <span class="spacer"></span>
-      <span class="perm y" style="flex:none">● Syncing live</span>
+      <span class="perm-y" style="flex:none">● Syncing live</span>
     </div>
     <div class="kpis k4">
-      <div class="kpi"><div class="l">Events · 24h</div><div class="v" id="spine-k1">48,211</div><div class="foot"><span class="delta up">▲ 6.1%</span></div></div>
-      <div class="kpi"><div class="l">Match rate</div><div class="v" id="spine-k2">96.2<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 0.8pp</span></div></div>
-      <div class="kpi"><div class="l">Last event</div><div class="v" id="spine-k3">2<span class="u">s ago</span></div><div class="foot"><span class="delta mut">p95 latency 1.4s</span></div></div>
-      <div class="kpi"><div class="l">Schema errors · 24h</div><div class="v" id="spine-k4">0</div><div class="foot"><span class="delta up">clean</span></div></div>
+      <div class="kpi"><div class="l">Events · 24h</div><div class="v" id="spine-k1">48,211</div><div class="foot"><span class="delta delta-up">▲ 6.1%</span></div></div>
+      <div class="kpi"><div class="l">Match rate</div><div class="v" id="spine-k2">96.2<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.8pp</span></div></div>
+      <div class="kpi"><div class="l">Last event</div><div class="v" id="spine-k3">2<span class="u">s ago</span></div><div class="foot"><span class="delta delta-mut">p95 latency 1.4s</span></div></div>
+      <div class="kpi"><div class="l">Schema errors · 24h</div><div class="v" id="spine-k4">0</div><div class="foot"><span class="delta delta-up">clean</span></div></div>
     </div>
     <div class="card">
       <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">Recent events</div>
       <table class="utable">
         <thead><tr><th>Time</th><th style="text-align:left">Event</th><th style="text-align:left">Source</th><th style="text-align:left">Identity</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td class="mono" style="text-align:left;font-size:11px">14:32:08</td><td style="text-align:left;font-weight:500">checkout_completed · ₹2,340</td><td style="text-align:left">Shopify</td><td style="text-align:left" class="mono" style="font-size:11px">gclid ✓ · profile #8841</td><td><span class="perm y">Stitched</span></td></tr>
-          <tr><td class="mono" style="text-align:left;font-size:11px">14:32:01</td><td style="text-align:left;font-weight:500">ad_click · summer-sale-static-a</td><td style="text-align:left">Meta</td><td style="text-align:left" class="mono" style="font-size:11px">fbclid ✓ · profile #9107</td><td><span class="perm y">Stitched</span></td></tr>
-          <tr><td class="mono" style="text-align:left;font-size:11px">14:31:44</td><td style="text-align:left;font-weight:500">page_view · /glow-ritual-kit</td><td style="text-align:left">Pixel</td><td style="text-align:left" class="mono" style="font-size:11px">anon → profile #9107</td><td><span class="perm y">Stitched</span></td></tr>
-          <tr><td class="mono" style="text-align:left;font-size:11px">14:31:12</td><td style="text-align:left;font-weight:500">email_click · winback-flow-3</td><td style="text-align:left">Klaviyo</td><td style="text-align:left" class="mono" style="font-size:11px">email hash ✓ · #7212</td><td><span class="perm y">Stitched</span></td></tr>
-          <tr><td class="mono" style="text-align:left;font-size:11px">14:30:58</td><td style="text-align:left;font-weight:500">ad_click · brand-exact</td><td style="text-align:left">Google</td><td style="text-align:left" class="mono" style="font-size:11px">gclid ✓ · unresolved</td><td><span class="perm n">Pending</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:32:08</td><td style="text-align:left;font-weight:500">checkout_completed · ₹2,340</td><td style="text-align:left">Shopify</td><td style="text-align:left" class="mono" style="font-size:11px">gclid ✓ · profile #8841</td><td><span class="perm-y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:32:01</td><td style="text-align:left;font-weight:500">ad_click · summer-sale-static-a</td><td style="text-align:left">Meta</td><td style="text-align:left" class="mono" style="font-size:11px">fbclid ✓ · profile #9107</td><td><span class="perm-y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:31:44</td><td style="text-align:left;font-weight:500">page_view · /glow-ritual-kit</td><td style="text-align:left">Pixel</td><td style="text-align:left" class="mono" style="font-size:11px">anon → profile #9107</td><td><span class="perm-y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:31:12</td><td style="text-align:left;font-weight:500">email_click · winback-flow-3</td><td style="text-align:left">Klaviyo</td><td style="text-align:left" class="mono" style="font-size:11px">email hash ✓ · #7212</td><td><span class="perm-y">Stitched</span></td></tr>
+          <tr><td class="mono" style="text-align:left;font-size:11px">14:30:58</td><td style="text-align:left;font-weight:500">ad_click · brand-exact</td><td style="text-align:left">Google</td><td style="text-align:left" class="mono" style="font-size:11px">gclid ✓ · unresolved</td><td><span class="perm-n">Pending</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -1238,16 +684,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
   <!-- ======== INTEGRATIONS ======== -->
   <section class="screen" id="s-integrations">
-    <p style="font-size:13px;color:var(--ink-500);margin-bottom:18px;max-width:78ch">Every connector feeds the same data spine — connect once, and Chat, Cockpit, and Attribution all read from one reconciled source of truth.</p>
+    <p style="font-size:13px;color:var(--color-ink-500);margin-bottom:18px;max-width:78ch">Every connector feeds the same data spine — connect once, and Chat, Cockpit, and Attribution all read from one reconciled source of truth.</p>
     <div class="libgrid">
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#E8F3E4;font-size:20px;font-weight:700;color:#5E8E3E">S</div><div class="meta"><b>Shopify</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#FDF3E0;font-size:20px;font-weight:700;color:#F9AB00">G</div><div class="meta"><b>Google Ads</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#E7F0FD;font-size:20px;font-weight:700;color:#1877F2">f</div><div class="meta"><b>Meta Ads</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#F1EBFB;font-size:20px;font-weight:700;color:#7C3AED">K</div><div class="meta"><b>Klaviyo</b><span style="color:var(--good);font-family:var(--sans);font-weight:600">● Connected</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--panel);font-size:20px;font-weight:700;color:var(--ink-500)">GA</div><div class="meta"><b>GA4</b><span style="color:var(--ember);font-family:var(--sans);font-weight:600">Connect →</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--panel);font-size:20px;font-weight:700;color:var(--ink-500)">R</div><div class="meta"><b>Razorpay</b><span style="color:var(--ember);font-family:var(--sans);font-weight:600">Connect →</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--panel);font-size:20px;font-weight:700;color:var(--ink-500)">A</div><div class="meta"><b>Amazon Ads</b><span style="color:var(--ember);font-family:var(--sans);font-weight:600">Connect →</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--tint);font-size:20px;color:var(--ember)">＋</div><div class="meta"><b>Request a connector</b><span>50+ in catalog</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#E8F3E4;font-size:20px;font-weight:700;color:#5E8E3E">S</div><div class="meta"><b>Shopify</b><span style="color:var(--color-good);font-family:var(--font-sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#FDF3E0;font-size:20px;font-weight:700;color:#F9AB00">G</div><div class="meta"><b>Google Ads</b><span style="color:var(--color-good);font-family:var(--font-sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#E7F0FD;font-size:20px;font-weight:700;color:#1877F2">f</div><div class="meta"><b>Meta Ads</b><span style="color:var(--color-good);font-family:var(--font-sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:#F1EBFB;font-size:20px;font-weight:700;color:#7C3AED">K</div><div class="meta"><b>Klaviyo</b><span style="color:var(--color-good);font-family:var(--font-sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">GA</div><div class="meta"><b>GA4</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">R</div><div class="meta"><b>Razorpay</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">A</div><div class="meta"><b>Amazon Ads</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-tint);font-size:20px;color:var(--color-ember)">＋</div><div class="meta"><b>Request a connector</b><span>50+ in catalog</span></div></div>
     </div>
   </section>
 
@@ -1257,7 +703,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <div class="lockring"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 018 0v3.5"/></svg></div>
       <h2 id="gate-title">Keyword Intelligence</h2>
       <p id="gate-desc">See which search queries triggered your paid keywords across Google, Amazon, and Bing…</p>
-      <button class="btn orange" onclick="go('settings');setPane('plans')">Upgrade</button>
+      <button class="btn btn-orange" onclick="go('settings');setPane('plans')">Upgrade</button>
       <div class="gplan" id="gate-plan">Included in the <b>Foundation</b> plan</div>
     </div>
   </section>
@@ -1265,7 +711,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <!-- ======== SETTINGS ======== -->
   <section class="screen" id="s-settings">
     <div class="set-grid">
-      <div class="setnav card" style="padding:8px;background:var(--off);border:none">
+      <div class="setnav card" style="padding:8px;background:var(--color-off);border:none">
         <div class="sn-sec">General</div>
         <button class="sn-i" data-pane="business" onclick="setPane('business')">Business Details</button>
         <button class="sn-i on" data-pane="team" onclick="setPane('team')">Team</button>
@@ -1290,22 +736,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <div>
         <!-- team -->
         <div class="setpane on" id="p-team">
-          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Team</h3><span class="spacer"></span><button class="btn sm">＋ Invite teammate</button></div>
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">Team</h3><span class="spacer"></span><button class="btn btn-sm">＋ Invite teammate</button></div>
           <div class="card">
-            <div class="trow"><div class="av2" style="background:var(--ink-900)">S</div><div><b>Santanu</b><span class="em">santanu@meerkats.ai</span></div><span class="spacer"></span><span class="perm y">Expenses</span><span class="perm y">PII</span><span class="role">Admin <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-            <div class="trow"><div class="av2" style="background:var(--ember)">V</div><div><b>Vinay</b><span class="em">vinay@meerkats.ai</span></div><span class="spacer"></span><span class="perm y">Expenses</span><span class="perm n">PII</span><span class="role">Editor <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-            <div class="trow"><div class="av2" style="background:var(--info)">A</div><div><b>Agency — RiseHigh</b><span class="em">team@risehigh.in</span></div><span class="spacer"></span><span class="perm n">Expenses</span><span class="perm n">PII</span><span class="role">Viewer <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+            <div class="trow"><div class="av2" style="background:var(--color-ink-900)">S</div><div><b>Santanu</b><span class="em">santanu@meerkats.ai</span></div><span class="spacer"></span><span class="perm-y">Expenses</span><span class="perm-y">PII</span><span class="role">Admin <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+            <div class="trow"><div class="av2" style="background:var(--color-ember)">V</div><div><b>Vinay</b><span class="em">vinay@meerkats.ai</span></div><span class="spacer"></span><span class="perm-y">Expenses</span><span class="perm-n">PII</span><span class="role">Editor <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+            <div class="trow"><div class="av2" style="background:var(--color-info)">A</div><div><b>Agency — RiseHigh</b><span class="em">team@risehigh.in</span></div><span class="spacer"></span><span class="perm-n">Expenses</span><span class="perm-n">PII</span><span class="role">Viewer <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
           </div>
-          <p style="font-size:12px;color:var(--ink-400);margin-top:12px">Role-based access with per-member Expenses and PII permissions. Viewers see dashboards, never raw customer data.</p>
+          <p style="font-size:12px;color:var(--color-ink-400);margin-top:12px">Role-based access with per-member Expenses and PII permissions. Viewers see dashboards, never raw customer data.</p>
         </div>
 
         <!-- plans -->
         <div class="setpane" id="p-plans">
-          <div class="planhead"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Plans</h3><span style="font-size:12px;color:var(--ink-400)">GMV-tiered · billed on trailing 12-month GMV</span><span class="spacer"></span><div class="bill"><button onclick="billTo(this,'mo')">Monthly</button><button class="on" onclick="billTo(this,'yr')">Annual</button></div></div>
+          <div class="planhead"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">Plans</h3><span style="font-size:12px;color:var(--color-ink-400)">GMV-tiered · billed on trailing 12-month GMV</span><span class="spacer"></span><div class="bill"><button onclick="billTo(this,'mo')">Monthly</button><button class="on" onclick="billTo(this,'yr')">Annual</button></div></div>
           <div class="plans">
-            <div class="plan"><h4>Free</h4><div class="pr">₹0</div><div class="gmv">Your current plan</div><ul><li>Channel performance dashboards</li><li>First / Last-Click attribution</li><li>Standard Shopify metrics</li><li>Analyst — 20 questions / mo</li></ul><button class="btn ghost sm" style="width:100%">Current plan</button></div>
-            <div class="plan pop2"><span class="rec">Recommended</span><h4>Foundation</h4><div class="pr"><span data-yr="₹1,82,000" data-mo="₹18,900">₹1,82,000</span><span class="u"> / yr</span></div><div class="gmv">Up to ₹8 Cr GMV</div><ul><li>Multi-touch attribution (all models)</li><li>Custom dashboards &amp; metrics</li><li>Segments &amp; SQL editor</li><li>Creative &amp; Product Analysis</li></ul><button class="btn orange sm" style="width:100%">Upgrade</button></div>
-            <div class="plan"><h4>Automate</h4><div class="pr"><span data-yr="₹6,24,000" data-mo="₹64,900">₹6,24,000</span><span class="u"> / yr</span></div><div class="gmv">Up to ₹25 Cr GMV</div><ul><li>Everything in Foundation</li><li>Analyst Automations</li><li>Analyst Specialists</li><li>Approval-gated actions at scale</li></ul><button class="btn sm" style="width:100%">Talk to sales</button></div>
+            <div class="plan"><h4>Free</h4><div class="pr">₹0</div><div class="gmv">Your current plan</div><ul><li>Channel performance dashboards</li><li>First / Last-Click attribution</li><li>Standard Shopify metrics</li><li>Analyst — 20 questions / mo</li></ul><button class="btn btn-ghost btn-sm" style="width:100%">Current plan</button></div>
+            <div class="plan pop2"><span class="rec">Recommended</span><h4>Foundation</h4><div class="pr"><span data-yr="₹1,82,000" data-mo="₹18,900">₹1,82,000</span><span class="u"> / yr</span></div><div class="gmv">Up to ₹8 Cr GMV</div><ul><li>Multi-touch attribution (all models)</li><li>Custom dashboards &amp; metrics</li><li>Segments &amp; SQL editor</li><li>Creative &amp; Product Analysis</li></ul><button class="btn btn-orange btn-sm" style="width:100%">Upgrade</button></div>
+            <div class="plan"><h4>Automate</h4><div class="pr"><span data-yr="₹6,24,000" data-mo="₹64,900">₹6,24,000</span><span class="u"> / yr</span></div><div class="gmv">Up to ₹25 Cr GMV</div><ul><li>Everything in Foundation</li><li>Analyst Automations</li><li>Analyst Specialists</li><li>Approval-gated actions at scale</li></ul><button class="btn btn-sm" style="width:100%">Talk to sales</button></div>
           </div>
           <div class="addons">
             <div class="addon"><b>Data Warehouse Sync</b><span class="ap">₹4,15,000 / yr</span></div>
@@ -1317,113 +763,113 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
         <!-- cost -->
         <div class="setpane" id="p-cost">
-          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Cost Settings</h3><span class="spacer"></span><button class="btn sm">＋ Add cost</button></div>
-          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:14px">These inputs power every profit metric — contribution margin, CM2, and true CAC all read from here.</p>
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">Cost Settings</h3><span class="spacer"></span><button class="btn btn-sm">＋ Add cost</button></div>
+          <p style="font-size:12.5px;color:var(--color-ink-500);margin-bottom:14px">These inputs power every profit metric — contribution margin, CM2, and true CAC all read from here.</p>
           <div class="card">
-            <div class="costrow"><div class="ci">▣</div><div><b>COGS</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Per-variant, synced from Shopify</div></div><span class="spacer"></span><span class="perm y stt">Added</span></div>
-            <div class="costrow"><div class="ci">➔</div><div><b>Shipping</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Tiered by zone · avg ₹64/order</div></div><span class="spacer"></span><span class="perm y stt">Added</span></div>
-            <div class="costrow"><div class="ci">%</div><div><b>Gateway costs</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Razorpay 2.0% + GST</div></div><span class="spacer"></span><span class="perm y stt">Added</span></div>
-            <div class="costrow"><div class="ci">✎</div><div><b>Custom expenses</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Agency retainer, tools, warehousing</div></div><span class="spacer"></span><span class="perm n stt">Not added</span></div>
+            <div class="costrow"><div class="ci">▣</div><div><b>COGS</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Per-variant, synced from Shopify</div></div><span class="spacer"></span><span class="perm-y stt">Added</span></div>
+            <div class="costrow"><div class="ci">➔</div><div><b>Shipping</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Tiered by zone · avg ₹64/order</div></div><span class="spacer"></span><span class="perm-y stt">Added</span></div>
+            <div class="costrow"><div class="ci">%</div><div><b>Gateway costs</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Razorpay 2.0% + GST</div></div><span class="spacer"></span><span class="perm-y stt">Added</span></div>
+            <div class="costrow"><div class="ci">✎</div><div><b>Custom expenses</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Agency retainer, tools, warehousing</div></div><span class="spacer"></span><span class="perm-n stt">Not added</span></div>
           </div>
         </div>
 
         <!-- pixel -->
         <div class="setpane" id="p-pixel">
-          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Meerkats Pixel</h3><span class="spacer"></span><span class="perm y">● Receiving events</span></div>
-          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:14px">First-party pixel with deterministic click-ID capture — the substrate under every attribution number in the app.</p>
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">Meerkats Pixel</h3><span class="spacer"></span><span class="perm-y">● Receiving events</span></div>
+          <p style="font-size:12.5px;color:var(--color-ink-500);margin-bottom:14px">First-party pixel with deterministic click-ID capture — the substrate under every attribution number in the app.</p>
           <div class="card">
-            <div class="costrow"><div class="ci">⚙</div><div><b>Installation</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Shopify theme app embed · v3.2</div></div><span class="spacer"></span><span class="perm y stt">Installed</span></div>
-            <div class="costrow"><div class="ci">⚡</div><div><b>Custom events</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">quiz_complete, sample_request</div></div><span class="spacer"></span><span class="perm y stt">2 active</span></div>
-            <div class="costrow"><div class="ci">↻</div><div><b>Subscription order settings</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Recharge — renewals excluded from CAC</div></div><span class="spacer"></span><span class="perm y stt">Configured</span></div>
-            <div class="costrow"><div class="ci">▤</div><div><b>Pixel events manager</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">98.7% capture rate · 0 errors 24h</div></div><span class="spacer"></span><button class="btn sm ghost">Open</button></div>
+            <div class="costrow"><div class="ci">⚙</div><div><b>Installation</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Shopify theme app embed · v3.2</div></div><span class="spacer"></span><span class="perm-y stt">Installed</span></div>
+            <div class="costrow"><div class="ci">⚡</div><div><b>Custom events</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">quiz_complete, sample_request</div></div><span class="spacer"></span><span class="perm-y stt">2 active</span></div>
+            <div class="costrow"><div class="ci">↻</div><div><b>Subscription order settings</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Recharge — renewals excluded from CAC</div></div><span class="spacer"></span><span class="perm-y stt">Configured</span></div>
+            <div class="costrow"><div class="ci">▤</div><div><b>Pixel events manager</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">98.7% capture rate · 0 errors 24h</div></div><span class="spacer"></span><button class="btn btn-sm btn-ghost">Open</button></div>
           </div>
         </div>
 
         <!-- brand vault -->
         <div class="setpane" id="p-brand">
-          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Brand Vault</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><button class="btn sm">＋ Add asset</button></div>
-          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:14px">Everything the Analyst needs to generate on-brand — logos, palette, type, and voice. Used by creative generation and report styling.</p>
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">Brand Vault</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--color-ember);background:var(--color-ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><button class="btn btn-sm">＋ Add asset</button></div>
+          <p style="font-size:12.5px;color:var(--color-ink-500);margin-bottom:14px">Everything the Analyst needs to generate on-brand — logos, palette, type, and voice. Used by creative generation and report styling.</p>
           <div class="bv-grid">
             <div class="bv-card"><h5>Logos &amp; icons</h5><div class="logorow"><div class="logobox"><span class="lw">purity<i>.</i></span></div><div class="logobox dark"><span class="lw" style="color:#fff">purity<i>.</i></span></div></div></div>
             <div class="bv-card"><h5>Palette</h5><div class="swatches" style="margin-bottom:20px"><div class="sw2" style="background:#EA580C"><span>#EA580C</span></div><div class="sw2" style="background:#0B0B0C"><span>#0B0B0C</span></div><div class="sw2" style="background:#FFF7F2"><span>#FFF7F2</span></div><div class="sw2" style="background:#FAFAF9"><span>#FAFAF9</span></div></div></div>
-            <div class="bv-card"><h5>Typography</h5><div style="font-family:var(--serif);font-size:19px;font-weight:600">Source Serif 4 — headlines</div><div style="font-size:13px;color:var(--ink-500);margin-top:4px">Inter — product &amp; body copy</div></div>
-            <div class="bv-card"><h5>Voice</h5><div style="font-size:12.5px;color:var(--ink-700);line-height:1.6">Warm, evidence-led, never hypey. Claims must cite the ritual study or verified reviews. Hindi-English mix OK on social.</div></div>
+            <div class="bv-card"><h5>Typography</h5><div style="font-family:var(--font-serif);font-size:19px;font-weight:600">Source Serif 4 — headlines</div><div style="font-size:13px;color:var(--color-ink-500);margin-top:4px">Inter — product &amp; body copy</div></div>
+            <div class="bv-card"><h5>Voice</h5><div style="font-size:12.5px;color:var(--color-ink-700);line-height:1.6">Warm, evidence-led, never hypey. Claims must cite the ritual study or verified reviews. Hindi-English mix OK on social.</div></div>
           </div>
         </div>
 
         <!-- analyst settings -->
         <div class="setpane" id="p-analystset">
-          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Analyst Settings</h3></div>
+          <div style="display:flex;align-items:center;margin-bottom:14px"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">Analyst Settings</h3></div>
           <div class="card">
-            <div class="costrow"><div class="ci">◔</div><div><b>Default attribution model</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Used by agents &amp; automations</div></div><span class="spacer"></span><span class="role">Last Click · 30d <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
-            <div class="costrow"><div class="ci">◇</div><div><b>Slack integration</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">#growth — reports &amp; approvals in-channel</div></div><span class="spacer"></span><span class="perm y stt">Connected</span></div>
-            <div class="costrow"><div class="ci">✓</div><div><b>Action approvals</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Every mutation requires a human yes</div></div><span class="spacer"></span><div class="toggle"></div></div>
-            <div class="costrow"><div class="ci">▤</div><div><b>Action log</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">14 actions this month · all approved</div></div><span class="spacer"></span><button class="btn sm ghost">View log</button></div>
+            <div class="costrow"><div class="ci">◔</div><div><b>Default attribution model</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Used by agents &amp; automations</div></div><span class="spacer"></span><span class="role">Last Click · 30d <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+            <div class="costrow"><div class="ci">◇</div><div><b>Slack integration</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">#growth — reports &amp; approvals in-channel</div></div><span class="spacer"></span><span class="perm-y stt">Connected</span></div>
+            <div class="costrow"><div class="ci">✓</div><div><b>Action approvals</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Every mutation requires a human yes</div></div><span class="spacer"></span><div class="toggle"></div></div>
+            <div class="costrow"><div class="ci">▤</div><div><b>Action log</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">14 actions this month · all approved</div></div><span class="spacer"></span><button class="btn btn-sm btn-ghost">View log</button></div>
           </div>
         </div>
 
         <!-- lead desk config -->
         <div class="setpane" id="p-leaddesk">
-          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">CRM Configuration</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><span style="font-size:12px;color:var(--good);font-weight:600;margin-right:10px">Enabled</span><div class="toggle"></div></div>
-          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:16px;max-width:76ch">A thin operating layer for teams who work leads by phone. Everything below is per-workspace configuration — no code changes to onboard the next client.</p>
+          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600">CRM Configuration</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--color-ember);background:var(--color-ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><span style="font-size:12px;color:var(--color-good);font-weight:600;margin-right:10px">Enabled</span><div class="toggle"></div></div>
+          <p style="font-size:12.5px;color:var(--color-ink-500);margin-bottom:16px;max-width:76ch">A thin operating layer for teams who work leads by phone. Everything below is per-workspace configuration — no code changes to onboard the next client.</p>
 
-          <div class="card" style="margin-bottom:20px;padding:16px 18px;background:var(--tint);border-color:#F5CBB0">
+          <div class="card" style="margin-bottom:20px;padding:16px 18px;background:var(--color-tint);border-color:#F5CBB0">
             <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px">
               <span class="lav" style="width:38px;height:38px;background:linear-gradient(135deg,#EA580C,#C2410C);color:#fff;font-size:14px">P</span>
-              <div><b style="font-size:15px">Progen Method</b><div style="font-size:12px;color:var(--ink-500)">Weight-loss &amp; metabolic health clinic · progenmethod.com</div></div>
+              <div><b style="font-size:15px">Progen Method</b><div style="font-size:12px;color:var(--color-ink-500)">Weight-loss &amp; metabolic health clinic · progenmethod.com</div></div>
               <span class="spacer"></span>
-              <span class="tag w">CRM active since 18 Jul 2026</span>
+              <span class="tag tag-w">CRM active since 18 Jul 2026</span>
             </div>
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;font-size:12px">
-              <div><div style="color:var(--ink-400);margin-bottom:3px">Clinics</div><b>Bangalore — HSR, Indiranagar<br>Mumbai — Andheri</b></div>
-              <div><div style="color:var(--ink-400);margin-bottom:3px">Lead sources</div><b>Google Ads · Meta Ads<br>Website form · WhatsApp</b></div>
-              <div><div style="color:var(--ink-400);margin-bottom:3px">Currency &amp; timezone</div><b>INR · Asia/Kolkata<br>+05:30</b></div>
-              <div><div style="color:var(--ink-400);margin-bottom:3px">Programs sold</div><b>3-month transformation<br>6-month metabolic</b></div>
+              <div><div style="color:var(--color-ink-400);margin-bottom:3px">Clinics</div><b>Bangalore — HSR, Indiranagar<br>Mumbai — Andheri</b></div>
+              <div><div style="color:var(--color-ink-400);margin-bottom:3px">Lead sources</div><b>Google Ads · Meta Ads<br>Website form · WhatsApp</b></div>
+              <div><div style="color:var(--color-ink-400);margin-bottom:3px">Currency &amp; timezone</div><b>INR · Asia/Kolkata<br>+05:30</b></div>
+              <div><div style="color:var(--color-ink-400);margin-bottom:3px">Programs sold</div><b>3-month transformation<br>6-month metabolic</b></div>
             </div>
           </div>
 
           <div class="sec-h">Vocabulary</div>
           <div class="card" style="margin-bottom:18px">
-            <div class="cfgrow"><span class="cl">Operator label</span><input value="Dietitian" style="width:150px"><span style="color:var(--ink-400)">/</span><input value="Dietitians" style="width:150px"><span style="font-size:11.5px;color:var(--ink-400)">singular / plural — used across every screen</span></div>
-            <div class="cfgrow"><span class="cl">Work item label</span><input value="Lead" style="width:150px"><span style="color:var(--ink-400)">/</span><input value="Leads" style="width:150px"></div>
+            <div class="cfgrow"><span class="cl">Operator label</span><input value="Dietitian" style="width:150px"><span style="color:var(--color-ink-400)">/</span><input value="Dietitians" style="width:150px"><span style="font-size:11.5px;color:var(--color-ink-400)">singular / plural — used across every screen</span></div>
+            <div class="cfgrow"><span class="cl">Work item label</span><input value="Lead" style="width:150px"><span style="color:var(--color-ink-400)">/</span><input value="Leads" style="width:150px"></div>
             <div class="cfgrow"><span class="cl">Key conversion event</span><input value="Consultation booked" style="width:230px"></div>
             <div class="cfgrow"><span class="cl">Consultation types</span><input value="Free discovery call — 15 min" style="width:230px"><input value="Paid consult — 45 min" style="width:200px"></div>
           </div>
 
           <div class="sec-h">Dispositions <span class="hint">— what an operator can log, and where each one moves the lead</span></div>
           <div class="card" style="margin-bottom:18px">
-            <div class="dispo"><span class="dd" style="background:var(--good)"></span><b>Connected</b><span class="maps">follow-up optional · maps to <b>Engagement</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--bad)"></span><b>RNR</b><span class="maps">follow-up required · default +4h · stays in <b>Acquisition</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--watch)"></span><b>Busy</b><span class="maps">follow-up required · default +4h</span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--ember)"></span><b>Consult booked</b><span class="maps">schedules event · maps to <b>Intent</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--ink-900)"></span><b>Not interested</b><span class="maps">reason required · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--ink-400)"></span><b>Wrong number</b><span class="maps">invalidates phone · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo" style="border-top:1px solid var(--rule-soft)"><button class="newmetric" style="padding:4px 0">＋ Add disposition</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-good)"></span><b>Connected</b><span class="maps">follow-up optional · maps to <b>Engagement</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-bad)"></span><b>RNR</b><span class="maps">follow-up required · default +4h · stays in <b>Acquisition</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-watch)"></span><b>Busy</b><span class="maps">follow-up required · default +4h</span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-ember)"></span><b>Consult booked</b><span class="maps">schedules event · maps to <b>Intent</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-ink-900)"></span><b>Not interested</b><span class="maps">reason required · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-ink-400)"></span><b>Wrong number</b><span class="maps">invalidates phone · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo" style="border-top:1px solid var(--color-rule)"><button class="newmetric" style="padding:4px 0">＋ Add disposition</button></div>
           </div>
 
           <div class="sec-h">Assignment &amp; SLA</div>
           <div class="card" style="margin-bottom:18px">
             <div class="cfgrow"><span class="cl">Assignment strategy</span><select style="width:230px"><option>Round-robin (capacity aware)</option><option>Manual only</option><option>By lead source</option><option>By language</option><option>By city</option></select></div>
             <div class="cfgrow"><span class="cl">Max active leads per operator</span><input value="25" style="width:80px"></div>
-            <div class="cfgrow"><span class="cl">First-touch SLA</span><input value="30" style="width:70px"><span style="font-size:12.5px;color:var(--ink-500)">minutes — breach alerts the manager in Slack</span></div>
+            <div class="cfgrow"><span class="cl">First-touch SLA</span><input value="30" style="width:70px"><span style="font-size:12.5px;color:var(--color-ink-500)">minutes — breach alerts the manager in Slack</span></div>
             <div class="cfgrow"><span class="cl">Max attempts before dormant</span><input value="5" style="width:70px"></div>
           </div>
 
           <div class="sec-h">Channels <span class="hint">— logged interactions become events in the spine</span></div>
           <div class="card">
-            <div class="costrow"><div class="ci">☎</div><div><b>Manual call logging</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Operator taps an outcome after each call</div></div><span class="spacer"></span><span class="perm y stt">Live</span></div>
-            <div class="costrow"><div class="ci">◈</div><div><b>WhatsApp Business API</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Two-way threads ingested into the timeline</div></div><span class="spacer"></span><span class="tag">Phase 2</span></div>
-            <div class="costrow"><div class="ci">🎙</div><div><b>Call recording &amp; transcripts</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Exotel / Ozonetel · AI summary + objection tagging</div></div><span class="spacer"></span><span class="tag">Phase 3</span></div>
+            <div class="costrow"><div class="ci">☎</div><div><b>Manual call logging</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Operator taps an outcome after each call</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
+            <div class="costrow"><div class="ci">◈</div><div><b>WhatsApp Business API</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Two-way threads ingested into the timeline</div></div><span class="spacer"></span><span class="tag">Phase 2</span></div>
+            <div class="costrow"><div class="ci">🎙</div><div><b>Call recording &amp; transcripts</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Exotel / Ozonetel · AI summary + objection tagging</div></div><span class="spacer"></span><span class="tag">Phase 3</span></div>
           </div>
         </div>
 
         <!-- business (stub) -->
         <div class="setpane" id="p-business">
-          <h3 style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:14px">Business Details</h3>
+          <h3 style="font-family:var(--font-serif);font-size:20px;font-weight:600;margin-bottom:14px">Business Details</h3>
           <div class="card">
-            <div class="costrow"><div class="ci">◉</div><div><b>Store</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Purity Naturals · puritynaturals.in</div></div></div>
-            <div class="costrow"><div class="ci">₹</div><div><b>Currency &amp; timezone</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">INR · Asia/Kolkata (+05:30)</div></div></div>
-            <div class="costrow"><div class="ci">⌫</div><div><b>Customer data deletion</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">GDPR / DPDP requests — 2 processed</div></div><span class="spacer"></span><button class="btn sm ghost">Manage</button></div>
+            <div class="costrow"><div class="ci">◉</div><div><b>Store</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Purity Naturals · puritynaturals.in</div></div></div>
+            <div class="costrow"><div class="ci">₹</div><div><b>Currency &amp; timezone</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">INR · Asia/Kolkata (+05:30)</div></div></div>
+            <div class="costrow"><div class="ci">⌫</div><div><b>Customer data deletion</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">GDPR / DPDP requests — 2 processed</div></div><span class="spacer"></span><button class="btn btn-sm btn-ghost">Manage</button></div>
           </div>
         </div>
       </div>
@@ -1438,7 +884,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="chat-body">
       <h2 id="chat-greet">Good afternoon, Santanu!</h2>
       <div class="chat-ask">
-        <div class="in"><span style="color:var(--ember);font-size:14px">✦</span><input placeholder="Ask anything…"><button class="send">↑</button></div>
+        <div class="in"><span style="color:var(--color-ember);font-size:14px">✦</span><input placeholder="Ask anything…"><button class="send">↑</button></div>
         <div class="foot"><span class="mchip"><span class="d"></span>Purity Naturals</span><span class="mchip">Auto model</span></div>
       </div>
       <div class="chat-sugg">
@@ -1454,7 +900,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </div>
 
 <!-- ======== LOG INTERACTION SHEET ======== -->
-<div id="sheet">
+<div id="sheet" class="overlay">
   <div class="sheet-in">
     <div class="grab"></div>
     <div class="sheet-lead">
@@ -1472,12 +918,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
     <span class="slab">What happened?</span>
     <div class="outs">
-      <button class="out" onclick="pickOut(this,'connected')"><span class="od2" style="background:var(--good)"></span>Connected</button>
-      <button class="out" onclick="pickOut(this,'rnr')"><span class="od2" style="background:var(--bad)"></span>Ring, no response</button>
-      <button class="out" onclick="pickOut(this,'busy')"><span class="od2" style="background:var(--watch)"></span>Busy — call later</button>
-      <button class="out" onclick="pickOut(this,'wrong')"><span class="od2" style="background:var(--ink-400)"></span>Wrong number</button>
-      <button class="out" onclick="pickOut(this,'notint')"><span class="od2" style="background:var(--ink-900)"></span>Not interested</button>
-      <button class="out" onclick="pickOut(this,'booked')"><span class="od2" style="background:var(--ember)"></span>Consult booked</button>
+      <button class="out" onclick="pickOut(this,'connected')"><span class="od2" style="background:var(--color-good)"></span>Connected</button>
+      <button class="out" onclick="pickOut(this,'rnr')"><span class="od2" style="background:var(--color-bad)"></span>Ring, no response</button>
+      <button class="out" onclick="pickOut(this,'busy')"><span class="od2" style="background:var(--color-watch)"></span>Busy — call later</button>
+      <button class="out" onclick="pickOut(this,'wrong')"><span class="od2" style="background:var(--color-ink-400)"></span>Wrong number</button>
+      <button class="out" onclick="pickOut(this,'notint')"><span class="od2" style="background:var(--color-ink-900)"></span>Not interested</button>
+      <button class="out" onclick="pickOut(this,'booked')"><span class="od2" style="background:var(--color-ember)"></span>Consult booked</button>
     </div>
 
     <!-- progressive reveals -->
@@ -1489,7 +935,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <button class="chip2" onclick="pickChip(this)">In 2 days</button>
         <button class="chip2" onclick="pickChip(this)">Custom…</button>
       </div>
-      <p style="font-size:11.5px;color:var(--ink-400);margin-top:11px">After 5 unanswered attempts this lead auto-moves to <b>Dormant</b> and leaves your queue.</p>
+      <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:11px">After 5 unanswered attempts this lead auto-moves to <b>Dormant</b> and leaves your queue.</p>
     </div>
 
     <div class="reveal" id="rv-connected">
@@ -1503,21 +949,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="reveal" id="rv-booked">
       <div class="fld"><label>Consultation date &amp; time</label><input type="datetime-local" value="2026-07-24T11:00"></div>
       <div class="fld"><label>Assigned dietitian for consult</label><select><option>Sneha Kulkarni (me)</option><option>Dr. Anjali Rao</option><option>Ritu Sharma</option></select></div>
-      <p style="font-size:11.5px;color:var(--ink-400)">Moves this lead to <b>Intent</b> and sends the WhatsApp confirmation template.</p>
+      <p style="font-size:11.5px;color:var(--color-ink-400)">Moves this lead to <b>Intent</b> and sends the WhatsApp confirmation template.</p>
     </div>
 
     <div class="reveal" id="rv-notint">
       <div class="fld"><label>Reason</label><select><option>Price too high</option><option>Chose another clinic</option><option>Just browsing</option><option>Health condition — not eligible</option><option>Never enquired</option></select></div>
-      <p style="font-size:11.5px;color:var(--ink-400)">Moves to <b>Risk</b> and removes from your queue. Reasons roll up into CRM Performance.</p>
+      <p style="font-size:11.5px;color:var(--color-ink-400)">Moves to <b>Risk</b> and removes from your queue. Reasons roll up into CRM Performance.</p>
     </div>
 
     <div class="reveal" id="rv-wrong">
-      <p style="font-size:12.5px;color:var(--ink-500)">Marks the phone number invalid on this identity and flags the lead for the ads team — repeated wrong numbers from one campaign usually mean a broken form or click fraud.</p>
+      <p style="font-size:12.5px;color:var(--color-ink-500)">Marks the phone number invalid on this identity and flags the lead for the ads team — repeated wrong numbers from one campaign usually mean a broken form or click fraud.</p>
     </div>
 
     <div class="sheet-f">
-      <button class="btn ghost" onclick="closeSheet()">Cancel</button>
-      <button class="btn orange" onclick="saveLog()">Save &amp; next lead</button>
+      <button class="btn btn-ghost" onclick="closeSheet()">Cancel</button>
+      <button class="btn btn-orange" onclick="saveLog()">Save &amp; next lead</button>
     </div>
   </div>
 </div>
@@ -1525,7 +971,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <div id="toast"><span>✓</span><span id="toast-t">Logged</span></div>
 
 <!-- ======== SELECT COLUMNS MODAL ======== -->
-<div id="modal">
+<div id="modal" class="overlay">
   <div class="modal-in">
     <div class="modal-h"><h3>Select Columns</h3><button class="x" onclick="document.getElementById('modal').classList.remove('on')">✕</button></div>
     <div class="modal-b">
@@ -1543,11 +989,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="mitem"><span>CTR</span><span class="add">＋</span></div>
         <div class="mitem"><span>CPM</span><span class="add">＋</span></div>
         <div class="mitem"><span>AOV</span><span class="add">＋</span></div>
-        <div class="mitem"><span>CM2 / Order <span class="pill fdn" style="margin-left:6px">CUSTOM</span></span><span class="add">＋</span></div>
+        <div class="mitem"><span>CM2 / Order <span class="pill-fdn" style="margin-left:6px">CUSTOM</span></span><span class="add">＋</span></div>
         <button class="newmetric">＋ Custom Metric</button>
       </div>
       <div class="mcol">
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-400);margin-bottom:11px">Active columns · drag to reorder</div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-ink-400);margin-bottom:11px">Active columns · drag to reorder</div>
         <div class="acol"><span class="grip">⋮⋮</span>Spend<span class="rm">✕</span></div>
         <div class="acol"><span class="grip">⋮⋮</span>Sessions<span class="rm">✕</span></div>
         <div class="acol"><span class="grip">⋮⋮</span>Orders<span class="rm">✕</span></div>
@@ -1557,7 +1003,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="acol"><span class="grip">⋮⋮</span>ROAS<span class="rm">✕</span></div>
       </div>
     </div>
-    <div class="modal-f"><button class="btn ghost sm" onclick="document.getElementById('modal').classList.remove('on')">Cancel</button><button class="btn sm" onclick="document.getElementById('modal').classList.remove('on')">Apply columns</button></div>
+    <div class="modal-f"><button class="btn btn-ghost btn-sm" onclick="document.getElementById('modal').classList.remove('on')">Cancel</button><button class="btn btn-sm" onclick="document.getElementById('modal').classList.remove('on')">Apply columns</button></div>
   </div>
 </div>
 
@@ -1590,13 +1036,13 @@ const LEADS=[
 {n:'Meera Iyer',ph:'+91 97390 55841',id:'con_Vb7hLsDf3nQw',src:'google',cam:'Search · Dietitian near me',op:'Ritu Sharma',att:5,last:'RNR',lastc:'r',st:'Risk',nx:'Dormant — 5 attempts',due:'—',band:'other'}];
 
 const BANDS=[
-{k:'over',t:'Overdue follow-ups',c:'var(--bad)',h:'Call these first — SLA already breached'},
-{k:'today',t:'Due today',c:'var(--watch)',h:''},
-{k:'new',t:'New — assigned, never contacted',c:'var(--ember)',h:'30-minute first-touch SLA running'},
-{k:'later',t:'Scheduled &amp; snoozed',c:'var(--ink-400)',h:''}];
+{k:'over',t:'Overdue follow-ups',c:'var(--color-bad)',h:'Call these first — SLA already breached'},
+{k:'today',t:'Due today',c:'var(--color-watch)',h:''},
+{k:'new',t:'New — assigned, never contacted',c:'var(--color-ember)',h:'30-minute first-touch SLA running'},
+{k:'later',t:'Scheduled &amp; snoozed',c:'var(--color-ink-400)',h:''}];
 
 const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-const srcTag=s=>s==='google'?'<span class="tag g">Google</span>':'<span class="tag m">Meta</span>';
+const srcTag=s=>s==='google'?'<span class="tag tag-g">Google</span>':'<span class="tag tag-m">Meta</span>';
 
 function renderQueue(){
   const wrap=document.getElementById('queueBands');if(!wrap)return;
@@ -1605,12 +1051,12 @@ function renderQueue(){
     if(!rows.length)return '';
     return '<div class="band"><div class="band-h"><span class="bd" style="background:'+b.c+'"></span><h3>'+b.t+'</h3><span class="n">'+rows.length+'</span>'+(b.h?'<span class="hint">'+b.h+'</span>':'')+'</div>'+
     rows.map(l=>{const i=LEADS.indexOf(l);const od=b.k==='over';
-      return '<div class="lrow'+(od?' od':'')+'">'+
+      return '<div class="lrow'+(od?' lrow-od':'')+'">'+
       '<span class="lav">'+ini(l.n)+'</span>'+
       '<div class="who2"><b onclick="openLead('+i+')">'+l.n+'</b><span>'+l.ph+'</span></div>'+
-      '<div class="meta2">'+srcTag(l.src)+'<span class="tag">'+l.cam+'</span>'+(l.att?'<span class="tag'+(l.lastc?' '+l.lastc:'')+'">'+l.last+' · att '+l.att+'</span>':'<span class="tag">New lead</span>')+'</div>'+
+      '<div class="meta2">'+srcTag(l.src)+'<span class="tag">'+l.cam+'</span>'+(l.att?'<span class="tag tag-'+l.lastc+'">'+l.last+' · att '+l.att+'</span>':'<span class="tag">New lead</span>')+'</div>'+
       '<div class="nx'+(od?' odd':'')+'"><b>'+l.nx+'</b>'+l.due+'</div>'+
-      '<div class="acts"><button class="mini wa">◈</button><button class="mini call" onclick="openSheet('+i+')">☎ Call</button></div></div>';
+      '<div class="acts"><button class="mini mini-wa">◈</button><button class="mini mini-call" onclick="openSheet('+i+')">☎ Call</button></div></div>';
     }).join('')+'</div>';
   }).join('');
 }
@@ -1633,13 +1079,13 @@ function renderLeads(){
   document.getElementById('leadRows').innerHTML=viewRows().map(l=>{
     const i=LEADS.indexOf(l);
     return '<tr><td><input type="checkbox" class="lchk" onclick="updBulk()"></td>'+
-    '<td><div style="display:flex;align-items:center;gap:9px"><span class="lav">'+ini(l.n)+'</span><div><b style="cursor:pointer" onclick="openLead('+i+')">'+l.n+'</b><div class="mono" style="font-size:10.5px;color:var(--ink-400)">'+l.ph+'</div></div></div></td>'+
-    '<td style="text-align:left">'+srcTag(l.src)+'<div style="font-size:11px;color:var(--ink-400);margin-top:3px">'+l.cam+'</div></td>'+
-    '<td style="text-align:left"><span class="tag'+(l.st==='Intent'?' w':l.st==='Risk'?' r':'')+'">'+l.st+'</span></td>'+
-    '<td style="text-align:left">'+(l.op==='—'?'<span style="color:var(--ember);font-weight:600">Unassigned</span>':l.op)+'</td>'+
+    '<td><div style="display:flex;align-items:center;gap:9px"><span class="lav">'+ini(l.n)+'</span><div><b style="cursor:pointer" onclick="openLead('+i+')">'+l.n+'</b><div class="mono" style="font-size:10.5px;color:var(--color-ink-400)">'+l.ph+'</div></div></div></td>'+
+    '<td style="text-align:left">'+srcTag(l.src)+'<div style="font-size:11px;color:var(--color-ink-400);margin-top:3px">'+l.cam+'</div></td>'+
+    '<td style="text-align:left"><span class="tag'+(l.st==='Intent'?' tag-w':l.st==='Risk'?' tag-r':'')+'">'+l.st+'</span></td>'+
+    '<td style="text-align:left">'+(l.op==='—'?'<span style="color:var(--color-ember);font-weight:600">Unassigned</span>':l.op)+'</td>'+
     '<td>'+l.att+'</td>'+
-    '<td style="text-align:left">'+(l.lastc?'<span class="tag '+l.lastc+'">'+l.last+'</span>':'<span style="color:var(--ink-400)">—</span>')+'</td>'+
-    '<td style="text-align:left"><b style="font-size:12px">'+l.nx+'</b><div style="font-size:11px;color:'+(l.band==='over'?'var(--bad)':'var(--ink-400)')+'">'+l.due+'</div></td></tr>';
+    '<td style="text-align:left">'+(l.lastc?'<span class="tag tag-'+l.lastc+'">'+l.last+'</span>':'<span style="color:var(--color-ink-400)">—</span>')+'</td>'+
+    '<td style="text-align:left"><b style="font-size:12px">'+l.nx+'</b><div style="font-size:11px;color:'+(l.band==='over'?'var(--color-bad)':'var(--color-ink-400)')+'">'+l.due+'</div></td></tr>';
   }).join('');
   updBulk();
 }
@@ -1849,7 +1295,7 @@ linpaid:{t:'Linear Paid',d:'Splits credit equally across paid touchpoints only.'
 function pickModel(row,key){
   document.querySelectorAll('.mrow').forEach(r=>r.classList.remove('on'));row.classList.add('on');
   const m=MODELS[key];
-  document.getElementById('mdetail').innerHTML='<h4>'+m.t+(m.lock?' <span class="pill fdn" style="vertical-align:2px">FOUNDATION</span>':'')+'</h4><div class="desc">'+m.d+'</div><div class="bf"><b>Best for</b>'+m.bf+'</div><div class="bf"><b>Use when</b>'+m.uw+'</div>'+(m.lock?'<button class="btn orange sm" style="margin-top:6px" onclick="go(\'settings\');setPane(\'plans\')">Upgrade to use</button>':'')+'<br><span class="help">Which model is right for me? →</span>';
+  document.getElementById('mdetail').innerHTML='<h4>'+m.t+(m.lock?' <span class="pill-fdn" style="vertical-align:2px">FOUNDATION</span>':'')+'</h4><div class="desc">'+m.d+'</div><div class="bf"><b>Best for</b>'+m.bf+'</div><div class="bf"><b>Use when</b>'+m.uw+'</div>'+(m.lock?'<button class="btn btn-orange btn-sm" style="margin-top:6px" onclick="go(\'settings\');setPane(\'plans\')">Upgrade to use</button>':'')+'<br><span class="help">Which model is right for me? →</span>';
   if(!m.lock)document.getElementById('modelBtn').innerHTML='Model: <b>&nbsp;'+m.t+'</b> <span class="cd">▼</span>';
   event.stopPropagation();
 }

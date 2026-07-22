@@ -1,0 +1,1032 @@
+@import "tailwindcss";
+
+@source "../index.html";
+
+/* ============================================================
+   Meerkats.ai design tokens — Tailwind v4 CSS-first theme.
+   Every token below generates utilities (bg-ember, text-ink-500,
+   border-rule, font-serif, …) used throughout index.html.
+   ============================================================ */
+@theme {
+  /* surfaces */
+  --color-off: #FAFAF9;
+  --color-tint: #FFF7F2;
+  --color-panel: #F6F6F4;
+
+  /* accent */
+  --color-ember: #EA580C;
+  --color-ember-hover: #C2410C;
+  --color-ember-dim: rgba(234, 88, 12, 0.08);
+  --color-ember-soft: #F5CBB0;
+
+  /* ink */
+  --color-ink-900: #0B0B0C;
+  --color-ink-700: #2A2A2E;
+  --color-ink-500: #5C5C63;
+  --color-ink-400: #8A8A92;
+
+  /* borders */
+  --color-rule: #E5E4E1;
+
+  /* semantic */
+  --color-good: #0F6E56;
+  --color-good-bg: #E4F3EE;
+  --color-watch: #9A6410;
+  --color-watch-bg: #FBF0DD;
+  --color-bad: #B23A3A;
+  --color-bad-bg: #FBEBEB;
+  --color-info: #3A5A7A;
+  --color-info-bg: #EAF0F6;
+
+  /* channel brand colours */
+  --color-shopify: #5E8E3E;
+  --color-meta: #1877F2;
+  --color-google: #F9AB00;
+  --color-whatsapp: #25D366;
+  --color-klaviyo: #7C3AED;
+
+  /* type */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    @apply bg-off text-ink-900 font-sans text-sm leading-normal antialiased overflow-hidden;
+  }
+  button {
+    @apply cursor-pointer font-[inherit] text-[inherit];
+  }
+  ::-webkit-scrollbar {
+    @apply w-2.5 h-2.5;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-rule rounded-full border-[3px] border-off;
+  }
+}
+
+/* ============================================================
+   Component atoms — only for elements repeated many times or
+   needing pseudo-elements. Everything else is inline utilities.
+   ============================================================ */
+@layer components {
+  /* ---- buttons ---- */
+  .btn {
+    @apply inline-flex items-center gap-[7px] rounded-full bg-ink-900 px-[22px] py-2.5
+           text-[13.5px] font-semibold text-white transition-colors duration-150;
+  }
+  .btn:hover {
+    @apply bg-ember;
+  }
+  .btn-orange {
+    @apply bg-ember;
+  }
+  .btn-orange:hover {
+    @apply bg-ember-hover;
+  }
+  .btn-ghost {
+    @apply border border-rule bg-transparent text-ink-700;
+  }
+  .btn-ghost:hover {
+    @apply border-ink-900 bg-transparent text-ink-900;
+  }
+  .btn-sm {
+    @apply px-[15px] py-[7px] text-[12.5px];
+  }
+
+  /* small outline button used in tables and cards */
+  .mini {
+    @apply whitespace-nowrap rounded-lg border border-rule px-[11px] py-1.5
+           text-xs font-semibold text-ink-700 transition-colors duration-150;
+  }
+  .mini:hover {
+    @apply border-ink-900 text-ink-900;
+  }
+  .mini-call {
+    @apply border-ember bg-ember text-white;
+  }
+  .mini-call:hover {
+    @apply border-ember-hover bg-ember-hover text-white;
+  }
+  .mini-wa {
+    @apply border-good/40 text-good;
+  }
+
+  /* ---- top bar controls ---- */
+  .ctl {
+    @apply inline-flex items-center gap-[7px] rounded-[9px] border border-rule bg-white
+           px-[13px] py-[7px] text-[13px] font-medium text-ink-700 transition-colors duration-150;
+  }
+  .ctl:hover {
+    @apply border-ink-400;
+  }
+  .icbtn {
+    @apply grid h-[34px] w-[34px] place-items-center rounded-[9px] border border-rule
+           text-sm text-ink-500 transition-colors duration-150;
+  }
+  .icbtn:hover {
+    @apply border-ink-400 text-ink-900;
+  }
+
+  /* ---- surfaces ---- */
+  .card {
+    @apply rounded-[14px] border border-rule bg-white;
+  }
+
+  /* ---- pills / tags ---- */
+  .tag {
+    @apply whitespace-nowrap rounded-full border border-rule px-[9px] py-0.5
+           text-[10.5px] text-ink-500;
+  }
+  .tag-g {
+    @apply border-google/45 bg-google/10 text-watch;
+  }
+  .tag-m {
+    @apply border-meta/30 bg-meta/8 text-info;
+  }
+  .tag-w {
+    @apply border-good/35 bg-good-bg text-good;
+  }
+  .tag-r {
+    @apply border-bad/30 bg-bad-bg text-bad;
+  }
+  .pill-free {
+    @apply bg-good-bg text-good;
+  }
+  .pill-fdn {
+    @apply bg-info-bg text-info;
+  }
+  .perm-y {
+    @apply rounded-full bg-good-bg px-2 py-0.5 text-[10.5px] font-semibold text-good;
+  }
+  .perm-n {
+    @apply rounded-full border border-rule bg-off px-2 py-0.5 text-[10.5px] font-semibold text-ink-400;
+  }
+
+  /* ---- form fields ---- */
+  .field {
+    @apply rounded-[9px] border border-rule bg-white px-[11px] py-[9px]
+           font-sans text-[13px] text-ink-900 outline-none;
+  }
+  .field:focus {
+    @apply border-ember;
+  }
+
+  /* ---- tables ---- */
+  .th {
+    @apply whitespace-nowrap border-b border-rule px-3.5 py-[11px] text-right
+           font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-ink-400;
+  }
+  .td {
+    @apply whitespace-nowrap border-b border-rule px-3.5 py-3 text-right tabular-nums;
+  }
+  .tr-hover:hover {
+    @apply bg-off;
+  }
+
+  /* ---- sidebar nav ---- */
+  .ni {
+    @apply relative flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-[6.5px]
+           text-left text-[13.5px] font-medium text-ink-500 transition-colors duration-150;
+  }
+  .ni:hover {
+    @apply bg-off text-ink-900;
+  }
+  .ni.active {
+    @apply bg-tint font-semibold text-ember;
+  }
+  .sni {
+    @apply block w-full rounded-lg py-[5px] pl-[38px] pr-2.5 text-left text-[12.5px]
+           font-medium text-ink-500 transition-colors duration-150;
+  }
+  .sni:hover {
+    @apply bg-off text-ink-900;
+  }
+  .sni.active {
+    @apply bg-tint font-semibold text-ember;
+  }
+  .fi {
+    @apply flex w-full items-center gap-[9px] rounded-lg px-[11px] py-2 text-left
+           text-[13px] font-medium text-ink-700 transition-colors duration-150;
+  }
+  .fi:hover {
+    @apply bg-off;
+  }
+  .fi.on {
+    @apply bg-tint font-semibold text-ember;
+  }
+  .nav-sec {
+    @apply flex items-center px-2.5 pb-1 pt-2.5 font-mono text-[10px] uppercase
+           tracking-[0.13em] text-ink-400;
+  }
+
+  /* ---- settings nav ---- */
+  .sn-i {
+    @apply block w-full rounded-lg px-2.5 py-[7px] text-left text-[13px] font-medium
+           text-ink-500 transition-colors duration-150;
+  }
+  .sn-i:hover {
+    @apply bg-white text-ink-900;
+  }
+  .sn-i.on {
+    @apply bg-tint font-semibold text-ember;
+  }
+
+  /* ---- avatars ---- */
+  .lav {
+    @apply grid h-[34px] w-[34px] flex-none place-items-center rounded-full bg-panel
+           text-xs font-semibold text-ink-700;
+  }
+
+  /* ---- toggle switch (needs a pseudo-element knob) ---- */
+  .toggle {
+    @apply relative h-[19px] w-[34px] flex-none cursor-pointer rounded-full bg-good;
+  }
+  .toggle::after {
+    content: '';
+    @apply absolute right-0.5 top-0.5 h-[15px] w-[15px] rounded-full bg-white;
+  }
+  .toggle.off {
+    @apply bg-rule;
+  }
+  .toggle.off::after {
+    @apply left-0.5 right-auto;
+  }
+
+  /* ---- timeline (needs a connector line + dots) ---- */
+  .tl {
+    @apply relative pl-6;
+  }
+  .tl::before {
+    content: '';
+    @apply absolute bottom-2.5 left-[5px] top-2.5 w-px bg-rule;
+  }
+  .tdot {
+    @apply absolute -left-6 top-3.5 h-[11px] w-[11px] rounded-full border-2 border-white bg-ink-400;
+  }
+  .tli-gg .tdot { @apply bg-google; }
+  .tli-mm .tdot { @apply bg-meta; }
+  .tli-ff .tdot { @apply bg-ember; }
+  .tli-cc .tdot { @apply bg-good; }
+  .tli-rr .tdot { @apply bg-bad; }
+  .tli-ww .tdot { @apply bg-whatsapp; }
+
+  /* ---- screen visibility, driven by JS ---- */
+  .screen {
+    @apply hidden;
+  }
+  .screen.on {
+    @apply block;
+  }
+  .setpane {
+    @apply hidden;
+  }
+  .setpane.on {
+    @apply block;
+  }
+  .reveal {
+    @apply hidden border-t border-dashed border-rule pt-4 mt-4;
+  }
+  .reveal.on {
+    @apply block;
+  }
+
+  /* ---- outcome buttons in the log sheet ---- */
+  .out {
+    @apply flex items-center gap-[9px] rounded-[11px] border-[1.5px] border-rule px-3 py-[13px]
+           text-[13.5px] font-semibold text-ink-700 transition-colors duration-150;
+  }
+  .out:hover {
+    @apply border-ink-400;
+  }
+  .out.on {
+    @apply border-ember bg-tint text-ember;
+  }
+  .chip2 {
+    @apply rounded-full border border-rule bg-white px-[15px] py-2 text-[12.5px]
+           font-semibold text-ink-700 transition-colors duration-150;
+  }
+  .chip2:hover {
+    @apply border-ink-900;
+  }
+  .chip2.on {
+    @apply border-ember bg-ember text-white;
+  }
+  .chan {
+    @apply flex-1 rounded-[9px] border border-rule py-[9px] text-[12.5px] font-semibold
+           text-ink-500 transition-colors duration-150;
+  }
+  .chan.on {
+    @apply border-ink-900 bg-ink-900 text-white;
+  }
+
+  /* ---- saved views ---- */
+  .view {
+    @apply rounded-full border border-rule bg-white px-3.5 py-1.5 text-[12.5px]
+           font-medium text-ink-500 transition-colors duration-150;
+  }
+  .view:hover {
+    @apply border-ink-400 text-ink-900;
+  }
+  .view.on {
+    @apply border-ink-900 bg-ink-900 font-semibold text-white;
+  }
+
+  /* ---- overlays & popovers toggled by JS ---- */
+  .pop {
+    @apply absolute z-[70] hidden rounded-[14px] border border-rule bg-white
+           shadow-[0_18px_50px_rgba(11,11,12,0.16)];
+  }
+  .pop.on {
+    @apply block;
+  }
+  #modelPop.on {
+    @apply grid;
+  }
+  .ws-menu {
+    @apply absolute left-0 right-[-8px] top-[calc(100%+6px)] z-[80] hidden rounded-[14px]
+           border border-rule bg-white p-1.5 shadow-[0_16px_48px_rgba(11,11,12,0.16)];
+  }
+  .ws-menu.on {
+    @apply block;
+  }
+  .bulk {
+    @apply mb-3 hidden items-center gap-3 rounded-xl bg-ink-900 px-4 py-[11px] text-[13px] text-white;
+  }
+  .bulk.on {
+    @apply flex;
+  }
+  .overlay {
+    @apply fixed inset-0 z-[95] hidden items-center justify-center bg-ink-900/40 p-6;
+  }
+  .overlay.on {
+    @apply flex;
+  }
+  #chat {
+    @apply hidden w-[380px] flex-none flex-col overflow-y-auto border-l border-rule bg-white;
+  }
+  #chat.on {
+    @apply flex;
+  }
+  #spineKids {
+    @apply flex flex-col;
+  }
+  #spineKids.closed {
+    @apply hidden;
+  }
+  #toast {
+    @apply pointer-events-none fixed bottom-6 left-1/2 z-[120] flex -translate-x-1/2 translate-y-20
+           items-center gap-[9px] rounded-full bg-ink-900 px-[22px] py-[11px] text-[13px]
+           font-medium text-white opacity-0 transition-all duration-300;
+  }
+  #toast.on {
+    @apply translate-y-0 opacity-100;
+  }
+
+  /* ---- queue rows ---- */
+  .lrow {
+    @apply mb-2 flex items-center gap-[13px] rounded-xl border border-rule bg-white
+           px-4 py-3 transition-colors duration-150;
+  }
+  .lrow:hover {
+    @apply border-ink-400;
+  }
+  .lrow-od {
+    @apply border-l-[3px] border-l-bad;
+  }
+
+  /* ---- workspace switcher rows ---- */
+  .wrow {
+    @apply flex w-full items-center gap-[11px] rounded-[9px] px-2.5 py-2 text-left
+           text-[13px] font-semibold text-ink-900 transition-colors duration-100;
+  }
+  .wrow:hover {
+    @apply bg-off;
+  }
+  .wrow.on {
+    @apply bg-tint;
+  }
+  .wa {
+    @apply grid h-[26px] w-[26px] flex-none place-items-center rounded-[7px] bg-ink-900
+           text-[11px] font-bold text-white;
+  }
+  .wrow.on .wa {
+    @apply bg-gradient-to-br from-ember to-ember-hover;
+  }
+  .chk {
+    @apply ml-auto flex-none text-[13px] font-bold text-ember;
+  }
+
+  /* ---- badges ---- */
+  .bt {
+    @apply rounded-full bg-info-bg px-2 py-0.5 text-[9px] font-bold tracking-[0.05em] text-info;
+  }
+  .nw {
+    @apply ml-1.5 rounded-full bg-ember-dim px-1.5 py-px text-[9px] font-bold text-ember;
+  }
+
+  /* ---- metric surfaces ---- */
+  .tile {
+    @apply relative min-w-0 rounded-[14px] border border-rule bg-white px-4 pb-[13px] pt-[15px]
+           transition-colors duration-150;
+  }
+  .tile:hover {
+    @apply border-ink-400;
+  }
+  .kpi {
+    @apply min-w-0 rounded-[14px] border border-rule bg-white px-4 pb-[13px] pt-[15px];
+  }
+  .sec-h {
+    @apply mb-3 flex flex-wrap items-center gap-2 text-[13px] font-semibold text-ink-700;
+  }
+
+  /* ---- misc labels ---- */
+  .slab {
+    @apply mb-[9px] block font-mono text-[9.5px] uppercase tracking-[0.13em] text-ink-400;
+  }
+  .kicker {
+    @apply font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-400;
+  }
+  .delta {
+    @apply font-mono text-[11.5px] font-semibold;
+  }
+  .delta-up { @apply text-good; }
+  .delta-dn { @apply text-bad; }
+  .delta-mut { @apply text-ink-400; }
+}
+
+/* ============================================================
+   Shell, navigation and chat panel
+   ============================================================ */
+@layer components {
+  #shell { @apply flex h-screen; }
+  #nav {
+    @apply flex w-[236px] flex-none flex-col overflow-visible border-r border-rule bg-white
+           px-2.5 pb-2.5 pt-3.5;
+  }
+  .brand { @apply flex items-center gap-2 px-2 pb-3 pt-0.5; }
+  .brand .logo {
+    @apply grid h-6 w-6 place-items-center rounded-[7px] bg-ember font-serif text-[13px]
+           font-bold text-white;
+  }
+  .brand .wd { @apply font-serif text-[17px] font-bold tracking-[-0.01em]; }
+  .brand .wd i { @apply not-italic text-ember; }
+
+  .ws-wrap { @apply relative mb-2.5; }
+  .store {
+    @apply flex w-full items-center gap-2.5 rounded-xl border border-rule bg-white
+           px-[11px] py-[9px] text-left transition-colors duration-150;
+  }
+  .store:hover { @apply border-ink-400; }
+  .store .sd {
+    @apply grid h-[30px] w-[30px] flex-none place-items-center rounded-lg bg-gradient-to-br
+           from-ember to-ember-hover text-[13px] font-bold text-white;
+  }
+  .store .wk {
+    @apply block font-mono text-[8.5px] uppercase leading-[1.3] tracking-[0.14em] text-ink-400;
+  }
+  .store .wn { @apply block text-[13.5px] font-bold leading-[1.25]; }
+  .store .cx { @apply ml-auto text-[10px] text-ink-400; }
+  .ws-menu .sep { @apply mx-1 my-[5px] h-px bg-rule; }
+  .wrow .def {
+    @apply ml-auto flex-none rounded-full bg-good-bg px-2 py-0.5 text-[9.5px] font-bold
+           tracking-[0.03em] text-good;
+  }
+  .wrow.create { @apply font-semibold text-ink-700; }
+  .wrow.create .wa {
+    @apply border border-dashed border-rule bg-transparent text-sm font-medium text-ink-500;
+  }
+
+  .nav-sec .dots, .nav-sec .plus { @apply ml-auto cursor-pointer px-0.5 text-[13px] text-ink-400; }
+  .nav-sec .dots:hover, .nav-sec .plus:hover { @apply text-ink-900; }
+  .ni .gi { @apply w-[18px] flex-none text-center opacity-90; }
+  .ni .lab { @apply flex-1 truncate; }
+  .ni .badge {
+    @apply inline-flex flex-none items-center gap-[3px] rounded-full bg-ember-dim px-2 py-0.5
+           text-[9.5px] font-bold tracking-[0.04em] text-ember;
+  }
+  .ni .caret { @apply flex-none text-[9px] text-ink-400 transition-transform duration-150; }
+  .ni-wrap { @apply relative; }
+  .ni-wrap:hover > .ni .caret { @apply translate-x-0.5 text-ink-900; }
+  .fly {
+    @apply absolute left-[calc(100%+2px)] top-[-6px] z-[60] hidden min-w-[238px] rounded-xl
+           border border-rule bg-white p-1.5 shadow-[0_12px_40px_rgba(11,11,12,0.13)];
+  }
+  .ni-wrap:hover .fly { @apply block; }
+  .fly .sep { @apply mx-1 my-[5px] h-px bg-rule; }
+  .fi .lk { @apply ml-auto text-[11px] text-ink-400; }
+  .fi .bt { @apply ml-auto; }
+  .fi .bt.lk2 { @apply ml-1.5; }
+  .fi.create { @apply text-[13px] font-medium text-ink-500; }
+  .fi.create .ar { @apply ml-auto text-ink-400; }
+
+  .nav-foot { @apply mt-auto border-t border-rule pt-2; }
+  .who { @apply flex items-center gap-[9px] px-2.5 pb-1 pt-[9px]; }
+  .who .av {
+    @apply grid h-[27px] w-[27px] flex-none place-items-center rounded-full bg-ink-900
+           text-[11.5px] font-semibold text-white;
+  }
+  .who b { @apply block text-[12.5px] leading-[1.25]; }
+  .who span { @apply text-[11px] text-ink-400; }
+
+  #main { @apply relative flex min-w-0 flex-1 flex-col overflow-hidden; }
+  .topbar {
+    @apply flex flex-none items-center gap-2.5 border-b border-rule bg-white px-[26px] py-[13px];
+  }
+  .topbar h1 { @apply mr-2 font-serif text-[19px] font-semibold tracking-[-0.01em]; }
+  .ctl .cd { @apply text-[9px] text-ink-400; }
+  .icbtn.ai { @apply border-ember-soft text-ember; }
+  .icbtn.ai:hover { @apply bg-tint; }
+  .spacer { @apply flex-1; }
+  #body { @apply flex min-h-0 flex-1; }
+  #scroll { @apply flex-1 overflow-y-auto; }
+  .wrap { @apply mx-auto w-full max-w-[1120px] px-[30px] pb-12 pt-[26px]; }
+
+  .chat-h { @apply flex items-center px-4 pt-3.5; }
+  .chat-h .cbadge {
+    @apply inline-flex items-center gap-[5px] rounded-full bg-ember-dim px-[11px] py-1
+           text-[11px] font-bold text-ember;
+  }
+  .chat-h .x { @apply ml-auto p-1 text-[15px] text-ink-400; }
+  .chat-h .x:hover { @apply text-ink-900; }
+  .chat-body { @apply flex flex-1 flex-col px-[22px] py-[26px]; }
+  .chat-body h2 {
+    @apply my-[26px] mb-[18px] font-serif text-[25px] font-semibold tracking-[-0.015em];
+  }
+  .chat-ask {
+    @apply rounded-[14px] border-[1.5px] border-ink-900 bg-white px-3.5 py-[13px]
+           shadow-[0_8px_26px_rgba(11,11,12,0.05)];
+  }
+  .chat-ask .in { @apply flex items-center gap-[9px]; }
+  .chat-ask input {
+    @apply flex-1 border-none bg-transparent font-sans text-[13.5px] text-ink-900 outline-none;
+  }
+  .chat-ask input::placeholder { @apply text-ink-400; }
+  .chat-ask .send {
+    @apply grid h-[29px] w-[29px] flex-none place-items-center rounded-full bg-ember
+           text-[13px] text-white;
+  }
+  .chat-ask .send:hover { @apply bg-ember-hover; }
+  .chat-ask .foot { @apply mt-2.5 flex items-center gap-1.5; }
+  .chat-ask .foot .mchip { @apply px-[9px] py-[3px] text-[10.5px]; }
+  .chat-sugg { @apply mt-4 flex flex-col gap-2; }
+  .chat-sugg button {
+    @apply rounded-[10px] border border-rule px-[13px] py-2.5 text-left text-[12.5px]
+           font-medium text-ink-700 transition-colors duration-150;
+  }
+  .chat-sugg button:hover { @apply border-ember text-ink-900; }
+  .chat-foot { @apply mt-auto pt-[18px] text-center text-[11px] text-ink-400; }
+}
+
+/* ============================================================
+   Cockpit, attribution and shared data displays
+   ============================================================ */
+@layer components {
+  .palette {
+    @apply mb-5 flex max-w-[340px] items-center gap-[9px] rounded-[10px] border border-rule
+           bg-white px-[13px] py-[9px];
+  }
+  .palette input, .search input {
+    @apply flex-1 border-none bg-transparent font-sans text-[13px] text-ink-900 outline-none;
+  }
+  .search {
+    @apply flex flex-1 items-center gap-[9px] rounded-[10px] border border-rule bg-white
+           px-[13px] py-[9px];
+  }
+  .filterbar { @apply mb-4 flex items-center gap-2; }
+
+  .ssec { @apply mb-2.5; }
+  .ssec-h { @apply flex cursor-pointer select-none items-center gap-[9px] px-0.5 py-2.5; }
+  .ssec-h .chev { @apply w-3 text-[10px] text-ink-400 transition-transform duration-150; }
+  .ssec.closed .chev { @apply -rotate-90; }
+  .ssec-h h3 { @apply text-[13.5px] font-semibold; }
+  .ssec-h .cnt { @apply font-mono text-[10.5px] text-ink-400; }
+  .ssec-h .pinhint { @apply ml-auto text-[11.5px] text-ink-400 opacity-0 transition-opacity; }
+  .ssec-h:hover .pinhint { @apply opacity-100; }
+  .tiles { @apply grid grid-cols-4 gap-3 pb-4; }
+  .ssec.closed .tiles { @apply hidden; }
+
+  .tile .grip {
+    @apply absolute right-2.5 top-2.5 cursor-grab text-[11px] tracking-[1px] text-ink-400
+           opacity-0 transition-opacity;
+  }
+  .tile:hover .grip { @apply opacity-70; }
+  .tile .pin {
+    @apply absolute right-[26px] top-2 text-xs text-ink-400 opacity-0 transition-opacity;
+  }
+  .tile:hover .pin { @apply opacity-70; }
+  .tile .pin:hover, .tile.pinned .pin { @apply text-ember opacity-100; }
+  .tile .l, .kpi .l { @apply flex items-center gap-1.5 pr-[34px] text-xs text-ink-500; }
+  .kpi .l { @apply pr-0; }
+  .tile .src {
+    @apply inline-grid h-[15px] w-[15px] flex-none place-items-center rounded-[5px]
+           text-[8.5px] font-bold text-white;
+  }
+  .src.shopify { @apply bg-shopify; }
+  .src.blend { @apply bg-ink-900; }
+  .src.mk { @apply bg-ember; }
+  .src.meta { @apply bg-meta; }
+  .src.google { @apply bg-google text-ink-900; }
+  .tile .v, .kpi .v {
+    @apply mt-2 text-2xl font-semibold leading-[1.05] tracking-[-0.02em] tabular-nums;
+  }
+  .tile .v .u, .kpi .v .u { @apply text-xs font-medium tracking-normal text-ink-400; }
+  .tile .foot, .kpi .foot { @apply mt-2 flex min-h-[17px] flex-wrap items-center gap-2; }
+  .tile .settgt {
+    @apply cursor-pointer text-[11.5px] text-ink-400 underline decoration-dotted underline-offset-[3px];
+  }
+  .tile .settgt:hover { @apply text-ember; }
+  .tile .tgt, .kpi .tgt { @apply text-[11px] text-ink-400; }
+  .tile .tgt b { @apply font-semibold text-good; }
+  .spark { @apply mt-2.5 h-[26px] w-full; }
+  .spark polyline { @apply fill-none stroke-ember; stroke-width: 1.6; }
+
+  .kpis { @apply mb-[22px] grid grid-cols-5 gap-3; }
+  .kpis.k4 { @apply grid-cols-4; }
+
+  .atoolbar { @apply relative mb-[18px] flex flex-wrap items-center gap-2; }
+  .seg { @apply inline-flex overflow-hidden rounded-[9px] border border-rule bg-white; }
+  .seg button { @apply px-3.5 py-[7px] text-[12.5px] font-medium text-ink-500; }
+  .seg button.on { @apply bg-ink-900 font-semibold text-white; }
+  .attr-grid { @apply grid grid-cols-[1fr_300px] items-start gap-4; }
+
+  .dtable, .utable, .ltable { @apply w-full border-collapse text-[13px]; }
+  .dtable th, .utable th {
+    @apply whitespace-nowrap border-b border-rule px-3.5 py-[11px] text-right
+           font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-ink-400;
+  }
+  .dtable td, .utable td {
+    @apply whitespace-nowrap border-b border-rule px-3.5 py-3 text-right tabular-nums;
+  }
+  .dtable th:first-child, .utable th:first-child,
+  .dtable td:first-child, .utable td:first-child { @apply text-left font-semibold; }
+  .dtable tr:last-child td, .utable tr:last-child td { @apply border-b-0; }
+  .dtable tbody tr { @apply transition-colors duration-100; }
+  .dtable tbody tr:hover { @apply bg-off; }
+  .chdot { @apply mr-[9px] inline-block h-[9px] w-[9px] rounded-[3px] align-baseline; }
+  .roas.hi { @apply font-semibold text-good; }
+  .roas.lo { @apply font-semibold text-bad; }
+
+  .sidecard { @apply mb-3.5 rounded-[14px] border border-rule bg-white px-[18px] py-4; }
+  .sidecard h4 { @apply mb-[13px] flex items-center gap-2 text-[13px] font-semibold; }
+  .livedot { @apply h-[7px] w-[7px] rounded-full bg-good; animation: pulse 1.6s infinite; }
+  .lorder {
+    @apply flex items-center gap-2.5 border-b border-dashed border-rule py-2 text-xs last:border-b-0;
+  }
+  .lorder .t { @apply w-11 flex-none font-mono text-[10.5px] text-ink-400; }
+  .lorder b { @apply tabular-nums; }
+  .lorder .path { @apply ml-auto text-right text-[11px] text-ink-400; }
+
+  .ovl { @apply flex flex-col gap-2; }
+  .ovl .or { @apply flex items-center gap-[9px] text-xs; }
+  .ovl .or .ol { @apply w-[104px] flex-none text-ink-700; }
+  .ovl .track { @apply h-3.5 flex-1 overflow-hidden rounded bg-off; }
+  .ovl .fill { @apply h-full rounded; }
+  .ovl .ov { @apply w-[34px] text-right font-mono text-[11px] text-ink-500; }
+
+  .chartcard { @apply px-[22px] py-5; }
+  .chartcard h4 { @apply mb-1 text-[13px] font-semibold; }
+  .chartcard .sub { @apply mb-3.5 text-[11.5px] text-ink-400; }
+  .legend { @apply mt-2.5 flex gap-4 text-[11.5px] text-ink-500; }
+  .legend .li { @apply flex items-center gap-1.5; }
+  .legend .sw { @apply h-[3px] w-2.5 rounded-sm; }
+}
+
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: .3 } }
+
+/* ============================================================
+   CRM module, media manager, library, discovery
+   ============================================================ */
+@layer components {
+  .band { @apply mb-6; }
+  .band-h { @apply mb-2.5 flex items-center gap-[9px]; }
+  .band-h .bd { @apply h-2 w-2 flex-none rounded-full; }
+  .band-h h3 { @apply text-[13px] font-bold; }
+  .band-h .n { @apply font-mono text-[10.5px] text-ink-400; }
+  .band-h .hint { @apply ml-auto text-[11.5px] text-ink-400; }
+  .who2 { @apply w-[180px] min-w-0 flex-none; }
+  .who2 b { @apply block cursor-pointer truncate text-[13.5px]; }
+  .who2 b:hover { @apply text-ember; }
+  .who2 span { @apply font-mono text-[11px] text-ink-400; }
+  .meta2 { @apply flex min-w-0 flex-1 flex-wrap items-center gap-1.5; }
+  .nx { @apply w-[132px] flex-none text-right text-[11.5px] text-ink-400; }
+  .nx b { @apply block text-xs font-semibold text-ink-700; }
+  .nx.odd b { @apply text-bad; }
+  .acts { @apply flex flex-none gap-1.5; }
+  .qhead { @apply mb-[18px] flex flex-wrap items-center gap-2.5; }
+  .qhead .me { @apply flex items-center gap-[9px] text-[13px]; }
+  .qhead .me .lav { @apply h-[30px] w-[30px] bg-ink-900 text-white; }
+
+  .views { @apply mb-3.5 flex flex-wrap gap-1.5; }
+  .view .n { @apply ml-[5px] font-mono text-[10px] opacity-60; }
+  .bulk select {
+    @apply rounded-lg border border-white/20 bg-white/10 px-2.5 py-1.5 font-sans
+           text-[12.5px] text-white outline-none;
+  }
+  .bulk select option { @apply text-ink-900; }
+  .bulk .gh {
+    @apply rounded-full border border-white/30 bg-transparent px-3.5 py-1.5 text-[12.5px]
+           font-semibold text-white;
+  }
+  .ltable td:first-child { @apply text-left; }
+  .ltable td .lav { @apply h-[26px] w-[26px] text-[10px]; }
+  .ltable input[type=checkbox] { @apply h-3.5 w-3.5 accent-ember; }
+
+  .sheet-in {
+    @apply max-h-[88vh] w-[520px] max-w-full overflow-y-auto rounded-[20px] bg-white
+           px-6 pb-6 pt-5 shadow-[0_24px_70px_rgba(11,11,12,0.3)];
+  }
+  .grab { @apply mx-auto mb-4 h-1 w-[38px] rounded-full bg-rule; }
+  .sheet-lead { @apply mb-4 flex items-center gap-[11px] border-b border-rule pb-[15px]; }
+  .sheet-lead b { @apply block text-[15px]; }
+  .sheet-lead span { @apply font-mono text-[11.5px] text-ink-400; }
+  .sheet-lead .att { @apply ml-auto flex-none text-right text-[11px] text-ink-400; }
+  .chans { @apply mb-[18px] flex gap-1.5; }
+  .outs { @apply grid grid-cols-2 gap-2; }
+  .out .od2 { @apply h-[9px] w-[9px] flex-none rounded-full; }
+  .chips { @apply flex flex-wrap gap-[7px]; }
+  .fld { @apply mb-3 flex flex-col gap-1.5; }
+  .fld label { @apply text-xs font-medium text-ink-500; }
+  .fld input, .fld select, .fld textarea {
+    @apply rounded-[9px] border border-rule bg-white px-[11px] py-[9px] font-sans
+           text-[13px] text-ink-900 outline-none;
+  }
+  .fld input:focus, .fld select:focus, .fld textarea:focus { @apply border-ember; }
+  .sheet-f { @apply mt-5 flex gap-[9px]; }
+  .sheet-f .btn { @apply flex-1 justify-center; }
+
+  .crmstrip { @apply mb-4 grid grid-cols-4 gap-3; }
+  .cs { @apply rounded-xl border border-rule bg-white px-[15px] py-[13px]; }
+  .cs .l { @apply text-[11.5px] text-ink-500; }
+  .cs .v2 { @apply mt-1.5 flex items-center gap-[7px] text-[13.5px] font-semibold; }
+  .cs select {
+    @apply mt-[5px] w-full rounded-lg border border-rule bg-white px-2 py-[5px] font-sans
+           text-[12.5px] font-semibold text-ink-900 outline-none;
+  }
+  .nextban {
+    @apply mb-[18px] flex items-center gap-3 rounded-xl border border-ember-soft bg-tint
+           px-[17px] py-[13px];
+  }
+  .nextban b { @apply text-[13.5px]; }
+  .nextban .sub { @apply text-[12.5px] text-ink-500; }
+  .tli { @apply relative py-2.5; }
+  .tli b { @apply text-[13px]; }
+  .tli .tm { @apply float-right font-mono text-[10.5px] text-ink-400; }
+  .tli p { @apply mt-[3px] max-w-[70ch] text-[12.5px] text-ink-500; }
+  .tscript {
+    @apply mt-[9px] rounded-[9px] border border-dashed border-rule bg-off px-[13px] py-[11px]
+           text-xs text-ink-500;
+  }
+  .tscript b { @apply mb-1 block text-[11.5px] text-ink-700; }
+
+  .mmtabs { @apply mb-5 flex gap-0.5 overflow-x-auto border-b border-rule; }
+  .mmtab {
+    @apply flex items-center gap-[7px] whitespace-nowrap border-b-2 border-transparent px-[15px]
+           py-2.5 text-[13.5px] font-medium text-ink-500;
+  }
+  .mmtab:hover { @apply text-ink-900; }
+  .mmtab.on { @apply border-b-ember font-semibold text-ink-900; }
+  .mmtab .n { @apply font-mono text-[10.5px] text-ink-400; }
+  .mmgrid, .libgrid { @apply grid grid-cols-4 gap-3; }
+  .mmcard, .libitem {
+    @apply overflow-hidden rounded-xl border border-rule bg-white transition-colors duration-150;
+  }
+  .mmcard:hover, .libitem:hover { @apply border-ink-400; }
+  .libitem { @apply cursor-pointer; }
+  .mmcard .th2 { @apply relative grid h-[120px] place-items-center text-[28px]; }
+  .libitem .thumb { @apply grid h-24 place-items-center border-b border-rule text-[26px]; }
+  .mmcard .roas-tag {
+    @apply absolute left-2 top-2 rounded-md border border-rule bg-white/90 px-[7px] py-0.5
+           font-mono text-[10px] font-semibold;
+  }
+  .mmcard .st-tag { @apply absolute right-2 top-2 h-2 w-2 rounded-full; }
+  .mmcard .meta, .libitem .meta { @apply px-3 py-2.5 text-[12.5px]; }
+  .mmcard .meta b, .libitem .meta b { @apply block truncate text-[12.5px]; }
+  .mmcard .meta span, .libitem .meta span { @apply text-[11px] text-ink-400; }
+
+  .hrow, .arow {
+    @apply flex cursor-pointer items-center gap-3.5 border-b border-rule px-[18px] py-[15px]
+           transition-colors duration-150 last:border-b-0;
+  }
+  .hrow:hover { @apply bg-off; }
+  .hrow .hic {
+    @apply grid h-8 w-8 flex-none place-items-center rounded-[9px] bg-tint text-sm text-ember;
+  }
+  .hrow b, .arow b { @apply block text-[13.5px] font-semibold; }
+  .hrow .sub, .arow .sub { @apply text-xs text-ink-400; }
+  .hrow .when { @apply ml-auto flex-none font-mono text-[11px] text-ink-400; }
+  .arow { @apply cursor-default py-4; }
+  .arow .st { @apply h-2 w-2 flex-none rounded-full; }
+  .arow .cad {
+    @apply rounded-full border border-rule bg-off px-2.5 py-[3px] font-mono text-[11px] text-ink-500;
+  }
+  .appr {
+    @apply mb-[18px] flex items-center gap-3.5 rounded-[14px] border border-ember-soft bg-tint
+           px-[18px] py-4;
+  }
+  .appr b { @apply text-[13.5px]; }
+  .appr .sub { @apply text-[12.5px] text-ink-500; }
+
+  .promptrow {
+    @apply flex items-center gap-3.5 border-b border-rule px-[18px] py-[13px] text-[13px]
+           last:border-b-0;
+  }
+  .promptrow .q { @apply flex-1 font-medium; }
+  .presence { @apply font-mono text-xs font-semibold; }
+  .presence.hi { @apply text-good; }
+  .presence.md { @apply text-watch; }
+  .presence.lo { @apply text-bad; }
+  .mention { @apply rounded-full px-[9px] py-0.5 text-[11px] font-semibold; }
+  .mention.y { @apply bg-good-bg text-good; }
+  .mention.n { @apply border border-rule bg-off text-ink-400; }
+
+  .ai-hero { @apply pb-2 pt-[34px] text-center; }
+  .ai-hero h2 {
+    @apply my-2.5 mb-2 font-serif text-[34px] font-semibold tracking-[-0.015em];
+  }
+  .askbox {
+    @apply my-[26px] mb-[18px] rounded-2xl border-[1.5px] border-ink-900 bg-white px-[18px]
+           py-4 shadow-[0_10px_34px_rgba(11,11,12,0.06)];
+  }
+  .askbox .in { @apply flex items-center gap-3; }
+  .askbox input {
+    @apply flex-1 border-none bg-transparent font-sans text-[15px] text-ink-900 outline-none;
+  }
+  .askbox input::placeholder { @apply text-ink-400; }
+  .askbox .send {
+    @apply grid h-[34px] w-[34px] place-items-center rounded-full bg-ember text-sm text-white;
+  }
+  .askbox .send:hover { @apply bg-ember-hover; }
+  .askbox .foot { @apply mt-3 flex flex-wrap items-center gap-2; }
+  .mchip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-rule px-[11px] py-1
+           text-[11.5px] text-ink-500;
+  }
+  .mchip .d { @apply h-1.5 w-1.5 rounded-full bg-good; }
+  .presets { @apply grid grid-cols-3 gap-3; }
+  .preset {
+    @apply flex flex-col gap-2 rounded-xl border border-rule bg-white px-4 py-[15px] text-left
+           text-[13px] font-medium leading-[1.45] text-ink-700 transition-all duration-150;
+  }
+  .preset:hover { @apply -translate-y-px border-ember; }
+  .preset .pi { @apply text-[15px] text-ember; }
+}
+
+/* ============================================================
+   Settings, gating, modals and the data spine
+   ============================================================ */
+@layer components {
+  .gate { @apply flex min-h-[62vh] flex-col items-center justify-center px-5 py-10 text-center; }
+  .gate .lockring {
+    @apply mb-[22px] grid h-16 w-16 place-items-center rounded-full border border-ember-soft bg-tint;
+  }
+  .gate .lockring svg { @apply h-6 w-6 stroke-ember; }
+  .gate h2 { @apply mb-3 font-serif text-[26px] font-semibold tracking-[-0.01em]; }
+  .gate p { @apply mb-[26px] max-w-[56ch] text-[14.5px] leading-[1.65] text-ink-500; }
+  .gate .gplan { @apply mt-3.5 text-xs text-ink-400; }
+
+  .set-grid { @apply grid grid-cols-[230px_1fr] items-start gap-[26px]; }
+  .setnav { @apply rounded-[14px] bg-off p-2; }
+  .setnav .sn-sec {
+    @apply px-2.5 pb-1 pt-3.5 font-mono text-[10px] uppercase tracking-[0.13em] text-ink-400;
+  }
+  .trow {
+    @apply flex items-center gap-3 border-b border-rule px-[18px] py-[13px] text-[13px] last:border-b-0;
+  }
+  .trow .av2 {
+    @apply grid h-[30px] w-[30px] flex-none place-items-center rounded-full text-xs
+           font-semibold text-white;
+  }
+  .trow b { @apply block text-[13px]; }
+  .trow .em { @apply text-[11.5px] text-ink-400; }
+  .trow .role {
+    @apply ml-auto flex items-center gap-[5px] rounded-full border border-rule px-3 py-1
+           text-xs font-medium text-ink-700;
+  }
+  .costrow {
+    @apply flex items-center gap-3 border-b border-rule px-[18px] py-[13px] text-[13px] last:border-b-0;
+  }
+  .costrow .ci {
+    @apply grid h-[30px] w-[30px] flex-none place-items-center rounded-lg border border-rule
+           bg-off text-[13px];
+  }
+  .costrow b { @apply block text-[13px]; }
+  .costrow .em { @apply text-[11.5px] text-ink-400; }
+  .stt { @apply ml-auto; }
+
+  .planhead { @apply mb-[18px] flex items-center gap-3.5; }
+  .bill { @apply inline-flex overflow-hidden rounded-full border border-rule bg-white; }
+  .bill button { @apply px-4 py-1.5 text-xs font-semibold text-ink-500; }
+  .bill button.on { @apply bg-ink-900 text-white; }
+  .plans { @apply mb-4 grid grid-cols-3 gap-3.5; }
+  .plan { @apply relative rounded-[14px] border border-rule bg-white p-5; }
+  .plan.pop2 { @apply border-[1.5px] border-ember; }
+  .plan .rec {
+    @apply absolute -top-[9px] left-[18px] rounded-full bg-ember px-[9px] py-0.5 text-[9.5px]
+           font-bold uppercase tracking-[0.06em] text-white;
+  }
+  .plan h4 { @apply font-serif text-[18px] font-semibold; }
+  .plan .pr { @apply my-[9px] mb-0.5 text-[26px] font-semibold tracking-[-0.02em]; }
+  .plan .pr .u { @apply text-xs font-medium text-ink-400; }
+  .plan .gmv { @apply mb-[13px] text-[11px] text-ink-400; }
+  .plan ul { @apply my-[13px] mb-[17px] flex list-none flex-col gap-[7px] text-[12.5px] text-ink-700; }
+  .plan ul li { @apply flex gap-2; }
+  .plan ul li::before { content: '✓'; @apply flex-none font-bold text-good; }
+  .addons { @apply grid grid-cols-4 gap-2.5; }
+  .addon { @apply rounded-xl border border-dashed border-rule bg-white px-3.5 py-[13px] text-xs; }
+  .addon b { @apply mb-0.5 block text-[12.5px]; }
+  .addon .ap { @apply font-mono text-[11px] font-semibold text-ember; }
+
+  .bv-grid { @apply grid grid-cols-2 gap-3.5; }
+  .bv-card { @apply rounded-[14px] border border-rule bg-white p-[18px]; }
+  .bv-card h5 { @apply mb-3 flex items-center gap-2 text-[13px] font-semibold; }
+  .swatches { @apply flex gap-2; }
+  .sw2 { @apply relative h-11 w-11 rounded-[10px] border border-rule; }
+  .sw2 span {
+    @apply absolute -bottom-[17px] left-0 whitespace-nowrap font-mono text-[8.5px] text-ink-400;
+  }
+  .logorow { @apply flex gap-2.5; }
+  .logobox { @apply grid h-[74px] flex-1 place-items-center rounded-[10px] border border-rule; }
+  .logobox.dark { @apply bg-ink-900; }
+  .lw { @apply font-serif text-[15px] font-bold; }
+  .lw i { @apply not-italic text-ember; }
+
+  .cfgrow {
+    @apply flex items-center gap-3 border-b border-rule px-[18px] py-3 text-[13px] last:border-b-0;
+  }
+  .cfgrow .cl { @apply w-[180px] flex-none text-[12.5px] text-ink-500; }
+  .cfgrow input, .cfgrow select {
+    @apply rounded-lg border border-rule bg-white px-2.5 py-[7px] font-sans text-[12.5px]
+           text-ink-900 outline-none;
+  }
+  .cfgrow input:focus, .cfgrow select:focus { @apply border-ember; }
+  .dispo {
+    @apply flex items-center gap-2.5 border-b border-rule px-[18px] py-2.5 text-[12.5px] last:border-b-0;
+  }
+  .dispo .dd { @apply h-2.5 w-2.5 flex-none rounded-full; }
+  .dispo b { @apply w-[118px] flex-none text-[12.5px]; }
+  .dispo .maps { @apply text-[11.5px] text-ink-400; }
+
+  .modal-in {
+    @apply flex max-h-[82vh] w-[760px] max-w-full flex-col overflow-hidden rounded-[18px]
+           bg-white shadow-[0_30px_80px_rgba(11,11,12,0.3)];
+  }
+  .modal-h { @apply flex items-center border-b border-rule px-[22px] py-[18px]; }
+  .modal-h h3 { @apply font-serif text-[18px] font-semibold; }
+  .modal-h .x { @apply ml-auto p-1 text-[18px] text-ink-400; }
+  .modal-h .x:hover { @apply text-ink-900; }
+  .modal-b { @apply grid min-h-[380px] grid-cols-2 overflow-hidden; }
+  .mcol { @apply max-h-[56vh] overflow-y-auto px-5 py-4; }
+  .mcol.left { @apply border-r border-rule; }
+  .mtabs { @apply my-2.5 mb-3 flex gap-0.5 border-b border-rule; }
+  .mtab { @apply border-b-2 border-transparent px-[11px] py-[7px] text-[12.5px] font-medium text-ink-500; }
+  .mtab.on { @apply border-b-ember font-semibold text-ink-900; }
+  .mitem {
+    @apply flex items-center gap-[9px] rounded-lg px-2.5 py-2 text-[13px] transition-colors duration-100;
+  }
+  .mitem:hover { @apply bg-off; }
+  .mitem .add { @apply ml-auto cursor-pointer font-bold text-ember opacity-0 transition-opacity; }
+  .mitem:hover .add { @apply opacity-100; }
+  .mitem.inuse { @apply opacity-40; }
+  .mitem.inuse .add { @apply hidden; }
+  .acol {
+    @apply mb-2 flex items-center gap-2.5 rounded-[9px] border border-rule bg-white px-3 py-[9px]
+           text-[13px] font-medium;
+  }
+  .acol .grip { @apply cursor-grab text-[11px] tracking-[1px] text-ink-400; }
+  .acol .rm { @apply ml-auto cursor-pointer text-sm text-ink-400; }
+  .acol .rm:hover { @apply text-bad; }
+  .modal-f { @apply flex justify-end gap-2.5 border-t border-rule px-[22px] py-3.5; }
+  .newmetric { @apply inline-block cursor-pointer px-2.5 py-2 text-[12.5px] font-semibold text-ember; }
+
+  #modelPop { @apply left-0 top-[52px] w-[560px] grid-cols-[220px_1fr]; }
+  .mlist { @apply max-h-[400px] overflow-y-auto border-r border-rule p-2; }
+  .mrow {
+    @apply flex w-full items-center gap-2 rounded-lg px-[11px] py-[9px] text-left text-[12.5px]
+           font-medium text-ink-700 transition-colors duration-100;
+  }
+  .mrow:hover { @apply bg-off; }
+  .mrow.on { @apply bg-tint font-semibold text-ember; }
+  .mrow .lk { @apply ml-auto text-[10px] text-ink-400; }
+  .mdetail { @apply px-5 py-[18px]; }
+  .mdetail h4 { @apply mb-[7px] font-serif text-[17px] font-semibold; }
+  .mdetail .desc { @apply mb-[13px] text-[12.5px] leading-[1.6] text-ink-500; }
+  .mdetail .bf { @apply mb-[9px] text-xs leading-[1.55]; }
+  .mdetail .bf b {
+    @apply mb-0.5 block font-mono text-[9.5px] uppercase tracking-[0.12em] text-ink-400;
+  }
+  .mdetail .help { @apply mt-2 inline-block cursor-pointer text-xs font-semibold text-ember; }
+  #setPop { @apply top-[52px] w-[280px] px-4 py-3.5; }
+  .setrow {
+    @apply flex items-center justify-between border-b border-dashed border-rule py-2
+           text-[12.5px] last:border-b-0;
+  }
+  .setrow .sl { @apply text-ink-500; }
+  .setrow .sv { @apply flex items-center gap-[5px] font-semibold; }
+  .setrow .sv .cd { @apply text-[9px] text-ink-400; }
+}
