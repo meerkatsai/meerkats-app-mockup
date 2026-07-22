@@ -133,11 +133,13 @@
     <h1 id="tb-title">Summary</h1>
     <span class="bt" id="tb-beta" style="display:none">BETA</span>
     <span class="spacer"></span>
-    <button class="ctl">▤ &nbsp;Last 14 Days <span class="cd">▼</span></button>
-    <button class="ctl" id="cmp">Previous period <span class="cd">▼</span></button>
-    <button class="icbtn ai" title="Open chat" onclick="toggleChat()">✦</button>
-    <button class="icbtn" title="Refresh">⟳</button>
-    <button class="icbtn" title="More">⋮</button>
+    <div id="tb-ctls" style="display:flex;align-items:center;gap:10px">
+      <button class="ctl">▤ &nbsp;Last 14 Days <span class="cd">▼</span></button>
+      <button class="ctl" id="cmp">Previous period <span class="cd">▼</span></button>
+      <button class="icbtn ai" title="Open chat" onclick="toggleChat()">✦</button>
+      <button class="icbtn" title="Refresh">⟳</button>
+      <button class="icbtn" title="More">⋮</button>
+    </div>
   </div>
 
   <div id="body">
@@ -578,19 +580,18 @@
       <div><h2 style="font-family:var(--font-serif);font-size:22px;font-weight:600" id="ld-name">Subramani G</h2>
       <div style="font-size:12.5px;color:var(--color-ink-500)" id="ld-contact">maligaiammu@gmail.com · +91 91498 43316</div></div>
       <span class="spacer"></span>
-      <button class="mini mini-wa">◈ WhatsApp</button>
-      <button class="mini mini-call" onclick="openSheet(0)">☎ Call now</button>
+      <button class="mini mini-call" onclick="openSheet(CUR)">☎ Call now</button>
     </div>
 
     <div class="nextban">
       <span style="font-size:16px">⏰</span>
       <div><b id="ld-next">Follow-up call — 2 days overdue</b><div class="sub">Set after RNR on 19 Jul · attempt 3 of 5</div></div>
       <span class="spacer"></span>
-      <button class="btn btn-sm btn-orange" onclick="openSheet(0)">Log interaction</button>
+      <button class="btn btn-sm btn-orange" onclick="openSheet(CUR)">Log interaction</button>
     </div>
 
     <div class="crmstrip">
-      <div class="cs"><div class="l">Assigned to</div><select id="ld-op"><option>Sneha Kulkarni</option><option>Dr. Anjali Rao</option><option>Priya Menon</option><option>Ritu Sharma</option><option>— Unassigned —</option></select></div>
+      <div class="cs"><div class="l">Assigned to</div><select id="ld-op" onchange="toast(this.value==='— Unassigned —'?'Lead unassigned — returns to the pool':'Reassigned to '+this.value+' — engagement.lead_assigned emitted')"><option>Sneha Kulkarni</option><option>Dr. Anjali Rao</option><option>Priya Menon</option><option>Ritu Sharma</option><option>— Unassigned —</option></select></div>
       <div class="cs"><div class="l">Assigned at</div><div class="v2">18 Jul · 10:24</div></div>
       <div class="cs"><div class="l">Time to first touch</div><div class="v2" style="color:var(--color-good)">14 min ✓</div></div>
       <div class="cs"><div class="l">Stage</div><div class="v2"><span class="tag tag-g" id="ld-stage">Acquisition</span></div></div>
@@ -601,7 +602,6 @@
         <h4 style="font-size:13px;font-weight:600">Timeline</h4>
         <span style="font-size:11.5px;color:var(--color-ink-400);margin-left:10px">ads, site, form, calls and WhatsApp in one stream</span>
         <span class="spacer"></span>
-        <button class="mini">＋ Add note</button>
       </div>
       <div class="tl">
         <div class="tli tli-rr"><span class="tdot"></span><span class="tm">19 Jul · 16:40</span><b>Call — Ring, no response</b><p>Attempt 3 · 0:00 · Sneha Kulkarni. Follow-up set for 20 Jul 11:00.</p></div>
@@ -623,20 +623,21 @@
     <div style="display:flex;align-items:center;margin-bottom:14px">
       <p style="font-size:13px;color:var(--color-ink-500);max-width:70ch">Operators who can be assigned leads. The role label — “Dietitian” here — is a workspace setting, so the same module reads as “Sales Rep” or “Loan Officer” for another client.</p>
       <span class="spacer"></span>
-      <button class="btn btn-sm">＋ Invite dietitian</button>
+      <button class="btn btn-sm" id="inviteBtn" onclick="toast('Invite sent — they appear here once they accept and become assignable')">＋ Invite dietitian</button>
     </div>
     <div class="card">
-      <div class="trow"><div class="av2" style="background:var(--color-ember)">SK</div><div><b>Sneha Kulkarni</b><span class="em">sneha@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">18 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:var(--color-info)">AR</div><div><b>Dr. Anjali Rao</b><span class="em">anjali@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">22 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:#7C3AED">PM</div><div><b>Priya Menon</b><span class="em">priya@progenmethod.com</span></div><span class="spacer"></span><span class="tag">○ On leave</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">9 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:var(--color-good)">RS</div><div><b>Ritu Sharma</b><span class="em">ritu@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">14 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
-      <div class="trow"><div class="av2" style="background:var(--color-ink-900)">VN</div><div><b>Vinay N</b><span class="em">vinay@progenmethod.com</span></div><span class="spacer"></span><span class="tag">—</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">—</span><span class="role">Manager <span class="cd" style="color:var(--color-ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-ember)">SK</div><div><b>Sneha Kulkarni</b><span class="em">sneha@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">18 / 25 leads</span><span class="role">Dietitian</span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-info)">AR</div><div><b>Dr. Anjali Rao</b><span class="em">anjali@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">22 / 25 leads</span><span class="role">Dietitian</span></div>
+      <div class="trow"><div class="av2" style="background:#7C3AED">PM</div><div><b>Priya Menon</b><span class="em">priya@progenmethod.com</span></div><span class="spacer"></span><span class="tag">○ On leave</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">9 / 25 leads</span><span class="role">Dietitian</span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-good)">RS</div><div><b>Ritu Sharma</b><span class="em">ritu@progenmethod.com</span></div><span class="spacer"></span><span class="tag tag-w">● Available</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">14 / 25 leads</span><span class="role">Dietitian</span></div>
+      <div class="trow"><div class="av2" style="background:var(--color-ink-900)">VN</div><div><b>Vinay N</b><span class="em">vinay@progenmethod.com</span></div><span class="spacer"></span><span class="tag">—</span><span style="font-size:12px;color:var(--color-ink-500);width:96px;text-align:right">—</span><span class="role">Manager</span></div>
     </div>
     <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:12px">Dietitians sign in to a restricted view — My Queue only. They never see ad spend, creative, or attribution.</p>
   </section>
 
   <!-- ======== TEAM PERFORMANCE ======== -->
   <section class="screen" id="s-crmperf">
+    <p class="kicker" style="margin-bottom:14px">Last 30 days · vs previous 30 · all dietitians</p>
     <div class="kpis">
       <div class="kpi"><div class="l">Leads assigned</div><div class="v">312</div><div class="foot"><span class="delta delta-up">▲ 18%</span></div></div>
       <div class="kpi"><div class="l">Contact rate</div><div class="v">68<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 4pp</span></div></div>
@@ -844,7 +845,7 @@
 
           <div class="sec-h">Vocabulary</div>
           <div class="card" style="margin-bottom:18px">
-            <div class="cfgrow"><span class="cl">Operator label</span><input value="Dietitian" style="width:150px"><span style="color:var(--color-ink-400)">/</span><input value="Dietitians" style="width:150px"><span style="font-size:11.5px;color:var(--color-ink-400)">singular / plural — used across every screen</span></div>
+            <div class="cfgrow"><span class="cl">Operator label</span><input value="Dietitian" style="width:150px" oninput="setOpLabel(this.value)"><span style="color:var(--color-ink-400)">/</span><input value="Dietitians" style="width:150px"><span style="font-size:11.5px;color:var(--color-ink-400)">singular / plural — used across every screen</span></div>
             <div class="cfgrow"><span class="cl">Work item label</span><input value="Lead" style="width:150px"><span style="color:var(--color-ink-400)">/</span><input value="Leads" style="width:150px"></div>
             <div class="cfgrow"><span class="cl">Key conversion event</span><input value="Consultation booked" style="width:230px"></div>
             <div class="cfgrow"><span class="cl">Consultation types</span><input value="Free discovery call — 15 min" style="width:230px"><input value="Paid consult — 45 min" style="width:200px"></div>
@@ -852,13 +853,13 @@
 
           <div class="sec-h">Dispositions <span class="hint">— what an operator can log, and where each one moves the lead</span></div>
           <div class="card" style="margin-bottom:18px">
-            <div class="dispo"><span class="dd" style="background:var(--color-good)"></span><b>Connected</b><span class="maps">follow-up optional · maps to <b>Engagement</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--color-bad)"></span><b>RNR</b><span class="maps">follow-up required · default +4h · stays in <b>Acquisition</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--color-watch)"></span><b>Busy</b><span class="maps">follow-up required · default +4h</span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--color-ember)"></span><b>Consult booked</b><span class="maps">schedules event · maps to <b>Intent</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--color-ink-900)"></span><b>Not interested</b><span class="maps">reason required · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo"><span class="dd" style="background:var(--color-ink-400)"></span><b>Wrong number</b><span class="maps">invalidates phone · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
-            <div class="dispo" style="border-top:1px solid var(--color-rule)"><button class="newmetric" style="padding:4px 0">＋ Add disposition</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-good)"></span><b>Connected</b><span class="maps">follow-up optional · maps to <b>Engagement</b></span></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-bad)"></span><b>RNR</b><span class="maps">follow-up required · default +4h · stays in <b>Acquisition</b></span></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-watch)"></span><b>Busy</b><span class="maps">follow-up required · default +4h</span></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-ember)"></span><b>Consult booked</b><span class="maps">schedules event · maps to <b>Intent</b></span></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-ink-900)"></span><b>Not interested</b><span class="maps">reason required · maps to <b>Risk</b></span></div>
+            <div class="dispo"><span class="dd" style="background:var(--color-ink-400)"></span><b>Wrong number</b><span class="maps">invalidates phone · maps to <b>Risk</b></span></div>
+            <div class="dispo" style="border-top:1px solid var(--color-rule)"><button class="newmetric" style="padding:4px 0" onclick="toast('Disposition editor — name, colour, follow-up rule, and funnel-stage mapping')">＋ Add disposition</button></div>
           </div>
 
           <div class="sec-h">Assignment &amp; SLA</div>
@@ -1061,7 +1062,11 @@ const srcTag=s=>s==='google'?'<span class="tag tag-g">Google</span>':'<span clas
 /* the queue is bound to an operator identity, never to the workspace.
    An operator signing in gets their own leads with no picker; an
    admin/manager picks whose queue to open. */
-let QOP='Sneha Kulkarni', QSORT='priority';
+let QOP='Sneha Kulkarni', QSORT='priority', OP_LABEL='Dietitian';
+function setOpLabel(v){OP_LABEL=(v||'Operator').trim()||'Operator';
+  document.getElementById('inviteBtn').textContent='＋ Invite '+OP_LABEL.toLowerCase();
+  renderQueue();}
+document.addEventListener('click',e=>{const t=e.target.closest('.toggle');if(t)t.classList.toggle('off');});
 const OPS=['Sneha Kulkarni','Dr. Anjali Rao','Priya Menon','Ritu Sharma'];
 function setQueueOp(v){QOP=v;renderQueue();}
 function setSort(v){QSORT=v;renderQueue();}
@@ -1082,7 +1087,7 @@ function renderQueue(){
   if(sel&&!sel.options.length)sel.innerHTML=OPS.map(o=>'<option'+(o===QOP?' selected':'')+'>'+o+'</option>').join('');
   const active=LEADS.filter(l=>l.op===QOP&&l.band!=='other');
   document.getElementById('q-av').textContent=ini(QOP);
-  document.getElementById('q-sub').textContent='Dietitian · '+active.length+' active lead'+(active.length===1?'':'s');
+  document.getElementById('q-sub').textContent=OP_LABEL+' · '+active.length+' active lead'+(active.length===1?'':'s');
   const avail=document.getElementById('q-avail');
   if(avail){const leave=QOP==='Priya Menon';avail.textContent=leave?'○ On leave':'● Available';avail.className=leave?'tag':'tag tag-w';}
   if(!active.length){
@@ -1260,6 +1265,8 @@ function go(id){
   document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
   if(id==='analyst')toggleChat(false);
+  const NOTB=['queue','allleads','lead','crmteam','crmperf','settings'];
+  document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
