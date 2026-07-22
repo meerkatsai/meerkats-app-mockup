@@ -445,6 +445,118 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .logobox.dark{background:var(--ink-900)}
 .lw{font-family:var(--serif);font-weight:700;font-size:15px}
 .lw i{font-style:normal;color:var(--ember)}
+/* ---------- LEAD DESK ---------- */
+.band{margin-bottom:24px}
+.band-h{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.band-h .bd{width:8px;height:8px;border-radius:99px;flex:none}
+.band-h h3{font-size:13px;font-weight:700}
+.band-h .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-400)}
+.band-h .hint{margin-left:auto;font-size:11.5px;color:var(--ink-400)}
+.lrow{display:flex;align-items:center;gap:13px;padding:12px 16px;border:1px solid var(--rule-soft);border-radius:12px;background:var(--white);margin-bottom:8px;transition:.12s}
+.lrow:hover{border-color:var(--ink-400)}
+.lrow.od{border-left:3px solid var(--bad)}
+.lav{width:34px;height:34px;border-radius:99px;background:var(--panel);color:var(--ink-700);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+.who2{min-width:0;width:180px;flex:none}
+.who2 b{font-size:13.5px;display:block;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who2 b:hover{color:var(--ember)}
+.who2 span{font-family:var(--mono);font-size:11px;color:var(--ink-400)}
+.meta2{display:flex;gap:6px;align-items:center;flex-wrap:wrap;flex:1;min-width:0}
+.tag{font-size:10.5px;border-radius:99px;padding:2px 9px;border:1px solid var(--rule-soft);color:var(--ink-500);white-space:nowrap}
+.tag.g{border-color:#F2D69B;background:#FDF7E9;color:#8A6410}
+.tag.m{border-color:#BFD5F5;background:#EDF3FD;color:#1B4E8F}
+.tag.w{border-color:#B9E0CB;background:#E8F6EF;color:#0F6E56}
+.tag.r{border-color:#EFC4C4;background:var(--bad-bg);color:var(--bad)}
+.nx{font-size:11.5px;color:var(--ink-400);width:132px;flex:none;text-align:right}
+.nx b{display:block;color:var(--ink-700);font-size:12px;font-weight:600}
+.nx.odd b{color:var(--bad)}
+.acts{display:flex;gap:6px;flex:none}
+.mini{border:1px solid var(--rule-soft);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:600;color:var(--ink-700);transition:.12s;white-space:nowrap}
+.mini:hover{border-color:var(--ink-900);color:var(--ink-900)}
+.mini.call{background:var(--ember);border-color:var(--ember);color:#fff}
+.mini.call:hover{background:var(--ember-hover);border-color:var(--ember-hover);color:#fff}
+.mini.wa{color:#0F6E56;border-color:#B9E0CB}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.qhead .me{display:flex;align-items:center;gap:9px;font-size:13px}
+.qhead .me .lav{width:30px;height:30px;background:var(--ink-900);color:#fff}
+/* saved views + bulk */
+.views{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.view{border:1px solid var(--rule-soft);border-radius:99px;padding:6px 14px;font-size:12.5px;font-weight:500;color:var(--ink-500);transition:.12s;background:var(--white)}
+.view:hover{border-color:var(--ink-400);color:var(--ink-900)}
+.view.on{background:var(--ink-900);border-color:var(--ink-900);color:#fff;font-weight:600}
+.view .n{font-family:var(--mono);font-size:10px;opacity:.62;margin-left:5px}
+.bulk{display:none;align-items:center;gap:12px;background:var(--ink-900);color:#fff;border-radius:12px;padding:11px 16px;margin-bottom:12px;font-size:13px}
+.bulk.on{display:flex}
+.bulk select{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:8px;color:#fff;padding:6px 10px;font-family:inherit;font-size:12.5px;outline:none}
+.bulk select option{color:var(--ink-900)}
+.bulk .gh{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:99px;padding:6px 14px;font-size:12.5px;font-weight:600}
+.ltable td .lav{width:26px;height:26px;font-size:10px}
+.ltable td:first-child{text-align:left}
+.ltable input[type=checkbox]{width:14px;height:14px;accent-color:var(--ember)}
+/* log sheet */
+#sheet{position:fixed;inset:0;background:rgba(11,11,12,.42);z-index:95;display:none;align-items:center;justify-content:center;padding:24px}
+#sheet.on{display:flex}
+.sheet-in{background:var(--white);border-radius:20px;width:520px;max-width:100%;max-height:88vh;overflow-y:auto;padding:20px 24px 24px;box-shadow:0 24px 70px rgba(11,11,12,.3)}
+.grab{width:38px;height:4px;border-radius:99px;background:var(--rule-soft);margin:0 auto 16px}
+.sheet-lead{display:flex;align-items:center;gap:11px;padding-bottom:15px;border-bottom:1px solid var(--rule-soft);margin-bottom:16px}
+.sheet-lead b{font-size:15px;display:block}
+.sheet-lead span{font-family:var(--mono);font-size:11.5px;color:var(--ink-400)}
+.sheet-lead .att{margin-left:auto;font-size:11px;color:var(--ink-400);text-align:right;flex:none}
+.slab{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-400);margin-bottom:9px;display:block}
+.chans{display:flex;gap:6px;margin-bottom:18px}
+.chan{flex:1;border:1px solid var(--rule-soft);border-radius:9px;padding:9px;font-size:12.5px;font-weight:600;color:var(--ink-500);transition:.12s}
+.chan.on{background:var(--ink-900);color:#fff;border-color:var(--ink-900)}
+.outs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.out{border:1.5px solid var(--rule-soft);border-radius:11px;padding:13px 12px;font-size:13.5px;font-weight:600;color:var(--ink-700);display:flex;align-items:center;gap:9px;transition:.12s}
+.out:hover{border-color:var(--ink-400)}
+.out.on{border-color:var(--ember);background:var(--tint);color:var(--ember)}
+.out .od2{width:9px;height:9px;border-radius:99px;flex:none}
+.reveal{display:none;padding-top:16px;margin-top:16px;border-top:1px dashed var(--rule-soft)}
+.reveal.on{display:block}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip2{border:1px solid var(--rule-soft);border-radius:99px;padding:8px 15px;font-size:12.5px;font-weight:600;color:var(--ink-700);transition:.12s;background:var(--white)}
+.chip2:hover{border-color:var(--ink-900)}
+.chip2.on{background:var(--ember);border-color:var(--ember);color:#fff}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.fld label{font-size:12px;color:var(--ink-500);font-weight:500}
+.fld input,.fld select,.fld textarea{border:1px solid var(--rule-soft);border-radius:9px;padding:9px 11px;font-family:inherit;font-size:13px;color:var(--ink-900);background:var(--white);outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--ember)}
+.sheet-f{display:flex;gap:9px;margin-top:20px}
+.sheet-f .btn{flex:1;justify-content:center}
+/* toast */
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink-900);color:#fff;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:500;z-index:120;opacity:0;transition:.28s;pointer-events:none;display:flex;gap:9px;align-items:center}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+/* lead detail */
+.crmstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.cs{border:1px solid var(--rule-soft);border-radius:12px;padding:13px 15px;background:var(--white)}
+.cs .l{font-size:11.5px;color:var(--ink-500)}
+.cs .v2{font-size:13.5px;font-weight:600;margin-top:6px;display:flex;align-items:center;gap:7px}
+.cs select{border:1px solid var(--rule-soft);border-radius:8px;padding:5px 8px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-900);background:var(--white);outline:none;width:100%;margin-top:5px}
+.nextban{border:1px solid #F5CBB0;background:var(--tint);border-radius:12px;padding:13px 17px;display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.nextban b{font-size:13.5px}
+.nextban .sub{font-size:12.5px;color:var(--ink-500)}
+.tl{position:relative;padding-left:24px}
+.tl:before{content:'';position:absolute;left:5px;top:10px;bottom:10px;width:1px;background:var(--rule-soft)}
+.tli{position:relative;padding:10px 0}
+.tli .tdot{position:absolute;left:-24px;top:14px;width:11px;height:11px;border-radius:99px;border:2px solid var(--white);background:var(--ink-400)}
+.tli.gg .tdot{background:#F9AB00}.tli.mm .tdot{background:#1877F2}.tli.ff .tdot{background:var(--ember)}
+.tli.cc .tdot{background:var(--good)}.tli.rr .tdot{background:var(--bad)}.tli.ww .tdot{background:#25D366}
+.tli b{font-size:13px}
+.tli .tm{font-family:var(--mono);font-size:10.5px;color:var(--ink-400);float:right}
+.tli p{font-size:12.5px;color:var(--ink-500);margin-top:3px;max-width:70ch}
+.tscript{margin-top:9px;border:1px dashed var(--rule-soft);border-radius:9px;padding:11px 13px;font-size:12px;color:var(--ink-500);background:var(--off)}
+.tscript b{font-size:11.5px;color:var(--ink-700);display:block;margin-bottom:4px}
+/* config */
+.cfgrow{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--rule-soft);font-size:13px}
+.cfgrow:last-child{border-bottom:none}
+.cfgrow .cl{width:180px;flex:none;color:var(--ink-500);font-size:12.5px}
+.cfgrow input,.cfgrow select{border:1px solid var(--rule-soft);border-radius:8px;padding:7px 10px;font-family:inherit;font-size:12.5px;color:var(--ink-900);background:var(--white);outline:none}
+.cfgrow input:focus,.cfgrow select:focus{border-color:var(--ember)}
+.dispo{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--rule-soft);font-size:12.5px}
+.dispo:last-child{border-bottom:none}
+.dispo .dd{width:10px;height:10px;border-radius:99px;flex:none}
+.dispo b{width:118px;flex:none;font-size:12.5px}
+.dispo .maps{color:var(--ink-400);font-size:11.5px}
+.dispo .maps b2{color:var(--ink-700)}
 @media(max-width:1000px){.tiles,.kpis,.kpis.k4{grid-template-columns:repeat(2,1fr)}.pillars,.presets,.plans{grid-template-columns:1fr}.attr-grid{grid-template-columns:1fr}.libgrid,.mmgrid,.addons{grid-template-columns:repeat(2,1fr)}.set-grid{grid-template-columns:1fr}}
 </style></head>
 <body>
@@ -474,6 +586,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
   <div class="nav-sec">Core Activities <span class="dots">⋮</span></div>
   <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
+
+  <div class="ni-wrap">
+    <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">Leads</span><span class="caret">›</span></button>
+    <div class="fly">
+      <button class="fi" data-go="queue">My Queue <span class="bt" style="background:var(--bad-bg);color:var(--bad)">4 DUE</span></button>
+      <button class="fi" data-go="allleads">All Leads</button>
+      <button class="fi" data-go="crmteam">Dietitians</button>
+      <button class="fi" data-go="crmperf">Team Performance</button>
+      <div class="sep"></div>
+      <button class="fi create" onclick="setPane('leaddesk')">Configure Lead Desk <span class="ar">›</span></button>
+    </div>
+  </div>
 
   <div class="ni-wrap">
     <button class="ni" data-go="attribution"><span class="gi">◔</span><span class="lab">Marketing Acquisition</span><span class="caret">›</span></button>
@@ -958,6 +1082,132 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     </div>
   </section>
 
+  <!-- ======== MY QUEUE ======== -->
+  <section class="screen" id="s-queue">
+    <div class="qhead">
+      <div class="me"><span class="lav">SK</span><div><b style="font-size:13.5px">Sneha Kulkarni</b><div style="font-size:11.5px;color:var(--ink-400)">Dietitian · 18 active leads</div></div></div>
+      <span class="spacer"></span>
+      <span class="tag w">● Available</span>
+      <button class="ctl">Sort: Priority <span class="cd">▼</span></button>
+    </div>
+    <div id="queueBands"></div>
+  </section>
+
+  <!-- ======== ALL LEADS ======== -->
+  <section class="screen" id="s-allleads">
+    <div class="views" id="views"></div>
+    <div class="bulk" id="bulkbar">
+      <span><b id="bulkn">0</b> leads selected</span>
+      <span class="spacer"></span>
+      <span style="opacity:.7">Assign to</span>
+      <select id="bulkop"><option>Sneha Kulkarni</option><option>Dr. Anjali Rao</option><option>Priya Menon</option><option>Ritu Sharma</option><option>⟳ Round-robin</option></select>
+      <button class="gh" onclick="doAssign()">Assign</button>
+    </div>
+    <div class="card" style="overflow-x:auto">
+      <table class="dtable ltable">
+        <thead><tr><th style="width:34px"><input type="checkbox" onclick="selAll(this)"></th><th>Lead</th><th style="text-align:left">Source</th><th style="text-align:left">Stage</th><th style="text-align:left">Assigned to</th><th>Att.</th><th style="text-align:left">Last outcome</th><th style="text-align:left">Next action</th></tr></thead>
+        <tbody id="leadRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ======== LEAD DETAIL ======== -->
+  <section class="screen" id="s-lead">
+    <div style="display:flex;align-items:center;gap:13px;margin-bottom:18px">
+      <span class="lav" style="width:44px;height:44px;font-size:15px" id="ld-av">SU</span>
+      <div><h2 style="font-family:var(--serif);font-size:22px;font-weight:600" id="ld-name">Subramani G</h2>
+      <div style="font-size:12.5px;color:var(--ink-500)" id="ld-contact">maligaiammu@gmail.com · +91 91498 43316</div></div>
+      <span class="spacer"></span>
+      <button class="mini wa">◈ WhatsApp</button>
+      <button class="mini call" onclick="openSheet(0)">☎ Call now</button>
+    </div>
+
+    <div class="nextban">
+      <span style="font-size:16px">⏰</span>
+      <div><b id="ld-next">Follow-up call — 2 days overdue</b><div class="sub">Set after RNR on 19 Jul · attempt 3 of 5</div></div>
+      <span class="spacer"></span>
+      <button class="btn sm orange" onclick="openSheet(0)">Log interaction</button>
+    </div>
+
+    <div class="crmstrip">
+      <div class="cs"><div class="l">Assigned to</div><select id="ld-op"><option>Sneha Kulkarni</option><option>Dr. Anjali Rao</option><option>Priya Menon</option><option>Ritu Sharma</option><option>— Unassigned —</option></select></div>
+      <div class="cs"><div class="l">Assigned at</div><div class="v2">18 Jul · 10:24</div></div>
+      <div class="cs"><div class="l">Time to first touch</div><div class="v2" style="color:var(--good)">14 min ✓</div></div>
+      <div class="cs"><div class="l">Stage</div><div class="v2"><span class="tag g" id="ld-stage">Acquisition</span></div></div>
+    </div>
+
+    <div class="card" style="padding:20px 22px">
+      <div style="display:flex;align-items:center;margin-bottom:14px">
+        <h4 style="font-size:13px;font-weight:600">Timeline</h4>
+        <span style="font-size:11.5px;color:var(--ink-400);margin-left:10px">ads, site, form, calls and WhatsApp in one stream</span>
+        <span class="spacer"></span>
+        <button class="mini">＋ Add note</button>
+      </div>
+      <div class="tl">
+        <div class="tli rr"><span class="tdot"></span><span class="tm">19 Jul · 16:40</span><b>Call — Ring, no response</b><p>Attempt 3 · 0:00 · Sneha Kulkarni. Follow-up set for 20 Jul 11:00.</p></div>
+        <div class="tli cc"><span class="tdot"></span><span class="tm">18 Jul · 15:12</span><b>Call — Connected · 4m 12s</b><p>Sneha Kulkarni · Objection: <b>price</b>. Explained 3-month program pricing, asked to discuss with spouse. Wanted details on GLP-1 alternatives.</p>
+          <div class="tscript"><b>🎙 Transcript &amp; AI summary</b>Available once call recording is connected — Phase 3. Chat will then answer “which objection appears most in lost consults?” across every dietitian.</div>
+        </div>
+        <div class="tli ww"><span class="tdot"></span><span class="tm">18 Jul · 11:02</span><b>WhatsApp — outbound template sent</b><p>“Hi Subramani, this is Sneha from Progen…” · delivered, read 11:09</p></div>
+        <div class="tli"><span class="tdot"></span><span class="tm">18 Jul · 10:24</span><b>Lead assigned to Sneha Kulkarni</b><p>Round-robin · by Ops · <span class="mono" style="font-size:11px">engagement.lead_assigned</span></p></div>
+        <div class="tli ff"><span class="tdot"></span><span class="tm">18 Jul · 10:10</span><b>Form submitted — Free consultation</b><p>23 fields · goal: lose 12kg · age 41 · Bangalore · <span class="mono" style="font-size:11px">engagement.form_submitted</span></p></div>
+        <div class="tli"><span class="tdot"></span><span class="tm">18 Jul · 10:06</span><b>Page view — /weight-loss-bangalore</b><p>3m 41s on page · scrolled to pricing · viewed 2 testimonials</p></div>
+        <div class="tli gg"><span class="tdot"></span><span class="tm">18 Jul · 10:05</span><b>Google Ads click</b><p>Campaign 23790238693 · “weight loss clinic bangalore” · exact · ₹214 CPC · <span class="mono" style="font-size:11px">gclid ✓ matched</span></p></div>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-400);margin-top:12px">This lead cost <b style="color:var(--ink-700)">₹214</b> to acquire and has taken <b style="color:var(--ink-700)">3 dietitian touches</b> so far — the join that turns CAC into true cost-per-consult.</p>
+  </section>
+
+  <!-- ======== DIETITIANS (operators) ======== -->
+  <section class="screen" id="s-crmteam">
+    <div style="display:flex;align-items:center;margin-bottom:14px">
+      <p style="font-size:13px;color:var(--ink-500);max-width:70ch">Operators who can be assigned leads. The role label — “Dietitian” here — is a workspace setting, so the same module reads as “Sales Rep” or “Loan Officer” for another client.</p>
+      <span class="spacer"></span>
+      <button class="btn sm">＋ Invite dietitian</button>
+    </div>
+    <div class="card">
+      <div class="trow"><div class="av2" style="background:var(--ember)">SK</div><div><b>Sneha Kulkarni</b><span class="em">sneha@progenmethod.com</span></div><span class="spacer"></span><span class="tag w">● Available</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">18 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--info)">AR</div><div><b>Dr. Anjali Rao</b><span class="em">anjali@progenmethod.com</span></div><span class="spacer"></span><span class="tag w">● Available</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">22 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:#7C3AED">PM</div><div><b>Priya Menon</b><span class="em">priya@progenmethod.com</span></div><span class="spacer"></span><span class="tag">○ On leave</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">9 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--good)">RS</div><div><b>Ritu Sharma</b><span class="em">ritu@progenmethod.com</span></div><span class="spacer"></span><span class="tag w">● Available</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">14 / 25 leads</span><span class="role">Dietitian <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+      <div class="trow"><div class="av2" style="background:var(--ink-900)">VN</div><div><b>Vinay N</b><span class="em">vinay@progenmethod.com</span></div><span class="spacer"></span><span class="tag">—</span><span style="font-size:12px;color:var(--ink-500);width:96px;text-align:right">—</span><span class="role">Manager <span class="cd" style="color:var(--ink-400);font-size:9px">▼</span></span></div>
+    </div>
+    <p style="font-size:11.5px;color:var(--ink-400);margin-top:12px">Dietitians sign in to a restricted view — My Queue only. They never see ad spend, creative, or attribution.</p>
+  </section>
+
+  <!-- ======== TEAM PERFORMANCE ======== -->
+  <section class="screen" id="s-crmperf">
+    <div class="kpis">
+      <div class="kpi"><div class="l">Leads assigned</div><div class="v">312</div><div class="foot"><span class="delta up">▲ 18%</span></div></div>
+      <div class="kpi"><div class="l">Contact rate</div><div class="v">68<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 4pp</span></div></div>
+      <div class="kpi"><div class="l">Avg time to 1st call</div><div class="v">42<span class="u">min</span></div><div class="foot"><span class="delta dn">target 30min</span></div></div>
+      <div class="kpi"><div class="l">Consults booked</div><div class="v">86</div><div class="foot"><span class="delta up">▲ 12%</span></div></div>
+      <div class="kpi"><div class="l">Lead → paid</div><div class="v">11.2<span class="u">%</span></div><div class="foot"><span class="delta up">▲ 1.4pp</span></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">By dietitian</div>
+      <table class="utable">
+        <thead><tr><th>Dietitian</th><th>Assigned</th><th>Contact %</th><th>Avg 1st call</th><th>RNR %</th><th>Consults</th><th>Converted</th><th>Revenue</th></tr></thead>
+        <tbody>
+          <tr><td>Dr. Anjali Rao</td><td>96</td><td style="color:var(--good);font-weight:600">78%</td><td>21 min</td><td>19%</td><td>31</td><td>14</td><td>₹8,40,000</td></tr>
+          <tr><td>Sneha Kulkarni</td><td>88</td><td style="color:var(--good);font-weight:600">71%</td><td>34 min</td><td>24%</td><td>26</td><td>11</td><td>₹6,60,000</td></tr>
+          <tr><td>Ritu Sharma</td><td>74</td><td>64%</td><td>48 min</td><td>31%</td><td>19</td><td>7</td><td>₹4,20,000</td></tr>
+          <tr><td>Priya Menon</td><td>54</td><td style="color:var(--bad);font-weight:600">51%</td><td>96 min</td><td>42%</td><td>10</td><td>3</td><td>₹1,80,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="padding:18px 20px">
+      <h4 style="font-size:13px;font-weight:600;margin-bottom:12px">Cost per outcome — the loop closed</h4>
+      <div class="ovl">
+        <div class="or"><span class="ol" style="width:160px">Google · cost per lead</span><div class="track" style="height:16px"><div class="fill" style="width:44%;background:#F9AB00"></div></div><span class="ov" style="width:70px">₹971</span></div>
+        <div class="or"><span class="ol" style="width:160px">Google · per consult</span><div class="track" style="height:16px"><div class="fill" style="width:62%;background:#F9AB00"></div></div><span class="ov" style="width:70px">₹3,480</span></div>
+        <div class="or"><span class="ol" style="width:160px">Meta · cost per lead</span><div class="track" style="height:16px"><div class="fill" style="width:31%;background:#1877F2"></div></div><span class="ov" style="width:70px">₹684</span></div>
+        <div class="or"><span class="ol" style="width:160px">Meta · per consult</span><div class="track" style="height:16px"><div class="fill" style="width:88%;background:#1877F2"></div></div><span class="ov" style="width:70px">₹4,910</span></div>
+      </div>
+      <div style="font-size:12px;color:var(--ink-500);margin-top:14px;border-left:2px solid var(--ember);padding-left:11px">✦ Meta looks cheaper per lead but costs <b>41% more per consult</b> — its leads answer the phone less often. Only visible because dietitian call outcomes live in the same spine as ad clicks.</div>
+    </div>
+  </section>
+
   <!-- ======== DATA SPINE (generic) ======== -->
   <section class="screen" id="s-spine">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
@@ -1029,6 +1279,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <button class="sn-i" data-pane="pixel" onclick="setPane('pixel')">Pixel Settings</button>
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Reports &amp; Notifications</button>
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Traffic Rules · UTM Builder</button>
+        <div class="sn-sec">Modules</div>
+        <button class="sn-i" data-pane="leaddesk" onclick="setPane('leaddesk')">Lead Desk <span class="nw">NEW</span></button>
         <div class="sn-sec">AI Settings</div>
         <button class="sn-i" data-pane="brand" onclick="setPane('brand')">Brand Vault <span class="nw">NEW</span></button>
         <button class="sn-i" data-pane="analystset" onclick="setPane('analystset')">Analyst</button>
@@ -1110,6 +1362,45 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           </div>
         </div>
 
+        <!-- lead desk config -->
+        <div class="setpane" id="p-leaddesk">
+          <div style="display:flex;align-items:center;margin-bottom:6px"><h3 style="font-family:var(--serif);font-size:20px;font-weight:600">Lead Desk</h3><span class="nw" style="font-size:9px;font-weight:700;color:var(--ember);background:var(--ember-dim);border-radius:99px;padding:2px 7px;margin-left:8px">NEW</span><span class="spacer"></span><div class="toggle"></div></div>
+          <p style="font-size:12.5px;color:var(--ink-500);margin-bottom:16px;max-width:76ch">A thin operating layer for teams who work leads by phone. Everything below is per-workspace configuration — no code changes to onboard the next client.</p>
+
+          <div class="sec-h">Vocabulary</div>
+          <div class="card" style="margin-bottom:18px">
+            <div class="cfgrow"><span class="cl">Operator label</span><input value="Dietitian" style="width:150px"><span style="color:var(--ink-400)">/</span><input value="Dietitians" style="width:150px"><span style="font-size:11.5px;color:var(--ink-400)">singular / plural — used across every screen</span></div>
+            <div class="cfgrow"><span class="cl">Work item label</span><input value="Lead" style="width:150px"><span style="color:var(--ink-400)">/</span><input value="Leads" style="width:150px"></div>
+            <div class="cfgrow"><span class="cl">Key conversion event</span><input value="Consultation booked" style="width:230px"></div>
+          </div>
+
+          <div class="sec-h">Dispositions <span class="hint">— what an operator can log, and where each one moves the lead</span></div>
+          <div class="card" style="margin-bottom:18px">
+            <div class="dispo"><span class="dd" style="background:var(--good)"></span><b>Connected</b><span class="maps">follow-up optional · maps to <b>Engagement</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--bad)"></span><b>RNR</b><span class="maps">follow-up required · default +4h · stays in <b>Acquisition</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--watch)"></span><b>Busy</b><span class="maps">follow-up required · default +4h</span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--ember)"></span><b>Consult booked</b><span class="maps">schedules event · maps to <b>Intent</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--ink-900)"></span><b>Not interested</b><span class="maps">reason required · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo"><span class="dd" style="background:var(--ink-400)"></span><b>Wrong number</b><span class="maps">invalidates phone · maps to <b>Risk</b></span><span class="spacer"></span><button class="mini">Edit</button></div>
+            <div class="dispo" style="border-top:1px solid var(--rule-soft)"><button class="newmetric" style="padding:4px 0">＋ Add disposition</button></div>
+          </div>
+
+          <div class="sec-h">Assignment &amp; SLA</div>
+          <div class="card" style="margin-bottom:18px">
+            <div class="cfgrow"><span class="cl">Assignment strategy</span><select style="width:230px"><option>Round-robin (capacity aware)</option><option>Manual only</option><option>By lead source</option><option>By language</option><option>By city</option></select></div>
+            <div class="cfgrow"><span class="cl">Max active leads per operator</span><input value="25" style="width:80px"></div>
+            <div class="cfgrow"><span class="cl">First-touch SLA</span><input value="30" style="width:70px"><span style="font-size:12.5px;color:var(--ink-500)">minutes — breach alerts the manager in Slack</span></div>
+            <div class="cfgrow"><span class="cl">Max attempts before dormant</span><input value="5" style="width:70px"></div>
+          </div>
+
+          <div class="sec-h">Channels <span class="hint">— logged interactions become events in the spine</span></div>
+          <div class="card">
+            <div class="costrow"><div class="ci">☎</div><div><b>Manual call logging</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Operator taps an outcome after each call</div></div><span class="spacer"></span><span class="perm y stt">Live</span></div>
+            <div class="costrow"><div class="ci">◈</div><div><b>WhatsApp Business API</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Two-way threads ingested into the timeline</div></div><span class="spacer"></span><span class="tag">Phase 2</span></div>
+            <div class="costrow"><div class="ci">🎙</div><div><b>Call recording &amp; transcripts</b><div class="em" style="font-size:11.5px;color:var(--ink-400)">Exotel / Ozonetel · AI summary + objection tagging</div></div><span class="spacer"></span><span class="tag">Phase 3</span></div>
+          </div>
+        </div>
+
         <!-- business (stub) -->
         <div class="setpane" id="p-business">
           <h3 style="font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:14px">Business Details</h3>
@@ -1145,6 +1436,77 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </div>
 </div>
 </div>
+
+<!-- ======== LOG INTERACTION SHEET ======== -->
+<div id="sheet">
+  <div class="sheet-in">
+    <div class="grab"></div>
+    <div class="sheet-lead">
+      <span class="lav" id="sh-av">SU</span>
+      <div><b id="sh-name">Subramani G</b><span id="sh-phone">+91 91498 43316</span></div>
+      <div class="att">Attempt <b id="sh-att">3</b> of 5<br><span id="sh-src">Google · Search</span></div>
+    </div>
+
+    <span class="slab">Channel</span>
+    <div class="chans">
+      <button class="chan on" onclick="pickChan(this)">☎ Call</button>
+      <button class="chan" onclick="pickChan(this)">◈ WhatsApp</button>
+      <button class="chan" onclick="pickChan(this)">◉ In person</button>
+    </div>
+
+    <span class="slab">What happened?</span>
+    <div class="outs">
+      <button class="out" onclick="pickOut(this,'connected')"><span class="od2" style="background:var(--good)"></span>Connected</button>
+      <button class="out" onclick="pickOut(this,'rnr')"><span class="od2" style="background:var(--bad)"></span>Ring, no response</button>
+      <button class="out" onclick="pickOut(this,'busy')"><span class="od2" style="background:var(--watch)"></span>Busy — call later</button>
+      <button class="out" onclick="pickOut(this,'wrong')"><span class="od2" style="background:var(--ink-400)"></span>Wrong number</button>
+      <button class="out" onclick="pickOut(this,'notint')"><span class="od2" style="background:var(--ink-900)"></span>Not interested</button>
+      <button class="out" onclick="pickOut(this,'booked')"><span class="od2" style="background:var(--ember)"></span>Consult booked</button>
+    </div>
+
+    <!-- progressive reveals -->
+    <div class="reveal" id="rv-snooze">
+      <span class="slab">Try again</span>
+      <div class="chips">
+        <button class="chip2 on" onclick="pickChip(this)">In 4 hours</button>
+        <button class="chip2" onclick="pickChip(this)">Tomorrow 11:00</button>
+        <button class="chip2" onclick="pickChip(this)">In 2 days</button>
+        <button class="chip2" onclick="pickChip(this)">Custom…</button>
+      </div>
+      <p style="font-size:11.5px;color:var(--ink-400);margin-top:11px">After 5 unanswered attempts this lead auto-moves to <b>Dormant</b> and leaves your queue.</p>
+    </div>
+
+    <div class="reveal" id="rv-connected">
+      <div class="fld"><label>Consult outcome</label><select><option>Discussed — deciding</option><option>Consult booked</option><option>Wants callback after discussing with family</option><option>Not a fit — medical</option></select></div>
+      <div class="fld"><label>Objection</label><select><option>None</option><option>Price</option><option>Distance / travel</option><option>Wants GLP-1 only</option><option>Tried before, skeptical</option><option>Timing — later month</option></select></div>
+      <div class="fld"><label>Notes</label><textarea rows="2" placeholder="Optional — 1 line is fine"></textarea></div>
+      <span class="slab">Next action</span>
+      <div class="chips"><button class="chip2 on" onclick="pickChip(this)">Follow-up in 2 days</button><button class="chip2" onclick="pickChip(this)">In a week</button><button class="chip2" onclick="pickChip(this)">No follow-up</button></div>
+    </div>
+
+    <div class="reveal" id="rv-booked">
+      <div class="fld"><label>Consultation date &amp; time</label><input type="datetime-local" value="2026-07-24T11:00"></div>
+      <div class="fld"><label>Assigned dietitian for consult</label><select><option>Sneha Kulkarni (me)</option><option>Dr. Anjali Rao</option><option>Ritu Sharma</option></select></div>
+      <p style="font-size:11.5px;color:var(--ink-400)">Moves this lead to <b>Intent</b> and sends the WhatsApp confirmation template.</p>
+    </div>
+
+    <div class="reveal" id="rv-notint">
+      <div class="fld"><label>Reason</label><select><option>Price too high</option><option>Chose another clinic</option><option>Just browsing</option><option>Health condition — not eligible</option><option>Never enquired</option></select></div>
+      <p style="font-size:11.5px;color:var(--ink-400)">Moves to <b>Risk</b> and removes from your queue. Reasons roll up into Team Performance.</p>
+    </div>
+
+    <div class="reveal" id="rv-wrong">
+      <p style="font-size:12.5px;color:var(--ink-500)">Marks the phone number invalid on this identity and flags the lead for the ads team — repeated wrong numbers from one campaign usually mean a broken form or click fraud.</p>
+    </div>
+
+    <div class="sheet-f">
+      <button class="btn ghost" onclick="closeSheet()">Cancel</button>
+      <button class="btn orange" onclick="saveLog()">Save &amp; next lead</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span>✓</span><span id="toast-t">Logged</span></div>
 
 <!-- ======== SELECT COLUMNS MODAL ======== -->
 <div id="modal">
@@ -1188,7 +1550,156 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations',0],library:['Library',0],
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
-aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0]};
+aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
+queue:['My Queue',0],allleads:['All Leads',0],crmteam:['Dietitians',0],crmperf:['Team Performance',0],lead:['Lead',0]};
+
+/* ---------- LEAD DESK data ---------- */
+const LEADS=[
+{n:'Subramani G',ph:'+91 91498 43316',id:'con_Oi9JLbbuVs5P',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:3,last:'RNR',lastc:'r',st:'Acquisition',nx:'Follow-up',due:'2 days overdue',band:'over'},
+{n:'Baldeep Kaur',ph:'+91 98867 20114',id:'con_dq6qrG-623lO',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:2,last:'Busy',lastc:'w',st:'Acquisition',nx:'Call back',due:'1 day overdue',band:'over'},
+{n:'Ziya Noori',ph:'+91 78295 61120',id:'con_txYcRROdmCc_',src:'google',cam:'Search · Dietitian near me',op:'Sneha Kulkarni',att:4,last:'RNR',lastc:'r',st:'Acquisition',nx:'Final attempt',due:'4 hours overdue',band:'over'},
+{n:'Saba Shaikh',ph:'+91 90084 55231',id:'con_xenM-1MgWMt8',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Discussed with family',due:'3 hours overdue',band:'over'},
+{n:'Kinjal Mehta',ph:'+91 99024 78310',id:'con_5PFcTa9BLrC9',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Send pricing',due:'Today 15:00',band:'today'},
+{n:'Dani Fernandes',ph:'+91 81234 09876',id:'con_FjngVNOMnjdA',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:2,last:'RNR',lastc:'r',st:'Acquisition',nx:'Retry call',due:'Today 16:30',band:'today'},
+{n:'Sayyed Zahra Rizvi',ph:'+91 70223 44810',id:'con_rkOO57g8_Nss',src:'google',cam:'Search · Obesity clinic',op:'Sneha Kulkarni',att:1,last:'Busy',lastc:'w',st:'Acquisition',nx:'Retry call',due:'Today 18:00',band:'today'},
+{n:'Adhvika Gupta',ph:'+91 96321 55407',id:'con_3b5sAN0debuJ',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 12 min ago',band:'new'},
+{n:'Muskan Nadeem Ali',ph:'+91 88617 23098',id:'con_AxOMxIanbSJn',src:'google',cam:'Search · WL Bangalore',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 26 min ago',band:'new'},
+{n:'Darshan Sawant',ph:'+91 97401 66285',id:'con_TyA2LxGkYR3v',src:'meta',cam:'Advantage+ · GLP-1',op:'Sneha Kulkarni',att:0,last:'—',lastc:'',st:'Acquisition',nx:'First call',due:'Assigned 41 min ago',band:'new'},
+{n:'Shruti Nair',ph:'+91 90350 71142',id:'con_WGwjyBSMwACM',src:'google',cam:'Search · Dietitian near me',op:'Sneha Kulkarni',att:2,last:'Connected',lastc:'g',st:'Engagement',nx:'Callback after salary',due:'28 Jul',band:'later'},
+{n:'Sylvia Cacacie',ph:'+91 99458 30027',id:'con_d5xfF6AW9ai9',src:'meta',cam:'Reels · Transformation',op:'Sneha Kulkarni',att:3,last:'Connected',lastc:'g',st:'Intent',nx:'Consult 26 Jul 11:00',due:'26 Jul',band:'later'},
+{n:'Ujjwal Kumar',ph:'+91 89712 40663',id:'con_m4T2n9Gx8MDh',src:'google',cam:'Search · Obesity clinic',op:'Dr. Anjali Rao',att:1,last:'Connected',lastc:'g',st:'Engagement',nx:'Send diet plan',due:'Today 17:00',band:'other'},
+{n:'Uma Upadhyay',ph:'+91 93412 88705',id:'con_8ZleB_tIJYY7',src:'meta',cam:'Advantage+ · GLP-1',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'8 min ago',band:'other'},
+{n:'Syeda Seema Farrah',ph:'+91 90190 33218',id:'con_G752iqp9pEaF',src:'google',cam:'Search · WL Bangalore',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'19 min ago',band:'other'},
+{n:'Rahul Deshpande',ph:'+91 98450 12277',id:'con_Kp2mNvQr8xTz',src:'meta',cam:'Reels · Transformation',op:'—',att:0,last:'—',lastc:'',st:'Acquisition',nx:'Unassigned',due:'34 min ago',band:'other'},
+{n:'Meera Iyer',ph:'+91 97390 55841',id:'con_Vb7hLsDf3nQw',src:'google',cam:'Search · Dietitian near me',op:'Ritu Sharma',att:5,last:'RNR',lastc:'r',st:'Risk',nx:'Dormant — 5 attempts',due:'—',band:'other'}];
+
+const BANDS=[
+{k:'over',t:'Overdue follow-ups',c:'var(--bad)',h:'Call these first — SLA already breached'},
+{k:'today',t:'Due today',c:'var(--watch)',h:''},
+{k:'new',t:'New — assigned, never contacted',c:'var(--ember)',h:'30-minute first-touch SLA running'},
+{k:'later',t:'Scheduled &amp; snoozed',c:'var(--ink-400)',h:''}];
+
+const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const srcTag=s=>s==='google'?'<span class="tag g">Google</span>':'<span class="tag m">Meta</span>';
+
+function renderQueue(){
+  const wrap=document.getElementById('queueBands');if(!wrap)return;
+  wrap.innerHTML=BANDS.map(b=>{
+    const rows=LEADS.filter(l=>l.band===b.k);
+    if(!rows.length)return '';
+    return '<div class="band"><div class="band-h"><span class="bd" style="background:'+b.c+'"></span><h3>'+b.t+'</h3><span class="n">'+rows.length+'</span>'+(b.h?'<span class="hint">'+b.h+'</span>':'')+'</div>'+
+    rows.map(l=>{const i=LEADS.indexOf(l);const od=b.k==='over';
+      return '<div class="lrow'+(od?' od':'')+'">'+
+      '<span class="lav">'+ini(l.n)+'</span>'+
+      '<div class="who2"><b onclick="openLead('+i+')">'+l.n+'</b><span>'+l.ph+'</span></div>'+
+      '<div class="meta2">'+srcTag(l.src)+'<span class="tag">'+l.cam+'</span>'+(l.att?'<span class="tag'+(l.lastc?' '+l.lastc:'')+'">'+l.last+' · att '+l.att+'</span>':'<span class="tag">New lead</span>')+'</div>'+
+      '<div class="nx'+(od?' odd':'')+'"><b>'+l.nx+'</b>'+l.due+'</div>'+
+      '<div class="acts"><button class="mini wa">◈</button><button class="mini call" onclick="openSheet('+i+')">☎ Call</button></div></div>';
+    }).join('')+'</div>';
+  }).join('');
+}
+
+let VIEW='all';
+const VIEWS=[{k:'all',t:'All leads'},{k:'un',t:'Unassigned'},{k:'over',t:'Overdue follow-ups'},{k:'rnr',t:'RNR 3+ attempts'},{k:'booked',t:'Consults booked'}];
+function viewRows(){
+  if(VIEW==='un')return LEADS.filter(l=>l.op==='—');
+  if(VIEW==='over')return LEADS.filter(l=>l.band==='over');
+  if(VIEW==='rnr')return LEADS.filter(l=>l.att>=3&&l.last==='RNR');
+  if(VIEW==='booked')return LEADS.filter(l=>l.st==='Intent');
+  return LEADS;
+}
+function renderLeads(){
+  const vc=document.getElementById('views');if(!vc)return;
+  vc.innerHTML=VIEWS.map(v=>{
+    const n=(v.k==='un'?LEADS.filter(l=>l.op==='—').length:v.k==='over'?LEADS.filter(l=>l.band==='over').length:v.k==='rnr'?LEADS.filter(l=>l.att>=3&&l.last==='RNR').length:v.k==='booked'?LEADS.filter(l=>l.st==='Intent').length:LEADS.length);
+    return '<button class="view'+(VIEW===v.k?' on':'')+'" onclick="setView(\''+v.k+'\')">'+v.t+'<span class="n">'+n+'</span></button>';
+  }).join('');
+  document.getElementById('leadRows').innerHTML=viewRows().map(l=>{
+    const i=LEADS.indexOf(l);
+    return '<tr><td><input type="checkbox" class="lchk" onclick="updBulk()"></td>'+
+    '<td><div style="display:flex;align-items:center;gap:9px"><span class="lav">'+ini(l.n)+'</span><div><b style="cursor:pointer" onclick="openLead('+i+')">'+l.n+'</b><div class="mono" style="font-size:10.5px;color:var(--ink-400)">'+l.ph+'</div></div></div></td>'+
+    '<td style="text-align:left">'+srcTag(l.src)+'<div style="font-size:11px;color:var(--ink-400);margin-top:3px">'+l.cam+'</div></td>'+
+    '<td style="text-align:left"><span class="tag'+(l.st==='Intent'?' w':l.st==='Risk'?' r':'')+'">'+l.st+'</span></td>'+
+    '<td style="text-align:left">'+(l.op==='—'?'<span style="color:var(--ember);font-weight:600">Unassigned</span>':l.op)+'</td>'+
+    '<td>'+l.att+'</td>'+
+    '<td style="text-align:left">'+(l.lastc?'<span class="tag '+l.lastc+'">'+l.last+'</span>':'<span style="color:var(--ink-400)">—</span>')+'</td>'+
+    '<td style="text-align:left"><b style="font-size:12px">'+l.nx+'</b><div style="font-size:11px;color:'+(l.band==='over'?'var(--bad)':'var(--ink-400)')+'">'+l.due+'</div></td></tr>';
+  }).join('');
+  updBulk();
+}
+function setView(k){VIEW=k;renderLeads();}
+function selAll(cb){document.querySelectorAll('.lchk').forEach(c=>c.checked=cb.checked);updBulk();}
+function updBulk(){
+  const n=document.querySelectorAll('.lchk:checked').length;
+  document.getElementById('bulkn').textContent=n;
+  document.getElementById('bulkbar').classList.toggle('on',n>0);
+}
+function doAssign(){
+  const op=document.getElementById('bulkop').value;
+  const rows=viewRows();
+  const picked=[];
+  document.querySelectorAll('.lchk').forEach((c,idx)=>{if(c.checked&&rows[idx])picked.push(rows[idx]);});
+  picked.forEach((l,i)=>{l.op=(op==='⟳ Round-robin')?['Sneha Kulkarni','Dr. Anjali Rao','Ritu Sharma'][i%3]:op;});
+  renderLeads();
+  toast(picked.length+' leads assigned to '+op.replace('⟳ ','')+' — event emitted');
+}
+
+/* ---------- log interaction sheet ---------- */
+let CUR=0;
+function openSheet(i){
+  CUR=i;const l=LEADS[i];
+  document.getElementById('sh-av').textContent=ini(l.n);
+  document.getElementById('sh-name').textContent=l.n;
+  document.getElementById('sh-phone').textContent=l.ph;
+  document.getElementById('sh-att').textContent=l.att+1;
+  document.getElementById('sh-src').textContent=(l.src==='google'?'Google':'Meta')+' · '+l.cam;
+  document.querySelectorAll('.out').forEach(o=>o.classList.remove('on'));
+  document.querySelectorAll('.reveal').forEach(r=>r.classList.remove('on'));
+  document.getElementById('sheet').classList.add('on');
+}
+function closeSheet(){document.getElementById('sheet').classList.remove('on');}
+function pickChan(b){b.parentElement.querySelectorAll('.chan').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+function pickChip(b){b.parentElement.querySelectorAll('.chip2').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+const REVEAL={connected:'rv-connected',rnr:'rv-snooze',busy:'rv-snooze',wrong:'rv-wrong',notint:'rv-notint',booked:'rv-booked'};
+let OUT='';
+function pickOut(b,k){
+  OUT=k;
+  document.querySelectorAll('.out').forEach(o=>o.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.reveal').forEach(r=>r.classList.remove('on'));
+  document.getElementById(REVEAL[k]).classList.add('on');
+}
+const OUTLABEL={connected:'Connected',rnr:'RNR',busy:'Busy',wrong:'Wrong number',notint:'Not interested',booked:'Consult booked'};
+function saveLog(){
+  const l=LEADS[CUR];
+  if(OUT){
+    l.att++;l.last=OUTLABEL[OUT];
+    l.lastc=OUT==='connected'||OUT==='booked'?'g':OUT==='rnr'?'r':OUT==='busy'?'w':'';
+    if(OUT==='booked'){l.st='Intent';l.band='later';l.nx='Consult 24 Jul 11:00';l.due='24 Jul';}
+    else if(OUT==='connected'){l.st='Engagement';l.band='later';l.nx='Follow-up';l.due='in 2 days';}
+    else if(OUT==='notint'||OUT==='wrong'){l.st='Risk';l.band='other';l.nx='Closed';l.due='—';}
+    else {l.band='today';l.nx='Retry call';l.due='in 4 hours';}
+  }
+  closeSheet();renderQueue();renderLeads();
+  toast('Logged — '+(OUT?OUTLABEL[OUT]:'interaction')+' · stage updated to '+l.st);
+  OUT='';
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-t').textContent=msg;
+  t.classList.add('on');clearTimeout(window._tt);
+  window._tt=setTimeout(()=>t.classList.remove('on'),3200);
+}
+function openLead(i){
+  const l=LEADS[i];CUR=i;
+  go('lead');
+  document.getElementById('tb-title').textContent=l.n;
+  document.getElementById('ld-av').textContent=ini(l.n);
+  document.getElementById('ld-name').textContent=l.n;
+  document.getElementById('ld-contact').textContent=l.id+' · '+l.ph;
+  document.getElementById('ld-stage').textContent=l.st;
+  document.getElementById('ld-next').textContent=l.nx+' — '+l.due;
+  if(l.op!=='—')document.getElementById('ld-op').value=l.op;
+}
 
 const SPINE={
 dashboard:{t:'Data Spine — Dashboard',d:'Health of the whole spine at a glance — event volume, identity match rate, and connector freshness across every source.'},
@@ -1357,6 +1868,8 @@ setInterval(()=>{
   while(feed.children.length>5)feed.removeChild(feed.lastChild);
 },7000);
 
+renderQueue();
+renderLeads();
 go('summary');
 </script>
 </body></html>
