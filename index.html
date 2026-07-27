@@ -21,7 +21,7 @@
       <button class="wrow"><span class="wa">D</span>demo_purity</button>
       <button class="wrow on"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--color-ember);background:var(--color-ember-dim)">CRM</span><span class="chk">✓</span></button>
       <div class="sep"></div>
-      <button class="wrow create"><span class="wa">＋</span>Create Workspace</button>
+      <button class="wrow create" onclick="document.getElementById(&quot;wsMenu&quot;).classList.remove(&quot;on&quot;);showOb(2)"><span class="wa">＋</span>Create Workspace</button>
     </div>
   </div>
 
@@ -955,6 +955,7 @@
             <div class="costrow"><div class="ci">◉</div><div><b>Store</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Purity Naturals · puritynaturals.in</div></div></div>
             <div class="costrow"><div class="ci">₹</div><div><b>Currency &amp; timezone</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">INR · Asia/Kolkata (+05:30)</div></div></div>
             <div class="costrow"><div class="ci">⌫</div><div><b>Customer data deletion</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">GDPR / DPDP requests — 2 processed</div></div><span class="spacer"></span><button class="btn btn-sm btn-ghost">Manage</button></div>
+            <div class="costrow"><div class="ci">↺</div><div><b>Onboarding</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Replay the sign-up → connect → first-run flow</div></div><span class="spacer"></span><button class="btn btn-sm btn-ghost" onclick="sessionStorage.removeItem('mk_ob');showOb(1)">Replay</button></div>
           </div>
         </div>
       </div>
@@ -982,6 +983,98 @@
   </aside>
   </div>
 </div>
+</div>
+
+<!-- ======== ONBOARDING ======== -->
+<div class="obwrap" id="ob">
+  <div class="ob-top">
+    <div class="brand"><div class="logo">m</div><div class="wd">meerkats<i>.ai</i></div></div>
+    <button class="ob-skip" onclick="finishOb(true)">Just exploring? Skip setup &rarr;</button>
+  </div>
+  <div class="ob-steps"><div class="ob-step on" id="obs1"></div><div class="ob-step" id="obs2"></div><div class="ob-step" id="obs3"></div><div class="ob-step" id="obs4"></div></div>
+  <div class="ob-body">
+
+    <!-- step 1 -->
+    <section class="ob-pane on" id="ob1">
+      <div class="kicker" style="margin-bottom:10px">Create your account</div>
+      <h1 class="ob-h">Build your growth engine.</h1>
+      <p class="ob-sub">Start free. Connect your ad accounts and see your true CAC &mdash; not platform-reported ROAS &mdash; in about four minutes.</p>
+      <button class="sso" onclick="obGo(2)"><span style="font-weight:800;color:#4285F4">G</span> Continue with Google</button>
+      <div class="ob-div">or with work email</div>
+      <div style="max-width:420px;display:flex;flex-direction:column;gap:10px">
+        <input class="field" placeholder="you@company.com" style="padding:12px 14px">
+        <input class="field" type="password" placeholder="Password (8+ characters)" style="padding:12px 14px">
+        <button class="btn btn-orange" style="justify-content:center;margin-top:4px" onclick="obGo(2)">Create account</button>
+      </div>
+      <div class="ob-foot"><span class="ob-note">Already have an account? <a href="#" onclick="obGo(2);return false" style="color:var(--color-ember);font-weight:600;text-decoration:none">Sign in</a> &middot; By continuing you agree to the Terms &amp; Privacy Policy.</span></div>
+    </section>
+
+    <!-- step 2 -->
+    <section class="ob-pane" id="ob2">
+      <div class="kicker" style="margin-bottom:10px">Step 2 of 4 &middot; Your workspace</div>
+      <h1 class="ob-h">Tell us about the business.</h1>
+      <p class="ob-sub">A workspace binds your data, agents and team together. You can add more later &mdash; one per brand or client.</p>
+      <div style="max-width:460px;display:flex;flex-direction:column;gap:14px">
+        <div class="fld"><label>Workspace name</label><input class="field" id="ob-ws" value="Progen Method" style="padding:11px 13px"></div>
+        <div class="fld"><label>Website</label><input class="field" value="progenmethod.com" style="padding:11px 13px"></div>
+        <div style="display:flex;gap:10px">
+          <div class="fld" style="flex:1"><label>Currency</label><select class="field"><option>INR &#8377;</option><option>USD $</option><option>AED</option></select></div>
+          <div class="fld" style="flex:1"><label>Monthly ad spend</label><select class="field"><option>&#8377;5L &ndash; &#8377;20L</option><option>Under &#8377;5L</option><option>&#8377;20L &ndash; &#8377;1Cr</option><option>&#8377;1Cr+</option></select></div>
+        </div>
+        <div class="fld"><label>What best describes you?</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="rolechip on" onclick="pickRoleChip(this)">Founder / CEO</button>
+            <button class="rolechip" onclick="pickRoleChip(this)">Growth lead</button>
+            <button class="rolechip" onclick="pickRoleChip(this)">Media buyer</button>
+            <button class="rolechip" onclick="pickRoleChip(this)">Agency</button>
+          </div></div>
+      </div>
+      <div class="ob-foot"><button class="btn" onclick="obGo(3)">Continue</button><span class="ob-note">Sets defaults only &mdash; nothing here is locked in.</span></div>
+    </section>
+
+    <!-- step 3 -->
+    <section class="ob-pane" id="ob3">
+      <div class="kicker" style="margin-bottom:10px">Step 3 of 4 &middot; Connect your data</div>
+      <h1 class="ob-h">Plug in what you run on.</h1>
+      <p class="ob-sub">OAuth read access only &mdash; Meerkats never changes anything in your accounts without an explicit approval from you.</p>
+
+      <div class="conngroup"><h4>Ad platforms</h4><span class="req">CONNECT AT LEAST ONE</span></div>
+      <div class="connrow" id="cx-google"><span class="clogo" style="background:#F9AB00;color:#111">G</span><div><b>Google Ads</b><span class="csub">Campaigns, cost, gclid click stream &middot; 90 days of history</span></div><button class="cbtn" onclick="connectSrc('cx-google')">Connect</button></div>
+      <div class="connrow" id="cx-meta"><span class="clogo" style="background:#1877F2">f</span><div><b>Meta Ads</b><span class="csub">Campaigns, spend, fbclid click stream &middot; 90 days of history</span></div><button class="cbtn" onclick="connectSrc('cx-meta')">Connect</button></div>
+
+      <div class="conngroup"><h4>Store &amp; revenue</h4><span class="req" style="background:var(--color-info-bg);color:var(--color-info)">RECOMMENDED</span></div>
+      <div class="connrow" id="cx-shopify"><span class="clogo" style="background:#5E8E3E">S</span><div><b>Shopify</b><span class="csub">Orders, refunds, customers &mdash; the revenue spine your CAC reconciles to</span></div><button class="cbtn" onclick="connectSrc('cx-shopify')">Connect</button></div>
+
+      <div class="conngroup"><h4>CRM</h4><span class="opt">OPTIONAL</span></div>
+      <div class="connrow" id="cx-crm"><span class="clogo" style="background:var(--color-ink-700)">&#9678;</span><div><b>HubSpot / lead CRM</b><span class="csub">For lead-gen funnels &mdash; ties calls and consults back to ad clicks</span></div><button class="cbtn" onclick="connectSrc('cx-crm')">Connect</button></div>
+
+      <div class="ob-foot">
+        <button class="btn" id="ob3next" disabled style="opacity:.35;pointer-events:none" onclick="obGo(4);startFirstRun()">Continue</button>
+        <span class="ob-note" id="ob3note">Connect at least one ad platform to continue &mdash; Shopify and CRM can be added any time from Integrations.</span>
+      </div>
+    </section>
+
+    <!-- step 4 -->
+    <section class="ob-pane" id="ob4">
+      <div class="kicker" style="margin-bottom:10px">Step 4 of 4 &middot; First run</div>
+      <h1 class="ob-h">Building your Cockpit.</h1>
+      <p class="ob-sub">Takes about four minutes on a typical account. You can leave &mdash; we keep going and this progress will be here when you return.</p>
+      <div class="card" style="padding:6px 22px;max-width:560px">
+        <div class="runrow" id="rr0"><span class="rdot"></span>Pulling 90 days from Google Ads<span class="rms"></span></div>
+        <div class="runrow" id="rr1"><span class="rdot"></span>Pulling 90 days from Meta Ads<span class="rms"></span></div>
+        <div class="runrow" id="rr2"><span class="rdot"></span>Ingesting Shopify orders &amp; customers<span class="rms"></span></div>
+        <div class="runrow" id="rr3"><span class="rdot"></span>Stitching identities on click-IDs (gclid / fbclid)<span class="rms"></span></div>
+        <div class="runrow" id="rr4"><span class="rdot"></span>Computing CAC &amp; LTV baselines<span class="rms"></span></div>
+        <div class="runrow" id="rr5"><span class="rdot"></span>Writing your first recommendations<span class="rms"></span></div>
+      </div>
+      <div class="ob-ready" id="obReady">
+        <div style="font-size:26px;margin-bottom:6px">&#10003;</div>
+        <h3 style="font-family:var(--font-serif);font-size:21px;font-weight:600;margin-bottom:6px">Your Cockpit is ready</h3>
+        <p style="font-size:13px;color:var(--color-ink-500);margin-bottom:16px">128 identities stitched &middot; CAC baseline &#8377;1,082 &middot; 3 recommendations waiting</p>
+        <button class="btn btn-orange" onclick="finishOb(false)">Open Cockpit &rarr;</button>
+      </div>
+    </section>
+  </div>
 </div>
 
 <!-- ======== LOG INTERACTION SHEET ======== -->
@@ -1597,11 +1690,58 @@ function renderSkills(){
     <span class="ml-auto font-mono text-[10px] text-ink-400">${k[3]}</span></div></div></div>`).join('');
 }
 
+/* ================= ONBOARDING ================= */
+const OBCONN=new Set();
+function obGo(n){
+  for(let i=1;i<=4;i++){
+    document.getElementById('ob'+i).classList.toggle('on',i===n);
+    document.getElementById('obs'+i).classList.toggle('on',i<=n);
+  }
+  document.getElementById('ob').scrollTop=0;
+}
+function showOb(step){document.getElementById('ob').classList.add('on');obGo(step||1);}
+function finishOb(skipped){
+  document.getElementById('ob').classList.remove('on');
+  sessionStorage.setItem('mk_ob','1');
+  go('summary');
+  toast(skipped?'Setup skipped - connect sources any time from Integrations':'Workspace ready - 3 recommendations waiting in your Cockpit');
+}
+function pickRoleChip(b){b.parentElement.querySelectorAll('.rolechip').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+function connectSrc(id){
+  const row=document.getElementById(id);
+  const btn=row.querySelector('.cbtn');
+  if(row.classList.contains('done'))return;
+  btn.textContent='Connecting...';btn.style.pointerEvents='none';
+  setTimeout(()=>{
+    row.classList.add('done');btn.textContent='\u2713 Connected';
+    OBCONN.add(id);
+    if(OBCONN.has('cx-google')||OBCONN.has('cx-meta')){
+      const nx=document.getElementById('ob3next');
+      nx.disabled=false;nx.style.opacity='1';nx.style.pointerEvents='auto';
+      document.getElementById('ob3note').textContent='Connected - anything you skipped can be added later from Integrations.';
+    }
+  },900);
+}
+function startFirstRun(){
+  const rows=[...document.querySelectorAll('.runrow')];
+  rows.forEach(r=>{r.classList.remove('on','done');r.querySelector('.rms').textContent='';});
+  document.getElementById('obReady').classList.remove('on');
+  const times=['12,412 rows','9,806 rows',OBCONN.has('cx-shopify')?'4,318 orders':'skipped - not connected','96.2% match','done','3 actions'];
+  let i=0;
+  (function step(){
+    if(i>0){rows[i-1].classList.add('done');rows[i-1].querySelector('.rms').textContent=times[i-1];}
+    if(i>=rows.length){document.getElementById('obReady').classList.add('on');return;}
+    rows[i].classList.add('on');i++;
+    setTimeout(step,i===1?400:760);
+  })();
+}
+
 renderQueue();
 renderLeads();
 renderHome();
 renderInbox();
 renderSkills();
 go('summary');
+if(!sessionStorage.getItem('mk_ob'))showOb(1);
 </script>
 </body></html>

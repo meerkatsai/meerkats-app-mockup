@@ -1118,3 +1118,77 @@
            text-[12px] font-medium text-good;
   }
 }
+
+/* ============================================================
+   Onboarding flow — sign-up → workspace → connect → first run
+   ============================================================ */
+@layer components {
+  .obwrap { @apply fixed inset-0 z-[140] hidden overflow-y-auto bg-white; }
+  .obwrap.on { @apply block; }
+  .ob-top { @apply mx-auto flex w-full max-w-[720px] items-center px-7 pb-2 pt-8; }
+  .ob-skip { @apply ml-auto text-[12.5px] font-medium text-ink-400 underline decoration-dotted underline-offset-2; }
+  .ob-skip:hover { @apply text-ink-900; }
+  .ob-steps { @apply mx-auto flex w-full max-w-[720px] gap-2 px-7 pb-10 pt-4; }
+  .ob-step { @apply h-[3px] flex-1 rounded-full bg-rule; }
+  .ob-step.on { @apply bg-ember; }
+  .ob-body { @apply mx-auto w-full max-w-[720px] px-7 pb-20; }
+  .ob-pane { @apply hidden; }
+  .ob-pane.on { @apply block; }
+  .ob-h { @apply mb-2 font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.01em]; }
+  .ob-sub { @apply mb-8 max-w-[56ch] text-[14.5px] leading-[1.6] text-ink-500; }
+  .ob-foot { @apply mt-9 flex items-center gap-4; }
+  .ob-note { @apply text-[12px] text-ink-400; }
+
+  .sso {
+    @apply flex w-full max-w-[420px] items-center justify-center gap-2.5 rounded-full border
+           border-rule bg-white px-5 py-3 text-[14px] font-semibold transition-colors duration-150;
+  }
+  .sso:hover { @apply border-ink-900; }
+  .ob-div { @apply my-5 flex max-w-[420px] items-center gap-3 text-[11px] uppercase tracking-[0.1em] text-ink-400; }
+  .ob-div::before, .ob-div::after { content: ''; @apply h-px flex-1 bg-rule; }
+
+  .rolechip {
+    @apply rounded-full border border-rule bg-white px-4 py-2 text-[13px] font-medium
+           text-ink-700 transition-colors duration-150;
+  }
+  .rolechip:hover { @apply border-ink-400; }
+  .rolechip.on { @apply border-ember bg-tint font-semibold text-ember; }
+
+  .connrow {
+    @apply mb-2.5 flex items-center gap-4 rounded-[14px] border border-rule bg-white
+           px-5 py-4 transition-colors duration-200;
+  }
+  .connrow.done { @apply border-good/40 bg-good-bg/50; }
+  .connrow .clogo {
+    @apply grid h-10 w-10 flex-none place-items-center rounded-[10px] text-[16px] font-bold text-white;
+  }
+  .connrow b { @apply text-[14.5px]; }
+  .connrow .csub { @apply mt-0.5 block text-[12px] text-ink-500; }
+  .connrow .cbtn {
+    @apply ml-auto flex-none rounded-full border border-rule px-4 py-[7px] text-[13px]
+           font-semibold text-ember transition-colors duration-150;
+  }
+  .connrow .cbtn:hover { @apply border-ember; }
+  .connrow.done .cbtn { @apply border-transparent bg-transparent text-good; }
+  .conngroup { @apply mb-1.5 mt-6 flex items-center gap-2 first:mt-0; }
+  .conngroup h4 { @apply text-[12.5px] font-bold text-ink-700; }
+  .conngroup .req { @apply rounded-full bg-ember-dim px-2 py-0.5 text-[9.5px] font-bold text-ember; }
+  .conngroup .opt { @apply rounded-full border border-rule bg-off px-2 py-0.5 text-[9.5px] font-bold text-ink-400; }
+
+  .runrow {
+    @apply flex items-center gap-3.5 border-b border-rule py-3.5 text-[13.5px] text-ink-400
+           opacity-40 transition-all duration-300 last:border-b-0;
+  }
+  .runrow.on { @apply opacity-100; }
+  .runrow .rdot {
+    @apply grid h-[22px] w-[22px] flex-none place-items-center rounded-full border-2
+           border-rule text-[11px] font-bold text-white;
+  }
+  .runrow.on .rdot { @apply border-ember; }
+  .runrow.done { @apply text-ink-900 opacity-100; }
+  .runrow.done .rdot { @apply border-good bg-good; }
+  .runrow.done .rdot::after { content: '\2713'; }
+  .runrow .rms { @apply ml-auto font-mono text-[11px] text-ink-400; }
+  .ob-ready { @apply mt-9 hidden rounded-[16px] border border-good/40 bg-good-bg/60 px-6 py-6 text-center; }
+  .ob-ready.on { @apply block; }
+}
