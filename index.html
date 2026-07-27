@@ -26,7 +26,7 @@
   </div>
 
   <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
-  <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Workbench</span></button>
+  <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Chat</span></button>
   <button class="ni" data-go="skills"><span class="gi">▤</span><span class="lab">Skills</span></button>
   <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
   <button class="ni" data-go="myqueue"><span class="gi">☑</span><span class="lab">My Queue</span><span class="badge" id="mq-badge" style="background:var(--color-bad-bg);color:var(--color-bad)">3 STAGED</span></button>
@@ -73,10 +73,11 @@
     <div id="tb-ctls" style="display:flex;align-items:center;gap:10px">
       <button class="ctl">▤ &nbsp;Last 14 Days <span class="cd">▼</span></button>
       <button class="ctl" id="cmp">Previous period <span class="cd">▼</span></button>
-      <button class="icbtn ai" title="Open chat" onclick="toggleChat()">✦</button>
+      <button class="icbtn ai" title="Open chat" onclick="go('workbench')">✦</button>
       <button class="icbtn" title="Refresh">⟳</button>
       <button class="icbtn" title="More">⋮</button>
     </div>
+    <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()">▣<span class="ibadge" id="ibx-n">8</span></button>
   </div>
 
   <div id="body">
@@ -515,6 +516,35 @@
 
   <!-- ======== WORKBENCH ======== -->
   <section class="screen" id="s-workbench">
+    <!-- clean, open chat (default) -->
+    <div id="wb-clean" class="wb-clean">
+      <h2 id="wb-greet">Good evening, Santanu.</h2>
+      <p class="sub2">Ask anything about Progen Method &mdash; or hand me something to fix.</p>
+      <div class="mb-4 flex flex-wrap justify-center gap-2">
+        <button class="sugg" onclick="openTask('Why did CAC rise last week?')">Why did CAC rise last week?</button>
+        <button class="sugg" onclick="openTask('Audit my conversion tracking')">Audit my conversion tracking</button>
+        <button class="sugg" onclick="openTask('Which creatives are fatiguing?')">Which creatives are fatiguing?</button>
+        <button class="sugg" onclick="openTask('Compare Meta vs Google on true CAC')">Compare Meta vs Google on true CAC</button>
+        <button class="sugg" onclick="openTask('Draft this week&#39;s performance summary')">Draft this week&#39;s performance summary</button>
+      </div>
+      <div class="chat-ask" style="margin-bottom:26px">
+        <div class="in"><span style="color:var(--color-ember);font-size:15px">&#10022;</span>
+          <input id="wb-ask" placeholder="Ask anything, or describe what you want done&hellip;" onkeydown="if(event.key==='Enter')askFromChat()">
+          <button class="send" onclick="askFromChat()">&uarr;</button></div>
+        <div class="foot"><span class="mchip"><span class="d"></span>Progen Method</span><span class="mchip">Auto model</span><span class="mchip">Tools: Google &middot; Meta &middot; Spine</span></div>
+      </div>
+      <div class="ibx-sec" style="margin-top:0">Recent sessions</div>
+      <div class="flex flex-col gap-2">
+        <button class="recent" onclick="openTask('Fix: CAC up 9% W/W - rebalance budget away from Advantage+ GLP-1','Resumed session · 2h ago')"><div class="min-w-0 flex-1"><b>Fix: CAC up 9% W/W &mdash; rebalance budget</b><span class="rt">2h ago &middot; lead agent + ads_report</span></div><span class="tag tag-r">3 staged</span></button>
+        <button class="recent" onclick="openTask('Audit conversion tracking + GTM','Resumed session · yesterday')"><div class="min-w-0 flex-1"><b>Audit conversion tracking + GTM</b><span class="rt">Yesterday &middot; found duplicate purchase tag</span></div><span class="tag tag-w">resolved</span></button>
+        <button class="recent" onclick="openTask('Weekly performance report - Jul 20-26','Resumed session · Mon')"><div class="min-w-0 flex-1"><b>Weekly performance report &mdash; Jul 20&ndash;26</b><span class="rt">Monday &middot; emailed to 3 teammates</span></div><span class="tag">sent</span></button>
+      </div>
+    </div>
+
+    <!-- live session (opens when a task starts) -->
+    <div id="wb-session" style="display:none">
+      <button class="mini" style="margin-bottom:14px" onclick="wbClean()">&lsaquo; New chat</button>
+
     <div class="wb-grid">
       <div>
         <div class="wb-user"><span id="wb-task">Fix: CAC up 9% W/W — rebalance budget away from Advantage+ · GLP-1</span>
@@ -567,6 +597,8 @@
         <div class="railsec"><h5>Session</h5>
           <button class="mini w-full" onclick="toast('Saved as Skill — reusable from the Skills catalog')">＋ Save as Skill</button></div>
       </div>
+    </div>
+  
     </div>
   </section>
 
@@ -957,20 +989,11 @@
 
   <!-- ======== CHAT SIDE PANEL ======== -->
   <aside id="chat">
-    <div class="chat-h"><span class="cbadge">✦ Chat 2.0</span><button class="x" onclick="toggleChat(false)">✕</button></div>
-    <div class="chat-body">
-      <h2 id="chat-greet">Good afternoon, Santanu!</h2>
-      <div class="chat-ask">
-        <div class="in"><span style="color:var(--color-ember);font-size:14px">✦</span><input placeholder="Ask anything…"><button class="send">↑</button></div>
-        <div class="foot"><span class="mchip"><span class="d"></span>Purity Naturals</span><span class="mchip">Auto model</span></div>
-      </div>
-      <div class="chat-sugg">
-        <button>Why did blended MER dip on Tuesday?</button>
-        <button>Which creative is fatiguing fastest right now?</button>
-        <button>Draft this week's performance summary</button>
-      </div>
-      <div class="chat-foot">Answers are grounded in your data spine — every number links to its source.</div>
-    </div>
+    <div class="chat-h"><b style="font-size:14px">Inbox</b>
+      <span style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700;margin-left:8px">AI &middot; DAILY</span>
+      <span style="font-size:11px;color:var(--color-ink-400);margin-left:8px">11:26 am</span>
+      <button class="x" onclick="toggleInbox(false)">&#10005;</button></div>
+    <div class="chat-body" style="padding:16px 16px 20px" id="inboxBody"></div>
   </aside>
   </div>
 </div>
@@ -1182,7 +1205,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Workbench',0],skills:['Skills',0],myqueue:['My Queue — Approvals',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Chat',0],skills:['Skills',0],myqueue:['My Queue — Approvals',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1418,7 +1441,8 @@ function go(id){
   document.getElementById('scroll').scrollTop=0;
   document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
-  if(id==='analyst')toggleChat(false);
+  if(id==='analyst')toggleInbox(false);
+  if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block')wbClean();
   const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
@@ -1465,16 +1489,43 @@ document.querySelectorAll('.sni').forEach(b=>b.addEventListener('click',()=>{
   document.getElementById('spineHead').classList.add('active');
 }));
 
-/* chat panel */
-function toggleChat(force){
+/* ---- Inbox panel (top-right) ---- */
+function toggleInbox(force){
   const c=document.getElementById('chat');
   const on=typeof force==='boolean'?force:!c.classList.contains('on');
   c.classList.toggle('on',on);
-  if(on){
-    const h=new Date().getHours();
-    document.getElementById('chat-greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', Santanu!';
-  }
+  if(on)renderInboxPanel();
 }
+const RECS=[
+ {sev:'crit',t:'Enable Revenue Tracking',ev:'All financial metrics report null — connect Shopify/WooCommerce to the spine.',type:'integrations'},
+ {sev:'warn',t:'CAC up 9% W/W — one Meta campaign',ev:'Advantage+ · GLP-1 at ₹1,412 vs ₹950 target · 38% of spend.',type:'agent'},
+ {sev:'crit',t:'"discount-banner-old" fatigued',ev:'Frequency 4.8, CTR down 44% · still spending ₹4,180/day.',type:'queue'},
+ {sev:'opp',t:'Search · brand starved of budget',ev:'Losing 31% impression share at CAC ₹704 — cheapest volume available.',type:'queue'},
+ {sev:'opp',t:'Extend email winback to 60–90d lapsed',ev:'winback-3 drove 41 orders at effective CAC ₹216 last week.',type:'agent'}];
+let RECD=new Set();
+function inboxCount(){return STAGED.filter(q=>q.status==='staged').length+RECS.filter((r,i)=>!RECD.has(i)).length;}
+function updInboxBadge(){
+  const n=inboxCount();const b=document.getElementById('ibx-n');
+  b.textContent=n;b.style.display=n?'grid':'none';
+}
+function renderInboxPanel(){
+  const staged=STAGED.filter(q=>q.status==='staged');
+  const recs=RECS.map((r,i)=>({...r,i})).filter(r=>!RECD.has(r.i));
+  document.getElementById('inboxBody').innerHTML=
+  (staged.length?'<div class="ibx-sec">Needs your approval · '+staged.length+'</div>'+
+    staged.map(q=>'<div class="ibx"><div class="flex items-center gap-2"><span class="risk risk-'+q.risk+'">'+q.risk+'</span><b class="flex-1 min-w-0">'+q.t+'</b></div><div class="ev2">'+q.delta+' · '+q.exp.toLowerCase()+'</div><div class="mt-2 flex gap-1.5"><button class="mini mini-call" onclick="toggleInbox(false);go(\'myqueue\')">Review & approve</button></div></div>').join('')
+   :'')+
+  '<div class="ibx-sec">Recommendations · '+recs.length+'</div>'+
+  (recs.length?recs.map(r=>'<div class="ibx" id="rec-'+r.i+'"><div class="flex items-start gap-2">'+sevChip[r.sev]+'<b class="flex-1 min-w-0">'+r.t+'</b><button style="color:var(--color-ink-400);font-size:12px;flex:none" onclick="dismissRec('+r.i+')" title="Dismiss">✕</button></div><div class="ev2">'+r.ev+'</div><div class="mt-2 flex gap-1.5">'+
+    (r.type==='agent'?'<button class="mini mini-call" onclick="openTask(\''+r.t.replace(/'/g,"\\'")+'\')">Fix with agent</button>'
+     :r.type==='queue'?'<button class="mini mini-call" onclick="toggleInbox(false);go(\'myqueue\')">Review & approve</button>'
+     :'<button class="mini mini-call" onclick="toggleInbox(false);go(\'integrations\')">Connect</button>')+
+    '<button class="mini" onclick="openTask(\'Explain: '+r.t.replace(/'/g,"\\'")+'\')">Explain</button></div></div>').join('')
+   :'<div class="ibx" style="text-align:center;color:var(--color-ink-400);font-size:12px;border-style:dashed">All clear — nothing waiting on you.</div>')+
+  '<p style="font-size:10.5px;color:var(--color-ink-400);margin-top:14px;line-height:1.5">Same feed as the Cockpit — regenerated daily at 07:00, or on demand from any screen.</p>';
+  updInboxBadge();
+}
+function dismissRec(i){RECD.add(i);const el=document.getElementById('rec-'+i);el.classList.add('gone');setTimeout(renderInboxPanel,300);toast('Dismissed — won\'t resurface this week');}
 
 /* popovers */
 function togglePop(id){
@@ -1614,8 +1665,22 @@ function refreshFeed(){document.getElementById('feedmeta').textContent='Generate
 function askFromHome(){const q=document.getElementById('homeask').value.trim();openTask(q||'Open question — blank session',q?'Asked from Home · '+(ROLE==='founder'?'Founder':ROLE==='growth'?'Growth lead':'Media buyer')+' context attached':'');}
 function openTask(title,origin){
   document.getElementById('wb-task').textContent=title;
-  document.getElementById('wb-origin').textContent=origin||'From Home · '+(ROLE==='founder'?'Founder':ROLE==='growth'?'Growth lead':'Media buyer')+' feed — resolve, not summarize; you may delegate to specialist agents';
+  document.getElementById('wb-origin').textContent=origin||'Resolve, not summarize; you may delegate to specialist agents';
+  document.getElementById('wb-clean').style.display='none';
+  document.getElementById('wb-session').style.display='block';
+  toggleInbox(false);
   go('workbench');
+}
+function wbClean(){
+  document.getElementById('wb-session').style.display='none';
+  document.getElementById('wb-clean').style.display='block';
+  const h=new Date().getHours();
+  document.getElementById('wb-greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', Santanu.';
+}
+function askFromChat(){
+  const el=document.getElementById('wb-ask');
+  const q=el.value.trim();el.value='';
+  openTask(q||'Open question — blank session',q?'Asked in Chat · Progen Method context attached':'');
 }
 
 /* ================= MY QUEUE — staged actions ================= */
@@ -1652,6 +1717,8 @@ function renderInbox(){
   if(!n)badge.style.cssText='background:var(--color-good-bg);color:var(--color-good)';
   const low=STAGED.filter(q=>q.status==='staged'&&q.risk==='low').length;
   const lb=document.getElementById('lowriskbtn');lb.textContent='Approve all low-risk ('+low+')';lb.style.display=low?'':'none';
+  if(document.getElementById('ibx-n'))updInboxBadge();
+  if(document.getElementById('chat').classList.contains('on'))renderInboxPanel();
 }
 function approveQ(i){
   const q=STAGED[i];
@@ -1788,6 +1855,7 @@ renderHome();
 renderCockpit();
 renderInbox();
 renderSkills();
+updInboxBadge();
 go('summary');
 if(!sessionStorage.getItem('mk_ob'))showOb(1);
 </script>
