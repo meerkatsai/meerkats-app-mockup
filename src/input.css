@@ -1030,3 +1030,91 @@
   .setrow .sv { @apply flex items-center gap-[5px] font-semibold; }
   .setrow .sv .cd { @apply text-[9px] text-ink-400; }
 }
+
+/* ============================================================
+   Workbench-model surfaces: Home inbox, Workbench, Approval Queue
+   ============================================================ */
+@layer components {
+  /* source-health pills */
+  .srcpill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-rule bg-white px-3 py-1
+           text-xs font-medium text-ink-500 transition-colors duration-150;
+  }
+  .srcpill:hover { @apply border-ink-400 text-ink-900; }
+  .srcpill .d { @apply h-[7px] w-[7px] rounded-full bg-rule; }
+  .srcpill.on { @apply border-good/35 bg-good-bg text-good; }
+  .srcpill.on .d { @apply bg-good; }
+  .srcpill.err { @apply border-watch/40 bg-watch-bg text-watch; }
+  .srcpill.err .d { @apply bg-watch; }
+
+  /* severity chips */
+  .sev { @apply mt-0.5 flex-none rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.05em]; }
+  .sev-crit { @apply bg-bad-bg text-bad; }
+  .sev-warn { @apply bg-watch-bg text-watch; }
+  .sev-opp { @apply bg-good-bg text-good; }
+
+  /* action cards */
+  .acard { @apply mb-2.5 transition-opacity duration-300; }
+  .acard.gone { @apply pointer-events-none opacity-0; }
+  .acard .ev { @apply mt-1 text-[12.5px] leading-[1.55] text-ink-500; }
+  .acard .ev b { @apply text-ink-700; }
+  .acard .rec { @apply mt-1.5 text-[12.5px] font-medium text-ink-700; }
+  .acard .rec::before { content: '→ '; @apply text-ember; }
+  .acts2 { @apply flex items-center gap-2 text-[11px] text-ink-400; }
+  .acts2 button { @apply text-[11px] text-ink-400 underline decoration-dotted underline-offset-2; }
+  .acts2 button:hover { @apply text-ink-900; }
+  .grpline { @apply mb-2 mt-5 flex items-center gap-2 first:mt-0; }
+  .grpline h4 { @apply text-[12.5px] font-bold text-ink-700; }
+  .grpline .n { @apply font-mono text-[10.5px] text-ink-400; }
+
+  /* verdict + banners */
+  .verdict {
+    @apply mb-4 border-l-2 border-ember py-0.5 pl-3 text-[13.5px] leading-[1.6] text-ink-700;
+  }
+  .slimbanner {
+    @apply mb-4 flex items-center gap-2.5 rounded-[10px] border border-watch/40 bg-watch-bg
+           px-3.5 py-2 text-[12.5px] text-watch;
+  }
+  .slimbanner button { @apply ml-auto text-[12px] font-bold text-watch underline underline-offset-2; }
+
+  /* workbench */
+  .wb-grid { @apply grid grid-cols-[1fr_270px] items-start gap-4; }
+  .wb-user {
+    @apply mb-3 rounded-[14px] border-[1.5px] border-ink-900 bg-white px-4 py-3 text-[13.5px] font-medium;
+  }
+  .wb-user .org { @apply mt-1 text-[11px] font-normal text-ink-400; }
+  .wb-msg { @apply mb-3 rounded-[14px] border border-rule bg-white px-4 py-3.5 text-[13px] leading-[1.6]; }
+  .wb-msg .who3 { @apply mb-2 flex items-center gap-2 text-[11.5px] font-bold text-ink-700; }
+  .wb-msg .who3 .av3 {
+    @apply grid h-[20px] w-[20px] place-items-center rounded-md bg-ember text-[10px] font-bold text-white;
+  }
+  .wb-msg .who3 .sub3 { @apply font-mono text-[10px] font-normal uppercase tracking-[0.08em] text-ink-400; }
+  .toolrow {
+    @apply my-1 flex items-center gap-2.5 rounded-lg border border-dashed border-rule bg-off
+           px-3 py-1.5 font-mono text-[11px] text-ink-500;
+  }
+  .toolrow .ok { @apply flex-none font-bold text-good; }
+  .toolrow .ms { @apply ml-auto text-[10px] text-ink-400; }
+  .wb-rail { @apply sticky top-0; }
+  .railsec { @apply mb-3 rounded-xl border border-rule bg-white p-3.5; }
+  .railsec h5 {
+    @apply mb-2 font-mono text-[9.5px] font-medium uppercase tracking-[0.13em] text-ink-400;
+  }
+  .railchip {
+    @apply mb-1 mr-1 inline-block rounded-full border border-rule bg-off px-2.5 py-1 text-[11px] text-ink-700;
+  }
+
+  /* approval inbox */
+  .qitem { @apply mb-3 overflow-hidden transition-all duration-300; }
+  .qitem.rejected { @apply opacity-45; }
+  .risk { @apply rounded-full px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.05em]; }
+  .risk-low { @apply bg-good-bg text-good; }
+  .risk-med { @apply bg-watch-bg text-watch; }
+  .risk-high { @apply bg-bad-bg text-bad; }
+  .qmeta { @apply flex flex-wrap gap-x-4 gap-y-1 text-[11.5px] text-ink-500; }
+  .qmeta b { @apply text-ink-700; }
+  .qstate {
+    @apply flex items-center gap-2.5 border-t border-rule bg-good-bg/60 px-4 py-2.5
+           text-[12px] font-medium text-good;
+  }
+}

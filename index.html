@@ -12,98 +12,35 @@
 <nav id="nav">
   <div class="brand"><div class="logo">m</div><div class="wd">meerkats<i>.ai</i></div></div>
   <div class="ws-wrap">
-    <button class="store" onclick="toggleWs(event)"><span class="sd">P</span><span><span class="wk">Workspace</span><span class="wn">Purity Naturals</span></span><span class="cx">▼</span></button>
+    <button class="store" onclick="toggleWs(event)"><span class="sd">P</span><span><span class="wk">Workspace</span><span class="wn">Progen Method</span></span><span class="cx">▼</span></button>
     <div class="ws-menu" id="wsMenu">
       <button class="wrow"><span class="wa">D</span>Default Workspace<span class="def">Default</span></button>
       <button class="wrow"><span class="wa">V</span>varanch_1</button>
       <button class="wrow"><span class="wa">V</span>Varanchi</button>
-      <button class="wrow on"><span class="wa">P</span>Purity Naturals<span class="chk">✓</span></button>
+      <button class="wrow"><span class="wa">P</span>Purity Naturals</button>
       <button class="wrow"><span class="wa">D</span>demo_purity</button>
-      <button class="wrow"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--color-ember);background:var(--color-ember-dim)">CRM</span></button>
+      <button class="wrow on"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--color-ember);background:var(--color-ember-dim)">CRM</span><span class="chk">✓</span></button>
       <div class="sep"></div>
       <button class="wrow create"><span class="wa">＋</span>Create Workspace</button>
     </div>
   </div>
 
-  <button class="ni" data-go="analyst"><span class="gi">✦</span><span class="lab">Chat</span><span class="badge">✦ Chat 2.0</span></button>
-  <button class="ni" data-go="history"><span class="gi">↺</span><span class="lab">History</span></button>
+  <button class="ni" data-go="home"><span class="gi">◉</span><span class="lab">Home</span><span class="badge">AI · DAILY</span></button>
+  <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Workbench</span></button>
+  <button class="ni" data-go="skills"><span class="gi">▤</span><span class="lab">Skills</span></button>
   <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
-  <button class="ni" data-go="library"><span class="gi">▤</span><span class="lab">Library</span></button>
+  <button class="ni" data-go="myqueue"><span class="gi">☑</span><span class="lab">My Queue</span><span class="badge" id="mq-badge" style="background:var(--color-bad-bg);color:var(--color-bad)">3 STAGED</span></button>
 
-  <div class="nav-sec">Core Activities <span class="dots">⋮</span></div>
-  <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
-
+  <div class="nav-sec">Sales</div>
   <div class="ni-wrap">
     <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">CRM</span><span class="caret">›</span></button>
     <div class="fly">
-      <button class="fi" data-go="queue">My Queue <span class="bt" style="background:var(--color-bad-bg);color:var(--color-bad)">4 DUE</span></button>
+      <button class="fi" data-go="queue">Call Queue <span class="bt" style="background:var(--color-bad-bg);color:var(--color-bad)">4 DUE</span></button>
       <button class="fi" data-go="allleads">All Leads</button>
       <button class="fi" data-go="crmteam">Team</button>
       <button class="fi" data-go="crmperf">Performance</button>
       <div class="sep"></div>
       <button class="fi create" onclick="setPane('leaddesk')">CRM Configuration <span class="ar">›</span></button>
-    </div>
-  </div>
-
-  <div class="ni-wrap">
-    <button class="ni" data-go="attribution"><span class="gi">◔</span><span class="lab">Marketing Acquisition</span><span class="caret">›</span></button>
-    <div class="fly">
-      <button class="fi" data-go="attribution">Attribution</button>
-      <button class="fi" data-go="g-sourcemedium">Source / Medium <span class="lk">🔒</span></button>
-      <button class="fi" data-go="ppsurvey">Post-Purchase Survey</button>
-      <button class="fi" data-go="g-adenrich">Ad Enrichment <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-compass">Measurement Studio <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-mmm">Marketing Mix Modeling <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-increment">Incrementality <span class="lk">🔒</span></button>
-      <div class="sep"></div>
-      <button class="fi create">Create new <span class="ar">›</span></button>
-    </div>
-  </div>
-
-  <div class="ni-wrap">
-    <button class="ni" data-go="media"><span class="gi">▧</span><span class="lab">Creative Analysis</span><span class="caret">›</span></button>
-    <div class="fly">
-      <button class="fi" data-go="g-creative">Creative Analysis <span class="lk">🔒</span></button>
-      <button class="fi" data-go="media">Competitor Analysis</button>
-      <div class="sep"></div>
-      <button class="fi create">Create new <span class="ar">›</span></button>
-    </div>
-  </div>
-
-  <div class="ni-wrap">
-    <button class="ni" data-go="website"><span class="gi">◫</span><span class="lab">Website Conversion</span><span class="caret">›</span></button>
-    <div class="fly">
-      <button class="fi" data-go="website">Overall Website Performance</button>
-      <button class="fi" data-go="g-funnel">Website Funnel and Paths <span class="lk">🔒</span></button>
-      <button class="fi" data-go="sitesearch">Site Search</button>
-      <button class="fi" data-go="g-bundle">Bundle Analysis <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-journey">Product Journey <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-product">Product Analysis <span class="lk">🔒</span></button>
-      <div class="sep"></div>
-      <button class="fi create">Create new <span class="ar">›</span></button>
-    </div>
-  </div>
-
-  <div class="ni-wrap">
-    <button class="ni" data-go="retention"><span class="gi">◎</span><span class="lab">Customer Retention</span><span class="caret">›</span></button>
-    <div class="fly">
-      <button class="fi" data-go="g-segments">Customer Segments <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-cohorts">Cohort Analysis <span class="lk">🔒</span></button>
-      <button class="fi" data-go="g-flow">Flow Enrichment <span class="lk">🔒</span></button>
-      <button class="fi" data-go="retention">Email &amp; SMS Attribution <span class="bt">BETA</span></button>
-      <div class="sep"></div>
-      <button class="fi create">Create new <span class="ar">›</span></button>
-    </div>
-  </div>
-
-  <div class="ni-wrap">
-    <button class="ni" data-go="aivis"><span class="gi">◍</span><span class="lab">Discovery</span><span class="caret">›</span></button>
-    <div class="fly">
-      <button class="fi" data-go="aivis">AI Visibility</button>
-      <button class="fi" data-go="social">Social Monitoring</button>
-      <button class="fi" data-go="g-keyword">Keyword Intelligence <span class="bt">BETA</span><span class="lk" style="margin-left:6px">🔒</span></button>
-      <div class="sep"></div>
-      <button class="fi create">Create new <span class="ar">›</span></button>
     </div>
   </div>
 
@@ -528,6 +465,139 @@
       <div class="promptrow"><span class="q">“Third reorder. Obsessed with the glow kit ✨” — Meta ad</span><span class="mention y">Positive</span><span class="presence hi">Praise</span></div>
       <div class="promptrow"><span class="q">“Price went up again?” — IG reel</span><span class="mention" style="color:var(--color-watch);background:var(--color-watch-bg)">Watch</span><span class="presence md">Pricing</span></div>
     </div>
+  </section>
+
+  <!-- ======== HOME — Cockpit-as-inbox ======== -->
+  <section class="screen" id="s-home">
+    <!-- Zone 0 · context bar -->
+    <div class="mb-4 flex flex-wrap items-center gap-2">
+      <span class="kicker">Sources</span>
+      <button class="srcpill on" onclick="toast('Meta — connected · synced 12 min ago')"><span class="d"></span>Meta ✓</button>
+      <button class="srcpill on" onclick="toast('Google Ads — connected · synced 9 min ago')"><span class="d"></span>Google ✓</button>
+      <button class="srcpill" onclick="go('integrations')" title="Deep-links to Integrations"><span class="d"></span>Shopify · no data</button>
+      <span class="spacer"></span>
+      <div class="seg" id="roletabs">
+        <button class="on" onclick="setRole('founder',this)">Founder</button>
+        <button onclick="setRole('growth',this)">Growth lead</button>
+        <button onclick="setRole('buyer',this)">Media buyer</button>
+      </div>
+      <span class="tag tag-w">● live · 07:04</span>
+    </div>
+
+    <!-- Zone 1 · ask bar -->
+    <div class="chat-ask" style="margin-bottom:16px">
+      <div class="in"><span style="color:var(--color-ember);font-size:14px">✦</span>
+        <input id="homeask" placeholder="Ask anything about Progen Method…" onkeydown="if(event.key==='Enter')askFromHome()">
+        <button class="send" onclick="askFromHome()">↑</button></div>
+      <div class="foot"><span class="mchip"><span class="d"></span>Progen Method</span><span class="mchip">Auto model</span><span class="mchip" id="ctxchip">Founder · Last full week</span></div>
+    </div>
+
+    <div class="slimbanner"><span>⚠</span> Attribution limited until Shopify is connected — revenue joins fall back to platform-reported numbers. <button onclick="go('integrations')">Connect →</button></div>
+
+    <!-- Zone 2 · action feed -->
+    <div class="sec-h">What to do next
+      <span class="badge" style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700">AI · DAILY</span>
+      <span class="hint" id="feedmeta">Generated today 07:04 · scheduled</span>
+      <span class="spacer"></span>
+      <button class="mini" onclick="refreshFeed()">⟳ Refresh</button>
+    </div>
+    <p class="mb-3 text-[12.5px] italic text-ink-500" id="roleSub"></p>
+    <div id="homeVerdict"></div>
+    <div id="homeDecomp"></div>
+    <div id="homeFeed"></div>
+
+    <!-- Zone 3 · vitals -->
+    <div class="ssec closed mt-6" id="vitalsWrap">
+      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')">
+        <span class="chev">▼</span><h3>Vitals</h3><span class="cnt" id="vitalsCnt"></span>
+        <span class="spacer"></span>
+        <div class="seg" onclick="event.stopPropagation()">
+          <button class="on" onclick="setTF(this,'Last full week')">Last full week</button>
+          <button onclick="setTF(this,'This week')">This week</button>
+          <button onclick="setTF(this,'Last 4 weeks')">Last 4 weeks</button>
+        </div>
+      </div>
+      <div class="tiles" id="vitalsRow" style="grid-template-columns:repeat(3,1fr)"></div>
+      <p class="hint -mt-2 pb-2 text-[11px] text-ink-400" id="tfnote">Deltas vs previous same-length window · click any tile to investigate with the agent</p>
+    </div>
+  </section>
+
+  <!-- ======== WORKBENCH ======== -->
+  <section class="screen" id="s-workbench">
+    <div class="wb-grid">
+      <div>
+        <div class="wb-user"><span id="wb-task">Fix: CAC up 9% W/W — rebalance budget away from Advantage+ · GLP-1</span>
+          <div class="org" id="wb-origin">From Home · Founder feed · card #1 — resolve, not summarize; you may delegate to specialist agents</div></div>
+
+        <div class="wb-msg"><div class="who3"><span class="av3">L</span>Lead agent <span class="sub3">plan</span></div>
+          Three-step diagnosis before any change: verify tracking is trustworthy, decompose CAC by campaign and creative, then quantify the rebalance. Delegating account pulls to <b>ads_report</b>.</div>
+
+        <div class="wb-msg"><div class="who3"><span class="av3" style="background:var(--color-info)">A</span>ads_report <span class="sub3">sub-agent · 4 tool calls</span></div>
+          <div class="toolrow"><span class="ok">✓</span>credentials_check · google, meta<span class="ms">0.3s</span></div>
+          <div class="toolrow"><span class="ok">✓</span>gaql_query · campaigns, 28d, cost/conv<span class="ms">1.2s · 14 rows</span></div>
+          <div class="toolrow"><span class="ok">✓</span>conversion_tracking_status<span class="ms">0.8s</span></div>
+          <div class="toolrow"><span class="ok" style="color:var(--color-watch)">⚠</span>gtm_container_audit · purchase tag fires 2× on /thank-you<span class="ms">1.1s</span></div>
+          Tracking is usable — the duplicate tag inflates conversions ~4%, noted in the numbers below.</div>
+
+        <div class="wb-msg"><div class="who3"><span class="av3">L</span>Lead agent <span class="sub3">findings</span></div>
+          <b>The CAC rise is one campaign, not the account.</b><br>
+          · Advantage+ · GLP-1: CAC <b>₹1,412</b> (target ₹950), 38% of spend, frequency 4.2 — fatigued.<br>
+          · Search · brand: CAC <b>₹704</b> with impression share lost to budget 31% — headroom.<br>
+          · Creative "glow-ritual-ugc-01": CAC <b>₹612</b> at frequency 1.9 — under-funded winner.</div>
+
+        <div class="card" style="border-color:var(--color-ember-soft);background:var(--color-tint);padding:14px 16px;margin-bottom:12px">
+          <div class="flex items-center gap-2.5">
+            <b class="text-[13px]">3 write actions staged — nothing executed</b>
+            <span class="tag">Tier 2 · needs approval</span>
+            <span class="spacer"></span>
+            <button class="btn btn-sm btn-orange" onclick="go('myqueue')">Review &amp; approve →</button>
+          </div>
+          <div class="mt-2 text-[12px] text-ink-500">Pause fatigued creative · shift ₹15,000/day to Search brand · +₹6,000/day on the winning ad set. Each is itemized in My Queue with before-state and undo.</div>
+        </div>
+
+        <div class="chat-ask"><div class="in"><span style="color:var(--color-ember);font-size:14px">✦</span>
+          <input placeholder="Ask a follow-up, or refine the plan…"><button class="send">↑</button></div></div>
+      </div>
+
+      <div class="wb-rail">
+        <div class="railsec"><h5>Instructions</h5>
+          <span class="railchip">Optimize to CAC, not ROAS</span><span class="railchip">Target CAC ₹950</span><span class="railchip">INR · Asia/Kolkata</span><span class="railchip">Never touch brand negatives</span></div>
+        <div class="railsec"><h5>Channels</h5>
+          <div class="flex flex-col gap-1.5 text-[12px]">
+            <span><span class="chdot" style="background:var(--color-google)"></span>Google Ads · connected</span>
+            <span><span class="chdot" style="background:var(--color-meta)"></span>Meta Ads · connected</span>
+            <span class="text-ink-400"><span class="chdot" style="background:var(--color-rule)"></span>Shopify · no data</span></div></div>
+        <div class="railsec"><h5>Data tables</h5>
+          <span class="railchip mono" style="font-family:var(--font-mono);font-size:10px">ad_performance</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">identities</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">checkout_events</span></div>
+        <div class="railsec"><h5>Agents</h5>
+          <div class="flex flex-col gap-2 text-[12px]">
+            <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-ember);color:#fff;font-size:10px;font-weight:700">L</span>Lead agent <span class="ml-auto text-[10.5px] text-good font-semibold">done</span></span>
+            <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-info);color:#fff;font-size:10px;font-weight:700">A</span>ads_report <span class="ml-auto text-[10.5px] text-ink-400">4 tool calls</span></span></div></div>
+        <div class="railsec"><h5>Session</h5>
+          <button class="mini w-full" onclick="toast('Saved as Skill — reusable from the Skills catalog')">＋ Save as Skill</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== MY QUEUE — approval inbox ======== -->
+  <section class="screen" id="s-myqueue">
+    <div class="mb-4 flex flex-wrap items-center gap-2.5">
+      <p class="text-[13px] text-ink-500">Agent-proposed <b class="text-ink-700">write actions</b>, staged for your sign-off. Reads and diagnostics never stop here — only changes that move money or mutate live campaigns.</p>
+      <span class="spacer"></span>
+      <button class="btn btn-sm btn-ghost" id="lowriskbtn" onclick="approveAllLow()">Approve all low-risk (1)</button>
+    </div>
+    <div id="inboxList"></div>
+    <p class="mt-4 text-[11.5px] text-ink-400">Tier is a property of the <b>tool</b>, not the model — write tools cannot auto-execute. Approving re-validates before-state against live data; every execution is audit-logged and reversible actions expose Undo.</p>
+  </section>
+
+  <!-- ======== SKILLS ======== -->
+  <section class="screen" id="s-skills">
+    <div class="mb-4 flex items-center gap-2.5">
+      <p class="text-[13px] text-ink-500 max-w-[72ch]">Reusable agent workflows, bound to this workspace's data and instructions. Run one now, or put it on a schedule to create an Automation. Any Workbench session can be saved as a Skill.</p>
+      <span class="spacer"></span>
+      <button class="btn btn-sm" onclick="go('workbench');toast('New blank session — save it as a Skill when it works')">＋ New from session</button>
+    </div>
+    <div class="libgrid" id="skillsGrid"></div>
   </section>
 
   <!-- ======== MY QUEUE ======== -->
@@ -1028,7 +1098,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['My Queue',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Workbench',0],skills:['Skills',0],myqueue:['My Queue — Approvals',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1265,7 +1335,7 @@ function go(id){
   document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
   if(id==='analyst')toggleChat(false);
-  const NOTB=['queue','allleads','lead','crmteam','crmperf','settings'];
+  const NOTB=['home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
 }
@@ -1389,8 +1459,149 @@ setInterval(()=>{
   while(feed.children.length>5)feed.removeChild(feed.lastChild);
 },7000);
 
+/* ================= HOME — role-scoped action inbox ================= */
+let ROLE='founder', TF='Last full week';
+const sevChip={crit:'<span class="sev sev-crit">Critical</span>',warn:'<span class="sev sev-warn">Warning</span>',opp:'<span class="sev sev-opp">Opportunity</span>'};
+
+const FEED={
+founder:{sub:'Are we growing profitably, is cash healthy?',
+ verdict:'<b>Healthy but tightening.</b> Revenue ₹11.4L last week (+12% W/W); CAC rose 9% on one Meta campaign and Shopify margin data is missing. One thing genuinely needs you today.',
+ cards:[
+  {sev:'crit',t:'CAC up 9% W/W — driven by one Meta campaign',ev:'Advantage+ · GLP-1 hit CAC <b>₹1,412</b> against a ₹950 target and now takes 38% of spend',rec:'Rebalance budget toward Search · brand (CAC ₹704)',cta:'agent',lb:'Fix with agent →'},
+  {sev:'warn',t:'Attribution blind spot — Shopify has no data',ev:'Orders and margin unverified for <b>6 days</b>; MER and payback below are platform-reported estimates',rec:'Reconnect Shopify to restore the deterministic revenue join',cta:'integrations',lb:'Connect Shopify →'},
+  {sev:'opp',t:'Winning creative is under-funded',ev:'"glow-ritual-ugc-01" converts at CAC <b>₹612</b>, frequency only 1.9 — clear scale headroom',rec:'Stage +₹6,000/day into its ad set',cta:'queue',lb:'Review & approve →'}],
+ vitals:[['Net revenue','₹11.4L','▲ 12%','up'],['Blended MER','2.86×','▼ 0.21','dn'],['Gross margin','61%','— est.','mut'],['Cash runway proxy','5.2 mo','▲ 0.3','up'],['Blended CAC','₹1,082','▲ 9%','dn'],['New customers','214','▲ 6%','up']],open:false},
+growth:{sub:'What is moving CAC and LTV, and what do I do about it?',verdict:'',
+ decomp:[['Meta · Advantage+ GLP-1','+₹212',62,'bad'],['Returning-mix shift','+₹31',9,'mut'],['Meta · Reels','+₹64',19,'watch'],['Search · brand','−₹38',11,'good']],
+ cards:[
+  {sev:'crit',t:'₹98,800/wk burning in Advantage+ · GLP-1 above target CAC',ev:'CAC ₹1,412 vs ₹950 target · frequency 4.2 · CVR down 31% over 14 days',rec:'Diagnose fatigue, then rebalance to Search · brand',cta:'agent',lb:'Fix with agent →',imp:'₹98,800/wk'},
+  {sev:'warn',t:'Payback stretched from 38 → 46 days',ev:'July cohort LTV:CAC at 30d is <b>1.4×</b> vs 1.9× for June — driven by first-order discount depth',rec:'Test 10% cap on welcome offer for Meta traffic',cta:'agent',lb:'Fix with agent →',imp:'₹41,000/mo'},
+  {sev:'opp',t:'Search · brand starved of budget',ev:'Losing <b>31%</b> impression share to budget at CAC ₹704 — cheapest volume available',rec:'Stage +₹15,000/day shift from Advantage+',cta:'queue',lb:'Review & approve →',imp:'₹36,000/wk'},
+  {sev:'opp',t:'Email winback cohort outperforming',ev:'Klaviyo winback-3 drove 41 orders at effective CAC <b>₹216</b> last week',rec:'Extend flow to the 60–90 day lapsed segment',cta:'agent',lb:'Fix with agent →',imp:'₹18,500/wk'}],
+ vitals:[['CAC · Meta','₹1,184','▲ 14%','dn'],['CAC · Google','₹811','▼ 3%','up'],['LTV : CAC (90d)','2.1×','▼ 0.2','dn'],['MER','2.86×','▼ 0.21','dn'],['New vs returning','68/32','— level','mut'],['Payback','46 d','▲ 8 d','dn']],open:true},
+buyer:{sub:'Which campaigns and creatives do I touch today?',verdict:'',
+ groups:[
+  ['Fatiguing creatives',[
+   {sev:'crit',t:'"discount-banner-old" — frequency 4.8, CTR down 44%',ev:'CAC ₹1,608 · spent ₹4,180 yesterday for 2 orders',rec:'Pause; rotate "glow-ritual" variant in',cta:'queue',lb:'Review & approve →'},
+   {sev:'warn',t:'"founder-story-v2" past frequency 4.0',ev:'CAC drifting ₹934 → ₹1,120 over 7 days',rec:'Queue replacement hook this week',cta:'agent',lb:'Fix with agent →'}]],
+  ['Optimizing to ROAS, not CAC',[
+   {sev:'warn',t:'PMax · generic still on tROAS',ev:'Optimizes to 3.2× ROAS but blended CAC there is <b>₹1,240</b> — misaligned with target',rec:'Switch bid strategy to tCPA ₹950',cta:'queue',lb:'Review & approve →'}]],
+  ['Stuck in learning · budget trapped',[
+   {sev:'warn',t:'Meta · Reels re-entered learning 3× this week',ev:'₹8,000/day capped by edits; 61% budget utilization',rec:'Freeze edits 7 days; consolidate ad sets',cta:'agent',lb:'Fix with agent →'}]],
+  ['Scale opportunities',[
+   {sev:'opp',t:'"glow-ritual-ugc-01" — CAC ₹612 at frequency 1.9',ev:'Best CAC in account with headroom',rec:'+₹6,000/day staged',cta:'queue',lb:'Review & approve →'},
+   {sev:'opp',t:'Search · brand losing 31% IS to budget',ev:'CAC ₹704 — cheapest marginal orders',rec:'+₹15,000/day shift staged',cta:'queue',lb:'Review & approve →'}]]],
+ vitals:[['Spend yesterday','₹52,400','▲ 4%','mut'],['CAC yesterday','₹1,096','▲ 7%','dn'],['ROAS · Meta','2.4×','▼ 0.3','dn'],['ROAS · Google','3.9×','▲ 0.1','up'],['Frequency · top 5','3.6','▲ 0.4','dn'],['In learning','3 of 11','▲ 1','dn']],open:true}};
+
+function acardHTML(c,idx){
+  const cta=c.cta==='agent'?`<button class="btn btn-sm btn-orange" onclick="openTask('${c.t.replace(/'/g,"\\'")}')">${c.lb}</button>`
+    :c.cta==='queue'?`<button class="btn btn-sm" onclick="go('myqueue')">${c.lb}</button>`
+    :`<button class="btn btn-sm btn-ghost" onclick="go('integrations')">${c.lb}</button>`;
+  return `<div class="card acard" id="ac-${idx}"><div class="flex items-start gap-3 p-4">
+    ${sevChip[c.sev]}
+    <div class="min-w-0 flex-1"><b class="text-[13.5px]">${c.t}</b>
+      <div class="ev">${c.ev}</div><div class="rec">${c.rec}</div></div>
+    <div class="flex flex-none flex-col items-end gap-2">${c.imp?'<span class="tag">impact '+c.imp+'</span>':''}${cta}
+      <div class="acts2"><button onclick="openTask('Explain: ${c.t.replace(/'/g,"\\'")}')">Explain</button><button onclick="zap('ac-${idx}','Snoozed until tomorrow 07:00')">Snooze</button><button onclick="zap('ac-${idx}','Dismissed — won\\'t resurface this week')">Dismiss</button></div>
+    </div></div></div>`;
+}
+function zap(id,msg){const el=document.getElementById(id);el.classList.add('gone');setTimeout(()=>el.remove(),320);toast(msg);}
+
+function renderHome(){
+  const r=FEED[ROLE];
+  document.getElementById('roleSub').textContent='“'+r.sub+'”';
+  document.getElementById('homeVerdict').innerHTML=r.verdict?'<div class="verdict">'+r.verdict+'</div>':'';
+  document.getElementById('homeDecomp').innerHTML=r.decomp?
+    '<div class="card mb-4 p-4"><div class="mb-2.5 text-[12.5px] font-semibold">CAC moved +₹94 W/W — by driver <span class="hint font-normal text-ink-400">(click a bar to diagnose)</span></div><div class="ovl">'+
+    r.decomp.map(d=>`<div class="or" style="cursor:pointer" onclick="openTask('Diagnose CAC driver: ${d[0]}')"><span class="ol" style="width:190px">${d[0]}</span><div class="track" style="height:15px"><div class="fill" style="width:${d[2]}%;background:var(--color-${d[3]==='bad'?'bad':d[3]==='good'?'good':d[3]==='watch'?'watch':'ink-400'})"></div></div><span class="ov" style="width:52px">${d[1]}</span></div>`).join('')+'</div></div>':'';
+  let feed='';
+  if(r.cards)feed=r.cards.map((c,i)=>acardHTML(c,ROLE+'-'+i)).join('');
+  if(r.groups)feed=r.groups.map((g,gi)=>'<div class="grpline"><h4>'+g[0]+'</h4><span class="n">'+g[1].length+'</span></div>'+g[1].map((c,i)=>acardHTML(c,ROLE+'-'+gi+'-'+i)).join('')).join('');
+  document.getElementById('homeFeed').innerHTML=feed;
+  document.getElementById('vitalsRow').innerHTML=r.vitals.map(v=>
+    `<div class="tile" style="cursor:pointer" onclick="openTask('Investigate: ${v[0]} ${v[2]} (${TF.toLowerCase()})')" title="Investigate with agent"><div class="l">${v[0]}</div><div class="v" style="font-size:21px">${v[1]}</div><div class="foot"><span class="delta delta-${v[3]==='up'?'up':v[3]==='dn'?'dn':'mut'}">${v[2]}</span><span class="settgt">Investigate ✦</span></div></div>`).join('');
+  document.getElementById('vitalsCnt').textContent=r.vitals.length+' KPIs · '+TF;
+  document.getElementById('vitalsWrap').classList.toggle('closed',!r.open);
+  document.getElementById('ctxchip').textContent=(ROLE==='founder'?'Founder':ROLE==='growth'?'Growth lead':'Media buyer')+' · '+TF;
+}
+function setRole(r,btn){ROLE=r;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderHome();}
+function setTF(btn,tf){TF=tf;btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderHome();toast('Vitals window: '+tf+' — deltas vs previous same-length window');}
+function refreshFeed(){document.getElementById('feedmeta').textContent='Generated just now · manual';toast('Feed regenerated from live sources — 3 actions, 1 changed since 07:04');}
+function askFromHome(){const q=document.getElementById('homeask').value.trim();openTask(q||'Open question — blank session',q?'Asked from Home · '+(ROLE==='founder'?'Founder':ROLE==='growth'?'Growth lead':'Media buyer')+' context attached':'');}
+function openTask(title,origin){
+  document.getElementById('wb-task').textContent=title;
+  document.getElementById('wb-origin').textContent=origin||'From Home · '+(ROLE==='founder'?'Founder':ROLE==='growth'?'Growth lead':'Media buyer')+' feed — resolve, not summarize; you may delegate to specialist agents';
+  go('workbench');
+}
+
+/* ================= MY QUEUE — staged actions ================= */
+const STAGED=[
+ {risk:'low',t:'Pause creative "discount-banner-old"',tool:'meta.ads.update_status',params:'ad 2384710 → PAUSED',before:'ACTIVE · spending ₹4,180/day',impact:'Save ₹4,180/day · removes CAC ₹1,608 spend',delta:'−₹4,180/day',rev:true,origin:'Session #a1f3 · ads_report',exp:'Expires in 6h',status:'staged'},
+ {risk:'high',t:'Shift ₹15,000/day: Advantage+ · GLP-1 → Search · brand',tool:'meta.ads.update_budget + google.ads.update_budget',params:'Advantage+ ₹38,000→₹23,000 · Search brand ₹12,000→₹27,000 (daily)',before:'₹38,000 / ₹12,000 per day',impact:'Projected blended CAC ₹1,412 → ₹1,180 · moderate confidence',delta:'₹15,000/day moved',rev:true,origin:'Session #a1f3 · lead agent',exp:'Expires in 6h · above ₹10,000/day → per-item confirm',status:'staged'},
+ {risk:'med',t:'Raise budget +₹6,000/day on "glow-ritual-ugc-01" ad set',tool:'meta.ads.update_budget',params:'ad set ₹9,000 → ₹15,000/day',before:'₹9,000/day',impact:'+18–24 orders/wk at ≤₹700 CAC · high confidence',delta:'+₹6,000/day',rev:true,origin:'Home card · Opportunity',exp:'Expires in 6h',status:'staged'}];
+
+function qitemHTML(q,i){
+  const dis=q.status!=='staged';
+  let foot='';
+  if(q.status==='executed')foot=`<div class="qstate">✓ Executed · before-state captured · audit logged<span class="spacer"></span><button class="mini" onclick="undoQ(${i})">↩ Undo</button></div>`;
+  if(q.status==='rejected')foot='<div class="qstate" style="background:var(--color-off);color:var(--color-ink-400)">✕ Rejected — discarded, nothing executed</div>';
+  if(q.status==='reverted')foot='<div class="qstate" style="background:var(--color-off);color:var(--color-ink-400)">↩ Reverted to before-state · audit logged</div>';
+  return `<div class="card qitem${q.status==='rejected'?' rejected':''}" id="qi-${i}">
+    <div class="p-4">
+      <div class="mb-2 flex items-center gap-2.5"><span class="risk risk-${q.risk}">${q.risk} risk</span><b class="text-[13.5px]">${q.t}</b><span class="spacer"></span><span class="tag">${q.rev?'Reversible':'⚠ Not reversible'}</span></div>
+      <div class="qmeta mb-1"><span>tool <b class="font-mono text-[11px]">${q.tool}</b></span><span>params <b>${q.params}</b></span></div>
+      <div class="qmeta mb-2"><span>before <b>${q.before}</b></span><span>projected <b>${q.impact}</b></span><span>Δ <b>${q.delta}</b></span></div>
+      <div class="flex items-center gap-2">
+        <span class="text-[11px] text-ink-400">${q.origin} · ${q.exp}</span><span class="spacer"></span>
+        ${dis?'':`<span id="qe-${i}" style="display:none"><input class="field" style="width:150px;padding:5px 9px;font-size:12px" value="${q.params.split('→').pop().trim()}"> </span>
+        <button class="mini" onclick="editQ(${i})">Edit</button>
+        <button class="mini" onclick="rejectQ(${i})">Reject</button>
+        <button class="mini mini-call" onclick="approveQ(${i})">Approve${q.risk==='high'?' (confirm)':''}</button>`}
+      </div>
+    </div>${foot}</div>`;
+}
+function renderInbox(){
+  const list=document.getElementById('inboxList');if(!list)return;
+  list.innerHTML=STAGED.map((q,i)=>qitemHTML(q,i)).join('');
+  const n=STAGED.filter(q=>q.status==='staged').length;
+  const badge=document.getElementById('mq-badge');badge.textContent=n?n+' STAGED':'CLEAR';
+  if(!n)badge.style.cssText='background:var(--color-good-bg);color:var(--color-good)';
+  const low=STAGED.filter(q=>q.status==='staged'&&q.risk==='low').length;
+  const lb=document.getElementById('lowriskbtn');lb.textContent='Approve all low-risk ('+low+')';lb.style.display=low?'':'none';
+}
+function approveQ(i){
+  const q=STAGED[i];
+  if(q.risk==='high'&&!q._c){q._c=1;toast('Above the ₹10,000/day threshold — click Approve again to confirm this single item');return;}
+  q.status='executed';renderInbox();
+  toast('Re-validated before-state against live data · executed · Undo available');
+}
+function rejectQ(i){STAGED[i].status='rejected';renderInbox();toast('Rejected — nothing was executed');}
+function editQ(i){const e=document.getElementById('qe-'+i);e.style.display=e.style.display==='none'?'inline':'none';if(e.style.display==='inline')toast('Adjust the parameter, then Approve executes your edited value');}
+function undoQ(i){STAGED[i].status='reverted';renderInbox();toast('Restored before-state via API · audit entry written');}
+function approveAllLow(){STAGED.forEach(q=>{if(q.status==='staged'&&q.risk==='low')q.status='executed'});renderInbox();toast('Low-risk items executed · higher-risk items still need per-item confirmation');}
+
+/* ================= SKILLS ================= */
+const SKILLS=[['◔','Account Audit','Full Google + Meta hygiene pass — structure, tracking, wasted spend','12×'],
+ ['⌖','Tracking Audit','GTM, pixels, conversion actions, dedup — the trust check','9×'],
+ ['✎','Ad Copy Writer','RSA + Meta copy from your reviews and past winners','21×'],
+ ['◍','Market Share Watch','Auction insights + share-of-voice vs named rivals','6×'],
+ ['≋','Ad Optimization','CAC-first budget & bid rebalance — stages writes to My Queue','17×'],
+ ['▶','PMax in 1 Click','Assemble a PMax campaign from catalog + creatives','4×'],
+ ['🚀','Launch in 1 Click','New-product launch: campaigns, audiences, UTM plan','3×']];
+function renderSkills(){
+  const g=document.getElementById('skillsGrid');if(!g)return;
+  g.innerHTML=SKILLS.map(k=>`<div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-tint)">${k[0]}</div>
+    <div class="meta"><b>${k[1]}</b><span style="display:block;font-family:var(--font-sans);color:var(--color-ink-500);font-size:11px;line-height:1.45;margin:3px 0 8px">${k[2]}</span>
+    <div class="flex items-center gap-1.5"><button class="mini mini-call" onclick="openTask('Run skill: ${k[1]}','Skill run · Progen Method context attached')">Run</button>
+    <button class="mini" onclick="go('automations');toast('Pick a schedule — a scheduled Skill is an Automation')">Schedule</button>
+    <span class="ml-auto font-mono text-[10px] text-ink-400">${k[3]}</span></div></div></div>`).join('');
+}
+
 renderQueue();
 renderLeads();
-go('summary');
+renderHome();
+renderInbox();
+renderSkills();
+go('home');
 </script>
 </body></html>
