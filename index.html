@@ -27,7 +27,7 @@
 
   <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
   <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Chat</span></button>
-  <button class="ni" data-go="skills"><span class="gi">▤</span><span class="lab">Skills</span></button>
+  <button class="ni" data-go="skills"><span class="gi">▤</span><span class="lab">Agents</span></button>
   <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
   <button class="ni" data-go="myqueue"><span class="gi">☑</span><span class="lab">My Queue</span><span class="badge" id="mq-badge" style="background:var(--color-bad-bg);color:var(--color-bad)">3 STAGED</span></button>
 
@@ -595,7 +595,7 @@
             <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-ember);color:#fff;font-size:10px;font-weight:700">L</span>Lead agent <span class="ml-auto text-[10.5px] text-good font-semibold">done</span></span>
             <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-info);color:#fff;font-size:10px;font-weight:700">A</span>ads_report <span class="ml-auto text-[10.5px] text-ink-400">4 tool calls</span></span></div></div>
         <div class="railsec"><h5>Session</h5>
-          <button class="mini w-full" onclick="toast('Saved as Skill — reusable from the Skills catalog')">＋ Save as Skill</button></div>
+          <button class="mini w-full" onclick="toast('Saved as a skill — your agents can now reuse this workflow')">＋ Save as Skill</button></div>
       </div>
     </div>
   
@@ -615,12 +615,13 @@
 
   <!-- ======== SKILLS ======== -->
   <section class="screen" id="s-skills">
-    <div class="mb-4 flex items-center gap-2.5">
-      <p class="text-[13px] text-ink-500 max-w-[72ch]">Reusable agent workflows, bound to this workspace's data and instructions. Run one now, or put it on a schedule to create an Automation. Any Workbench session can be saved as a Skill.</p>
+    <div class="mb-2 flex items-center gap-2.5">
+      <p class="text-[13px] text-ink-500 max-w-[72ch]">Specialist agents you can deploy on this workspace — each assembled from <b class="text-ink-700">skills</b> (reusable workflows) and <b class="text-ink-700">tools</b> (Google, Meta, the data spine), inheriting your instructions and target CAC. Writes always stage to My Queue.</p>
       <span class="spacer"></span>
-      <button class="btn btn-sm" onclick="go('workbench');toast('New blank session — save it as a Skill when it works')">＋ New from session</button>
+      <button class="btn btn-sm" onclick="go('workbench');toast('Run a session that works, then save it as a skill — agents are assembled from skills')">＋ New agent</button>
     </div>
-    <div class="libgrid" id="skillsGrid"></div>
+    <p class="kicker mb-5">Tools → skills → agents · schedule any agent to create an Automation</p>
+    <div class="grid grid-cols-3 gap-3" id="skillsGrid"></div>
   </section>
 
   <!-- ======== MY QUEUE ======== -->
@@ -1205,7 +1206,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Chat',0],skills:['Skills',0],myqueue:['My Queue — Approvals',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Chat',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1732,20 +1733,24 @@ function undoQ(i){STAGED[i].status='reverted';renderInbox();toast('Restored befo
 function approveAllLow(){STAGED.forEach(q=>{if(q.status==='staged'&&q.risk==='low')q.status='executed'});renderInbox();toast('Low-risk items executed · higher-risk items still need per-item confirmation');}
 
 /* ================= SKILLS ================= */
-const SKILLS=[['◔','Account Audit','Full Google + Meta hygiene pass — structure, tracking, wasted spend','12×'],
- ['⌖','Tracking Audit','GTM, pixels, conversion actions, dedup — the trust check','9×'],
- ['✎','Ad Copy Writer','RSA + Meta copy from your reviews and past winners','21×'],
- ['◍','Market Share Watch','Auction insights + share-of-voice vs named rivals','6×'],
- ['≋','Ad Optimization','CAC-first budget & bid rebalance — stages writes to My Queue','17×'],
- ['▶','PMax in 1 Click','Assemble a PMax campaign from catalog + creatives','4×'],
- ['🚀','Launch in 1 Click','New-product launch: campaigns, audiences, UTM plan','3×']];
+const AGENTS=[
+ ['◔','Performance Marketing Agent','Optimizes Google + Meta to your target CAC — finds waste, rebalances budgets, stages every write for approval.',['Account Audit','Ad Optimization'],['gaql_query','meta.ads','spine'],'17 runs'],
+ ['⌖','Tracking & Attribution Auditor','Verifies the numbers are trustworthy — GTM, pixels, conversion actions, dedup, click-ID match rates.',['Tracking Audit'],['gtm_audit','conversion_status'],'9 runs'],
+ ['▧','Creative Analyst','Catches fatigue before CAC feels it; drafts replacement copy from your winners and reviews.',['Ad Copy Writer','Creative Review'],['creative_metrics','meta.ads'],'21 runs'],
+ ['◍','Market Intelligence Agent','Auction insights, share of voice and rival moves — reported weekly or on demand.',['Market Share Watch'],['auction_insights'],'6 runs'],
+ ['▶','Launch Agent','Ships a new campaign end-to-end — PMax or full launch: structure, audiences, UTM plan.',['PMax in 1 Click','Launch in 1 Click'],['google.ads','meta.ads'],'4 runs'],
+ ['▤','Insights & Reporting Agent','Weekly performance narratives with the numbers reconciled to the spine — emailed or in Slack.',['Weekly Report'],['spine','slack'],'12 runs']];
 function renderSkills(){
   const g=document.getElementById('skillsGrid');if(!g)return;
-  g.innerHTML=SKILLS.map(k=>`<div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-tint)">${k[0]}</div>
-    <div class="meta"><b>${k[1]}</b><span style="display:block;font-family:var(--font-sans);color:var(--color-ink-500);font-size:11px;line-height:1.45;margin:3px 0 8px">${k[2]}</span>
-    <div class="flex items-center gap-1.5"><button class="mini mini-call" onclick="openTask('Run skill: ${k[1]}','Skill run · Progen Method context attached')">Run</button>
-    <button class="mini" onclick="go('automations');toast('Pick a schedule — a scheduled Skill is an Automation')">Schedule</button>
-    <span class="ml-auto font-mono text-[10px] text-ink-400">${k[3]}</span></div></div></div>`).join('');
+  g.innerHTML=AGENTS.map(a=>`<div class="card" style="padding:16px 18px;display:flex;flex-direction:column">
+    <div class="flex items-center gap-2.5 mb-2"><span style="display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--color-tint);color:var(--color-ember);font-size:15px">${a[0]}</span><b class="text-[13.5px]">${a[1]}</b></div>
+    <p class="text-[12px] text-ink-500 leading-[1.55] mb-3">${a[2]}</p>
+    <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-ink-400 mb-1">Built on</div>
+    <div class="mb-3">${a[3].map(k=>'<span class="railchip">'+k+'</span>').join('')}${a[4].map(t=>'<span class="railchip" style="font-family:var(--font-mono);font-size:10px">'+t+'</span>').join('')}</div>
+    <div class="mt-auto flex items-center gap-1.5">
+      <button class="mini mini-call" onclick="openTask('Deploy: ${a[1]}','Agent deployed on Progen Method — skills: ${a[3].join(', ')}')">Deploy</button>
+      <button class="mini" onclick="go('automations');toast('Pick a schedule — a scheduled agent run is an Automation')">Schedule</button>
+      <span class="ml-auto font-mono text-[10px] text-ink-400">${a[5]}</span></div></div>`).join('');
 }
 
 /* ================= COCKPIT (live-product parity) ================= */
