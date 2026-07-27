@@ -44,6 +44,8 @@
   --color-google: #F9AB00;
   --color-whatsapp: #25D366;
   --color-klaviyo: #7C3AED;
+  --color-instagram: #E1306C;
+  --color-google-blue: #4285F4;
 
   /* type */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -1133,18 +1135,19 @@
   .ob-step.on { @apply bg-ember; }
   .ob-body { @apply mx-auto w-full max-w-[720px] px-7 pb-20; }
   .ob-pane { @apply hidden; }
+  .ob-pane .kicker { @apply block text-center; }
   .ob-pane.on { @apply block; }
-  .ob-h { @apply mb-2 font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.01em]; }
-  .ob-sub { @apply mb-8 max-w-[56ch] text-[14.5px] leading-[1.6] text-ink-500; }
-  .ob-foot { @apply mt-9 flex items-center gap-4; }
+  .ob-h { @apply mb-2 text-center font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.01em]; }
+  .ob-sub { @apply mx-auto mb-8 max-w-[56ch] text-center text-[14.5px] leading-[1.6] text-ink-500; }
+  .ob-foot { @apply mt-9 flex flex-col items-center gap-3 text-center; }
   .ob-note { @apply text-[12px] text-ink-400; }
 
   .sso {
-    @apply flex w-full max-w-[420px] items-center justify-center gap-2.5 rounded-full border
-           border-rule bg-white px-5 py-3 text-[14px] font-semibold transition-colors duration-150;
+    @apply mx-auto flex w-full max-w-[420px] items-center justify-center gap-2.5 rounded-full
+           border border-rule bg-white px-5 py-3 text-[14px] font-semibold transition-colors duration-150;
   }
   .sso:hover { @apply border-ink-900; }
-  .ob-div { @apply my-5 flex max-w-[420px] items-center gap-3 text-[11px] uppercase tracking-[0.1em] text-ink-400; }
+  .ob-div { @apply mx-auto my-5 flex w-full max-w-[420px] items-center gap-3 text-[11px] uppercase tracking-[0.1em] text-ink-400; }
   .ob-div::before, .ob-div::after { content: ''; @apply h-px flex-1 bg-rule; }
 
   .rolechip {
@@ -1155,8 +1158,8 @@
   .rolechip.on { @apply border-ember bg-tint font-semibold text-ember; }
 
   .connrow {
-    @apply mb-2.5 flex items-center gap-4 rounded-[14px] border border-rule bg-white
-           px-5 py-4 transition-colors duration-200;
+    @apply mx-auto mb-2.5 flex w-full max-w-[560px] items-center gap-4 rounded-[14px] border
+           border-rule bg-white px-5 py-4 transition-colors duration-200;
   }
   .connrow.done { @apply border-good/40 bg-good-bg/50; }
   .connrow .clogo {
@@ -1170,7 +1173,7 @@
   }
   .connrow .cbtn:hover { @apply border-ember; }
   .connrow.done .cbtn { @apply border-transparent bg-transparent text-good; }
-  .conngroup { @apply mb-1.5 mt-6 flex items-center gap-2 first:mt-0; }
+  .conngroup { @apply mx-auto mb-1.5 mt-6 flex w-full max-w-[560px] items-center gap-2 first:mt-0; }
   .conngroup h4 { @apply text-[12.5px] font-bold text-ink-700; }
   .conngroup .req { @apply rounded-full bg-ember-dim px-2 py-0.5 text-[9.5px] font-bold text-ember; }
   .conngroup .opt { @apply rounded-full border border-rule bg-off px-2 py-0.5 text-[9.5px] font-bold text-ink-400; }
@@ -1189,7 +1192,7 @@
   .runrow.done .rdot { @apply border-good bg-good; }
   .runrow.done .rdot::after { content: '\2713'; }
   .runrow .rms { @apply ml-auto font-mono text-[11px] text-ink-400; }
-  .ob-ready { @apply mt-9 hidden rounded-[16px] border border-good/40 bg-good-bg/60 px-6 py-6 text-center; }
+  .ob-ready { @apply mx-auto mt-9 hidden w-full max-w-[560px] rounded-[16px] border border-good/40 bg-good-bg/60 px-6 py-6 text-center; }
   .ob-ready.on { @apply block; }
 }
 
