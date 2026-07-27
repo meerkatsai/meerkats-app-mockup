@@ -1315,8 +1315,23 @@
    Pinned session composer — transcript scrolls, input stays
    ============================================================ */
 @layer components {
-  .wb-composer {
-    @apply sticky bottom-6 z-[45] bg-white shadow-[0_18px_50px_rgba(11,11,12,0.18)];
+  /* opaque footer strip — scrolling content disappears behind it (Claude pattern) */
+  .wb-foot {
+    @apply fixed bottom-0 right-0 z-40;
+    left: 236px;
+    height: 96px;
+    background: var(--color-off);
   }
-  #wb-session { padding-bottom: 10px; }
+  .wb-foot::before {
+    content: '';
+    @apply absolute bottom-full left-0 right-0 h-6;
+    background: linear-gradient(to bottom, transparent, var(--color-off));
+  }
+  .wb-composer {
+    @apply fixed z-[45] bg-white shadow-[0_18px_50px_rgba(11,11,12,0.18)];
+    bottom: 22px;
+    left: calc(236px + max(0px, (100vw - 236px - 1120px) / 2) + 30px);
+    width: max(320px, calc(min(1120px, 100vw - 236px) - 60px - 286px));
+  }
+  #wb-session { padding-bottom: 130px; }
 }
