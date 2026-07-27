@@ -151,64 +151,55 @@
   </section>
 
   <!-- ======== SUMMARY ======== -->
-  <section class="screen" id="s-summary">
-    <div class="palette">⌕ <input id="secSearch" placeholder="Search sections…" oninput="filterSections(this.value)"></div>
-
-    <div class="ssec" data-name="pins">
-      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>📌 Pins</h3><span class="cnt">4 tiles</span><span class="pinhint">drag to reorder</span></div>
-      <div class="tiles">
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended MER</div><div class="v">3.12<span class="u">×</span></div><div class="foot"><span class="delta delta-up">▲ 8.4%</span><span class="tgt">target 3.0× <b>hit</b></span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,20 14,18 28,21 42,15 56,16 70,11 84,9 100,6"/></svg></div>
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Net Revenue</div><div class="v">₹48.2<span class="u">L</span></div><div class="foot"><span class="delta delta-up">▲ 12.1%</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,22 14,19 28,17 42,18 56,13 70,12 84,8 100,5"/></svg></div>
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Blended CAC</div><div class="v">₹887</div><div class="foot"><span class="delta delta-dn">▲ 4.2%</span><span class="tgt">target ₹950</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,10 14,12 28,9 42,13 56,14 70,12 84,16 100,15"/></svg></div>
-        <div class="tile pinned"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Contribution Margin</div><div class="v">₹11.6<span class="u">L</span></div><div class="foot"><span class="delta delta-up">▲ 6.8%</span><span class="settgt">Set target</span></div><svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline points="0,19 14,20 28,16 42,17 56,12 70,13 84,9 100,7"/></svg></div>
-      </div>
+  <section class="screen" id="s-summary" style="padding-bottom:76px">
+    <div class="mb-1 flex items-baseline gap-2.5">
+      <h2 style="font-family:var(--font-serif);font-size:21px;font-weight:600">◎ Ad Performance Cockpit</h2>
+      <span class="text-[12.5px] text-ink-400">Progen_method</span>
+    </div>
+    <div class="mb-1 mt-2 flex flex-wrap items-center gap-2">
+      <span class="kicker">Sources</span>
+      <button class="srcpill on" onclick="toast('Meta Ads — connected · synced 12 min ago')"><span class="d"></span>Meta Ads ✓</button>
+      <button class="srcpill on" onclick="toast('Google Ads — connected · synced 9 min ago')"><span class="d"></span>Google Ads ✓</button>
+      <button class="srcpill" onclick="go('integrations')"><span class="d"></span>Shopify · no data</button>
     </div>
 
-    <div class="ssec" data-name="store">
-      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Store</h3><span class="cnt">4 tiles</span><span class="pinhint">pin tiles to top</span></div>
-      <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Orders</div><div class="v">1,284</div><div class="foot"><span class="delta delta-up">▲ 9.6%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>AOV</div><div class="v">₹1,873</div><div class="foot"><span class="delta delta-up">▲ 2.3%</span><span class="settgt">Set target</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>New Customers</div><div class="v">712</div><div class="foot"><span class="delta delta-up">▲ 14.8%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src shopify">S</span>Returning Rate</div><div class="v">31.4<span class="u">%</span></div><div class="foot"><span class="delta delta-mut">— 0.2%</span></div></div>
-      </div>
+    <div class="rtabs" id="cktabs">
+      <button class="rtab on" onclick="setCkRole('founder',this)">Founder <span class="lv">live</span></button>
+      <button class="rtab" onclick="setCkRole('growth',this)">Growth lead <span class="lv">live</span></button>
+      <button class="rtab" onclick="setCkRole('buyer',this)">Media buyer <span class="lv">live</span></button>
     </div>
 
-    <div class="ssec" data-name="custom metrics">
-      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Custom Metrics</h3><span class="cnt">2 tiles</span><span class="pinhint">＋ new custom metric</span></div>
-      <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CM2 / Order</div><div class="v">₹904</div><div class="foot"><span class="delta delta-up">▲ 3.1%</span><span class="tgt">target ₹850 <b>hit</b></span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Payback Days</div><div class="v">42</div><div class="foot"><span class="delta delta-up">▼ 5 days</span><span class="settgt">Set target</span></div></div>
+    <h3 id="ck-role" style="font-family:var(--font-serif);font-size:20px;font-weight:600">Founder / CEO</h3>
+    <p id="ck-quote" class="mb-4 mt-0.5 text-[13px] italic text-ink-500"></p>
+
+    <div class="card mb-6 p-4">
+      <div class="mb-3 flex flex-wrap items-center gap-2">
+        <b class="text-[13.5px]">⚡ What to do next</b>
+        <span style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700">AI · DAILY</span>
+        <span class="spacer"></span>
+        <span class="text-[11.5px] text-ink-400" id="ck-gen">Generated 27 Jul, 11:26 am · manual</span>
+        <button class="mini" onclick="ckRefresh()">⟳ Refresh</button>
       </div>
+      <div id="ck-feed"></div>
     </div>
 
-    <div class="ssec" data-name="attribution">
-      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Attribution</h3><span class="cnt">4 tiles</span></div>
-      <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src meta">f</span>Meta ROAS</div><div class="v">2.84<span class="u">×</span></div><div class="foot"><span class="delta delta-up">▲ 6.2%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src google">G</span>Google ROAS</div><div class="v">3.91<span class="u">×</span></div><div class="foot"><span class="delta delta-up">▲ 1.9%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src blend">◑</span>Ad Spend</div><div class="v">₹12.4<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 3.0%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Tracked Conversions</div><div class="v">96.2<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.8%</span><span class="tgt">click-ID matched</span></div></div>
+    <div class="mb-2 flex items-center gap-3">
+      <div class="seg">
+        <button class="on" onclick="setCkTF(this,'WEEK OF 20–26 JUL 2026')">Last full week</button>
+        <button onclick="setCkTF(this,'27 JUL – TODAY')">This week</button>
+        <button onclick="setCkTF(this,'29 JUN – 26 JUL 2026')">Last 4 weeks</button>
+        <button onclick="setCkTF(this,'CUSTOM RANGE')">Custom</button>
       </div>
     </div>
+    <p class="kicker mb-6" id="ck-window">Week of 20–26 Jul 2026 · deltas vs previous same-length window</p>
 
-    <div class="ssec" data-name="web analytics">
-      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Web Analytics</h3><span class="cnt">4 tiles</span></div>
-      <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Sessions</div><div class="v">86.4<span class="u">k</span></div><div class="foot"><span class="delta delta-up">▲ 11.2%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>CVR</div><div class="v">1.49<span class="u">%</span></div><div class="foot"><span class="delta delta-dn">▼ 0.11pp</span><span class="settgt">Set target</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Bounce Rate</div><div class="v">54.7<span class="u">%</span></div><div class="foot"><span class="delta delta-mut">▲ 1.3pp</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>LPV → ATC</div><div class="v">7.8<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.6pp</span></div></div>
-      </div>
-    </div>
+    <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
 
-    <div class="ssec" data-name="expenses">
-      <div class="ssec-h" onclick="this.parentElement.classList.toggle('closed')"><span class="chev">▼</span><h3>Expenses</h3><span class="cnt">3 tiles</span></div>
-      <div class="tiles">
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>COGS</div><div class="v">₹16.9<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 8.1%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Shipping</div><div class="v">₹3.2<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 4.4%</span></div></div>
-        <div class="tile"><button class="pin">📌</button><span class="grip">⋮⋮</span><div class="l"><span class="src mk">M</span>Gateway Fees</div><div class="v">₹0.96<span class="u">L</span></div><div class="foot"><span class="delta delta-mut">▲ 2.1%</span></div></div>
-      </div>
+    <!-- floating chat — pinned while the page scrolls -->
+    <div class="fab-chat">
+      <span style="color:var(--color-ember);font-size:15px">✦</span>
+      <input id="ck-ask" placeholder="Ask anything about Progen_method…" onkeydown="if(event.key==='Enter')askCockpit()">
+      <button class="send" onclick="askCockpit()">↑</button>
     </div>
   </section>
 
@@ -1428,7 +1419,7 @@ function go(id){
   document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
   if(id==='analyst')toggleChat(false);
-  const NOTB=['home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
+  const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
 }
@@ -1690,6 +1681,61 @@ function renderSkills(){
     <span class="ml-auto font-mono text-[10px] text-ink-400">${k[3]}</span></div></div></div>`).join('');
 }
 
+/* ================= COCKPIT (live-product parity) ================= */
+let CKROLE='founder';
+const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
+ bd:'Currently, all financial metrics including total revenue, order count, and gross margin are reporting null, leaving the business without visibility into actual profitability or cash flow from ads.',
+ lnk:'Connect the commerce data source (Shopify/WooCommerce) to the data spine to enable real-time revenue and margin reporting.'};
+const CK={
+founder:{h:'Founder / CEO',q:'"Are we growing profitably, is cash healthy?"',
+ cards:[REVCARD,
+  {sev:'Warning',t:'CAC up 9% W/W — driven by one Meta campaign',
+   bd:'Advantage+ · GLP-1 hit CAC ₹1,412 against the ₹950 target and now takes 38% of ad spend, while Search · brand converts at ₹704.',
+   lnk:'Rebalance budget toward Search · brand — the agent will diagnose first and stage the change for your approval.'}],
+ kpis:[['Net revenue','—','no comparison data',''],['Blended ROAS (MER)','—','no comparison data',''],
+  ['Orders','—','no comparison data',''],['CAC (new-customer)','₹1,096','▲ 7% · window-based','dn'],
+  ['Ad spend','₹3.67L','▲ 4%','mut'],['New customers','214','▲ 6% · platform-reported','up'],
+  ['Gross margin','—','no comparison data',''],['Refund / RTO rate','—','no comparison data','']]},
+growth:{h:'Growth lead',q:'"What\u2019s moving CAC and LTV, and what do I do about it?"',
+ cards:[REVCARD,
+  {sev:'Opportunity',t:'Search · brand starved of budget',
+   bd:'Losing 31% impression share to budget at CAC ₹704 — the cheapest marginal volume in the account while Advantage+ burns above target.',
+   lnk:'Shift ₹15,000/day from Advantage+ · GLP-1 — staged to My Queue for approval.'}],
+ kpis:[['CAC · Meta','₹1,184','▲ 14%','dn'],['CAC · Google','₹811','▼ 3%','up'],
+  ['Blended CAC','₹1,096','▲ 7%','dn'],['LTV : CAC (90d)','—','needs revenue data',''],
+  ['Payback period','—','needs revenue data',''],['MER','—','needs revenue data',''],
+  ['New vs returning','—','needs revenue data',''],['Contribution margin','—','needs revenue data','']]},
+buyer:{h:'Media buyer',q:'"Which campaigns and creatives do I touch today?"',
+ cards:[REVCARD,
+  {sev:'Critical',t:'"discount-banner-old" fatigued — frequency 4.8, CTR down 44%',
+   bd:'CAC ₹1,608 and still spending ₹4,180/day for 2 orders yesterday. "glow-ritual-ugc-01" converts at ₹612 with headroom.',
+   lnk:'Pause the fatigued creative and shift its budget to the winner — both staged for approval.'}],
+ kpis:[['Spend yesterday','₹52,400','▲ 4%','mut'],['CAC yesterday','₹1,096','▲ 7%','dn'],
+  ['ROAS · Meta','2.4×','▼ 0.3 · platform-reported','dn'],['ROAS · Google','3.9×','▲ 0.1 · platform-reported','up'],
+  ['Frequency · top 5','3.6','▲ 0.4','dn'],['In learning','3 of 11','▲ 1','dn'],
+  ['Budget utilization','87%','▼ 5pp','mut'],['Creative CTR','1.9%','▼ 0.2pp','dn']]}};
+
+function renderCockpit(){
+  const r=CK[CKROLE];
+  document.getElementById('ck-role').textContent=r.h;
+  document.getElementById('ck-quote').textContent=r.q;
+  document.getElementById('ck-feed').innerHTML=r.cards.map(c=>
+    `<div class="ckcard"><div class="flex items-center gap-2"><span style="color:var(--color-ember)">◆</span><b class="text-[13.5px]">${c.t}</b><span class="sev sev-${c.sev==='Critical'?'crit':c.sev==='Warning'?'warn':'opp'}">${c.sev}</span></div>
+     <div class="bd">${c.bd}</div>
+     <span class="lnk" onclick="${c===REVCARD?"go('integrations')":"go('myqueue')"}">→ ${c.lnk}</span>
+     <span class="fix" onclick="openTask('${c.t.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','From Cockpit · ${CKROLE} view — resolve, not summarize; you may delegate to specialist agents')">Fix this with the agent →</span></div>`).join('');
+  document.getElementById('ck-kpis').innerHTML=r.kpis.map(k=>{
+    const empty=k[1]==='—';
+    return `<div class="kpimin" ${empty?'':`style="cursor:pointer" onclick="openTask('Investigate: ${k[0]} ${k[2]}')" title="Investigate with agent"`}>
+      <div class="kl">${k[0]}</div><div class="kv${empty?' dash':''}">${k[1]}</div>
+      <div class="kn">${empty?k[2]:`<span class="delta delta-${k[3]==='up'?'up':k[3]==='dn'?'dn':'mut'}">${k[2]}</span>`}</div></div>`;
+  }).join('');
+}
+function setCkRole(r,btn){CKROLE=r;btn.parentElement.querySelectorAll('.rtab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderCockpit();}
+function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('ck-window').textContent=label+' · deltas vs previous same-length window';}
+function ckRefresh(){document.getElementById('ck-gen').textContent='Generated just now · manual';toast('Feed regenerated from live sources');}
+function askCockpit(){const q=document.getElementById('ck-ask').value.trim();document.getElementById('ck-ask').value='';openTask(q||'Open question — blank session',q?'Asked from Cockpit · '+CKROLE+' context attached':'');}
+
 /* ================= ONBOARDING ================= */
 const OBCONN=new Set();
 function obGo(n){
@@ -1739,6 +1785,7 @@ function startFirstRun(){
 renderQueue();
 renderLeads();
 renderHome();
+renderCockpit();
 renderInbox();
 renderSkills();
 go('summary');

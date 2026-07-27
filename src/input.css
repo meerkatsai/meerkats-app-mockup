@@ -1192,3 +1192,50 @@
   .ob-ready { @apply mt-9 hidden rounded-[16px] border border-good/40 bg-good-bg/60 px-6 py-6 text-center; }
   .ob-ready.on { @apply block; }
 }
+
+/* ============================================================
+   Cockpit (live-product parity) + floating chat bar
+   ============================================================ */
+@layer components {
+  .rtabs { @apply mb-5 mt-4 flex gap-6 border-b border-rule; }
+  .rtab {
+    @apply -mb-px flex items-center gap-1.5 border-b-2 border-transparent pb-2.5
+           text-[13.5px] font-medium text-ink-500 transition-colors duration-150;
+  }
+  .rtab:hover { @apply text-ink-900; }
+  .rtab.on { @apply border-b-ember font-semibold text-ink-900; }
+  .lv { @apply rounded-full bg-good-bg px-1.5 py-px text-[9.5px] font-bold text-good; }
+
+  .ckcard {
+    @apply mb-2.5 rounded-[10px] border border-ember-soft border-l-[3px] border-l-ember
+           bg-tint px-4 py-3.5;
+  }
+  .ckcard .bd { @apply mt-1 text-[12.5px] leading-[1.6] text-ink-700; }
+  .ckcard .lnk { @apply mt-1.5 block cursor-pointer text-[12.5px] font-semibold text-ember; }
+  .ckcard .lnk:hover { @apply underline underline-offset-2; }
+  .ckcard .fix { @apply mt-2 inline-block text-[12.5px] font-bold text-ember; }
+  .ckcard .fix:hover { @apply underline underline-offset-2; }
+
+  .kpimin { @apply min-w-0; }
+  .kpimin .kl { @apply text-[13px] text-ink-700; }
+  .kpimin .kv { @apply mt-2 text-[22px] font-semibold tracking-[-0.02em] tabular-nums; }
+  .kpimin .kv.dash { @apply text-ink-900; }
+  .kpimin .kn { @apply mt-1 text-[11.5px] text-ink-400; }
+
+  .fab-chat {
+    @apply fixed bottom-6 z-[45] flex items-center gap-2.5 rounded-2xl border-[1.5px]
+           border-ink-900 bg-white px-4 py-3 shadow-[0_18px_50px_rgba(11,11,12,0.18)];
+    left: calc(50% + 118px);
+    transform: translateX(-50%);
+    width: min(640px, 56vw);
+  }
+  .fab-chat input {
+    @apply flex-1 border-none bg-transparent font-sans text-[13.5px] text-ink-900 outline-none;
+  }
+  .fab-chat input::placeholder { @apply text-ink-400; }
+  .fab-chat .send {
+    @apply grid h-[30px] w-[30px] flex-none place-items-center rounded-full bg-ember
+           text-[13px] text-white;
+  }
+  .fab-chat .send:hover { @apply bg-ember-hover; }
+}
