@@ -528,16 +528,46 @@
         <button class="sugg" onclick="openTask('Draft this week&#39;s performance summary')">Draft this week&#39;s performance summary</button>
       </div>
       <div class="chat-ask" style="margin-bottom:26px">
+        <div class="slashmenu" id="slashmenu"></div>
         <div class="in"><span style="color:var(--color-ember);font-size:15px">&#10022;</span>
-          <input id="wb-ask" placeholder="Ask anything, or describe what you want done&hellip;" onkeydown="if(event.key==='Enter')askFromChat()">
+          <span class="cmdchip" id="cmdchip" style="display:none"><span id="cmdchip-t">/create agent</span><button onclick="clearCmd()" title="Cancel command">&#10005;</button></span>
+          <input id="wb-ask" placeholder="Ask anything, or describe what you want done&hellip; (type / for commands)" oninput="slashCheck(this)" onkeydown="if(event.key==='Enter')askFromChat();if(event.key==='Escape'){clearCmd();document.getElementById('slashmenu').classList.remove('on')}">
           <button class="send" onclick="askFromChat()">&uarr;</button></div>
         <div class="foot"><span class="mchip"><span class="d"></span>Progen Method</span><span class="mchip">Auto model</span><span class="mchip">Tools: Google &middot; Meta &middot; Spine</span></div>
       </div>
       <div class="ibx-sec" style="margin-top:0">Recent sessions</div>
       <div class="flex flex-col gap-2">
-        <button class="recent" onclick="openTask('Fix: CAC up 9% W/W - rebalance budget away from Advantage+ GLP-1','Resumed session · 2h ago')"><div class="min-w-0 flex-1"><b>Fix: CAC up 9% W/W &mdash; rebalance budget</b><span class="rt">2h ago &middot; lead agent + ads_report</span></div><span class="tag tag-r">3 staged</span></button>
+        <button class="recent" onclick="openTask('Fix: CAC up 9% W/W - rebalance budget away from Advantage+ GLP-1','Resumed session · 2h ago')"><div class="min-w-0 flex-1"><b>Fix: CAC up 9% W/W &mdash; rebalance budget</b><span class="rt">2h ago &middot; supervisor + ads_report</span></div><span class="tag tag-r">3 staged</span></button>
         <button class="recent" onclick="openTask('Audit conversion tracking + GTM','Resumed session · yesterday')"><div class="min-w-0 flex-1"><b>Audit conversion tracking + GTM</b><span class="rt">Yesterday &middot; found duplicate purchase tag</span></div><span class="tag tag-w">resolved</span></button>
         <button class="recent" onclick="openTask('Weekly performance report - Jul 20-26','Resumed session · Mon')"><div class="min-w-0 flex-1"><b>Weekly performance report &mdash; Jul 20&ndash;26</b><span class="rt">Monday &middot; emailed to 3 teammates</span></div><span class="tag">sent</span></button>
+      </div>
+    </div>
+
+    <!-- agent builder session -->
+    <div id="wb-builder" style="display:none;max-width:760px;margin:0 auto">
+      <button class="mini" style="margin-bottom:14px" onclick="cancelBuilder()">&lsaquo; Cancel — back to chat</button>
+      <div class="wb-user"><span class="cmdchip" style="margin-right:8px">/create agent</span><span id="bld-desc">Retention agent for lapsed leads</span></div>
+      <div class="wb-msg"><div class="who3"><span class="av3">S</span>Supervisor <span class="sub3">agent builder</span></div>
+        Drafted from your description &mdash; adjust anything, then create. Once created there is <b>no deploy step</b>: I call this agent automatically whenever a task matches its goal, and it can also be scheduled as an automation.</div>
+      <div class="card" style="padding:18px 20px;margin-bottom:14px">
+        <div class="fld"><label>Agent name</label><input class="field" id="bld-name" value="Retention &amp; Winback Agent"></div>
+        <div class="fld"><label>Goal &mdash; when should the supervisor call it?</label><textarea class="field" id="bld-goal" rows="2">Re-engage lapsed leads and customers: watch dormant segments, draft winback flows, and quantify recovered revenue at CAC &le; &#8377;400.</textarea></div>
+        <div class="fld"><label>Skills it can use</label>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="skillpick on" onclick="this.classList.toggle('on')">Winback Flows</button>
+            <button class="skillpick on" onclick="this.classList.toggle('on')">Weekly Report</button>
+            <button class="skillpick" onclick="this.classList.toggle('on')">Account Audit</button>
+            <button class="skillpick" onclick="this.classList.toggle('on')">Ad Copy Writer</button>
+            <button class="skillpick" onclick="this.classList.toggle('on')">Ad Optimization</button>
+            <button class="skillpick" onclick="this.classList.toggle('on')">Tracking Audit</button>
+          </div></div>
+        <div class="fld"><label>Tools</label>
+          <div><span class="railchip" style="font-family:var(--font-mono);font-size:10px">klaviyo</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">spine</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">meta.ads</span></div></div>
+        <p style="font-size:11.5px;color:var(--color-ink-400);margin:4px 0 14px">Guardrails inherited from the workspace: reads run autonomously &middot; every write stages to My Queue for approval.</p>
+        <div style="display:flex;gap:9px">
+          <button class="btn btn-orange" onclick="createAgent()">Create agent</button>
+          <button class="btn btn-ghost" onclick="cancelBuilder()">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -550,8 +580,8 @@
         <div class="wb-user"><span id="wb-task">Fix: CAC up 9% W/W — rebalance budget away from Advantage+ · GLP-1</span>
           <div class="org" id="wb-origin">From Home · Founder feed · card #1 — resolve, not summarize; you may delegate to specialist agents</div></div>
 
-        <div class="wb-msg"><div class="who3"><span class="av3">L</span>Lead agent <span class="sub3">plan</span></div>
-          Three-step diagnosis before any change: verify tracking is trustworthy, decompose CAC by campaign and creative, then quantify the rebalance. Delegating account pulls to <b>ads_report</b>.</div>
+        <div class="wb-msg"><div class="who3"><span class="av3">L</span>Supervisor <span class="sub3">plan</span></div>
+          Three-step diagnosis before any change: verify tracking is trustworthy, decompose CAC by campaign and creative, then quantify the rebalance. Delegating account pulls to the <b>ads_report</b> specialist.</div>
 
         <div class="wb-msg"><div class="who3"><span class="av3" style="background:var(--color-info)">A</span>ads_report <span class="sub3">sub-agent · 4 tool calls</span></div>
           <div class="toolrow"><span class="ok">✓</span>credentials_check · google, meta<span class="ms">0.3s</span></div>
@@ -560,7 +590,7 @@
           <div class="toolrow"><span class="ok" style="color:var(--color-watch)">⚠</span>gtm_container_audit · purchase tag fires 2× on /thank-you<span class="ms">1.1s</span></div>
           Tracking is usable — the duplicate tag inflates conversions ~4%, noted in the numbers below.</div>
 
-        <div class="wb-msg"><div class="who3"><span class="av3">L</span>Lead agent <span class="sub3">findings</span></div>
+        <div class="wb-msg"><div class="who3"><span class="av3">L</span>Supervisor <span class="sub3">findings</span></div>
           <b>The CAC rise is one campaign, not the account.</b><br>
           · Advantage+ · GLP-1: CAC <b>₹1,412</b> (target ₹950), 38% of spend, frequency 4.2 — fatigued.<br>
           · Search · brand: CAC <b>₹704</b> with impression share lost to budget 31% — headroom.<br>
@@ -592,7 +622,7 @@
           <span class="railchip mono" style="font-family:var(--font-mono);font-size:10px">ad_performance</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">identities</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">checkout_events</span></div>
         <div class="railsec"><h5>Agents</h5>
           <div class="flex flex-col gap-2 text-[12px]">
-            <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-ember);color:#fff;font-size:10px;font-weight:700">L</span>Lead agent <span class="ml-auto text-[10.5px] text-good font-semibold">done</span></span>
+            <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-ember);color:#fff;font-size:10px;font-weight:700">S</span>Supervisor <span class="ml-auto text-[10.5px] text-good font-semibold">done</span></span>
             <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-info);color:#fff;font-size:10px;font-weight:700">A</span>ads_report <span class="ml-auto text-[10.5px] text-ink-400">4 tool calls</span></span></div></div>
         <div class="railsec"><h5>Session</h5>
           <button class="mini w-full" onclick="toast('Saved as a skill — your agents can now reuse this workflow')">＋ Save as Skill</button></div>
@@ -616,11 +646,11 @@
   <!-- ======== SKILLS ======== -->
   <section class="screen" id="s-skills">
     <div class="mb-2 flex items-center gap-2.5">
-      <p class="text-[13px] text-ink-500 max-w-[72ch]">Specialist agents you can deploy on this workspace — each assembled from <b class="text-ink-700">skills</b> (reusable workflows) and <b class="text-ink-700">tools</b> (Google, Meta, the data spine), inheriting your instructions and target CAC. Writes always stage to My Queue.</p>
+      <p class="text-[13px] text-ink-500 max-w-[72ch]">Specialist agents you can deploy on this workspace — each assembled from <b class="text-ink-700">skills</b> (reusable workflows) and <b class="text-ink-700">tools</b> (Google, Meta, the data spine), inheriting your instructions and target CAC. There is <b class="text-ink-700">no deploy step</b> — once created, the supervisor calls the right agent automatically from Chat. Writes always stage to My Queue.</p>
       <span class="spacer"></span>
-      <button class="btn btn-sm" onclick="go('workbench');toast('Run a session that works, then save it as a skill — agents are assembled from skills')">＋ New agent</button>
+      <button class="btn btn-sm" onclick="newAgentFlow()">＋ New agent</button>
     </div>
-    <p class="kicker mb-5">Tools → skills → agents · schedule any agent to create an Automation</p>
+    <p class="kicker mb-5">Tools → skills → agents · auto-invoked by the supervisor · schedule any agent to create an Automation</p>
     <div class="grid grid-cols-3 gap-3" id="skillsGrid"></div>
   </section>
 
@@ -1443,7 +1473,7 @@ function go(id){
   document.querySelectorAll('.pop').forEach(p=>p.classList.remove('on'));
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
   if(id==='analyst')toggleInbox(false);
-  if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block')wbClean();
+  if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block'&&document.getElementById('wb-builder').style.display!=='block')wbClean();
   const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
@@ -1668,26 +1698,82 @@ function openTask(title,origin){
   document.getElementById('wb-task').textContent=title;
   document.getElementById('wb-origin').textContent=origin||'Resolve, not summarize; you may delegate to specialist agents';
   document.getElementById('wb-clean').style.display='none';
+  document.getElementById('wb-builder').style.display='none';
   document.getElementById('wb-session').style.display='block';
   toggleInbox(false);
   go('workbench');
 }
 function wbClean(){
   document.getElementById('wb-session').style.display='none';
+  document.getElementById('wb-builder').style.display='none';
   document.getElementById('wb-clean').style.display='block';
   const h=new Date().getHours();
   document.getElementById('wb-greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', Santanu.';
 }
+let CMD=null;
+const SLASH=[['create agent','Build a new specialist agent, right here in chat'],
+ ['create skill','Save a reusable workflow your agents can use'],
+ ['schedule','Turn an agent or skill into an automation']];
+function slashCheck(el){
+  const m=document.getElementById('slashmenu');
+  if(el.value.startsWith('/')&&!CMD){
+    const q=el.value.slice(1).toLowerCase();
+    const hits=SLASH.filter(c=>c[0].includes(q));
+    m.innerHTML=hits.length?hits.map(c=>`<button class="slashitem" onclick="setCmd('${c[0]}')"><b>/${c[0]}</b><span>${c[1]}</span></button>`).join(''):'<div class="slashitem"><span>No matching command</span></div>';
+    m.classList.add('on');
+  }else m.classList.remove('on');
+}
+function setCmd(cmd){
+  CMD=cmd;
+  document.getElementById('cmdchip-t').textContent='/'+cmd;
+  document.getElementById('cmdchip').style.display='inline-flex';
+  document.getElementById('slashmenu').classList.remove('on');
+  const el=document.getElementById('wb-ask');el.value='';
+  el.placeholder=cmd==='create agent'?'Describe the agent — goal, channels, when it should act…':'Add details, then press Enter…';
+  el.focus();
+}
+function clearCmd(){
+  CMD=null;
+  document.getElementById('cmdchip').style.display='none';
+  const el=document.getElementById('wb-ask');
+  if(el)el.placeholder='Ask anything, or describe what you want done… (type / for commands)';
+}
+function newAgentFlow(){go('workbench');wbClean();setCmd('create agent');}
+function openBuilder(desc){
+  document.getElementById('bld-desc').textContent=desc||'Retention agent for lapsed leads';
+  if(desc){
+    const nice=desc.length>44?desc.slice(0,44)+'…':desc;
+    document.getElementById('bld-name').value=nice.replace(/^./,c=>c.toUpperCase());
+  }
+  document.getElementById('wb-clean').style.display='none';
+  document.getElementById('wb-session').style.display='none';
+  document.getElementById('wb-builder').style.display='block';
+  go('workbench');
+}
+function cancelBuilder(){document.getElementById('wb-builder').style.display='none';wbClean();toast('Cancelled — nothing was created');}
+function createAgent(){
+  const name=document.getElementById('bld-name').value.trim()||'Untitled Agent';
+  const goal=document.getElementById('bld-goal').value.trim();
+  const skills=[...document.querySelectorAll('#wb-builder .skillpick.on')].map(b=>b.textContent);
+  AGENTS.push(['✚',name,goal,skills,['klaviyo','spine'],'new']);
+  renderSkills();
+  document.getElementById('wb-builder').style.display='none';
+  go('skills');
+  toast('Agent created — the supervisor will call it automatically when a task matches its goal');
+}
 function askFromChat(){
   const el=document.getElementById('wb-ask');
   const q=el.value.trim();el.value='';
+  document.getElementById('slashmenu').classList.remove('on');
+  if(CMD==='create agent'){const d=q;clearCmd();openBuilder(d);return;}
+  if(CMD){const c=CMD;clearCmd();openTask('/'+c+(q?' — '+q:''),'Command run in Chat · Progen Method context attached');return;}
   openTask(q||'Open question — blank session',q?'Asked in Chat · Progen Method context attached':'');
 }
 
 /* ================= MY QUEUE — staged actions ================= */
 const STAGED=[
  {risk:'low',t:'Pause creative "discount-banner-old"',tool:'meta.ads.update_status',params:'ad 2384710 → PAUSED',before:'ACTIVE · spending ₹4,180/day',impact:'Save ₹4,180/day · removes CAC ₹1,608 spend',delta:'−₹4,180/day',rev:true,origin:'Session #a1f3 · ads_report',exp:'Expires in 6h',status:'staged'},
- {risk:'high',t:'Shift ₹15,000/day: Advantage+ · GLP-1 → Search · brand',tool:'meta.ads.update_budget + google.ads.update_budget',params:'Advantage+ ₹38,000→₹23,000 · Search brand ₹12,000→₹27,000 (daily)',before:'₹38,000 / ₹12,000 per day',impact:'Projected blended CAC ₹1,412 → ₹1,180 · moderate confidence',delta:'₹15,000/day moved',rev:true,origin:'Session #a1f3 · lead agent',exp:'Expires in 6h · above ₹10,000/day → per-item confirm',status:'staged'},
+ {risk:'high',t:'Shift ₹15,000/day: Advantage+ · GLP-1 → Search · brand',tool:'meta.ads.update_budget + google.ads.update_budget',params:'Advantage+ ₹38,000→₹23,000 · Search brand ₹12,000→₹27,000 (daily)',before:'₹38,000 / ₹12,000 per day',impact:'Projected blended CAC ₹1,412 → ₹1,180 · moderate confidence',delta:'₹15,000/day moved',rev:true,origin:'Session #a1f3 · supervisor',exp:'Expires in 6h · above ₹10,000/day → per-item confirm',status:'staged'},
  {risk:'med',t:'Raise budget +₹6,000/day on "glow-ritual-ugc-01" ad set',tool:'meta.ads.update_budget',params:'ad set ₹9,000 → ₹15,000/day',before:'₹9,000/day',impact:'+18–24 orders/wk at ≤₹700 CAC · high confidence',delta:'+₹6,000/day',rev:true,origin:'Home card · Opportunity',exp:'Expires in 6h',status:'staged'}];
 
 function qitemHTML(q,i){
@@ -1748,7 +1834,7 @@ function renderSkills(){
     <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-ink-400 mb-1">Built on</div>
     <div class="mb-3">${a[3].map(k=>'<span class="railchip">'+k+'</span>').join('')}${a[4].map(t=>'<span class="railchip" style="font-family:var(--font-mono);font-size:10px">'+t+'</span>').join('')}</div>
     <div class="mt-auto flex items-center gap-1.5">
-      <button class="mini mini-call" onclick="openTask('Deploy: ${a[1]}','Agent deployed on Progen Method — skills: ${a[3].join(', ')}')">Deploy</button>
+      <span class="tag tag-w">● Active · auto-called</span>
       <button class="mini" onclick="go('automations');toast('Pick a schedule — a scheduled agent run is an Automation')">Schedule</button>
       <span class="ml-auto font-mono text-[10px] text-ink-400">${a[5]}</span></div></div>`).join('');
 }
