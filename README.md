@@ -8,8 +8,7 @@ Styled entirely with **Tailwind CSS v4**.
 - **Cockpit** — role-tabbed Ad Performance Cockpit with the AI-Daily feed and floating chat bar
 - **Chat** — clean, Claude-style entry with prompt suggestions; live agent sessions; top-right Inbox for fixes, recommendations and approvals
 - **Agents · Automations · My Queue** — deployable specialist agents (built on skills + tools), scheduled runs, and the two-tier approval queue
-- **Sales** — CRM (Call Queue, All Leads, Team, Performance)
-- **Data** — Data Spine (Dashboard, CDP Analytics, Ad Performance, Ingest Events, Google, Meta, Shopify, Attribution), Integrations, Settings
+- **Data** — CRM (Call Queue, All Leads, Team, Performance), Data Spine (Dashboard, CDP Analytics, Ad Performance, Ingest Events, Google, Meta, Shopify, Attribution), Integrations, Settings
 - **Onboarding** — sign-up → workspace → connect sources → first run
 
 ## Styling
