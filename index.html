@@ -76,6 +76,7 @@
       <button class="icbtn" title="More">⋮</button>
     </div>
     <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()">▣<span class="ibadge" id="ibx-n">8</span></button>
+    <button class="icbtn" id="ctxBtn" title="Session context — instructions, channels, data" style="display:none" onclick="toggleCtx()">⚙</button>
   </div>
 
   <div id="body">
@@ -605,23 +606,6 @@
           <input placeholder="Ask a follow-up, or refine the plan…"><button class="send">↑</button></div></div>
       </div>
 
-      <div class="wb-rail">
-        <div class="railsec"><h5>Instructions</h5>
-          <span class="railchip">Optimize to CAC, not ROAS</span><span class="railchip">Target CAC ₹950</span><span class="railchip">INR · Asia/Kolkata</span><span class="railchip">Never touch brand negatives</span></div>
-        <div class="railsec"><h5>Channels</h5>
-          <div class="flex flex-col gap-1.5 text-[12px]">
-            <span><span class="chdot" style="background:var(--color-google)"></span>Google Ads · connected</span>
-            <span><span class="chdot" style="background:var(--color-meta)"></span>Meta Ads · connected</span>
-            <span class="text-ink-400"><span class="chdot" style="background:var(--color-rule)"></span>Shopify · no data</span></div></div>
-        <div class="railsec"><h5>Data tables</h5>
-          <span class="railchip mono" style="font-family:var(--font-mono);font-size:10px">ad_performance</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">identities</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">checkout_events</span></div>
-        <div class="railsec"><h5>Agents</h5>
-          <div class="flex flex-col gap-2 text-[12px]">
-            <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-ember);color:#fff;font-size:10px;font-weight:700">S</span>Supervisor <span class="ml-auto text-[10.5px] text-good font-semibold">done</span></span>
-            <span class="flex items-center gap-2"><span class="av3" style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-info);color:#fff;font-size:10px;font-weight:700">A</span>ads_report <span class="ml-auto text-[10.5px] text-ink-400">4 tool calls</span></span></div></div>
-        <div class="railsec"><h5>Session</h5>
-          <button class="mini w-full" onclick="toast('Saved as a skill — your agents can now reuse this workflow')">＋ Save as Skill</button></div>
-      </div>
     </div>
   
     </div>
@@ -1020,6 +1004,55 @@
       <span style="font-size:11px;color:var(--color-ink-400);margin-left:8px">11:26 am</span>
       <button class="x" onclick="toggleInbox(false)">&#10005;</button></div>
     <div class="chat-body" style="padding:16px 16px 20px" id="inboxBody"></div>
+  </aside>
+
+  <aside id="ctxpanel">
+    <div class="chat-h" style="padding-bottom:10px"><b style="font-size:14px">Session context</b>
+      <span style="font-size:11px;color:var(--color-ink-400);margin-left:8px">Progen Method</span>
+      <button class="x" onclick="toggleCtx(false)">&#10005;</button></div>
+    <div class="ctabs">
+      <button class="ctab on" onclick="setCtab(this,'ins')">Instructions</button>
+      <button class="ctab" onclick="setCtab(this,'chn')">Channels <span class="n">2</span></button>
+      <button class="ctab" onclick="setCtab(this,'dt')">Data Tables</button>
+      <button class="ctab" onclick="setCtab(this,'sch')">Scheduler</button>
+      <button class="ctab" onclick="setCtab(this,'fil')">Files</button>
+    </div>
+    <div class="ctab-pane on" id="ct-ins">
+      <span class="railchip">Optimize to CAC, not ROAS</span><span class="railchip">Target CAC &#8377;950</span><span class="railchip">INR &middot; Asia/Kolkata</span><span class="railchip">Never touch brand negatives</span>
+      <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:12px">Every session and agent in this workspace inherits these. Edit in Settings.</p>
+    </div>
+    <div class="ctab-pane" id="ct-chn">
+      <div class="ctxrow"><span class="chdot" style="background:var(--color-google)"></span>Google Ads<span class="ml-auto perm-y">connected</span></div>
+      <div class="ctxrow"><span class="chdot" style="background:var(--color-meta)"></span>Meta Ads<span class="ml-auto perm-y">connected</span></div>
+      <div class="ctxrow"><span class="chdot" style="background:var(--color-rule)"></span><span style="color:var(--color-ink-400)">Shopify</span><span class="ml-auto perm-n">no data</span></div>
+      <button class="mini" style="margin-top:12px" onclick="toggleCtx(false);go('integrations')">Manage in Integrations &rarr;</button>
+    </div>
+    <div class="ctab-pane" id="ct-dt">
+      <span class="railchip" style="font-family:var(--font-mono);font-size:10px">ad_performance</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">identities</span><span class="railchip" style="font-family:var(--font-mono);font-size:10px">checkout_events</span>
+      <p style="font-size:11.5px;color:var(--color-ink-400);margin:10px 0 12px">Tables the agents can query in this workspace.</p>
+      <button class="mini" onclick="toggleCtx(false);go('spine')">Browse in Data Spine &rarr;</button>
+    </div>
+    <div class="ctab-pane" id="ct-sch">
+      <div class="ctxrow"><div style="flex:1;min-width:0"><b style="font-size:12.5px">Weekly performance report</b><div style="font-size:11px;color:var(--color-ink-400)">Mondays 08:00 &middot; Insights &amp; Reporting Agent</div></div><div class="toggle" style="transform:scale(.85)"></div></div>
+      <div class="ctxrow"><div style="flex:1;min-width:0"><b style="font-size:12.5px">Meta fatigue watch</b><div style="font-size:11px;color:var(--color-ink-400)">Daily 06:00 &middot; stages pauses to My Queue</div></div><div class="toggle" style="transform:scale(.85)"></div></div>
+      <button class="mini" style="margin-top:12px" onclick="toggleCtx(false);go('automations')">Manage in Automations &rarr;</button>
+    </div>
+    <div class="ctab-pane" id="ct-fil">
+      <div class="ctxrow"><span>&#128196;</span><div style="flex:1;min-width:0"><b style="font-size:12.5px">CAC-diagnosis-jul.pdf</b><div style="font-size:11px;color:var(--color-ink-400)">Generated this session &middot; 2h ago</div></div></div>
+      <div class="ctxrow"><span>&#128202;</span><div style="flex:1;min-width:0"><b style="font-size:12.5px">campaigns-28d.csv</b><div style="font-size:11px;color:var(--color-ink-400)">gaql_query export &middot; 14 rows</div></div></div>
+      <p style="font-size:11.5px;color:var(--color-ink-400);margin-top:10px">Outputs from sessions and agents land here.</p>
+    </div>
+    <div style="margin-top:auto;border-top:1px solid var(--color-rule);padding:14px 16px">
+      <div class="ibx-sec" style="margin-top:0">Agents in this session</div>
+      <div class="flex flex-col gap-2 text-[12px]" style="margin-bottom:12px">
+        <span class="flex items-center gap-2"><span style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-ember);color:#fff;font-size:10px;font-weight:700">S</span>Supervisor <span class="ml-auto text-[10.5px] font-semibold" style="color:var(--color-good)">done</span></span>
+        <span class="flex items-center gap-2"><span style="display:inline-grid;width:20px;height:20px;place-items:center;border-radius:6px;background:var(--color-info);color:#fff;font-size:10px;font-weight:700">A</span>ads_report <span class="ml-auto text-[10.5px]" style="color:var(--color-ink-400)">4 tool calls</span></span>
+      </div>
+      <div class="flex gap-1.5">
+        <button class="mini" onclick="toast('Saved as a skill — your agents can now reuse this workflow')">＋ Save as skill</button>
+        <button class="mini" onclick="toggleCtx(false);go('skills')">All agents &rarr;</button>
+      </div>
+    </div>
   </aside>
   </div>
 </div>
@@ -1469,6 +1502,8 @@ function go(id){
   document.querySelector('.icbtn.ai').style.display=(id==='analyst')?'none':'';
   if(id==='analyst')toggleInbox(false);
   if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block'&&document.getElementById('wb-builder').style.display!=='block')wbClean();
+  document.getElementById('ctxBtn').style.display=(id==='workbench')?'grid':'none';
+  if(id!=='workbench')toggleCtx(false);
   const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
@@ -1516,11 +1551,28 @@ document.querySelectorAll('.sni').forEach(b=>b.addEventListener('click',()=>{
 }));
 
 /* ---- Inbox panel (top-right) ---- */
+function updRpad(){
+  const r=(document.getElementById('chat').classList.contains('on')?380:0)
+        +(document.getElementById('ctxpanel').classList.contains('on')?340:0);
+  document.documentElement.style.setProperty('--rpad',r+'px');
+}
 function toggleInbox(force){
   const c=document.getElementById('chat');
   const on=typeof force==='boolean'?force:!c.classList.contains('on');
   c.classList.toggle('on',on);
   if(on)renderInboxPanel();
+  updRpad();
+}
+function toggleCtx(force){
+  const c=document.getElementById('ctxpanel');
+  const on=typeof force==='boolean'?force:!c.classList.contains('on');
+  c.classList.toggle('on',on);
+  updRpad();
+}
+function setCtab(btn,id){
+  btn.parentElement.querySelectorAll('.ctab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('.ctab-pane').forEach(p=>p.classList.remove('on'));
+  document.getElementById('ct-'+id).classList.add('on');
 }
 const RECS=[
  {sev:'crit',t:'Enable Revenue Tracking',ev:'All financial metrics report null — connect Shopify/WooCommerce to the spine.',type:'integrations'},
