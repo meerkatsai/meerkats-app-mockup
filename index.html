@@ -171,18 +171,14 @@
     <h3 id="ck-role" style="font-family:var(--font-serif);font-size:20px;font-weight:600">Founder / CEO</h3>
     <p id="ck-quote" class="mb-4 mt-0.5 text-[13px] italic text-ink-500"></p>
 
-    <div class="card mb-6 p-4">
-      <div class="mb-3 flex flex-wrap items-center gap-2">
-        <b class="text-[13.5px]">⚡ What to do next</b>
-        <span style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700">AI · DAILY</span>
-        <span class="spacer"></span>
-        <span class="text-[11.5px] text-ink-400" id="ck-gen">Generated 27 Jul, 11:26 am · manual</span>
-        <button class="mini" onclick="ckRefresh()">⟳ Refresh</button>
-      </div>
-      <div id="ck-feed"></div>
-    </div>
+    <button class="mb-6 flex w-full items-center gap-2.5 rounded-xl border border-rule bg-white px-4 py-3 text-left transition-colors duration-150 hover:border-ember" onclick="toggleInbox(true)">
+      <span style="color:var(--color-ember)">✦</span>
+      <span class="text-[13px]"><b id="ck-inbox-n">8 items</b> <span class="text-ink-500">waiting in your inbox — fixes, recommendations and approvals · AI Daily, generated 11:26 am</span></span>
+      <span class="spacer"></span>
+      <span class="text-[12.5px] font-semibold text-ember">Open inbox →</span>
+    </button>
 
-    <div class="mb-2 flex items-center gap-3">
+        <div class="mb-2 flex items-center gap-3">
       <div class="seg">
         <button class="on" onclick="setCkTF(this,'WEEK OF 20–26 JUL 2026')">Last full week</button>
         <button onclick="setCkTF(this,'27 JUL – TODAY')">This week</button>
@@ -1537,6 +1533,8 @@ function inboxCount(){return STAGED.filter(q=>q.status==='staged').length+RECS.f
 function updInboxBadge(){
   const n=inboxCount();const b=document.getElementById('ibx-n');
   b.textContent=n;b.style.display=n?'grid':'none';
+  const cs=document.getElementById('ck-inbox-n');
+  if(cs)cs.textContent=n+' item'+(n===1?'':'s');
 }
 function renderInboxPanel(){
   const staged=STAGED.filter(q=>q.status==='staged');
@@ -1876,11 +1874,8 @@ function renderCockpit(){
   const r=CK[CKROLE];
   document.getElementById('ck-role').textContent=r.h;
   document.getElementById('ck-quote').textContent=r.q;
-  document.getElementById('ck-feed').innerHTML=r.cards.map(c=>
-    `<div class="ckcard"><div class="flex items-center gap-2"><span style="color:var(--color-ember)">◆</span><b class="text-[13.5px]">${c.t}</b><span class="sev sev-${c.sev==='Critical'?'crit':c.sev==='Warning'?'warn':'opp'}">${c.sev}</span></div>
-     <div class="bd">${c.bd}</div>
-     <span class="lnk" onclick="${c===REVCARD?"go('integrations')":"go('myqueue')"}">→ ${c.lnk}</span>
-     <span class="fix" onclick="openTask('${c.t.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','From Cockpit · ${CKROLE} view — resolve, not summarize; you may delegate to specialist agents')">Fix this with the agent →</span></div>`).join('');
+  const n=inboxCount();
+  document.getElementById('ck-inbox-n').textContent=n+' item'+(n===1?'':'s');
   document.getElementById('ck-kpis').innerHTML=r.kpis.map(k=>{
     const empty=k[1]==='—';
     return `<div class="kpimin" ${empty?'':`style="cursor:pointer" onclick="openTask('Investigate: ${k[0]} ${k[2]}')" title="Investigate with agent"`}>
