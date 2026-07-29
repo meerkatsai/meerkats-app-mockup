@@ -1228,9 +1228,9 @@
   .fab-chat {
     @apply fixed bottom-6 z-[45] flex items-center gap-2.5 rounded-2xl border-[1.5px]
            border-ink-900 bg-white px-4 py-3 shadow-[0_18px_50px_rgba(11,11,12,0.18)];
-    left: calc(50% + 118px);
+    left: calc(236px + (100vw - 236px - var(--rpad, 0px)) / 2);
     transform: translateX(-50%);
-    width: min(640px, 56vw);
+    width: min(680px, calc(100vw - 236px - var(--rpad, 0px) - 80px));
   }
   .fab-chat input {
     @apply flex-1 border-none bg-transparent font-sans text-[13.5px] text-ink-900 outline-none;
@@ -1384,6 +1384,6 @@
            text-left text-[13px] font-medium text-ink-700 transition-colors duration-150;
   }
   .ck-toggle:hover { @apply border-ink-400; }
-  #ck-chat { @apply mx-auto hidden max-w-[860px] pb-24; }
+  #ck-chat { @apply mx-auto hidden max-w-[860px]; padding-bottom: 150px; }
   #ck-chat.on { @apply block; }
 }
