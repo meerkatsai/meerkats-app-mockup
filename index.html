@@ -31,6 +31,9 @@
   <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
   <button class="ni" data-go="myqueue"><span class="gi">☑</span><span class="lab">My Queue</span><span class="badge" id="mq-badge" style="background:var(--color-bad-bg);color:var(--color-bad)">3 STAGED</span></button>
 
+  <div class="nav-sec">Recent chats <span class="plus" title="New chat" onclick="go('workbench')">＋</span></div>
+  <div id="recentsNav"></div>
+
   <div class="nav-sec">Data</div>
   <div class="ni-wrap">
     <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">CRM</span><span class="caret">›</span></button>
@@ -75,7 +78,16 @@
       <button class="icbtn" title="Refresh">⟳</button>
       <button class="icbtn" title="More">⋮</button>
     </div>
-    <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()">▣<span class="ibadge" id="ibx-n">8</span></button>
+    <span style="position:relative;display:inline-flex" id="viewWrap">
+      <button class="icbtn" id="viewBtn" title="Switch view" style="display:none" onclick="toggleViewMenu()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></button>
+      <div class="pop" id="viewMenu" style="right:0;top:42px;left:auto;width:200px;padding:6px" onclick="event.stopPropagation()">
+        <button class="viewitem on" onclick="setCkRole('default',this)">Default <span class="chk2">✓</span></button>
+        <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
+        <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
+        <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
+      </div>
+    </span>
+    <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span class="ibadge" id="ibx-n">8</span></button>
     <button class="icbtn" id="ctxBtn" title="Session context — instructions, channels, data" style="display:none" onclick="toggleCtx()">⚙</button>
   </div>
 
@@ -163,12 +175,12 @@
       <button class="srcpill" onclick="go('integrations')"><span class="d"></span>Shopify · no data</button>
     </div>
 
-    <div class="rtabs" id="cktabs">
-      <button class="rtab on" onclick="setCkRole('founder',this)">Founder <span class="lv">live</span></button>
-      <button class="rtab" onclick="setCkRole('growth',this)">Growth lead <span class="lv">live</span></button>
-      <button class="rtab" onclick="setCkRole('buyer',this)">Media buyer <span class="lv">live</span></button>
-    </div>
+    <button class="ck-toggle" id="ckDashToggle" style="display:none" onclick="toggleCkDash()">
+      <span id="ckDashToggleIc">▾</span><span id="ckDashToggleT">Show dashboard</span>
+      <span class="spacer"></span><span class="text-[11.5px] text-ink-400" id="ckDashHint">Chat continues below</span>
+    </button>
 
+    <div id="ck-dash">
     <h3 id="ck-role" style="font-family:var(--font-serif);font-size:20px;font-weight:600">Founder / CEO</h3>
     <p id="ck-quote" class="mb-4 mt-0.5 text-[13px] italic text-ink-500"></p>
 
@@ -190,6 +202,9 @@
     <p class="kicker mb-6" id="ck-window">Week of 20–26 Jul 2026 · deltas vs previous same-length window</p>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
+    </div><!-- /ck-dash -->
+
+    <div id="ck-chat"></div>
 
     <!-- floating chat — pinned while the page scrolls -->
     <div class="fab-chat">
@@ -998,13 +1013,7 @@
   </div></div>
 
   <!-- ======== CHAT SIDE PANEL ======== -->
-  <aside id="chat">
-    <div class="chat-h"><b style="font-size:14px">Inbox</b>
-      <span style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700;margin-left:8px">AI &middot; DAILY</span>
-      <span style="font-size:11px;color:var(--color-ink-400);margin-left:8px">11:26 am</span>
-      <button class="x" onclick="toggleInbox(false)">&#10005;</button></div>
-    <div class="chat-body" style="padding:16px 16px 20px" id="inboxBody"></div>
-  </aside>
+
 
   <aside id="ctxpanel">
     <div class="chat-h" style="padding-bottom:10px"><b style="font-size:14px">Session context</b>
@@ -1147,6 +1156,17 @@
         <button class="btn btn-orange" onclick="finishOb(false)">Open Cockpit &rarr;</button>
       </div>
     </section>
+  </div>
+</div>
+
+<!-- ======== INBOX OVERLAY ======== -->
+<div id="inboxModal" class="overlay">
+  <div class="modal-in" style="width:960px;max-height:88vh">
+    <div class="modal-h"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><h3 style="margin-left:10px">Inbox</h3>
+      <span style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700;margin-left:10px">AI &middot; DAILY</span>
+      <span style="font-size:11.5px;color:var(--color-ink-400);margin-left:10px">Generated 11:26 am</span>
+      <button class="x" onclick="toggleInbox(false)">&#10005;</button></div>
+    <div style="overflow-y:auto;padding:18px 22px" id="inboxBody"></div>
   </div>
 </div>
 
@@ -1503,6 +1523,8 @@ function go(id){
   if(id==='analyst')toggleInbox(false);
   if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block'&&document.getElementById('wb-builder').style.display!=='block')wbClean();
   document.getElementById('ctxBtn').style.display=(id==='workbench')?'grid':'none';
+  document.getElementById('viewBtn').style.display=(id==='summary')?'grid':'none';
+  document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
   const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
@@ -1552,19 +1574,16 @@ document.querySelectorAll('.sni').forEach(b=>b.addEventListener('click',()=>{
 
 /* ---- Inbox panel (top-right) ---- */
 function updRpad(){
-  let r=0;
-  const ib=document.getElementById('chat'),cx=document.getElementById('ctxpanel');
-  if(ib.classList.contains('on'))r+=ib.getBoundingClientRect().width;
-  if(cx.classList.contains('on'))r+=cx.getBoundingClientRect().width;
+  const cx=document.getElementById('ctxpanel');
+  const r=cx.classList.contains('on')?cx.getBoundingClientRect().width:0;
   document.documentElement.style.setProperty('--rpad',Math.round(r)+'px');
 }
 window.addEventListener('resize',updRpad);
 function toggleInbox(force){
-  const c=document.getElementById('chat');
-  const on=typeof force==='boolean'?force:!c.classList.contains('on');
-  c.classList.toggle('on',on);
+  const m=document.getElementById('inboxModal');
+  const on=typeof force==='boolean'?force:!m.classList.contains('on');
+  m.classList.toggle('on',on);
   if(on)renderInboxPanel();
-  updRpad();
 }
 function toggleCtx(force){
   const c=document.getElementById('ctxpanel');
@@ -1594,21 +1613,42 @@ function updInboxBadge(){
 function renderInboxPanel(){
   const staged=STAGED.filter(q=>q.status==='staged');
   const recs=RECS.map((r,i)=>({...r,i})).filter(r=>!RECD.has(r.i));
+  const sev={crit:'Critical',warn:'Warning',opp:'Opportunity'};
   document.getElementById('inboxBody').innerHTML=
-  (staged.length?'<div class="ibx-sec">Needs your approval · '+staged.length+'</div>'+
-    staged.map(q=>'<div class="ibx"><div class="flex items-center gap-2"><span class="risk risk-'+q.risk+'">'+q.risk+'</span><b class="flex-1 min-w-0">'+q.t+'</b></div><div class="ev2">'+q.delta+' · '+q.exp.toLowerCase()+'</div><div class="mt-2 flex gap-1.5"><button class="mini mini-call" onclick="toggleInbox(false);go(\'myqueue\')">Review & approve</button></div></div>').join('')
-   :'')+
-  '<div class="ibx-sec">Recommendations · '+recs.length+'</div>'+
-  (recs.length?recs.map(r=>'<div class="ibx" id="rec-'+r.i+'"><div class="flex items-start gap-2">'+sevChip[r.sev]+'<b class="flex-1 min-w-0">'+r.t+'</b><button style="color:var(--color-ink-400);font-size:12px;flex:none" onclick="dismissRec('+r.i+')" title="Dismiss">✕</button></div><div class="ev2">'+r.ev+'</div><div class="mt-2 flex gap-1.5">'+
-    (r.type==='agent'?'<button class="mini mini-call" onclick="openTask(\''+r.t.replace(/'/g,"\\'")+'\')">Fix with agent</button>'
-     :r.type==='queue'?'<button class="mini mini-call" onclick="toggleInbox(false);go(\'myqueue\')">Review & approve</button>'
-     :'<button class="mini mini-call" onclick="toggleInbox(false);go(\'integrations\')">Connect</button>')+
-    '<button class="mini" onclick="openTask(\'Explain: '+r.t.replace(/'/g,"\\'")+'\')">Explain</button></div></div>').join('')
-   :'<div class="ibx" style="text-align:center;color:var(--color-ink-400);font-size:12px;border-style:dashed">All clear — nothing waiting on you.</div>')+
-  '<p style="font-size:10.5px;color:var(--color-ink-400);margin-top:14px;line-height:1.5">Same feed as the Cockpit — regenerated daily at 07:00, or on demand from any screen.</p>';
+  '<div class="ibx-sec">Needs your approval · '+staged.length+'</div>'+
+  (staged.length?staged.map((q,k)=>`<div class="ibx-row" id="ibxs-${k}">
+    <button class="ibx-head" onclick="ibxTog('ibxs-${k}')">
+      <span class="risk risk-${q.risk}">${q.risk}</span><b class="text-[13.5px] flex-none">${q.t}</b>
+      <span class="prev">${q.impact}</span>
+      <span class="text-[11px] text-ink-400 flex-none">${q.exp.replace(' · above ₹10,000/day → per-item confirm','')}</span><span class="chv">▼</span></button>
+    <div class="ibx-body">
+      <div class="qmeta mb-1"><span>tool <b class="font-mono text-[11px]">${q.tool}</b></span><span>params <b>${q.params}</b></span></div>
+      <div class="qmeta mb-3"><span>before <b>${q.before}</b></span><span>projected <b>${q.impact}</b></span><span>Δ <b>${q.delta}</b></span><span><b>${q.rev?'Reversible':'⚠ Not reversible'}</b></span></div>
+      <div class="flex gap-2"><button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('myqueue')">Review & approve →</button>
+      <span class="text-[11px] text-ink-400" style="align-self:center">${q.origin}</span></div>
+    </div></div>`).join('')
+  :'<div class="ibx-row"><div class="ibx-head" style="color:var(--color-ink-400);font-size:12.5px">Nothing staged — approvals land here.</div></div>')+
+  '<div class="ibx-sec" style="margin-top:22px">Recommendations · '+recs.length+'</div>'+
+  (recs.length?recs.map(r=>`<div class="ibx-row" id="ibxr-${r.i}">
+    <button class="ibx-head" onclick="ibxTog('ibxr-${r.i}')">
+      <span class="sev sev-${r.sev}" style="margin-top:0">${sev[r.sev]}</span><b class="text-[13.5px] flex-none">${r.t}</b>
+      <span class="prev">${r.ev}</span><span class="chv">▼</span></button>
+    <div class="ibx-body">
+      <p class="text-[12.5px] text-ink-700 leading-[1.6] mb-3">${r.ev}</p>
+      <div class="flex gap-2">
+        ${r.type==='agent'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);openTask('${r.t.replace(/'/g,"\\'")}')">Fix with agent →</button>`
+         :r.type==='queue'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('myqueue')">Review & approve →</button>`
+         :`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('integrations')">Connect →</button>`}
+        <button class="btn btn-sm btn-ghost" onclick="toggleInbox(false);openTask('Explain: ${r.t.replace(/'/g,"\\'")}')">Explain</button>
+        <button class="btn btn-sm btn-ghost" onclick="dismissRec(${r.i})">Dismiss</button>
+      </div>
+    </div></div>`).join('')
+  :'<div class="ibx-row"><div class="ibx-head" style="color:var(--color-ink-400);font-size:12.5px">All clear — nothing waiting on you.</div></div>')+
+  '<p style="font-size:10.5px;color:var(--color-ink-400);margin-top:14px">Same feed as the Cockpit strip — regenerated daily at 07:00, or on demand.</p>';
   updInboxBadge();
 }
-function dismissRec(i){RECD.add(i);const el=document.getElementById('rec-'+i);el.classList.add('gone');setTimeout(renderInboxPanel,300);toast('Dismissed — won\'t resurface this week');}
+function ibxTog(id){document.getElementById(id).classList.toggle('open');}
+function dismissRec(i){RECD.add(i);renderInboxPanel();toast('Dismissed — won\'t resurface this week');}
 
 /* popovers */
 function togglePop(id){
@@ -1857,7 +1897,7 @@ function renderInbox(){
   const low=STAGED.filter(q=>q.status==='staged'&&q.risk==='low').length;
   const lb=document.getElementById('lowriskbtn');lb.textContent='Approve all low-risk ('+low+')';lb.style.display=low?'':'none';
   if(document.getElementById('ibx-n'))updInboxBadge();
-  if(document.getElementById('chat').classList.contains('on'))renderInboxPanel();
+  if(document.getElementById('inboxModal').classList.contains('on'))renderInboxPanel();
 }
 function approveQ(i){
   const q=STAGED[i];
@@ -1892,11 +1932,16 @@ function renderSkills(){
 }
 
 /* ================= COCKPIT (live-product parity) ================= */
-let CKROLE='founder';
+let CKROLE='default';
 const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
  bd:'Currently, all financial metrics including total revenue, order count, and gross margin are reporting null, leaving the business without visibility into actual profitability or cash flow from ads.',
  lnk:'Connect the commerce data source (Shopify/WooCommerce) to the data spine to enable real-time revenue and margin reporting.'};
 const CK={
+default:{h:'Default view',q:'"The whole account at a glance — profitability, efficiency, and what to touch."',
+ kpis:[['Net revenue','—','no comparison data',''],['Blended CAC','₹1,096','▲ 7% · window-based','dn'],
+  ['Ad spend','₹3.67L','▲ 4%','mut'],['New customers','214','▲ 6% · platform-reported','up'],
+  ['ROAS · Meta','2.4×','▼ 0.3 · platform-reported','dn'],['ROAS · Google','3.9×','▲ 0.1 · platform-reported','up'],
+  ['Frequency · top 5','3.6','▲ 0.4','dn'],['In learning','3 of 11','▲ 1','dn']]},
 founder:{h:'Founder / CEO',q:'"Are we growing profitably, is cash healthy?"',
  cards:[REVCARD,
   {sev:'Warning',t:'CAC up 9% W/W — driven by one Meta campaign',
@@ -1933,15 +1978,61 @@ function renderCockpit(){
   document.getElementById('ck-inbox-n').textContent=n+' item'+(n===1?'':'s');
   document.getElementById('ck-kpis').innerHTML=r.kpis.map(k=>{
     const empty=k[1]==='—';
-    return `<div class="kpimin" ${empty?'':`style="cursor:pointer" onclick="openTask('Investigate: ${k[0]} ${k[2]}')" title="Investigate with agent"`}>
+    return `<div class="kpimin" ${empty?'':`style="cursor:pointer" onclick="ckAsk('Investigate: ${k[0]} — ${k[2]}')" title="Investigate with agent"`}>
       <div class="kl">${k[0]}</div><div class="kv${empty?' dash':''}">${k[1]}</div>
       <div class="kn">${empty?k[2]:`<span class="delta delta-${k[3]==='up'?'up':k[3]==='dn'?'dn':'mut'}">${k[2]}</span>`}</div></div>`;
   }).join('');
 }
-function setCkRole(r,btn){CKROLE=r;btn.parentElement.querySelectorAll('.rtab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderCockpit();}
+function setCkRole(r,btn){
+  CKROLE=r;
+  document.querySelectorAll('#viewMenu .viewitem').forEach(b=>{b.classList.remove('on');const c=b.querySelector('.chk2');if(c)c.remove();});
+  btn.classList.add('on');btn.insertAdjacentHTML('beforeend','<span class="chk2">✓</span>');
+  document.getElementById('viewMenu').classList.remove('on');
+  renderCockpit();
+}
+function toggleViewMenu(){document.getElementById('viewMenu').classList.toggle('on');}
 function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('ck-window').textContent=label+' · deltas vs previous same-length window';}
 function ckRefresh(){document.getElementById('ck-gen').textContent='Generated just now · manual';toast('Feed regenerated from live sources');}
-function askCockpit(){const q=document.getElementById('ck-ask').value.trim();document.getElementById('ck-ask').value='';openTask(q||'Open question — blank session',q?'Asked from Cockpit · '+CKROLE+' context attached':'');}
+const RECENTS=[
+ {t:'Fix: CAC up 9% W/W — rebalance budget',w:'2h ago'},
+ {t:'Audit conversion tracking + GTM',w:'Yesterday'},
+ {t:'Weekly performance report — Jul 20–26',w:'Monday'}];
+function renderRecents(){
+  const n=document.getElementById('recentsNav');if(!n)return;
+  n.innerHTML=RECENTS.slice(0,4).map(r=>`<button class="ni" style="font-size:12.5px" onclick="openTask('${r.t.replace(/'/g,"\\'")}')"><span class="gi" style="font-size:11px">✦</span><span class="lab">${r.t}</span><span style="flex:none;font-family:var(--font-mono);font-size:9.5px;color:var(--color-ink-400)">${r.w}</span></button>`).join('');
+}
+let CKCHAT=false;
+function startCkChat(){
+  if(CKCHAT)return;CKCHAT=true;
+  document.getElementById('ck-dash').style.display='none';
+  const t=document.getElementById('ckDashToggle');t.style.display='flex';
+  document.getElementById('ckDashToggleT').textContent='Show dashboard';
+  document.getElementById('ckDashToggleIc').textContent='▾';
+  document.getElementById('ck-chat').classList.add('on');
+}
+function toggleCkDash(){
+  const d=document.getElementById('ck-dash');
+  const hidden=d.style.display==='none';
+  d.style.display=hidden?'':'none';
+  document.getElementById('ckDashToggleT').textContent=hidden?'Hide dashboard':'Show dashboard';
+  document.getElementById('ckDashToggleIc').textContent=hidden?'▴':'▾';
+}
+function ckAsk(q){
+  startCkChat();
+  const c=document.getElementById('ck-chat');
+  c.insertAdjacentHTML('beforeend',
+   `<div class="wb-user">${q}<div class="org">Asked in Cockpit · ${CKROLE} view · Progen Method context</div></div>
+    <div class="wb-msg"><div class="who3"><span class="av3">S</span>Supervisor</div>
+      <div class="toolrow"><span class="ok">✓</span>spine_query · ad_performance, 28d<span class="ms">0.9s</span></div>
+      Looking at this through your last full week: the movement traces to <b>Advantage+ · GLP-1</b> — CAC ₹1,412 against the ₹950 target at frequency 4.2, while Search · brand holds ₹704 with spare impression share. Net effect on the blended number: +7% W/W. Anything worth changing I'll stage to your <b>inbox</b> — nothing executes without you.</div>`);
+  if(!RECENTS.length||RECENTS[0].t!==q)RECENTS.unshift({t:q,w:'Just now'});
+  renderRecents();
+  document.getElementById('scroll').scrollTop=999999;
+}
+function askCockpit(){
+  const el=document.getElementById('ck-ask');const q=el.value.trim();el.value='';
+  ckAsk(q||'Give me a quick read on the account');
+}
 
 /* ================= ONBOARDING ================= */
 const OBCONN=new Set();
@@ -1995,6 +2086,7 @@ renderHome();
 renderCockpit();
 renderInbox();
 renderSkills();
+renderRecents();
 updInboxBadge();
 go('summary');
 if(!sessionStorage.getItem('mk_ob'))showOb(1);

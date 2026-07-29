@@ -1360,3 +1360,30 @@
   .ctab-pane.on { @apply block; }
   .ctxrow { @apply flex items-center gap-3 border-b border-rule py-3.5 text-[13.5px] last:border-b-0; }
 }
+
+/* ============================================================
+   Email-style inbox overlay, view menu, in-cockpit chat
+   ============================================================ */
+@layer components {
+  .ibx-row { @apply overflow-hidden rounded-[12px] border border-rule bg-white mb-2; }
+  .ibx-head { @apply flex w-full items-center gap-3 px-4 py-3 text-left transition-colors duration-100; }
+  .ibx-head:hover { @apply bg-off; }
+  .ibx-head .prev { @apply min-w-0 flex-1 truncate text-[12.5px] text-ink-400; }
+  .ibx-head .chv { @apply flex-none text-[10px] text-ink-400 transition-transform duration-200; }
+  .ibx-row.open .chv { @apply rotate-180; }
+  .ibx-body { @apply hidden border-t border-rule bg-off/40 px-5 py-4; }
+  .ibx-row.open .ibx-body { @apply block; }
+
+  .viewitem { @apply flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium text-ink-700 transition-colors duration-100; }
+  .viewitem:hover { @apply bg-off; }
+  .viewitem.on { @apply bg-tint font-semibold text-ember; }
+  .viewitem .chk2 { @apply ml-auto text-[12px] font-bold text-ember; }
+
+  .ck-toggle {
+    @apply mb-4 flex w-full items-center gap-2.5 rounded-xl border border-rule bg-white px-4 py-2.5
+           text-left text-[13px] font-medium text-ink-700 transition-colors duration-150;
+  }
+  .ck-toggle:hover { @apply border-ink-400; }
+  #ck-chat { @apply mx-auto hidden max-w-[860px] pb-24; }
+  #ck-chat.on { @apply block; }
+}
