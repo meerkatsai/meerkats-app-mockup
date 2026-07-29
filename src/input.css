@@ -1343,18 +1343,20 @@
    ============================================================ */
 @layer components {
   #ctxpanel {
-    @apply hidden w-[340px] flex-none flex-col overflow-y-auto border-l border-rule bg-white;
+    @apply hidden flex-none flex-col overflow-y-auto border-l border-rule bg-white;
+    width: clamp(480px, 46vw, 780px);
   }
   #ctxpanel.on { @apply flex; }
-  .ctabs { @apply flex gap-0.5 overflow-x-auto border-b border-rule px-2 pt-1; }
+  .ctabs { @apply flex gap-1 border-b border-rule px-4 pt-1.5; }
   .ctab {
-    @apply flex items-center gap-1.5 whitespace-nowrap border-b-2 border-transparent px-2.5 py-2.5
-           text-[12px] font-medium text-ink-500 transition-colors duration-100;
+    @apply flex items-center gap-2 whitespace-nowrap border-b-2 border-transparent px-3.5 py-3
+           text-[13px] font-medium text-ink-500 transition-colors duration-100;
   }
   .ctab:hover { @apply text-ink-900; }
   .ctab.on { @apply border-b-ember font-semibold text-ink-900; }
-  .ctab .n { @apply rounded-full bg-off px-1.5 text-[10px] font-mono text-ink-400; }
-  .ctab-pane { @apply hidden p-4; }
+  .ctab .ic { @apply text-[13px] opacity-80; }
+  .ctab .n { @apply rounded-full bg-off px-2 font-mono text-[10.5px] text-ink-400; }
+  .ctab-pane { @apply hidden px-7 py-6; }
   .ctab-pane.on { @apply block; }
-  .ctxrow { @apply flex items-center gap-2.5 border-b border-rule py-2.5 text-[12.5px] last:border-b-0; }
+  .ctxrow { @apply flex items-center gap-3 border-b border-rule py-3.5 text-[13.5px] last:border-b-0; }
 }
