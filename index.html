@@ -26,7 +26,7 @@
   </div>
 
   <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
-  <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Chat</span></button>
+  <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Chat</span><span class="plus" style="font-size:13px;color:var(--color-ink-400)" title="New chat" onclick="event.stopPropagation();newChatNav()">＋</span></button>
   <button class="ni" data-go="skills"><span class="gi">▤</span><span class="lab">Agents</span></button>
   <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
   <button class="ni" data-go="myqueue"><span class="gi">☑</span><span class="lab">My Queue</span><span class="badge" id="mq-badge" style="background:var(--color-bad-bg);color:var(--color-bad)">3 STAGED</span></button>
@@ -575,7 +575,6 @@
     <!-- live session (opens when a task starts) -->
     <div id="wb-session" style="display:none">
       <div class="wb-foot"></div>
-      <button class="mini" style="margin-bottom:14px" onclick="wbClean()">&lsaquo; New chat</button>
 
     <div class="wb-grid">
       <div>
@@ -1981,16 +1980,23 @@ function toggleViewMenu(){document.getElementById('viewMenu').classList.toggle('
 function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('ck-window').textContent=label+' · deltas vs previous same-length window';}
 function ckRefresh(){document.getElementById('ck-gen').textContent='Generated just now · manual';toast('Feed regenerated from live sources');}
 const RECENTS=[
- {t:'Fix: CAC up 9% W/W — rebalance budget',w:'2h ago'},
- {t:'Audit conversion tracking + GTM',w:'Yesterday'},
- {t:'Weekly performance report — Jul 20–26',w:'Monday'}];
+ {t:'Fix: CAC up 9% W/W — rebalance budget',w:'2h ago',src:'chat'},
+ {t:'Audit conversion tracking + GTM',w:'Yesterday',src:'chat'},
+ {t:'Weekly performance report — Jul 20–26',w:'Monday',src:'chat'}];
+function newChatNav(){go('workbench');wbClean();}
+function openRecent(i){
+  const r=RECENTS[i];
+  if(r.src==='cockpit'){go('summary');startCkChat();}
+  else openTask(r.t);
+}
 function renderRecents(){
   const n=document.getElementById('recentsNav');if(!n)return;
-  n.innerHTML=RECENTS.slice(0,4).map(r=>`<button class="ni" style="font-size:12.5px" onclick="openTask('${r.t.replace(/'/g,"\\'")}')"><span class="gi" style="font-size:11px">✦</span><span class="lab">${r.t}</span><span style="flex:none;font-family:var(--font-mono);font-size:9.5px;color:var(--color-ink-400)">${r.w}</span></button>`).join('');
+  n.innerHTML=RECENTS.slice(0,4).map((r,i)=>`<button class="ni" style="font-size:12.5px" onclick="openRecent(${i})" title="${r.src==='cockpit'?'Continues in the Cockpit':'Opens in Chat'}"><span class="gi" style="font-size:11px">${r.src==='cockpit'?'◎':'✦'}</span><span class="lab">${r.t}</span><span style="flex:none;font-family:var(--font-mono);font-size:9.5px;color:var(--color-ink-400)">${r.w}</span></button>`).join('');
 }
 let CKCHAT=false;
 function startCkChat(){
-  if(CKCHAT)return;CKCHAT=true;
+  if(CKCHAT){document.getElementById('ck-chat').classList.add('on');document.getElementById('ckDashToggle').style.display='flex';return;}
+  CKCHAT=true;
   document.getElementById('ck-dash').style.display='none';
   const t=document.getElementById('ckDashToggle');t.style.display='flex';
   document.getElementById('ckDashToggleT').textContent='Show dashboard';
@@ -2012,7 +2018,7 @@ function ckAsk(q){
     <div class="wb-msg">
       <div class="toolrow"><span class="ok">✓</span>spine_query · ad_performance, 28d<span class="ms">0.9s</span></div>
       Looking at this through your last full week: the movement traces to <b>Advantage+ · GLP-1</b> — CAC ₹1,412 against the ₹950 target at frequency 4.2, while Search · brand holds ₹704 with spare impression share. Net effect on the blended number: +7% W/W. Anything worth changing I'll stage to your <b>inbox</b> — nothing executes without you.</div>`);
-  if(!RECENTS.length||RECENTS[0].t!==q)RECENTS.unshift({t:q,w:'Just now'});
+  if(!RECENTS.length||RECENTS[0].t!==q)RECENTS.unshift({t:q,w:'Just now',src:'cockpit'});
   renderRecents();
   document.getElementById('scroll').scrollTop=999999;
 }
