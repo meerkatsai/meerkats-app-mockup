@@ -176,13 +176,25 @@
 
     <div id="ck-dash">
     <div class="mb-7 flex flex-wrap items-center gap-2.5">
-      <div class="seg">
-        <button class="on" onclick="setCkTF(this,'Week of 20–26 Jul 2026')">Last full week</button>
-        <button onclick="setCkTF(this,'27 Jul – today')">This week</button>
-        <button onclick="setCkTF(this,'29 Jun – 26 Jul 2026')">Last 4 weeks</button>
-        <button onclick="setCkTF(this,'Custom range')">Custom</button>
-      </div>
-      <span class="text-[11.5px] text-ink-400" id="ck-window">Week of 20–26 Jul 2026 · vs previous same-length window</span>
+      <span style="position:relative">
+        <button class="ctl" id="tfBtn" onclick="event.stopPropagation();toggleTf()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="9.5" x2="21" y2="9.5"/></svg><span id="tf-label">20–26 Jul 2026</span> <span class="cd">▼</span></button>
+        <div class="pop" id="tfPop" style="left:0;top:calc(100% + 6px);padding:0" onclick="event.stopPropagation()">
+          <div class="flex">
+            <div class="tf-presets" id="tfPresets"></div>
+            <div class="tf-cal">
+              <div class="cal-h"><button class="cal-nav" onclick="calNav(-1)">‹</button><b id="cal-m"></b><button class="cal-nav" onclick="calNav(1)">›</button></div>
+              <div class="cal-wd"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+              <div class="cal-g" id="calGrid"></div>
+            </div>
+          </div>
+          <div class="tf-foot">
+            <span class="text-[11px] text-ink-400">Deltas compare vs the previous same-length window</span>
+            <span class="spacer"></span>
+            <button class="mini" onclick="tfCancel()">Cancel</button>
+            <button class="mini mini-call" onclick="tfApply()">Apply</button>
+          </div>
+        </div>
+      </span>
     </div>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
@@ -1991,8 +2003,6 @@ function renderCockpit(){
     ['spend','cac','roas','orders'].forEach(m=>[...FSEL].forEach(p=>kset.push(PLAT[p].cmp[m])));
   }
   grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
-  const names=[...FSEL].map(k=>PLAT[k].n);
-  document.getElementById('ck-window').textContent=TFLBL+' · vs previous same-length window'+(names.length?' · showing '+names.join(' + '):'');
   grid.innerHTML=kset.map(k=>{
     const empty=k[1]==='—';
     return `<div class="kpimin" ${empty?'':`style="cursor:pointer" onclick="ckAsk('Investigate: ${k[0]} — ${k[2]}')" title="Investigate with agent"`}>
@@ -2008,8 +2018,50 @@ function setCkRole(r,btn){
   renderCockpit();
 }
 function toggleViewMenu(){document.getElementById('viewMenu').classList.toggle('on');}
-let TFLBL='Week of 20–26 Jul 2026';
-function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');TFLBL=label;renderCockpit();}
+/* ---- date-range picker (Jun–Aug 2026; serial = month*100+day) ---- */
+const CALM={6:{n:'June 2026',days:30,off:0},7:{n:'July 2026',days:31,off:2},8:{n:'August 2026',days:31,off:5}};
+let TFCUR={s:720,e:726}, TFPEND={s:720,e:726}, CALV=7, TFPRESET='Last full week';
+const TFPRESETS=[['Last full week',720,726],['This week',727,730],['Last 4 weeks',629,726],['Last 30 days',701,730]];
+const fmtD=x=>{const m=Math.floor(x/100),d=x%100,MN={6:'Jun',7:'Jul',8:'Aug'};return{d,m,mn:MN[m]};};
+function tfLabel(r){
+  const a=fmtD(r.s),b=fmtD(r.e);
+  if(r.s===r.e)return a.d+' '+a.mn+' 2026';
+  return a.m===b.m?`${a.d}–${b.d} ${a.mn} 2026`:`${a.d} ${a.mn} – ${b.d} ${b.mn} 2026`;
+}
+function toggleTf(){
+  const p=document.getElementById('tfPop');
+  const on=!p.classList.contains('on');
+  document.querySelectorAll('.pop').forEach(x=>x.classList.remove('on'));
+  if(on){TFPEND={...TFCUR};renderTf();p.classList.add('on');}
+}
+function renderTf(){
+  document.getElementById('tfPresets').innerHTML=TFPRESETS.map(pr=>
+    `<button class="tf-preset${TFPEND.s===pr[1]&&TFPEND.e===pr[2]?' on':''}" onclick="TFPEND={s:${pr[1]},e:${pr[2]}};CALV=${Math.floor(pr[1]/100)};renderTf()">${pr[0]}</button>`).join('')+
+    `<div style="padding:8px 12px 4px;font-size:10.5px;color:var(--color-ink-400)">Or click two dates for a custom range</div>`;
+  const M=CALM[CALV];
+  document.getElementById('cal-m').textContent=M.n;
+  let cells='';
+  for(let i=0;i<M.off;i++)cells+='<span></span>';
+  for(let d=1;d<=M.days;d++){
+    const ser=CALV*100+d;
+    const cls=ser===TFPEND.s||ser===TFPEND.e?' edge':(ser>TFPEND.s&&ser<TFPEND.e?' mid':'');
+    cells+=`<button class="cal-d${cls}" onclick="calPick(${ser})">${d}</button>`;
+  }
+  document.getElementById('calGrid').innerHTML=cells;
+}
+function calNav(dir){const nm=CALV+dir;if(CALM[nm]){CALV=nm;renderTf();}}
+function calPick(ser){
+  if(TFPEND.s!==TFPEND.e||ser<TFPEND.s)TFPEND={s:ser,e:ser};
+  else TFPEND.e=ser;
+  renderTf();
+}
+function tfApply(){
+  TFCUR={...TFPEND};
+  document.getElementById('tf-label').textContent=tfLabel(TFCUR);
+  document.getElementById('tfPop').classList.remove('on');
+  renderCockpit();
+}
+function tfCancel(){document.getElementById('tfPop').classList.remove('on');}
 function ckRefresh(){document.getElementById('ck-gen').textContent='Generated just now · manual';toast('Feed regenerated from live sources');}
 const RECENTS=[
  {t:'Fix: CAC up 9% W/W — rebalance budget',w:'2h ago',sid:'s_fix'},
