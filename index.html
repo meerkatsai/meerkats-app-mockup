@@ -77,15 +77,6 @@
       <button class="icbtn" title="Refresh">⟳</button>
       <button class="icbtn" title="More">⋮</button>
     </div>
-    <span style="position:relative;display:inline-flex" id="viewWrap">
-      <button class="icbtn" id="viewBtn" title="Switch view" style="display:none" onclick="event.stopPropagation();toggleViewMenu()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></button>
-      <div class="pop" id="viewMenu" style="right:0;top:42px;left:auto;width:200px;padding:6px" onclick="event.stopPropagation()">
-        <button class="viewitem on" onclick="setCkRole('default',this)">Default <span class="chk2">✓</span></button>
-        <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
-        <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
-        <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
-      </div>
-    </span>
     <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span class="ibadge" id="ibx-n">8</span></button>
     <button class="icbtn" id="ctxBtn" title="Session context — instructions, channels, data" style="display:none" onclick="toggleCtx()">⚙</button>
   </div>
@@ -163,15 +154,12 @@
 
   <!-- ======== SUMMARY ======== -->
   <section class="screen" id="s-summary" style="padding-bottom:76px">
-    <div class="mb-1 flex items-baseline gap-2.5">
-      <h2 style="font-family:var(--font-serif);font-size:21px;font-weight:600">◎ Ad Performance Cockpit</h2>
-      <span class="text-[12.5px] text-ink-400">Progen_method</span>
-    </div>
-    <div class="mb-1 mt-2 flex flex-wrap items-center gap-2">
-      <span class="kicker">Sources</span>
-      <button class="srcpill on" onclick="toast('Meta Ads — connected · synced 12 min ago')"><span class="d"></span>Meta Ads ✓</button>
-      <button class="srcpill on" onclick="toast('Google Ads — connected · synced 9 min ago')"><span class="d"></span>Google Ads ✓</button>
-      <button class="srcpill" onclick="go('integrations')"><span class="d"></span>Shopify · no data</button>
+    <div class="mb-5 flex flex-wrap items-center gap-2">
+      <h2 style="font-family:var(--font-serif);font-size:22px;font-weight:600">Ad Performance Cockpit</h2>
+      <span class="spacer"></span>
+      <button class="srcpill on" onclick="toast('Meta Ads — connected · synced 12 min ago')"><span class="d"></span>Meta</button>
+      <button class="srcpill on" onclick="toast('Google Ads — connected · synced 9 min ago')"><span class="d"></span>Google</button>
+      <button class="srcpill" onclick="go('integrations')" title="Connect Shopify"><span class="d"></span>Shopify · no data</button>
     </div>
 
     <button class="ck-toggle" id="ckDashToggle" style="display:none" onclick="toggleCkDash()">
@@ -180,17 +168,24 @@
     </button>
 
     <div id="ck-dash">
-    <h3 id="ck-role" class="mb-4" style="font-family:var(--font-serif);font-size:20px;font-weight:600">Founder / CEO</h3>
-
-          <div class="mb-2 flex items-center gap-3">
+    <div class="mb-7 flex flex-wrap items-center gap-2.5">
+      <span style="position:relative">
+        <button class="ctl" id="viewBtn" onclick="event.stopPropagation();toggleViewMenu()"><span id="ck-role">Default view</span> <span class="cd">▼</span></button>
+        <div class="pop" id="viewMenu" style="left:0;top:calc(100% + 6px);width:200px;padding:6px" onclick="event.stopPropagation()">
+          <button class="viewitem on" onclick="setCkRole('default',this)">Default <span class="chk2">✓</span></button>
+          <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
+          <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
+          <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
+        </div>
+      </span>
       <div class="seg">
-        <button class="on" onclick="setCkTF(this,'WEEK OF 20–26 JUL 2026')">Last full week</button>
-        <button onclick="setCkTF(this,'27 JUL – TODAY')">This week</button>
-        <button onclick="setCkTF(this,'29 JUN – 26 JUL 2026')">Last 4 weeks</button>
-        <button onclick="setCkTF(this,'CUSTOM RANGE')">Custom</button>
+        <button class="on" onclick="setCkTF(this,'Week of 20–26 Jul 2026')">Last full week</button>
+        <button onclick="setCkTF(this,'27 Jul – today')">This week</button>
+        <button onclick="setCkTF(this,'29 Jun – 26 Jul 2026')">Last 4 weeks</button>
+        <button onclick="setCkTF(this,'Custom range')">Custom</button>
       </div>
+      <span class="text-[11.5px] text-ink-400" id="ck-window">Week of 20–26 Jul 2026 · vs previous same-length window</span>
     </div>
-    <p class="kicker mb-6" id="ck-window">Week of 20–26 Jul 2026 · deltas vs previous same-length window</p>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
     </div><!-- /ck-dash -->
@@ -1517,7 +1512,6 @@ function go(id){
   if(id==='analyst')toggleInbox(false);
   if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block'&&document.getElementById('wb-builder').style.display!=='block')wbClean();
   document.getElementById('ctxBtn').style.display=(id==='summary')?'grid':'none';
-  document.getElementById('viewBtn').style.display=(id==='summary')?'grid':'none';
   document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
   const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
@@ -1963,7 +1957,7 @@ buyer:{h:'Media buyer',q:'"Which campaigns and creatives do I touch today?"',
 
 function renderCockpit(){
   const r=CK[CKROLE];
-  document.getElementById('ck-role').textContent=r.h;
+  document.getElementById('ck-role').textContent=(CKROLE==='default'?'Default view':r.h);
 
   document.getElementById('ck-kpis').innerHTML=r.kpis.map(k=>{
     const empty=k[1]==='—';
@@ -1980,7 +1974,7 @@ function setCkRole(r,btn){
   renderCockpit();
 }
 function toggleViewMenu(){document.getElementById('viewMenu').classList.toggle('on');}
-function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('ck-window').textContent=label+' · deltas vs previous same-length window';}
+function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('ck-window').textContent=label+' · vs previous same-length window';}
 function ckRefresh(){document.getElementById('ck-gen').textContent='Generated just now · manual';toast('Feed regenerated from live sources');}
 const RECENTS=[
  {t:'Fix: CAC up 9% W/W — rebalance budget',w:'2h ago',sid:'s_fix'},
