@@ -1387,3 +1387,14 @@
   #ck-chat { @apply mx-auto hidden max-w-[860px]; padding-bottom: 150px; }
   #ck-chat.on { @apply block; }
 }
+
+/* ============================================================
+   Platform filter pills
+   ============================================================ */
+@layer components {
+  .srcpill.sel { @apply border-good bg-good text-white; }
+  .srcpill.sel .d { @apply bg-white; }
+  #srcRow.filtering .srcpill.on:not(.sel) { @apply opacity-45; }
+  .srcpill.all { @apply border-ink-900/20 font-semibold text-ink-700; }
+  .srcpill.all.sel { @apply border-ink-900 bg-ink-900 text-white; }
+}

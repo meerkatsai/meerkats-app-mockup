@@ -166,9 +166,7 @@
     <div class="mb-5 flex flex-wrap items-center gap-2">
       <h2 style="font-family:var(--font-serif);font-size:22px;font-weight:600">Ad Performance Cockpit</h2>
       <span class="spacer"></span>
-      <button class="srcpill on" onclick="toast('Meta Ads — connected · synced 12 min ago')"><span class="d"></span>Meta</button>
-      <button class="srcpill on" onclick="toast('Google Ads — connected · synced 9 min ago')"><span class="d"></span>Google</button>
-      <button class="srcpill" onclick="go('integrations')" title="Connect Shopify"><span class="d"></span>Shopify · no data</button>
+      <span id="srcRow" class="flex flex-wrap items-center gap-2"></span>
     </div>
 
     <button class="ck-toggle" id="ckDashToggle" style="display:none" onclick="toggleCkDash()">
@@ -814,7 +812,10 @@
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:color-mix(in srgb, var(--color-klaviyo) 12%, white);font-size:20px;font-weight:700;color:var(--color-klaviyo)">K</div><div class="meta"><b>Klaviyo</b><span style="color:var(--color-good);font-family:var(--font-sans);font-weight:600">● Connected</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">GA</div><div class="meta"><b>GA4</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">R</div><div class="meta"><b>Razorpay</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
-      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">A</div><div class="meta"><b>Amazon Ads</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">A</div><div class="meta"><b>Amazon Ads</b><span style="color:var(--color-good);font-family:var(--font-sans);font-weight:600">● Connected</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">Z</div><div class="meta"><b>Zepto</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">B</div><div class="meta"><b>Blinkit</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
+      <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">F</div><div class="meta"><b>Flipkart Ads</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-tint);font-size:20px;color:var(--color-ember)">＋</div><div class="meta"><b>Request a connector</b><span>50+ in catalog</span></div></div>
     </div>
   </section>
@@ -1919,6 +1920,28 @@ function renderSkills(){
 
 /* ================= COCKPIT (live-product parity) ================= */
 let CKROLE='default';
+const FSEL=new Set();
+const PLAT={
+meta:{n:'Meta',kpis:[['Spend · Meta','₹2.14L','▲ 5%','mut'],['CAC · Meta','₹1,184','▲ 14%','dn'],['ROAS · Meta','2.4×','▼ 0.3 · platform-reported','dn'],['New customers','121','▲ 3% · platform-reported','up'],['Frequency · top 5','3.6','▲ 0.4','dn'],['CTR','1.9%','▼ 0.2pp','dn'],['CPM','₹184','▲ 6%','mut'],['In learning','3 of 7','▲ 1','dn']],
+ cmp:{spend:['Spend · Meta','₹2.14L','▲ 5%','mut'],cac:['CAC · Meta','₹1,184','▲ 14%','dn'],roas:['ROAS · Meta','2.4×','▼ 0.3','dn'],orders:['Orders · Meta','181','▲ 4% · platform','up']}},
+google:{n:'Google',kpis:[['Spend · Google','₹1.05L','▲ 2%','mut'],['CAC · Google','₹811','▼ 3%','up'],['ROAS · Google','3.9×','▲ 0.1 · platform-reported','up'],['New customers','93','▲ 8% · platform-reported','up'],['Impr. share · brand','69%','▼ 31% lost to budget','dn'],['CTR · search','4.2%','▲ 0.3pp','up'],['CPC','₹18.6','▼ 2%','up'],['Quality score · avg','7.1','— level','mut']],
+ cmp:{spend:['Spend · Google','₹1.05L','▲ 2%','mut'],cac:['CAC · Google','₹811','▼ 3%','up'],roas:['ROAS · Google','3.9×','▲ 0.1','up'],orders:['Orders · Google','130','▲ 6% · platform','up']}},
+amazon:{n:'Amazon',kpis:[['Spend · Amazon','₹48.2K','▲ 11%','mut'],['CAC · Amazon','₹402','▼ 5%','up'],['ROAS · Amazon','3.1×','▲ 0.2 · platform-reported','up'],['Orders','118','▲ 9%','up'],['ACoS','32%','▼ 1.8pp','up'],['CPC','₹9.4','▲ 3%','mut'],['Top SKU','glow-ritual','61% of ad orders','mut'],['Organic halo','+18%','▲ vs pre-ads','up']],
+ cmp:{spend:['Spend · Amazon','₹48.2K','▲ 11%','mut'],cac:['CAC · Amazon','₹402','▼ 5%','up'],roas:['ROAS · Amazon','3.1×','▲ 0.2','up'],orders:['Orders · Amazon','118','▲ 9% · platform','up']}}};
+function renderPills(){
+  const row=document.getElementById('srcRow');if(!row)return;
+  const any=FSEL.size>0;
+  row.classList.toggle('filtering',any);
+  row.innerHTML=
+   `<button class="srcpill all${any?'':' sel'}" onclick="FSEL.clear();renderPills();renderCockpit()" title="Blended view across all platforms">All</button>`+
+   Object.keys(PLAT).map(k=>`<button class="srcpill on${FSEL.has(k)?' sel':''}" onclick="togglePlat('${k}')" title="${FSEL.has(k)?'Click to remove from selection':'Click to view '+PLAT[k].n+' only'}"><span class="d"></span>${PLAT[k].n}</button>`).join('')+
+   `<button class="srcpill" onclick="go('integrations')" title="Connect Shopify"><span class="d"></span>Shopify · no data</button>`+
+   `<button class="srcpill" onclick="go('integrations');toast('Zepto, Blinkit and Flipkart — connect from Integrations')" title="Zepto · Blinkit · Flipkart">＋3 platforms</button>`;
+}
+function togglePlat(k){
+  FSEL.has(k)?FSEL.delete(k):FSEL.add(k);
+  renderPills();renderCockpit();
+}
 const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
  bd:'Currently, all financial metrics including total revenue, order count, and gross margin are reporting null, leaving the business without visibility into actual profitability or cash flow from ads.',
  lnk:'Connect the commerce data source (Shopify/WooCommerce) to the data spine to enable real-time revenue and margin reporting.'};
@@ -1960,7 +1983,17 @@ function renderCockpit(){
   const r=CK[CKROLE];
   document.getElementById('ck-role').textContent=(CKROLE==='default'?'Default view':r.h);
 
-  document.getElementById('ck-kpis').innerHTML=r.kpis.map(k=>{
+  const grid=document.getElementById('ck-kpis');
+  let kset=r.kpis, cols=4;
+  if(FSEL.size===1)kset=PLAT[[...FSEL][0]].kpis;
+  else if(FSEL.size>1){
+    cols=FSEL.size;kset=[];
+    ['spend','cac','roas','orders'].forEach(m=>[...FSEL].forEach(p=>kset.push(PLAT[p].cmp[m])));
+  }
+  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  const names=[...FSEL].map(k=>PLAT[k].n);
+  document.getElementById('ck-window').textContent=TFLBL+' · vs previous same-length window'+(names.length?' · showing '+names.join(' + '):'');
+  grid.innerHTML=kset.map(k=>{
     const empty=k[1]==='—';
     return `<div class="kpimin" ${empty?'':`style="cursor:pointer" onclick="ckAsk('Investigate: ${k[0]} — ${k[2]}')" title="Investigate with agent"`}>
       <div class="kl">${k[0]}</div><div class="kv${empty?' dash':''}">${k[1]}</div>
@@ -1968,14 +2001,15 @@ function renderCockpit(){
   }).join('');
 }
 function setCkRole(r,btn){
-  CKROLE=r;
+  CKROLE=r;FSEL.clear();if(document.getElementById('srcRow'))renderPills();
   document.querySelectorAll('#viewMenu .viewitem').forEach(b=>{b.classList.remove('on');const c=b.querySelector('.chk2');if(c)c.remove();});
   btn.classList.add('on');btn.insertAdjacentHTML('beforeend','<span class="chk2">✓</span>');
   document.getElementById('viewMenu').classList.remove('on');
   renderCockpit();
 }
 function toggleViewMenu(){document.getElementById('viewMenu').classList.toggle('on');}
-function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('ck-window').textContent=label+' · vs previous same-length window';}
+let TFLBL='Week of 20–26 Jul 2026';
+function setCkTF(btn,label){btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');TFLBL=label;renderCockpit();}
 function ckRefresh(){document.getElementById('ck-gen').textContent='Generated just now · manual';toast('Feed regenerated from live sources');}
 const RECENTS=[
  {t:'Fix: CAC up 9% W/W — rebalance budget',w:'2h ago',sid:'s_fix'},
@@ -2123,6 +2157,7 @@ renderCockpit();
 renderInbox();
 renderSkills();
 renderRecents();
+renderPills();
 updInboxBadge();
 go('summary');
 if(!sessionStorage.getItem('mk_ob'))showOb(1);
