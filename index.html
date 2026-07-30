@@ -191,8 +191,10 @@
           </div>
         </div>
       </span>
-      <span class="spacer"></span>
-      <span id="srcRow" class="flex flex-wrap items-center gap-2"></span>
+      <span style="position:relative">
+        <button class="ctl" id="platBtn" onclick="event.stopPropagation();togglePlatMenu()"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good)"></span><span id="plat-label">All platforms</span> <span class="cd">▼</span></button>
+        <div class="pop" id="platMenu" style="left:0;top:calc(100% + 6px);width:230px;padding:6px" onclick="event.stopPropagation()"></div>
+      </span>
     </div>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
@@ -1938,19 +1940,29 @@ google:{n:'Google',kpis:[['Spend · Google','₹1.05L','▲ 2%','mut'],['CAC · 
  cmp:{spend:['Spend · Google','₹1.05L','▲ 2%','mut'],cac:['CAC · Google','₹811','▼ 3%','up'],roas:['ROAS · Google','3.9×','▲ 0.1','up'],orders:['Orders · Google','130','▲ 6% · platform','up']}},
 amazon:{n:'Amazon',kpis:[['Spend · Amazon','₹48.2K','▲ 11%','mut'],['CAC · Amazon','₹402','▼ 5%','up'],['ROAS · Amazon','3.1×','▲ 0.2 · platform-reported','up'],['Orders','118','▲ 9%','up'],['ACoS','32%','▼ 1.8pp','up'],['CPC','₹9.4','▲ 3%','mut'],['Top SKU','glow-ritual','61% of ad orders','mut'],['Organic halo','+18%','▲ vs pre-ads','up']],
  cmp:{spend:['Spend · Amazon','₹48.2K','▲ 11%','mut'],cac:['CAC · Amazon','₹402','▼ 5%','up'],roas:['ROAS · Amazon','3.1×','▲ 0.2','up'],orders:['Orders · Amazon','118','▲ 9% · platform','up']}}};
+const LOCKED=['Shopify','Zepto','Blinkit','Flipkart'];
 function renderPills(){
-  const row=document.getElementById('srcRow');if(!row)return;
-  const any=FSEL.size>0;
-  row.classList.toggle('filtering',any);
-  row.innerHTML=
-   `<button class="srcpill all${any?'':' sel'}" onclick="FSEL.clear();renderPills();renderCockpit()" title="Blended view across all platforms">All</button>`+
-   Object.keys(PLAT).map(k=>`<button class="srcpill on${FSEL.has(k)?' sel':''}" onclick="togglePlat('${k}')" title="${FSEL.has(k)?'Click to remove from selection':'Click to view '+PLAT[k].n+' only'}"><span class="d"></span>${PLAT[k].n}</button>`).join('')+
-   `<button class="srcpill" onclick="go('integrations')" title="Connect Shopify"><span class="d"></span>Shopify · no data</button>`+
-   `<button class="srcpill" onclick="go('integrations');toast('Zepto, Blinkit and Flipkart — connect from Integrations')" title="Zepto · Blinkit · Flipkart">＋3 platforms</button>`;
+  const label=document.getElementById('plat-label');if(!label)return;
+  const names=[...FSEL].map(k=>PLAT[k].n);
+  label.textContent=names.length===0?'All platforms':names.length===1?names[0]:names[0]+' + '+(names.length-1);
+  const m=document.getElementById('platMenu');
+  m.innerHTML=
+   `<button class="viewitem${FSEL.size===0?' on':''}" onclick="FSEL.clear();renderPills();renderCockpit()">All platforms ${FSEL.size===0?'<span class="chk2">✓</span>':''}</button>
+    <div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>`+
+   Object.keys(PLAT).map(k=>`<button class="viewitem${FSEL.has(k)?' on':''}" onclick="togglePlat('${k}')"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good);flex:none"></span>${PLAT[k].n}${FSEL.has(k)?'<span class="chk2">✓</span>':'<span style="margin-left:auto;font-size:10px;color:var(--color-ink-400)">Connected</span>'}</button>`).join('')+
+   `<div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>`+
+   LOCKED.map(n=>`<button class="viewitem" style="color:var(--color-ink-400)" onclick="togglePlatMenu();go('integrations');toast('Connect ${n} from Integrations')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg><span style="margin-left:2px">${n}</span><span style="margin-left:auto;font-size:10px">Connect</span></button>`).join('');
+}
+function togglePlatMenu(){
+  const m=document.getElementById('platMenu');
+  const on=!m.classList.contains('on');
+  document.querySelectorAll('.pop').forEach(x=>x.classList.remove('on'));
+  if(on){renderPills();m.classList.add('on');}
 }
 function togglePlat(k){
   FSEL.has(k)?FSEL.delete(k):FSEL.add(k);
   renderPills();renderCockpit();
+  document.getElementById('platMenu').classList.add('on');
 }
 const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
  bd:'Currently, all financial metrics including total revenue, order count, and gross margin are reporting null, leaving the business without visibility into actual profitability or cash flow from ads.',
