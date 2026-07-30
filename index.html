@@ -173,6 +173,10 @@
     <div id="ck-dash">
     <div class="mb-7 flex flex-wrap items-center gap-2.5">
       <span style="position:relative">
+        <button class="ctl" id="platBtn" onclick="event.stopPropagation();togglePlatMenu()"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good)"></span><span id="plat-label">All platforms</span> <span class="cd">▼</span></button>
+        <div class="pop" id="platMenu" style="left:0;top:calc(100% + 6px);width:230px;padding:6px" onclick="event.stopPropagation()"></div>
+      </span>
+      <span style="position:relative">
         <button class="ctl" id="tfBtn" onclick="event.stopPropagation();toggleTf()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="9.5" x2="21" y2="9.5"/></svg><span id="tf-label">20–26 Jul 2026</span> <span class="cd">▼</span></button>
         <div class="pop" id="tfPop" style="left:0;top:calc(100% + 6px);padding:0" onclick="event.stopPropagation()">
           <div class="flex">
@@ -190,10 +194,6 @@
             <button class="mini mini-call" onclick="tfApply()">Apply</button>
           </div>
         </div>
-      </span>
-      <span style="position:relative">
-        <button class="ctl" id="platBtn" onclick="event.stopPropagation();togglePlatMenu()"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good)"></span><span id="plat-label">All platforms</span> <span class="cd">▼</span></button>
-        <div class="pop" id="platMenu" style="left:0;top:calc(100% + 6px);width:230px;padding:6px" onclick="event.stopPropagation()"></div>
       </span>
     </div>
 
