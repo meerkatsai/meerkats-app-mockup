@@ -77,6 +77,15 @@
       <button class="icbtn" title="Refresh">⟳</button>
       <button class="icbtn" title="More">⋮</button>
     </div>
+    <span style="position:relative;display:inline-flex" id="viewWrap">
+      <button class="ctl" id="viewBtn" style="display:none" onclick="event.stopPropagation();toggleViewMenu()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span id="ck-role">Default view</span> <span class="cd">▼</span></button>
+      <div class="pop" id="viewMenu" style="right:0;left:auto;top:calc(100% + 6px);width:200px;padding:6px" onclick="event.stopPropagation()">
+        <button class="viewitem on" onclick="setCkRole('default',this)">Default <span class="chk2">✓</span></button>
+        <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
+        <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
+        <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
+      </div>
+    </span>
     <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span class="ibadge" id="ibx-n">8</span></button>
     <button class="icbtn" id="ctxBtn" title="Session context — instructions, channels, data" style="display:none" onclick="toggleCtx()">⚙</button>
   </div>
@@ -169,15 +178,6 @@
 
     <div id="ck-dash">
     <div class="mb-7 flex flex-wrap items-center gap-2.5">
-      <span style="position:relative">
-        <button class="ctl" id="viewBtn" onclick="event.stopPropagation();toggleViewMenu()"><span id="ck-role">Default view</span> <span class="cd">▼</span></button>
-        <div class="pop" id="viewMenu" style="left:0;top:calc(100% + 6px);width:200px;padding:6px" onclick="event.stopPropagation()">
-          <button class="viewitem on" onclick="setCkRole('default',this)">Default <span class="chk2">✓</span></button>
-          <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
-          <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
-          <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
-        </div>
-      </span>
       <div class="seg">
         <button class="on" onclick="setCkTF(this,'Week of 20–26 Jul 2026')">Last full week</button>
         <button onclick="setCkTF(this,'27 Jul – today')">This week</button>
@@ -1512,6 +1512,7 @@ function go(id){
   if(id==='analyst')toggleInbox(false);
   if(id==='workbench'&&document.getElementById('wb-session').style.display!=='block'&&document.getElementById('wb-builder').style.display!=='block')wbClean();
   document.getElementById('ctxBtn').style.display=(id==='summary')?'grid':'none';
+  document.getElementById('viewBtn').style.display=(id==='summary')?'inline-flex':'none';
   document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
   const NOTB=['summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
