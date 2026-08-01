@@ -47,19 +47,15 @@
   </div>
   <button class="ni" id="spineHead" onclick="toggleSpine()"><span class="gi">◇</span><span class="lab">Data Spine</span><span class="caret" id="spineCaret" style="transform:rotate(90deg)">›</span></button>
   <div id="spineKids">
-    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-ink-400);padding:7px 10px 2px 38px">Dashboards</div>
-    <button class="sni" data-go="creatives">Creative Analysis</button>
-    <button class="sni" data-go="retention">Retention &amp; Cohorts</button>
-    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-ink-400);padding:9px 10px 2px 38px">Spine</div>
     <button class="sni" data-spine="dashboard">Dashboard</button>
-    <button class="sni" data-spine="cdp">CDP Analytics</button>
+    <button class="sni" data-go="cdp">CDP Analytics</button>
     <button class="sni" data-spine="adperf">Ad Performance</button>
     <button class="sni" data-spine="ingest">Ingest Events</button>
     <button class="sni" data-spine="google">Google</button>
     <button class="sni" data-spine="meta">Meta</button>
     <button class="sni" data-spine="shopify">Shopify</button>
+    <button class="sni" data-spine="creativestbl">Creatives</button>
     <button class="sni" data-spine="attribution">Attribution</button>
-    <button class="sni" data-go="convevents">Conversion Events</button>
   </div>
   <button class="ni" data-go="integrations"><span class="gi">⌗</span><span class="lab">Integrations</span></button>
   <button class="ni" data-go="settings"><span class="gi">⚙</span><span class="lab">Settings</span></button>
@@ -89,6 +85,8 @@
         <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
         <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
         <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
+        <div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>
+        <button class="viewitem" onclick="setCkRole('creatives',this)">Creatives</button>
       </div>
     </span>
     <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span class="ibadge" id="ibx-n">8</span></button>
@@ -140,15 +138,7 @@
       <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Weekly marketing performance report</b><div class="sub">Every Monday 8:00 → email + Slack #growth</div></div><span class="spacer"></span><span class="cad">WEEKLY</span><div class="toggle"></div></div>
       <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Meta fatigue watch — pause ads past frequency 4.0</b><div class="sub">Daily 6:00 · queues pauses for approval</div></div><span class="spacer"></span><span class="cad">DAILY</span><div class="toggle"></div></div>
       <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Budget guardrail — alert if blended CAC &gt; ₹950</b><div class="sub">Hourly check · Slack alert</div></div><span class="spacer"></span><span class="cad">HOURLY</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Daily conversion-event send-back</b><div class="sub">05:00 · custom events → Meta CAPI · standard events excluded (platform-native)</div></div><span class="spacer"></span><span class="cad">DAILY</span><div class="toggle"></div></div>
       <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Creative refresh brief from monthly winners</b><div class="sub">1st of month · drafts to Library</div></div><span class="spacer"></span><span class="cad">MONTHLY</span><div class="toggle off"></div></div>
-    </div>
-    <div class="sec-h" style="margin-top:22px">Briefings &amp; alerts <span class="hint">— pushed out of the app · WhatsApp first for India</span></div>
-    <div class="card">
-      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Daily founder briefing</b><div class="sub">8:00 · yesterday's spend, CAC, winners &amp; one action</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Email</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Weekly deep-dive report</b><div class="sub">Monday 8:00 · cohorts, creatives, POAS — the Monday read</div></div><span class="spacer"></span><span class="tag">Email</span><span class="tag">Slack</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>ROAS drop alert</b><div class="sub">Any platform Real ROAS −15% vs 7-day avg · checked hourly</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Slack</span><div class="toggle"></div></div>
-      <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Spend pacing alert</b><div class="sub">Daily spend &gt;120% of plan before 6pm</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><div class="toggle off"></div></div>
     </div>
     <p style="font-size:12px;color:var(--color-ink-400);margin-top:14px">Automations run on the <b>Automate</b> plan. Recurring jobs use your default attribution model (Last Click · 30d) unless overridden.</p>
   </section>
@@ -211,6 +201,51 @@
     </div>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
+    <div id="ck-extra" class="mt-8"></div>
+    <div id="ck-creatives" style="display:none">
+<!-- summary strip -->
+      <div class="grid grid-cols-4 gap-x-8 gap-y-6 mb-7" id="cr-strip"></div>
+      <!-- pattern views -->
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Performance by hook style</div>
+          <div class="mb-3 text-[11px] text-ink-400">Real ROAS · min ₹5K spend · share of spend right</div>
+          <div id="cr-tags"></div>
+        </div>
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Winning combinations</div>
+          <div class="mb-3 text-[11px] text-ink-400">format × hook × angle, ranked by Real ROAS</div>
+          <div id="cr-combos"></div>
+          <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500" id="cr-diversity"></div>
+        </div>
+      </div>
+      <div class="card mb-5 p-4" style="border-color:var(--color-ember-soft);background:var(--color-tint)">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <b class="text-[13px]">What to brief next</b>
+          <span class="text-[12.5px] text-ink-700" id="cr-brief"></span>
+          <span class="spacer"></span>
+          <button class="mini" onclick="openTask('Draft creative briefs from this week&#39;s winning patterns','From Creatives · patterns attached')">Draft briefs with agent</button>
+          <button class="mini mini-call" onclick="go('myqueue');toast('Retirement of 2 dead creatives staged for approval')">Stage retirements →</button>
+        </div>
+      </div>
+      <!-- ad-level table -->
+      <div class="mb-2.5 flex items-center gap-2">
+        <b class="text-[13px]">All creatives</b><span class="font-mono text-[10.5px] text-ink-400" id="cr-count"></span>
+        <span class="spacer"></span>
+        <div class="views" style="margin-bottom:0">
+          <button class="view on" onclick="setCrSort('spend',this)">Spend</button>
+          <button class="view" onclick="setCrSort('top',this)">Top performers</button>
+          <button class="view" onclick="setCrSort('losers',this)">Biggest losers</button>
+        </div>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <table class="dtable" style="min-width:1020px">
+          <thead><tr><th>Creative</th><th>Spend</th><th>%</th><th>CTR · trend</th><th>Hook</th><th>Real ROAS</th><th>Platform · gap</th><th>CAC</th><th>Freq</th><th style="text-align:left">Fatigue</th><th style="text-align:left">Action</th></tr></thead>
+          <tbody id="cr-rows"></tbody>
+        </table>
+      </div>
+      <p class="mt-2.5 text-[11px] text-ink-400">Corrected columns use CDP-attributed revenue, not platform-claimed · fatigue scored per creative above 1,000 impressions · click a row for tags, funnel and reasoning.</p>
+    </div>
     </div><!-- /ck-dash -->
 
     <div id="ck-chat">
@@ -646,6 +681,15 @@
       <button class="btn btn-sm btn-ghost" id="lowriskbtn" onclick="approveAllLow()">Approve all low-risk (1)</button>
     </div>
     <div id="inboxList"></div>
+    <div class="sec-h" style="margin-top:28px">Automation rules <span class="hint">— watch/notify rules and scheduled briefings; read-only alerts never need approval, writes stage above</span>
+      <span class="spacer"></span><button class="btn btn-sm" onclick="toast('Rule builder — pick metric, threshold or schedule, scope, and delivery channel')">＋ Create automation rule</button></div>
+    <div class="card">
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Daily founder briefing</b><div class="sub">8:00 · Founder view rendered as a message — what happened, why, what to do</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Email</span><span class="cad">DAILY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Weekly deep-dive</b><div class="sub">Monday 8:00 · cohorts, creatives, POAS</div></div><span class="spacer"></span><span class="tag">Email</span><span class="tag">Slack</span><span class="cad">WEEKLY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>ROAS drop alert</b><div class="sub">Real ROAS −15% vs 7-day avg on any platform · hourly check</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Slack</span><span class="cad">WATCH</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Spend pacing alert</b><div class="sub">Daily spend &gt;120% of plan before 6pm</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="cad">WATCH</span><div class="toggle off"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Corrected-conversion send-back</b><div class="sub">05:00 · custom + corrected events → Meta CAPI · monitor lives on Ad Performance</div></div><span class="spacer"></span><span class="tag tag-m">Meta CAPI</span><span class="cad">DAILY</span><div class="toggle"></div></div>
+    </div>
     <p class="mt-4 text-[11.5px] text-ink-400">Tier is a property of the <b>tool</b>, not the model — write tools cannot auto-execute. Approving re-validates before-state against live data; every execution is audit-logged and reversible actions expose Undo.</p>
   </section>
 
@@ -799,116 +843,56 @@
     </div>
   </section>
 
-  <!-- ======== CREATIVE ANALYSIS (Dashboards) ======== -->
-  <section class="screen" id="s-creatives">
-    <div class="mb-5 flex flex-wrap items-center gap-2">
-      <div class="views" style="margin-bottom:0" id="crPlatRow"></div>
-      <span class="spacer"></span>
-      <span class="ctl" style="pointer-events:none;color:var(--color-ink-500)">20–26 Jul 2026</span>
+  <!-- ======== CDP ANALYTICS (tabs incl. Cohorts + LTV) ======== -->
+  <section class="screen" id="s-cdp">
+    <div class="grid grid-cols-4 gap-x-8 mb-2">
+      <div class="kpimin"><div class="kl">Total identities</div><div class="kv">128</div><div class="kn"><span class="delta delta-up">▲ 12 this week</span></div></div>
+      <div class="kpimin"><div class="kl">Identified</div><div class="kv">86</div><div class="kn">67% of total · click-ID or email</div></div>
+      <div class="kpimin"><div class="kl">Converted</div><div class="kv">41</div><div class="kn">32% of identified</div></div>
+      <div class="kpimin"><div class="kl">Revenue (CDP)</div><div class="kv">₹4.9L</div><div class="kn">est. · checkout events</div></div>
     </div>
-    <!-- summary strip -->
-      <div class="grid grid-cols-4 gap-x-8 gap-y-6 mb-7" id="cr-strip"></div>
-      <!-- pattern views -->
-      <div class="grid grid-cols-2 gap-4 mb-4">
-        <div class="card p-4">
-          <div class="mb-1 text-[13px] font-semibold">Performance by hook style</div>
-          <div class="mb-3 text-[11px] text-ink-400">Real ROAS · min ₹5K spend · share of spend right</div>
-          <div id="cr-tags"></div>
-        </div>
-        <div class="card p-4">
-          <div class="mb-1 text-[13px] font-semibold">Winning combinations</div>
-          <div class="mb-3 text-[11px] text-ink-400">format × hook × angle, ranked by Real ROAS</div>
-          <div id="cr-combos"></div>
-          <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500" id="cr-diversity"></div>
-        </div>
-      </div>
-      <div class="card mb-5 p-4" style="border-color:var(--color-ember-soft);background:var(--color-tint)">
-        <div class="flex flex-wrap items-center gap-2.5">
-          <b class="text-[13px]">What to brief next</b>
-          <span class="text-[12.5px] text-ink-700" id="cr-brief"></span>
-          <span class="spacer"></span>
-          <button class="mini" onclick="openTask('Draft creative briefs from this week&#39;s winning patterns','From Creatives · patterns attached')">Draft briefs with agent</button>
-          <button class="mini mini-call" onclick="go('myqueue');toast('Retirement of 2 dead creatives staged for approval')">Stage retirements →</button>
-        </div>
-      </div>
-      <!-- ad-level table -->
-      <div class="mb-2.5 flex items-center gap-2">
-        <b class="text-[13px]">All creatives</b><span class="font-mono text-[10.5px] text-ink-400" id="cr-count"></span>
-        <span class="spacer"></span>
-        <div class="views" style="margin-bottom:0">
-          <button class="view on" onclick="setCrSort('spend',this)">Spend</button>
-          <button class="view" onclick="setCrSort('top',this)">Top performers</button>
-          <button class="view" onclick="setCrSort('losers',this)">Biggest losers</button>
-        </div>
-      </div>
-      <div class="card" style="overflow-x:auto">
-        <table class="dtable" style="min-width:1020px">
-          <thead><tr><th>Creative</th><th>Spend</th><th>%</th><th>CTR · trend</th><th>Hook</th><th>Real ROAS</th><th>Platform · gap</th><th>CAC</th><th>Freq</th><th style="text-align:left">Fatigue</th><th style="text-align:left">Action</th></tr></thead>
-          <tbody id="cr-rows"></tbody>
-        </table>
-      </div>
-      <p class="mt-2.5 text-[11px] text-ink-400">Corrected columns use CDP-attributed revenue, not platform-claimed · fatigue scored per creative above 1,000 impressions · click a row for tags, funnel and reasoning.</p>
-  </section>
+    <div class="rtabs">
+      <button class="cktab" onclick="cdpTab('dash',this)">Dashboard</button>
+      <button class="cktab" onclick="cdpTab('ids',this)">Identities</button>
+      <button class="cktab" onclick="cdpTab('camp',this)">By campaign</button>
+      <button class="cktab" onclick="cdpTab('events',this)">Events</button>
+      <button class="cktab" onclick="cdpTab('checkout',this)">Checkout</button>
+      <button class="cktab on" onclick="cdpTab('cohorts',this)">Cohorts</button>
+      <button class="cktab" onclick="cdpTab('ltv',this)">LTV</button>
+    </div>
 
-  <!-- ======== RETENTION & COHORTS (Dashboards) ======== -->
-  <section class="screen" id="s-retention">
-    <div class="mb-5 flex items-center gap-2">
-      <span class="ctl" style="pointer-events:none;color:var(--color-ink-500)">Last 90 days · monthly cohorts</span>
-    </div>
-    <div class="slimbanner" style="margin-bottom:20px"><span>◦</span> Computed from CDP checkout events (128 identities) — Shopify sync will reconcile revenue to the rupee. <button onclick="go('integrations')">Connect →</button></div>
+    <div class="cdp-pane" id="cdp-cohorts">
+      <div class="slimbanner" style="margin-bottom:20px"><span>◦</span> Computed from CDP checkout events (128 identities) — Shopify sync will reconcile revenue to the rupee. <button onclick="go('integrations')">Connect →</button></div>
       <div class="grid grid-cols-4 gap-x-8 gap-y-6 mb-8">
         <div class="kpimin"><div class="kl">Repeat purchase rate</div><div class="kv">27%</div><div class="kn"><span class="delta delta-up">▲ 2pp vs prior 90d</span></div></div>
         <div class="kpimin"><div class="kl">Median time to 2nd order</div><div class="kv">34 d</div><div class="kn"><span class="delta delta-up">▼ 4 d</span></div></div>
         <div class="kpimin"><div class="kl">LTV : CAC (90d)</div><div class="kv">2.1×</div><div class="kn"><span class="delta delta-dn">target 3.0×</span></div></div>
         <div class="kpimin"><div class="kl">CAC payback</div><div class="kv">46 d</div><div class="kn"><span class="delta delta-dn">▲ 8 d</span></div></div>
       </div>
-      <div class="grid grid-cols-2 gap-4 mb-4">
-        <div class="card p-4">
-          <div class="mb-1 text-[13px] font-semibold">Cohort retention — % ordering again</div>
-          <div class="mb-3 text-[11px] text-ink-400">monthly acquisition cohorts · months since first order</div>
-          <div id="rt-cohorts"></div>
-        </div>
-        <div class="card p-4">
-          <div class="mb-1 text-[13px] font-semibold">LTV by first-touch channel · 90d</div>
-          <div class="mb-3 text-[11px] text-ink-400">CDP-attributed · LTV:CAC right</div>
-          <div id="rt-ltv"></div>
-          <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500">✦ Organic-first buyers are worth <b>1.5×</b> Meta-first buyers at 90 days — winback flows should weight them accordingly.</div>
-        </div>
+      <div class="card p-4" style="max-width:680px">
+        <div class="mb-1 text-[13px] font-semibold">Cohort retention — % ordering again</div>
+        <div class="mb-3 text-[11px] text-ink-400">monthly acquisition cohorts · months since first order</div>
+        <div id="rt-cohorts"></div>
       </div>
-      <div class="card p-4">
-        <div class="mb-1 flex items-center gap-2"><b class="text-[13px]">Net profit after ads (POAS)</b><span class="tag" style="border-color:var(--color-watch);color:var(--color-watch);background:var(--color-watch-bg)">COGS estimated</span></div>
-        <div class="mb-4 text-[11.5px] text-ink-400">Contribution = revenue − COGS (est. 38%) − shipping − RTO − ad spend · exact once Shopify COGS syncs</div>
-        <div class="grid grid-cols-4 gap-x-8">
-          <div class="kpimin"><div class="kl">POAS</div><div class="kv">1.34×</div><div class="kn"><span class="delta delta-mut">est.</span></div></div>
-          <div class="kpimin"><div class="kl">Contribution after ads</div><div class="kv">₹3.1L</div><div class="kn"><span class="delta delta-mut">est. · window</span></div></div>
-          <div class="kpimin"><div class="kl">RTO drag</div><div class="kv">9.8%</div><div class="kn"><span class="delta delta-dn">▲ 1.1pp · of revenue</span></div></div>
-          <div class="kpimin"><div class="kl">Breakeven ROAS</div><div class="kv">1.9×</div><div class="kn"><span class="delta delta-mut">at est. margins</span></div></div>
-        </div>
-      </div>
-  </section>
-
-  <!-- ======== CONVERSION EVENTS (Data Spine) ======== -->
-  <section class="screen" id="s-convevents">
-    <p class="mb-1 max-w-[80ch] text-[13px] text-ink-500">Send CDP-verified <b class="text-ink-700">custom</b> conversion events back to the ad platforms — the signals their pixels can't see. Standard events (purchase, add-to-cart) are already reported natively by each platform; this pipeline covers the custom events and corrects the record server-side.</p>
-    <p class="mb-5 text-[11.5px] text-ink-400">◷ Runs daily at 05:00 via Automations · every send is audit-logged · <a href="#" onclick="go('automations');return false" style="color:var(--color-ember);font-weight:600;text-decoration:none">Manage schedule →</a></p>
-
-    <div class="grid grid-cols-2 gap-4 mb-6" style="max-width:820px">
-      <div class="card p-4"><div class="flex items-center gap-2.5"><span class="clogo" style="background:var(--color-meta);width:34px;height:34px;font-size:14px;border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:700">f</span><div><b class="text-[13.5px]">Meta — Conversions API</b><div class="text-[11.5px] text-ink-400">412 events/day · match quality +18%</div></div><span class="spacer"></span><span class="perm-y">Live</span><div class="toggle" style="margin-left:8px"></div></div></div>
-      <div class="card p-4"><div class="flex items-center gap-2.5"><span class="clogo" style="background:var(--color-google);width:34px;height:34px;font-size:14px;border-radius:9px;display:grid;place-items:center;color:#111;font-weight:700">G</span><div><b class="text-[13.5px]">Google — Enhanced Conversions</b><div class="text-[11.5px] text-ink-400">Same pipeline, gclid-keyed</div></div><span class="spacer"></span><span class="tag">Planned</span></div></div>
     </div>
 
-    <div class="mb-2.5 flex items-center gap-2"><b class="text-[13px]">Custom events</b><span class="font-mono text-[10.5px] text-ink-400">5</span><span class="spacer"></span><button class="btn btn-sm btn-orange" onclick="toast('Custom events queued — sending to Meta CAPI now')">Send all now</button></div>
-    <div class="card" style="overflow-x:auto">
-      <table class="utable">
-        <thead><tr><th style="text-align:left">Event</th><th style="text-align:left">Source</th><th>Volume/day</th><th style="text-align:left">Destinations</th><th>Match rate</th><th style="text-align:left">Status</th><th></th></tr></thead>
-        <tbody>
-          <tr><td class="font-mono" style="font-size:12px">consult_booked</td><td style="text-align:left">CRM · Call Queue</td><td>38</td><td style="text-align:left"><span class="tag tag-m">Meta ✓</span></td><td>91%</td><td style="text-align:left"><div class="toggle" style="transform:scale(.85)"></div></td><td><button class="mini" onclick="toast('consult_booked — 38 events sent to Meta CAPI')">Send now</button></td></tr>
-          <tr><td class="font-mono" style="font-size:12px">lead_qualified</td><td style="text-align:left">CRM · disposition</td><td>52</td><td style="text-align:left"><span class="tag tag-m">Meta ✓</span></td><td>88%</td><td style="text-align:left"><div class="toggle" style="transform:scale(.85)"></div></td><td><button class="mini" onclick="toast('lead_qualified — 52 events sent to Meta CAPI')">Send now</button></td></tr>
-          <tr><td class="font-mono" style="font-size:12px">quiz_complete</td><td style="text-align:left">Pixel · custom</td><td>214</td><td style="text-align:left"><span class="tag tag-m">Meta ✓</span></td><td>96%</td><td style="text-align:left"><div class="toggle" style="transform:scale(.85)"></div></td><td><button class="mini" onclick="toast('quiz_complete — 214 events sent to Meta CAPI')">Send now</button></td></tr>
-          <tr><td class="font-mono" style="font-size:12px">sample_request</td><td style="text-align:left">Pixel · custom</td><td>61</td><td style="text-align:left"><span class="tag">—</span></td><td>—</td><td style="text-align:left"><div class="toggle off" style="transform:scale(.85)"></div></td><td><button class="mini" onclick="toast('sample_request enabled — first send tomorrow 05:00')">Enable</button></td></tr>
-          <tr><td class="font-mono" style="font-size:12px">repeat_purchase_90d</td><td style="text-align:left">Spine · derived</td><td>26</td><td style="text-align:left"><span class="tag tag-m">Meta ✓</span></td><td>99%</td><td style="text-align:left"><div class="toggle" style="transform:scale(.85)"></div></td><td><button class="mini" onclick="toast('repeat_purchase_90d — 26 events sent to Meta CAPI')">Send now</button></td></tr>
-        </tbody>
-      </table>
+    <div class="cdp-pane" id="cdp-ltv" style="display:none">
+      <div class="grid grid-cols-4 gap-x-8 mb-7">
+        <div class="kpimin"><div class="kl">Avg LTV · 90d</div><div class="kv">₹3,890</div><div class="kn"><span class="delta delta-up">▲ 6% vs prior cohorts</span></div></div>
+        <div class="kpimin"><div class="kl">LTV : CAC</div><div class="kv">2.1×</div><div class="kn"><span class="delta delta-dn">target 3.0×</span></div></div>
+        <div class="kpimin"><div class="kl">NCPA payback</div><div class="kv">46 d</div><div class="kn"><span class="delta delta-dn">▲ 8 d</span></div></div>
+        <div class="kpimin"><div class="kl">Orders / customer</div><div class="kv">1.4</div><div class="kn">AOV ₹1,873</div></div>
+      </div>
+      <div class="card p-4" style="max-width:640px">
+        <div class="mb-1 text-[13px] font-semibold">LTV by first-touch channel · 90d</div>
+        <div class="mb-3 text-[11px] text-ink-400">CDP-attributed · LTV:CAC right</div>
+        <div id="rt-ltv"></div>
+        <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500">✦ Organic-first buyers are worth <b>1.5×</b> Meta-first buyers at 90 days — winback flows should weight them accordingly.</div>
+      </div>
+    </div>
+
+    <div class="cdp-pane" id="cdp-stub" style="display:none">
+      <div class="card" style="padding:40px;text-align:center;color:var(--color-ink-400);font-size:13px" id="cdp-stub-t">Existing CDP Analytics view.</div>
     </div>
   </section>
 
@@ -924,6 +908,17 @@
       <div class="kpi"><div class="l">Match rate</div><div class="v" id="spine-k2">96.2<span class="u">%</span></div><div class="foot"><span class="delta delta-up">▲ 0.8pp</span></div></div>
       <div class="kpi"><div class="l">Last event</div><div class="v" id="spine-k3">2<span class="u">s ago</span></div><div class="foot"><span class="delta delta-mut">p95 latency 1.4s</span></div></div>
       <div class="kpi"><div class="l">Schema errors · 24h</div><div class="v" id="spine-k4">0</div><div class="foot"><span class="delta delta-up">clean</span></div></div>
+    </div>
+    <div class="card" id="spine-signal" style="display:none;margin-bottom:16px;padding:18px 20px">
+      <div class="mb-1 flex items-center gap-2"><b class="text-[13px]">Signal — corrected conversions out</b><span class="perm-y">Meta CAPI · Live</span></div>
+      <div class="mb-3 text-[11.5px] text-ink-400">Enriched first-party events posted server-side · enabling or changing the optimisation target stages to My Queue</div>
+      <div class="grid grid-cols-4 gap-x-8">
+        <div class="kpimin"><div class="kl">Events matched</div><div class="kv" style="font-size:19px">96.2%</div><div class="kn">click-ID join</div></div>
+        <div class="kpimin"><div class="kl">Sent to Meta</div><div class="kv" style="font-size:19px">412/day</div><div class="kn">deduped vs pixel</div></div>
+        <div class="kpimin"><div class="kl">Match quality</div><div class="kv" style="font-size:19px">+18%</div><div class="kn">vs pixel-only</div></div>
+        <div class="kpimin"><div class="kl">Lift vs baseline</div><div class="kv" style="font-size:19px">+12%</div><div class="kn">14-day holdout</div></div>
+      </div>
+      <button class="mini" style="margin-top:12px" onclick="go('integrations')">Manage in Integrations →</button>
     </div>
     <div class="card">
       <div style="padding:16px 18px 4px;font-size:13px;font-weight:600">Recent events</div>
@@ -955,6 +950,16 @@
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">B</div><div class="meta"><b>Blinkit</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">F</div><div class="meta"><b>Flipkart Ads</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-tint);font-size:20px;color:var(--color-ember)">＋</div><div class="meta"><b>Request a connector</b><span>50+ in catalog</span></div></div>
+    </div>
+
+    <div class="sec-h" style="margin-top:26px">Signal-out &amp; channels <span class="hint">— outbound conversions, delivery destinations, cost inputs</span></div>
+    <div class="card">
+      <div class="costrow"><div class="ci">⇄</div><div><b>Conversions API — Meta (signal-out)</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Corrected + custom events, hashed &amp; deduped vs pixel · enable/change stages to My Queue</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
+      <div class="costrow"><div class="ci">⇄</div><div><b>Conversions API — Google (signal-out)</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Enhanced Conversions · same pipeline, gclid-keyed</div></div><span class="spacer"></span><span class="tag stt">Planned</span></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>WhatsApp Business</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Briefings &amp; alerts — priority channel for India</div></div><span class="spacer"></span><span class="perm-y stt">Connected</span></div>
+      <div class="costrow"><div class="ci">▤</div><div><b>Slack</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">#growth — alerts and weekly deep-dive</div></div><span class="spacer"></span><span class="perm-y stt">Connected</span></div>
+      <div class="costrow"><div class="ci">✉</div><div><b>Email (Resend)</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Briefings &amp; reports</div></div><span class="spacer"></span><span class="perm-y stt">Connected</span></div>
+      <div class="costrow"><div class="ci">%</div><div><b>COGS per SKU</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">CSV upload · 214 SKUs · powers Gross margin, Net profit and POAS on the Founder view</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Upload CSV — sku, unit_cogs · replaces current table')">Update CSV</button></div>
     </div>
   </section>
 
@@ -1412,7 +1417,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],creatives:['Creative Analysis',0],retention:['Retention & Cohorts',0],convevents:['Conversion Events',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1598,7 +1603,7 @@ function openLead(i){
 
 const SPINE={
 dashboard:{t:'Data Spine — Dashboard',d:'Health of the whole spine at a glance — event volume, identity match rate, and connector freshness across every source.'},
-cdp:{t:'CDP Analytics',d:'Unified customer profiles stitched from pixel, orders, ads, and email — one identity graph under every report.'},
+creativestbl:{t:'Creatives — Table',d:'One row per creative: creative_dim + creative_daily_fact + creative_tags, joined to Canonical Attribution at creative grain — the substrate under the Creatives view.'},
 adperf:{t:'Ad Performance',d:'Raw ad-level performance as ingested from every platform, before any attribution model is applied.'},
 ingest:{t:'Ingest Events',d:'The live event firehose — every click, view, and order entering the spine, with schema validation on write.'},
 google:{t:'Google — Source',d:'Google Ads ingestion: campaigns, cost, and gclid click stream, reconciled against orders nightly and on-demand.'},
@@ -1645,8 +1650,7 @@ function go(id){
   if(nav)nav.classList.add('active');
   const sn=document.querySelector('.sni[data-go="'+id+'"]');
   if(sn){sn.classList.add('active');document.getElementById('spineHead').classList.add('active');}
-  if(id==='creatives'){renderCreatives();renderCrPlat();}
-  if(id==='retention')renderRetention();
+  if(id==='cdp')renderRetention();
   const fly=document.querySelector('.fly .fi[data-go="'+id+'"]');
   if(fly){fly.classList.add('on');fly.closest('.ni-wrap').querySelector('.ni').classList.add('active');}
   document.getElementById('scroll').scrollTop=0;
@@ -1658,7 +1662,7 @@ function go(id){
   document.getElementById('viewBtn').style.display=(id==='summary')?'inline-flex':'none';
   document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
-  const NOTB=['creatives','retention','convevents','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
+  const NOTB=['cdp','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
   if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
 }
@@ -1696,7 +1700,9 @@ function toggleSpine(){
   document.getElementById('spineCaret').style.transform=kids.classList.contains('closed')?'':'rotate(90deg)';
 }
 document.querySelectorAll('.sni').forEach(b=>b.addEventListener('click',()=>{
+  if(!b.dataset.spine)return;
   const s=SPINE[b.dataset.spine];
+  document.getElementById('spine-signal').style.display=b.dataset.spine==='adperf'?'':'none';
   go('spine');
   document.getElementById('tb-title').textContent=s.t;
   document.getElementById('spine-desc').textContent=s.d;
@@ -1769,7 +1775,7 @@ function renderInboxPanel(){
       <div class="flex gap-2">
         ${r.type==='agent'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);openTask('${r.t.replace(/'/g,"\\'")}')">Fix with agent →</button>`
          :r.type==='queue'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('myqueue')">Review & approve →</button>`
-         :r.type==='creatives'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('creatives')">Open Creatives →</button>`
+         :r.type==='creatives'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);showCreatives()">Open Creatives →</button>`
          :`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('integrations')">Connect →</button>`}
         <button class="btn btn-sm btn-ghost" onclick="toggleInbox(false);openTask('Explain: ${r.t.replace(/'/g,"\\'")}')">Explain</button>
         <button class="btn btn-sm btn-ghost" onclick="dismissRec(${r.i})">Dismiss</button>
@@ -2101,6 +2107,7 @@ const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
  bd:'Currently, all financial metrics including total revenue, order count, and gross margin are reporting null, leaving the business without visibility into actual profitability or cash flow from ads.',
  lnk:'Connect the commerce data source (Shopify/WooCommerce) to the data spine to enable real-time revenue and margin reporting.'};
 const CK={
+creatives:{h:'Creatives',kpis:[]},
 default:{h:'Default view',q:'"The whole account at a glance — profitability, efficiency, and what to touch."',
  kpis:[['Net revenue','—','no comparison data',''],['Blended CAC','₹1,096','▲ 7% · window-based','dn'],
   ['Ad spend','₹3.67L','▲ 4%','mut'],['New customers','214','▲ 6% · platform-reported','up'],
@@ -2111,10 +2118,10 @@ founder:{h:'Founder / CEO',q:'"Are we growing profitably, is cash healthy?"',
   {sev:'Warning',t:'CAC up 9% W/W — driven by one Meta campaign',
    bd:'Advantage+ · GLP-1 hit CAC ₹1,412 against the ₹950 target and now takes 38% of ad spend, while Search · brand converts at ₹704.',
    lnk:'Rebalance budget toward Search · brand — the agent will diagnose first and stage the change for your approval.'}],
- kpis:[['Net revenue','—','no comparison data',''],['Blended ROAS (MER)','—','no comparison data',''],
-  ['Orders','—','no comparison data',''],['CAC (new-customer)','₹1,096','▲ 7% · window-based','dn'],
-  ['Ad spend','₹3.67L','▲ 4%','mut'],['New customers','214','▲ 6% · platform-reported','up'],
-  ['Gross margin','—','no comparison data',''],['Refund / RTO rate','—','no comparison data','']]},
+ kpis:[['Net revenue','—','no comparison data',''],['Gross margin','61%','COGS uploaded · 214 SKUs','up'],
+  ['Net profit (contribution)','₹1.9L','est · after ads, ship, RTO','up'],['POAS','1.34×','breakeven 1.9× ROAS','mut'],
+  ['Blended CAC','₹1,096','▲ 7% · window-based','dn'],['Ad spend','₹3.67L','▲ 4%','mut'],
+  ['New customers','214','▲ 6% · platform-reported','up'],['Refund / RTO','9.8%','▲ 1.1pp · of revenue','dn']]},
 growth:{h:'Growth lead',q:'"What\u2019s moving CAC and LTV, and what do I do about it?"',
  cards:[REVCARD,
   {sev:'Opportunity',t:'Search · brand starved of budget',
@@ -2138,6 +2145,11 @@ function renderCockpit(){
   const r=CK[CKROLE];
   document.getElementById('ck-role').textContent=(CKROLE==='default'?'Default view':r.h);
 
+  const cr=CKROLE==='creatives';
+  document.getElementById('ck-kpis').style.display=cr?'none':'grid';
+  const cc=document.getElementById('ck-creatives');if(cc)cc.style.display=cr?'':'none';
+  renderCkExtra();
+  if(cr){document.getElementById('ck-role').textContent='Creatives';renderCreatives();return;}
   const grid=document.getElementById('ck-kpis');
   let kset=r.kpis, cols=4;
   if(FSEL.size===1)kset=PLAT[[...FSEL][0]].kpis;
@@ -2152,6 +2164,37 @@ function renderCockpit(){
       <div class="kl">${k[0]}</div><div class="kv${empty?' dash':''}">${k[1]}</div>
       <div class="kn">${empty?k[2]:`<span class="delta delta-${k[3]==='up'?'up':k[3]==='dn'?'dn':'mut'}">${k[2]}</span>`}</div></div>`;
   }).join('');
+}
+function renderCkExtra(){
+  const x=document.getElementById('ck-extra');if(!x)return;
+  if(CKROLE==='founder'){
+    x.innerHTML=`<div class="grid grid-cols-2 gap-4" style="max-width:900px">
+     <div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">Repeat rate &amp; LTV:CAC</b><span class="spacer"></span><button class="mini" onclick="go('cdp')">Cohorts →</button></div>
+       <div class="flex gap-7 text-[12.5px]"><span><b class="text-[19px] font-semibold">27%</b><br><span class="text-ink-400 text-[11px]">repeat rate</span></span><span><b class="text-[19px] font-semibold">2.1×</b><br><span class="text-ink-400 text-[11px]">LTV : CAC</span></span><span><b class="text-[19px] font-semibold">41 / 33 / 29%</b><br><span class="text-ink-400 text-[11px]">30 / 60 / 90-day retention</span></span></div></div>
+     <div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">Creatives — top &amp; fatiguing</b><span class="spacer"></span><button class="mini" onclick="showCreatives()">Open →</button></div>
+       <div class="flex items-center gap-2.5 text-[12.5px] mb-2"><span class="thumb2" style="background:linear-gradient(135deg,#EA580C,#C2410C);width:40px;height:26px;font-size:11px">▶</span><b class="flex-1 truncate">glow-ritual-ugc-01</b><span class="fatc fatc-fresh">fresh</span><span class="font-mono text-[11.5px] font-semibold text-good">4.1×</span></div>
+       <div class="flex items-center gap-2.5 text-[12.5px]"><span class="thumb2" style="background:linear-gradient(135deg,#B23A3A,#7e2828);width:40px;height:26px;font-size:11px">▧</span><b class="flex-1 truncate">discount-banner-old</b><span class="fatc fatc-dead">dead</span><span class="font-mono text-[11.5px] font-semibold text-bad">₹4.2K/day</span></div></div></div>`;
+  }else if(CKROLE==='growth'){
+    x.innerHTML=`<div class="card p-4" style="max-width:560px"><div class="flex items-center gap-2 mb-1"><b class="text-[13px]">LTV by acquisition channel · 90d</b><span class="spacer"></span><button class="mini" onclick="go('cdp')">LTV →</button></div>
+      <div class="mb-3 text-[11px] text-ink-400">weigh long-term value, not just first-order ROAS</div>
+      <div class="patbar"><span class="pl">Organic</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">₹5,210</span><span class="ps">2.8× LTV:CAC</span></div>
+      <div class="patbar"><span class="pl">Google</span><div class="ptrack"><div class="pfill" style="width:79%;background:var(--color-google)"></div></div><span class="pv">₹4,120</span><span class="ps">2.4× LTV:CAC</span></div>
+      <div class="patbar"><span class="pl">Meta</span><div class="ptrack"><div class="pfill" style="width:67%;background:var(--color-meta)"></div></div><span class="pv">₹3,480</span><span class="ps">1.9× LTV:CAC</span></div></div>`;
+  }else x.innerHTML='';
+}
+function showCreatives(){
+  go('summary');
+  const b=[...document.querySelectorAll('#viewMenu .viewitem')].find(x=>x.textContent.trim().startsWith('Creatives'));
+  setCkRole('creatives',b);
+}
+function cdpTab(t,btn){
+  document.querySelectorAll('#s-cdp .cktab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.getElementById('cdp-cohorts').style.display=t==='cohorts'?'':'none';
+  document.getElementById('cdp-ltv').style.display=t==='ltv'?'':'none';
+  const st=document.getElementById('cdp-stub');
+  st.style.display=(t==='cohorts'||t==='ltv')?'none':'';
+  document.getElementById('cdp-stub-t').textContent={dash:'CDP dashboard — identity growth, event volume, conversion funnel (existing view).',ids:'128 identity profiles with merged click-IDs, emails and phone hashes (existing view).',camp:'Identities and revenue by campaign (existing view).',events:'Raw event explorer (existing view).',checkout:'Form submissions and checkout events (existing view).'}[t]||'';
+  if(t==='ltv')renderRetention();
 }
 function setCkRole(r,btn){
   CKROLE=r;FSEL.clear();if(document.getElementById('srcRow'))renderPills();
