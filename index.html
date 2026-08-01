@@ -19,7 +19,7 @@
       <button class="wrow"><span class="wa">V</span>Varanchi</button>
       <button class="wrow"><span class="wa">P</span>Purity Naturals</button>
       <button class="wrow"><span class="wa">D</span>demo_purity</button>
-      <button class="wrow on"><span class="wa">P</span>Progen Method<span class="def" style="color:var(--color-ember);background:var(--color-ember-dim)">CRM</span><span class="chk">✓</span></button>
+      <button class="wrow on"><span class="wa">P</span>Progen Method<span class="chk">✓</span></button>
       <div class="sep"></div>
       <button class="wrow create" onclick="document.getElementById(&quot;wsMenu&quot;).classList.remove(&quot;on&quot;);showOb(2)"><span class="wa">＋</span>Create Workspace</button>
     </div>
@@ -33,22 +33,18 @@
   <div class="nav-sec">Recent chats <span class="plus" title="New session" onclick="newSession()">＋</span></div>
   <div id="recentsNav"></div>
 
-  <div class="nav-sec">Data</div>
-  <div class="ni-wrap">
-    <button class="ni" data-go="queue"><span class="gi">☎</span><span class="lab">CRM</span><span class="caret">›</span></button>
-    <div class="fly">
-      <button class="fi" data-go="queue">Call Queue <span class="bt" style="background:var(--color-bad-bg);color:var(--color-bad)">4 DUE</span></button>
-      <button class="fi" data-go="allleads">All Leads</button>
-      <button class="fi" data-go="crmteam">Team</button>
-      <button class="fi" data-go="crmperf">Performance</button>
-      <div class="sep"></div>
-      <button class="fi create" onclick="setPane('leaddesk')">CRM Configuration <span class="ar">›</span></button>
-    </div>
+  <div class="nav-sec">Analytics</div>
+  <button class="ni" data-go="cdp"><span class="gi">◔</span><span class="lab">CDP Analytics</span></button>
+  <button class="ni" id="crHead" onclick="toggleCr()"><span class="gi">▣</span><span class="lab">Creatives</span><span class="caret" id="crCaret" style="transform:rotate(90deg)">›</span></button>
+  <div id="crKids">
+    <button class="sni" data-go="assets">Asset library</button>
+    <button class="sni" data-go="creatives">Creative analysis</button>
   </div>
+
+  <div class="nav-sec">Data</div>
   <button class="ni" id="spineHead" onclick="toggleSpine()"><span class="gi">◇</span><span class="lab">Data Spine</span><span class="caret" id="spineCaret" style="transform:rotate(90deg)">›</span></button>
   <div id="spineKids">
     <button class="sni" data-spine="dashboard">Dashboard</button>
-    <button class="sni" data-go="cdp">CDP Analytics</button>
     <button class="sni" data-spine="adperf">Ad Performance</button>
     <button class="sni" data-spine="ingest">Ingest Events</button>
     <button class="sni" data-spine="google">Google</button>
@@ -85,8 +81,6 @@
         <button class="viewitem" onclick="setCkRole('founder',this)">Founder</button>
         <button class="viewitem" onclick="setCkRole('growth',this)">Growth lead</button>
         <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
-        <div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>
-        <button class="viewitem" onclick="setCkRole('creatives',this)">Creatives</button>
       </div>
     </span>
     <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span class="ibadge" id="ibx-n">8</span></button>
@@ -202,7 +196,32 @@
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
     <div id="ck-extra" class="mt-8"></div>
-    <div id="ck-creatives" style="display:none">
+    <div id="ck-pins"></div>
+    </div><!-- /ck-dash -->
+
+    <div id="ck-chat">
+      <div class="ibx-sec" style="margin:6px 0 14px">Current session</div>
+      <div id="ck-thread"></div>
+    </div>
+    <div class="wb-foot" id="ck-foot" style="display:none"></div>
+
+    <!-- floating chat — pinned while the page scrolls -->
+    <div class="fab-chat">
+      <div class="slashmenu" id="ckSlash"></div>
+      <span style="color:var(--color-ember);font-size:15px">✦</span>
+      <input id="ck-ask" placeholder="Ask anything, or / for commands…" oninput="ckSlashCheck(this)" onkeydown="if(event.key==='Enter')askCockpit()">
+      <button class="send" onclick="askCockpit()">↑</button>
+    </div>
+  </section>
+
+  <!-- ======== CREATIVES — CREATIVE ANALYSIS ======== -->
+  <section class="screen" id="s-creatives">
+    <div class="mb-6 flex items-center gap-3">
+      <div class="views" style="margin-bottom:0" id="crPlatRow"></div>
+      <span class="spacer"></span>
+      <span class="font-mono text-[10.5px] text-ink-400">20–26 Jul 2026 · vs previous week</span>
+    </div>
+    <div id="ck-creatives">
 <!-- summary strip -->
       <div class="grid grid-cols-4 gap-x-8 gap-y-6 mb-7" id="cr-strip"></div>
       <!-- pattern views -->
@@ -246,21 +265,23 @@
       </div>
       <p class="mt-2.5 text-[11px] text-ink-400">Corrected columns use CDP-attributed revenue, not platform-claimed · fatigue scored per creative above 1,000 impressions · click a row for tags, funnel and reasoning.</p>
     </div>
-    </div><!-- /ck-dash -->
+  </section>
 
-    <div id="ck-chat">
-      <div class="ibx-sec" style="margin:6px 0 14px">Current session</div>
-      <div id="ck-thread"></div>
+  <!-- ======== CREATIVES — ASSET LIBRARY ======== -->
+  <section class="screen" id="s-assets">
+    <div class="mb-6 flex items-center gap-3">
+      <div class="views" style="margin-bottom:0" id="asFmtRow">
+        <button class="view on" onclick="setAsFmt('all',this)">All formats</button>
+        <button class="view" onclick="setAsFmt('video',this)">Video &amp; UGC</button>
+        <button class="view" onclick="setAsFmt('static',this)">Static &amp; carousel</button>
+        <button class="view" onclick="setAsFmt('copy',this)">Copy &amp; catalog</button>
+      </div>
+      <span class="spacer"></span>
+      <span class="font-mono text-[10.5px] text-ink-400" id="as-count"></span>
+      <button class="mini mini-call" onclick="toast('Upload queued — tags are auto-applied by the Creative Analyst agent on ingest')">⇧ Upload assets</button>
     </div>
-    <div class="wb-foot" id="ck-foot" style="display:none"></div>
-
-    <!-- floating chat — pinned while the page scrolls -->
-    <div class="fab-chat">
-      <div class="slashmenu" id="ckSlash"></div>
-      <span style="color:var(--color-ember);font-size:15px">✦</span>
-      <input id="ck-ask" placeholder="Ask anything, or / for commands…" oninput="ckSlashCheck(this)" onkeydown="if(event.key==='Enter')askCockpit()">
-      <button class="send" onclick="askCockpit()">↑</button>
-    </div>
+    <div class="grid grid-cols-4 gap-4" id="as-grid"></div>
+    <p class="mt-4 text-[11px] text-ink-400">Assets sync automatically from connected Meta &amp; Google ad accounts · hooks, angles and formats are tagged by the Creative Analyst agent · open any asset in Creative analysis for corrected performance.</p>
   </section>
 
   <!-- ======== ATTRIBUTION ======== -->
@@ -859,6 +880,8 @@
       <button class="cktab" onclick="cdpTab('checkout',this)">Checkout</button>
       <button class="cktab on" onclick="cdpTab('cohorts',this)">Cohorts</button>
       <button class="cktab" onclick="cdpTab('ltv',this)">LTV</button>
+      <span class="spacer"></span>
+      <button class="mini" id="cdpPin" style="margin-bottom:8px" onclick="pinCdp(CDPCUR)">⊕ Pin view to Cockpit</button>
     </div>
 
     <div class="cdp-pane" id="cdp-cohorts">
@@ -992,7 +1015,6 @@
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Reports &amp; Notifications</button>
         <button class="sn-i" data-pane="cost" onclick="setPane('cost')">Traffic Rules · UTM Builder</button>
         <div class="sn-sec">Modules</div>
-        <button class="sn-i" data-pane="leaddesk" onclick="setPane('leaddesk')">CRM Configuration <span class="nw">NEW</span></button>
         <div class="sn-sec">AI Settings</div>
         <button class="sn-i" data-pane="brand" onclick="setPane('brand')">Brand Vault <span class="nw">NEW</span></button>
         <button class="sn-i" data-pane="analystset" onclick="setPane('analystset')">Analyst</button>
@@ -1417,7 +1439,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1649,8 +1671,10 @@ function go(id){
   const nav=document.querySelector('#nav .ni[data-go="'+id+'"]');
   if(nav)nav.classList.add('active');
   const sn=document.querySelector('.sni[data-go="'+id+'"]');
-  if(sn){sn.classList.add('active');document.getElementById('spineHead').classList.add('active');}
+  if(sn){sn.classList.add('active');const hd=sn.closest('#spineKids')?'spineHead':sn.closest('#crKids')?'crHead':null;if(hd)document.getElementById(hd).classList.add('active');}
   if(id==='cdp')renderRetention();
+  if(id==='creatives'){renderCrPlat();renderCreatives();}
+  if(id==='assets')renderAssets();
   const fly=document.querySelector('.fly .fi[data-go="'+id+'"]');
   if(fly){fly.classList.add('on');fly.closest('.ni-wrap').querySelector('.ni').classList.add('active');}
   document.getElementById('scroll').scrollTop=0;
@@ -1662,9 +1686,8 @@ function go(id){
   document.getElementById('viewBtn').style.display=(id==='summary')?'inline-flex':'none';
   document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
-  const NOTB=['cdp','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
+  const NOTB=['cdp','creatives','assets','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
-  if(['queue','allleads','crmteam','crmperf','lead'].includes(id))setWorkspace('Progen Method');
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 
@@ -1693,6 +1716,12 @@ document.querySelectorAll('#wsMenu .wrow:not(.create)').forEach(b=>b.addEventLis
   document.getElementById('wsMenu').classList.remove('on');
 }));
 
+/* creatives nav group */
+function toggleCr(){
+  const kids=document.getElementById('crKids');
+  kids.classList.toggle('closed');
+  document.getElementById('crCaret').style.transform=kids.classList.contains('closed')?'':'rotate(90deg)';
+}
 /* data spine */
 function toggleSpine(){
   const kids=document.getElementById('spineKids');
@@ -2144,12 +2173,7 @@ buyer:{h:'Media buyer',q:'"Which campaigns and creatives do I touch today?"',
 function renderCockpit(){
   const r=CK[CKROLE];
   document.getElementById('ck-role').textContent=(CKROLE==='default'?'Default view':r.h);
-
-  const cr=CKROLE==='creatives';
-  document.getElementById('ck-kpis').style.display=cr?'none':'grid';
-  const cc=document.getElementById('ck-creatives');if(cc)cc.style.display=cr?'':'none';
-  renderCkExtra();
-  if(cr){document.getElementById('ck-role').textContent='Creatives';renderCreatives();return;}
+  renderCkExtra();renderPinned();
   const grid=document.getElementById('ck-kpis');
   let kset=r.kpis, cols=4;
   if(FSEL.size===1)kset=PLAT[[...FSEL][0]].kpis;
@@ -2182,12 +2206,11 @@ function renderCkExtra(){
       <div class="patbar"><span class="pl">Meta</span><div class="ptrack"><div class="pfill" style="width:67%;background:var(--color-meta)"></div></div><span class="pv">₹3,480</span><span class="ps">1.9× LTV:CAC</span></div></div>`;
   }else x.innerHTML='';
 }
-function showCreatives(){
-  go('summary');
-  const b=[...document.querySelectorAll('#viewMenu .viewitem')].find(x=>x.textContent.trim().startsWith('Creatives'));
-  setCkRole('creatives',b);
-}
+function showCreatives(){go('creatives');}
+let CDPCUR='cohorts';
 function cdpTab(t,btn){
+  CDPCUR=t;
+  document.getElementById('cdpPin').style.display=(t==='cohorts'||t==='ltv')?'':'none';
   document.querySelectorAll('#s-cdp .cktab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
   document.getElementById('cdp-cohorts').style.display=t==='cohorts'?'':'none';
   document.getElementById('cdp-ltv').style.display=t==='ltv'?'':'none';
@@ -2415,6 +2438,45 @@ function crPlat(k){
   renderCrPlat();renderCreatives();renderPills();renderCockpit();
 }
 function setCrSort(k,btn){CRSORT=k;btn.parentElement.querySelectorAll('.view').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderCreatives();}
+
+/* ---- Asset library ---- */
+let ASFMT='all';
+const AS_GROUP={'UGC video':'video','Video':'video','Static':'static','Carousel':'static','RSA copy':'copy','Catalog/DPA':'copy','Product ad':'copy'};
+function setAsFmt(k,btn){ASFMT=k;btn.parentElement.querySelectorAll('.view').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderAssets();}
+function renderAssets(){
+  const g=document.getElementById('as-grid');if(!g)return;
+  const rows=CREATIVES.filter(c=>ASFMT==='all'||AS_GROUP[c.fmt]===ASFMT);
+  document.getElementById('as-count').textContent=rows.length+' of '+CREATIVES.length+' assets';
+  g.innerHTML=rows.map(c=>`<div class="card p-0 overflow-hidden" style="cursor:pointer" onclick="go('creatives');toast('Showing ${c.n} in Creative analysis')">
+    <div style="height:96px;background:${c.bg};display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px">${c.ic}</div>
+    <div class="p-3">
+      <div class="flex items-center gap-2"><b class="flex-1 truncate text-[12.5px]">${c.n}</b><span class="fatc fatc-${c.fat}">${c.fat}</span></div>
+      <div class="mt-1 text-[10.5px] text-ink-400">${c.fmt} · ${PLAT[c.plat]?PLAT[c.plat].n:c.plat} · ${c.status} · ${c.days}d live</div>
+      <div class="mt-2 flex items-center gap-2 font-mono text-[10.5px]"><span>${fmtK(c.spend)} spent</span><span class="spacer"></span><b class="${c.rroas>=2.5?'text-good':c.rroas<1?'text-bad':''}">${c.rroas.toFixed(1)}× real</b></div>
+      <div class="mt-2 flex flex-wrap gap-1">${c.tags.slice(0,2).map(t=>'<span class="railchip" style="font-size:9.5px">'+t+'</span>').join('')}<span class="text-[9.5px] text-ink-400" style="align-self:center">+${c.tags.length-2} tags</span></div>
+    </div></div>`).join('');
+}
+
+/* ---- Pin CDP views to Cockpit ---- */
+let PINNED=[];
+function pinCdp(k){
+  if(PINNED.includes(k)){toast('Already pinned to your Cockpit');return;}
+  PINNED.push(k);renderPinned();
+  toast('Pinned to your Cockpit — it stays there across views');
+}
+function unpin(k){PINNED=PINNED.filter(p=>p!==k);renderPinned();}
+function renderPinned(){
+  const x=document.getElementById('ck-pins');if(!x)return;
+  if(!PINNED.length){x.innerHTML='';return;}
+  const CARD={
+   cohorts:`<div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">Cohort retention</b><span class="railchip" style="font-size:9.5px">pinned · CDP Analytics</span><span class="spacer"></span><button class="mini" onclick="go('cdp')">Open →</button><button class="mini" title="Unpin" onclick="unpin('cohorts')">✕</button></div>
+     <div class="flex gap-7 text-[12.5px]"><span><b class="text-[19px] font-semibold">27%</b><br><span class="text-ink-400 text-[11px]">repeat rate</span></span><span><b class="text-[19px] font-semibold">34 d</b><br><span class="text-ink-400 text-[11px]">to 2nd order</span></span><span><b class="text-[19px] font-semibold">41 / 33 / 29%</b><br><span class="text-ink-400 text-[11px]">30 / 60 / 90-day retention</span></span></div></div>`,
+   ltv:`<div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">LTV by first-touch channel</b><span class="railchip" style="font-size:9.5px">pinned · CDP Analytics</span><span class="spacer"></span><button class="mini" onclick="go('cdp')">Open →</button><button class="mini" title="Unpin" onclick="unpin('ltv')">✕</button></div>
+     <div class="patbar"><span class="pl">Organic</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">₹5,210</span><span class="ps">2.8× LTV:CAC</span></div>
+     <div class="patbar"><span class="pl">Google</span><div class="ptrack"><div class="pfill" style="width:79%;background:var(--color-google)"></div></div><span class="pv">₹4,120</span><span class="ps">2.4× LTV:CAC</span></div>
+     <div class="patbar"><span class="pl">Meta</span><div class="ptrack"><div class="pfill" style="width:67%;background:var(--color-meta)"></div></div><span class="pv">₹3,480</span><span class="ps">1.9× LTV:CAC</span></div></div>`};
+  x.innerHTML='<div class="ibx-sec" style="margin:28px 0 10px">Pinned from CDP Analytics</div><div class="grid grid-cols-2 gap-4" style="max-width:900px">'+PINNED.map(k=>CARD[k]).join('')+'</div>';
+}
 
 const COHORTS=[['Feb',100,41,33,29,26],['Mar',100,38,31,27,0],['Apr',100,36,30,0,0],['May',100,33,0,0,0],['Jun',100,29,0,0,0],['Jul',100,0,0,0,0]];
 function renderRetention(){
