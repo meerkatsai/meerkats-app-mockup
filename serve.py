@@ -11,4 +11,6 @@ class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Expires", "0")
         super().end_headers()
 
-http.server.ThreadingHTTPServer(("", 4710), NoCacheHandler).serve_forever()
+import os
+port = int(os.environ.get("PORT", 4710))
+http.server.ThreadingHTTPServer(("", port), NoCacheHandler).serve_forever()

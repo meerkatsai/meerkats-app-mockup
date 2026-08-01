@@ -1427,3 +1427,38 @@
   .cal-d.edge:hover { @apply bg-ink-900; }
   .tf-foot { @apply flex items-center gap-2 border-t border-rule px-3.5 py-2.5; }
 }
+
+/* ============================================================
+   Creative Analysis + Retention/LTV modules
+   ============================================================ */
+@layer components {
+  .cktab { @apply -mb-px border-b-2 border-transparent px-1 pb-2.5 mr-6 text-[13.5px] font-medium text-ink-500 transition-colors duration-150; }
+  .cktab:hover { @apply text-ink-900; }
+  .cktab.on { @apply border-b-ember font-semibold text-ink-900; }
+
+  .fatc { @apply rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.04em]; }
+  .fatc-fresh { @apply bg-good-bg text-good; }
+  .fatc-watch { @apply bg-watch-bg text-watch; }
+  .fatc-fatiguing { @apply bg-ember-dim text-ember; }
+  .fatc-dead { @apply bg-bad-bg text-bad; }
+  .actc { @apply rounded-md border border-rule px-2 py-0.5 text-[10.5px] font-semibold text-ink-700; }
+
+  .thumb2 {
+    @apply grid h-9 w-14 flex-none place-items-center rounded-md text-[15px] text-white;
+  }
+  .crow { @apply cursor-pointer transition-colors duration-100; }
+  .crow:hover { @apply bg-off; }
+  .cdetail { @apply hidden; }
+  .cdetail.open { @apply table-row; }
+  .cdetail > td { @apply bg-off/60 px-5 py-4; }
+
+  .coh-cell {
+    @apply grid h-9 place-items-center rounded-md text-[11.5px] font-medium tabular-nums;
+  }
+  .patbar { @apply flex items-center gap-2.5 text-[12.5px] mb-2; }
+  .patbar .pl { @apply w-[168px] flex-none text-ink-700 truncate; }
+  .patbar .ptrack { @apply h-4 flex-1 overflow-hidden rounded bg-off; }
+  .patbar .pfill { @apply h-full rounded; }
+  .patbar .pv { @apply w-[48px] flex-none text-right font-mono text-[11.5px] font-semibold tabular-nums; }
+  .patbar .ps { @apply w-[76px] flex-none text-right font-mono text-[10px] text-ink-400 tabular-nums; }
+}

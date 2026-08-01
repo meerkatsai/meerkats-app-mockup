@@ -137,6 +137,13 @@
       <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Budget guardrail — alert if blended CAC &gt; ₹950</b><div class="sub">Hourly check · Slack alert</div></div><span class="spacer"></span><span class="cad">HOURLY</span><div class="toggle"></div></div>
       <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Creative refresh brief from monthly winners</b><div class="sub">1st of month · drafts to Library</div></div><span class="spacer"></span><span class="cad">MONTHLY</span><div class="toggle off"></div></div>
     </div>
+    <div class="sec-h" style="margin-top:22px">Briefings &amp; alerts <span class="hint">— pushed out of the app · WhatsApp first for India</span></div>
+    <div class="card">
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Daily founder briefing</b><div class="sub">8:00 · yesterday's spend, CAC, winners &amp; one action</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Email</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Weekly deep-dive report</b><div class="sub">Monday 8:00 · cohorts, creatives, POAS — the Monday read</div></div><span class="spacer"></span><span class="tag">Email</span><span class="tag">Slack</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>ROAS drop alert</b><div class="sub">Any platform Real ROAS −15% vs 7-day avg · checked hourly</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Slack</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Spend pacing alert</b><div class="sub">Daily spend &gt;120% of plan before 6pm</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><div class="toggle off"></div></div>
+    </div>
     <p style="font-size:12px;color:var(--color-ink-400);margin-top:14px">Automations run on the <b>Automate</b> plan. Recurring jobs use your default attribution model (Last Click · 30d) unless overridden.</p>
   </section>
 
@@ -197,7 +204,94 @@
       </span>
     </div>
 
-    <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
+    <div class="rtabs" style="margin-top:0">
+      <button class="cktab on" onclick="setCkTab('overview',this)">Overview</button>
+      <button class="cktab" onclick="setCkTab('creatives',this)">Creatives</button>
+      <button class="cktab" onclick="setCkTab('retention',this)">Retention</button>
+    </div>
+
+    <div id="ck-overview">
+      <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
+      <div id="ck-mini" class="mt-8"></div>
+    </div>
+
+    <div id="ck-creatives" style="display:none">
+      <!-- summary strip -->
+      <div class="grid grid-cols-4 gap-x-8 gap-y-6 mb-7" id="cr-strip"></div>
+      <!-- pattern views -->
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Performance by hook style</div>
+          <div class="mb-3 text-[11px] text-ink-400">Real ROAS · min ₹5K spend · share of spend right</div>
+          <div id="cr-tags"></div>
+        </div>
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Winning combinations</div>
+          <div class="mb-3 text-[11px] text-ink-400">format × hook × angle, ranked by Real ROAS</div>
+          <div id="cr-combos"></div>
+          <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500" id="cr-diversity"></div>
+        </div>
+      </div>
+      <div class="card mb-5 p-4" style="border-color:var(--color-ember-soft);background:var(--color-tint)">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <b class="text-[13px]">What to brief next</b>
+          <span class="text-[12.5px] text-ink-700" id="cr-brief"></span>
+          <span class="spacer"></span>
+          <button class="mini" onclick="openTask('Draft creative briefs from this week&#39;s winning patterns','From Creatives · patterns attached')">Draft briefs with agent</button>
+          <button class="mini mini-call" onclick="go('myqueue');toast('Retirement of 2 dead creatives staged for approval')">Stage retirements →</button>
+        </div>
+      </div>
+      <!-- ad-level table -->
+      <div class="mb-2.5 flex items-center gap-2">
+        <b class="text-[13px]">All creatives</b><span class="font-mono text-[10.5px] text-ink-400" id="cr-count"></span>
+        <span class="spacer"></span>
+        <div class="views" style="margin-bottom:0">
+          <button class="view on" onclick="setCrSort('spend',this)">Spend</button>
+          <button class="view" onclick="setCrSort('top',this)">Top performers</button>
+          <button class="view" onclick="setCrSort('losers',this)">Biggest losers</button>
+        </div>
+      </div>
+      <div class="card" style="overflow-x:auto">
+        <table class="dtable" style="min-width:1020px">
+          <thead><tr><th>Creative</th><th>Spend</th><th>%</th><th>CTR · trend</th><th>Hook</th><th>Real ROAS</th><th>Platform · gap</th><th>CAC</th><th>Freq</th><th style="text-align:left">Fatigue</th><th style="text-align:left">Action</th></tr></thead>
+          <tbody id="cr-rows"></tbody>
+        </table>
+      </div>
+      <p class="mt-2.5 text-[11px] text-ink-400">Corrected columns use CDP-attributed revenue, not platform-claimed · fatigue scored per creative above 1,000 impressions · click a row for tags, funnel and reasoning.</p>
+    </div>
+
+    <div id="ck-retention" style="display:none">
+      <div class="slimbanner" style="margin-bottom:20px"><span>◦</span> Computed from CDP checkout events (128 identities) — Shopify sync will reconcile revenue to the rupee. <button onclick="go('integrations')">Connect →</button></div>
+      <div class="grid grid-cols-4 gap-x-8 gap-y-6 mb-8">
+        <div class="kpimin"><div class="kl">Repeat purchase rate</div><div class="kv">27%</div><div class="kn"><span class="delta delta-up">▲ 2pp vs prior 90d</span></div></div>
+        <div class="kpimin"><div class="kl">Median time to 2nd order</div><div class="kv">34 d</div><div class="kn"><span class="delta delta-up">▼ 4 d</span></div></div>
+        <div class="kpimin"><div class="kl">LTV : CAC (90d)</div><div class="kv">2.1×</div><div class="kn"><span class="delta delta-dn">target 3.0×</span></div></div>
+        <div class="kpimin"><div class="kl">CAC payback</div><div class="kv">46 d</div><div class="kn"><span class="delta delta-dn">▲ 8 d</span></div></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Cohort retention — % ordering again</div>
+          <div class="mb-3 text-[11px] text-ink-400">monthly acquisition cohorts · months since first order</div>
+          <div id="rt-cohorts"></div>
+        </div>
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">LTV by first-touch channel · 90d</div>
+          <div class="mb-3 text-[11px] text-ink-400">CDP-attributed · LTV:CAC right</div>
+          <div id="rt-ltv"></div>
+          <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500">✦ Organic-first buyers are worth <b>1.5×</b> Meta-first buyers at 90 days — winback flows should weight them accordingly.</div>
+        </div>
+      </div>
+      <div class="card p-4">
+        <div class="mb-1 flex items-center gap-2"><b class="text-[13px]">Net profit after ads (POAS)</b><span class="tag" style="border-color:var(--color-watch);color:var(--color-watch);background:var(--color-watch-bg)">COGS estimated</span></div>
+        <div class="mb-4 text-[11.5px] text-ink-400">Contribution = revenue − COGS (est. 38%) − shipping − RTO − ad spend · exact once Shopify COGS syncs</div>
+        <div class="grid grid-cols-4 gap-x-8">
+          <div class="kpimin"><div class="kl">POAS</div><div class="kv">1.34×</div><div class="kn"><span class="delta delta-mut">est.</span></div></div>
+          <div class="kpimin"><div class="kl">Contribution after ads</div><div class="kv">₹3.1L</div><div class="kn"><span class="delta delta-mut">est. · window</span></div></div>
+          <div class="kpimin"><div class="kl">RTO drag</div><div class="kv">9.8%</div><div class="kn"><span class="delta delta-dn">▲ 1.1pp · of revenue</span></div></div>
+          <div class="kpimin"><div class="kl">Breakeven ROAS</div><div class="kv">1.9×</div><div class="kn"><span class="delta delta-mut">at est. margins</span></div></div>
+        </div>
+      </div>
+    </div>
     </div><!-- /ck-dash -->
 
     <div id="ck-chat">
@@ -829,6 +923,11 @@
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">B</div><div class="meta"><b>Blinkit</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-panel);font-size:20px;font-weight:700;color:var(--color-ink-500)">F</div><div class="meta"><b>Flipkart Ads</b><span style="color:var(--color-ember);font-family:var(--font-sans);font-weight:600">Connect →</span></div></div>
       <div class="libitem" style="cursor:default"><div class="thumb" style="background:var(--color-tint);font-size:20px;color:var(--color-ember)">＋</div><div class="meta"><b>Request a connector</b><span>50+ in catalog</span></div></div>
+    </div>
+    <div class="sec-h" style="margin-top:26px">Pipelines <span class="hint">— corrected signal flowing back out</span></div>
+    <div class="card">
+      <div class="costrow"><div class="ci">⇄</div><div><b>Corrected conversions → Meta (CAPI)</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Server-side · CDP-attributed events enrich Meta's optimisation · 412 events/day · match quality +18%</div></div><span class="spacer"></span><span class="perm-y stt">Live</span><div class="toggle" style="margin-left:10px"></div></div>
+      <div class="costrow"><div class="ci">⇄</div><div><b>Corrected conversions → Google (Enhanced)</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Planned — same pipeline, gclid-keyed</div></div><span class="spacer"></span><span class="tag">Planned</span></div>
     </div>
   </section>
 
@@ -1603,7 +1702,8 @@ const RECS=[
  {sev:'warn',t:'CAC up 9% W/W — one Meta campaign',ev:'Advantage+ · GLP-1 at ₹1,412 vs ₹950 target · 38% of spend.',type:'agent'},
  {sev:'crit',t:'"discount-banner-old" fatigued',ev:'Frequency 4.8, CTR down 44% · still spending ₹4,180/day.',type:'queue'},
  {sev:'opp',t:'Search · brand starved of budget',ev:'Losing 31% impression share at CAC ₹704 — cheapest volume available.',type:'queue'},
- {sev:'opp',t:'Extend email winback to 60–90d lapsed',ev:'winback-3 drove 41 orders at effective CAC ₹216 last week.',type:'agent'}];
+ {sev:'opp',t:'Extend email winback to 60–90d lapsed',ev:'winback-3 drove 41 orders at effective CAC ₹216 last week.',type:'agent'},
+ {sev:'warn',t:'₹6.1K/day sitting on dead creatives',ev:'"discount-banner-old" and "holi-sale-carousel" are dead by CTR trend + frequency — retire and rotate winners in.',type:'creatives'}];
 let RECD=new Set();
 function inboxCount(){return STAGED.filter(q=>q.status==='staged').length+RECS.filter((r,i)=>!RECD.has(i)).length;}
 function updInboxBadge(){
@@ -1638,6 +1738,7 @@ function renderInboxPanel(){
       <div class="flex gap-2">
         ${r.type==='agent'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);openTask('${r.t.replace(/'/g,"\\'")}')">Fix with agent →</button>`
          :r.type==='queue'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('myqueue')">Review & approve →</button>`
+         :r.type==='creatives'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('summary');setCkTab('creatives')">Open Creatives →</button>`
          :`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('integrations')">Connect →</button>`}
         <button class="btn btn-sm btn-ghost" onclick="toggleInbox(false);openTask('Explain: ${r.t.replace(/'/g,"\\'")}')">Explain</button>
         <button class="btn btn-sm btn-ghost" onclick="dismissRec(${r.i})">Dismiss</button>
@@ -1962,6 +2063,7 @@ function togglePlatMenu(){
 function togglePlat(k){
   FSEL.has(k)?FSEL.delete(k):FSEL.add(k);
   renderPills();renderCockpit();
+  if(CKTAB==='creatives')renderCreatives();
   document.getElementById('platMenu').classList.add('on');
 }
 const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
@@ -2166,6 +2268,98 @@ function ckSlashPick(cmd){
   else{go('automations');toast('Pick a schedule — a scheduled agent run is an Automation');}
 }
 
+/* ================= CREATIVE ANALYSIS + RETENTION ================= */
+let CKTAB='overview', CRSORT='spend';
+const CREATIVES=[
+{id:1,n:'glow-ritual-ugc-01',fmt:'UGC video',ic:'▶',bg:'linear-gradient(135deg,#EA580C,#C2410C)',plat:'meta',camp:'Sales · Adv+ DP',status:'active',days:21,spend:58400,pct:15.9,ctr:2.4,trend:'+9%',hook:38,hold:12,lpv:78,atc:9.4,rroas:4.1,proas:5.0,cac:612,freq:1.9,fat:'fresh',act:'Scale',nc:74,tags:['testimonial hook','social-proof','no-offer','real-person','customer-UGC']},
+{id:2,n:'quiz-hook-reel',fmt:'UGC video',ic:'▶',bg:'linear-gradient(135deg,#0F6E56,#0a4f3e)',plat:'meta',camp:'Prospecting · broad',status:'active',days:9,spend:21300,pct:5.8,ctr:3.1,trend:'+21%',hook:41,hold:14,lpv:81,atc:8.8,rroas:3.2,proas:3.9,cac:688,freq:1.4,fat:'fresh',act:'Scale',nc:81,tags:['question hook','curiosity','no-offer','creator','influencer']},
+{id:3,n:'brand-search-rsa',fmt:'RSA copy',ic:'⌕',bg:'linear-gradient(135deg,#F9AB00,#c58a00)',plat:'google',camp:'Search · brand',status:'active',days:120,spend:38900,pct:10.6,ctr:4.2,trend:'+3%',hook:0,hold:0,lpv:88,atc:11.2,rroas:4.6,proas:4.9,cac:704,freq:1.1,fat:'fresh',act:'Scale',nc:62,tags:['benefit-led','brand terms','no-offer']},
+{id:4,n:'amazon-sp-hero-glow',fmt:'Product ad',ic:'◈',bg:'linear-gradient(135deg,#2A2A2E,#0B0B0C)',plat:'amazon',camp:'SP · hero SKU',status:'active',days:44,spend:31200,pct:8.5,ctr:0.41,trend:'+5%',hook:0,hold:0,lpv:0,atc:14.8,rroas:2.9,proas:3.1,cac:402,freq:0,fat:'fresh',act:'Scale',nc:57,tags:['product-on-plain','single-hero-SKU','bestseller']},
+{id:5,n:'founder-story-v2',fmt:'Video',ic:'▶',bg:'linear-gradient(135deg,#3A5A7A,#243c53)',plat:'meta',camp:'Sales · Adv+',status:'active',days:34,spend:41200,pct:11.2,ctr:1.6,trend:'−12%',hook:24,hold:8,lpv:74,atc:6.1,rroas:1.9,proas:2.6,cac:1120,freq:4.1,fat:'watch',act:'Monitor',nc:66,tags:['founder-to-camera','problem-solution','no-offer','brand-produced']},
+{id:6,n:'pmax-catalog-feed',fmt:'Catalog/DPA',ic:'▤',bg:'linear-gradient(135deg,#8A8A92,#5C5C63)',plat:'google',camp:'PMax · generic',status:'active',days:75,spend:52800,pct:14.4,ctr:0.9,trend:'−8%',hook:0,hold:0,lpv:69,atc:5.2,rroas:1.1,proas:3.2,cac:1240,freq:2.2,fat:'watch',act:'Refresh',nc:48,tags:['catalog/DPA','full-range','price/value']},
+{id:7,n:'discount-banner-old',fmt:'Static',ic:'▧',bg:'linear-gradient(135deg,#B23A3A,#7e2828)',plat:'meta',camp:'Sale · Retarget',status:'active',days:62,spend:29300,pct:8.0,ctr:0.9,trend:'−44%',hook:0,hold:0,lpv:64,atc:3.9,rroas:0.6,proas:1.4,cac:1608,freq:4.8,fat:'dead',act:'Retire',nc:22,tags:['offer-led','price/value','percent-off','text-heavy','brand-produced']},
+{id:8,n:'holi-sale-carousel',fmt:'Carousel',ic:'❖',bg:'linear-gradient(135deg,#9A6410,#6e4708)',plat:'meta',camp:'Sale · Nuts',status:'paused',days:88,spend:4200,pct:1.1,ctr:0.7,trend:'−31%',hook:0,hold:0,lpv:58,atc:2.8,rroas:0.8,proas:1.6,cac:1490,freq:3.4,fat:'dead',act:'Retire',nc:31,tags:['festival','urgency','flat-discount','lifestyle']}];
+const HOOKPERF=[['Testimonial / quote',3.8,22,'var(--color-good)'],['Question hook',3.2,9,'var(--color-good)'],['Problem–agitation',2.6,12,'var(--color-good)'],['Founder-to-camera',1.9,11,'var(--color-watch)'],['Bold claim',1.6,14,'var(--color-watch)'],['Offer-led (discount)',0.7,24,'var(--color-bad)']];
+const COMBOS=[['UGC video × testimonial × social-proof','4.1×','₹58K spend','good'],['UGC video × question × curiosity','3.2×','₹21K spend','good'],['Static × offer-led × price','0.7×','₹34K spend — brief away from this','bad']];
+const fmtK=v=>v>=100000?'₹'+(v/100000).toFixed(1)+'L':'₹'+(v/1000).toFixed(1)+'K';
+function crRows(){
+  let rows=CREATIVES.filter(c=>FSEL.size===0||FSEL.has(c.plat));
+  if(CRSORT==='spend')rows=[...rows].sort((a,b)=>b.spend-a.spend);
+  if(CRSORT==='top')rows=[...rows].filter(c=>c.spend>5000).sort((a,b)=>b.rroas-a.rroas);
+  if(CRSORT==='losers')rows=[...rows].sort((a,b)=>(b.spend*(1/Math.max(b.rroas,.1)))-(a.spend*(1/Math.max(a.rroas,.1))));
+  return rows;
+}
+function renderCreatives(){
+  const tb=document.getElementById('cr-rows');if(!tb)return;
+  const rows=crRows();
+  const atRisk=CREATIVES.filter(c=>(FSEL.size===0||FSEL.has(c.plat))&&(c.fat==='dead'||c.fat==='fatiguing'));
+  const riskSum=atRisk.reduce((a,c)=>a+c.spend,0);
+  document.getElementById('cr-strip').innerHTML=
+   `<div class="kpimin"><div class="kl">Spend at risk from fatigue</div><div class="kv" style="color:var(--color-bad)">${fmtK(riskSum)}</div><div class="kn">${atRisk.length} creatives dead or fatiguing · this window</div></div>
+    <div class="kpimin"><div class="kl">Top pattern</div><div class="kv" style="font-size:16px;line-height:1.35;margin-top:10px">UGC × testimonial</div><div class="kn">3.8× Real ROAS on 22% of spend</div></div>
+    <div class="kpimin"><div class="kl">Diversity check</div><div class="kv" style="color:var(--color-watch)">38%</div><div class="kn">of spend on offer-led statics — over-indexed</div></div>
+    <div class="kpimin"><div class="kl">Avg ROAS gap</div><div class="kv">−0.9×</div><div class="kn">platform-claimed vs corrected, spend-weighted</div></div>`;
+  document.getElementById('cr-tags').innerHTML=HOOKPERF.map(h=>
+   `<div class="patbar"><span class="pl">${h[0]}</span><div class="ptrack"><div class="pfill" style="width:${h[1]/4.2*100}%;background:${h[3]}"></div></div><span class="pv">${h[1].toFixed(1)}×</span><span class="ps">${h[2]}% spend</span></div>`).join('');
+  document.getElementById('cr-combos').innerHTML=COMBOS.map((c,i)=>
+   `<div class="flex items-center gap-2.5 mb-2 text-[12.5px]"><span class="font-mono text-[10px] text-ink-400">${i+1}</span><b class="flex-1 min-w-0">${c[0]}</b><span class="font-mono text-[11.5px] font-semibold" style="color:var(--color-${c[3]})">${c[1]}</span><span class="font-mono text-[10px] text-ink-400 w-[150px] text-right">${c[2]}</span></div>`).join('');
+  document.getElementById('cr-diversity').innerHTML='⚑ Concentration: offer-led statics take <b>38%</b> of spend at 0.7× — the single biggest rebalance lever.';
+  document.getElementById('cr-brief').textContent='Double down on UGC testimonial and question hooks; retire the two dead offer-led creatives; brief 3 new UGC variants against the winning pattern.';
+  document.getElementById('cr-count').textContent=rows.length+' of '+CREATIVES.length;
+  tb.innerHTML=rows.map(c=>{
+    const gap=(c.proas-c.rroas).toFixed(1);
+    const tUp=c.trend.startsWith('+');
+    return `<tr class="crow" onclick="document.getElementById('cd-${c.id}').classList.toggle('open')">
+     <td style="min-width:230px"><div class="flex items-center gap-2.5"><span class="thumb2" style="background:${c.bg}">${c.ic}</span><div class="min-w-0"><b class="block truncate" style="max-width:170px">${c.n}</b><span class="text-[10.5px] text-ink-400">${c.fmt} · ${c.camp} · ${c.status} · ${c.days}d</span></div></div></td>
+     <td><b>${fmtK(c.spend)}</b></td><td>${c.pct}%</td>
+     <td>${c.ctr}% <span class="font-mono text-[10px] ${tUp?'text-good':'text-bad'}">${c.trend}</span></td>
+     <td>${c.hook?c.hook+'%':'—'}</td>
+     <td><b class="${c.rroas>=2.5?'text-good':c.rroas<1?'text-bad':''}">${c.rroas.toFixed(1)}×</b></td>
+     <td>${c.proas.toFixed(1)}× <span class="font-mono text-[10px] text-ink-400">−${gap}</span></td>
+     <td>₹${c.cac.toLocaleString('en-IN')}</td><td>${c.freq||'—'}</td>
+     <td style="text-align:left"><span class="fatc fatc-${c.fat}">${c.fat}</span></td>
+     <td style="text-align:left"><span class="actc">${c.act}</span></td></tr>
+    <tr class="cdetail" id="cd-${c.id}"><td colspan="11">
+      <div class="flex flex-wrap gap-6">
+        <div><div class="slab">Tags — click to override</div>${c.tags.map(t=>'<span class="railchip">'+t+'</span>').join('')}</div>
+        <div><div class="slab">Funnel</div><span class="text-[12px] text-ink-700">LP view ${c.lpv||'—'}% · ATC ${c.atc||'—'}% · hold ${c.hold?c.hold+'%':'—'} · new-customer ${c.nc}%</span></div>
+        <div><div class="slab">Fatigue reasoning</div><span class="text-[12px] text-ink-700">freq ${c.freq||'n/a'} ${c.freq>2.5?'(>2.5 band)':c.freq>1.8?'(1.8–2.5 band)':'(<1.8)'} · CTR trend ${c.trend} → <b>${c.fat}</b></span></div>
+        <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end">
+          <button class="mini" onclick="event.stopPropagation();openTask('Why is ${c.n} ${c.fat}?','From Creatives · creative context attached')">Ask about this</button>
+          ${c.fat==='dead'?'<button class="mini mini-call" onclick="event.stopPropagation();go(\'myqueue\');toast(\'Pause staged for approval\')">Stage pause →</button>':''}
+        </div>
+      </div></td></tr>`;
+  }).join('');
+}
+function setCrSort(k,btn){CRSORT=k;btn.parentElement.querySelectorAll('.view').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderCreatives();}
+function setCkTab(t,btn){
+  CKTAB=t;
+  if(!btn)btn=[...document.querySelectorAll('.cktab')].find(b=>b.textContent.toLowerCase().includes(t==='overview'?'overview':t));
+  document.querySelectorAll('.cktab').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');
+  document.getElementById('ck-overview').style.display=t==='overview'?'':'none';
+  document.getElementById('ck-creatives').style.display=t==='creatives'?'':'none';
+  document.getElementById('ck-retention').style.display=t==='retention'?'':'none';
+  document.getElementById('viewBtn').style.display=(t==='overview')?'inline-flex':'none';
+  if(t==='creatives')renderCreatives();
+  if(t==='retention')renderRetention();
+}
+const COHORTS=[['Feb',100,41,33,29,26],['Mar',100,38,31,27,0],['Apr',100,36,30,0,0],['May',100,33,0,0,0],['Jun',100,29,0,0,0],['Jul',100,0,0,0,0]];
+function renderRetention(){
+  const c=document.getElementById('rt-cohorts');if(!c||c.innerHTML)return;
+  c.innerHTML='<div class="grid gap-1" style="grid-template-columns:44px repeat(5,1fr)">'+
+   '<span></span>'+['M0','M1','M2','M3','M4'].map(m=>'<span class="text-center font-mono text-[9.5px] text-ink-400">'+m+'</span>').join('')+
+   COHORTS.map(r=>'<span class="text-[11px] text-ink-500" style="align-self:center">'+r[0]+'</span>'+r.slice(1).map(v=>v?`<div class="coh-cell" style="background:color-mix(in srgb, var(--color-good) ${Math.round(v*0.55)}%, white);color:${v>60?'#fff':'var(--color-ink-700)'}">${v}%</div>`:'<div class="coh-cell" style="background:var(--color-off);color:var(--color-ink-400)">·</div>').join('')).join('')+'</div>';
+  document.getElementById('rt-ltv').innerHTML=[['Organic',5210,'2.8×','var(--color-good)'],['Google',4120,'2.4×','var(--color-google)'],['Meta',3480,'1.9×','var(--color-meta)'],['Amazon',2240,'1.7×','var(--color-ink-400)']].map(r=>
+   `<div class="patbar"><span class="pl">${r[0]}</span><div class="ptrack"><div class="pfill" style="width:${r[1]/5210*100}%;background:${r[3]}"></div></div><span class="pv">₹${r[1].toLocaleString('en-IN')}</span><span class="ps">${r[2]} LTV:CAC</span></div>`).join('');
+}
+function renderCkMini(){
+  const m=document.getElementById('ck-mini');if(!m)return;
+  m.innerHTML=`<div class="card p-4" style="max-width:560px">
+   <div class="flex items-center gap-2 mb-3"><b class="text-[13px]">Creatives — top &amp; fatiguing</b><span class="spacer"></span><button class="mini" onclick="setCkTab('creatives')">Open Creatives →</button></div>
+   <div class="flex items-center gap-2.5 text-[12.5px] mb-2"><span class="thumb2" style="background:linear-gradient(135deg,#EA580C,#C2410C);width:40px;height:26px;font-size:11px">▶</span><b class="flex-1 truncate">glow-ritual-ugc-01</b><span class="fatc fatc-fresh">fresh</span><span class="font-mono text-[11.5px] font-semibold text-good">4.1×</span></div>
+   <div class="flex items-center gap-2.5 text-[12.5px]"><span class="thumb2" style="background:linear-gradient(135deg,#B23A3A,#7e2828);width:40px;height:26px;font-size:11px">▧</span><b class="flex-1 truncate">discount-banner-old</b><span class="fatc fatc-dead">dead</span><span class="font-mono text-[11.5px] font-semibold text-bad">₹4.2K/day</span></div></div>`;
+}
+
 /* ================= ONBOARDING ================= */
 const OBCONN=new Set();
 function obGo(n){
@@ -2220,6 +2414,7 @@ renderInbox();
 renderSkills();
 renderRecents();
 renderPills();
+renderCkMini();
 updInboxBadge();
 go('summary');
 if(!sessionStorage.getItem('mk_ob'))showOb(1);
