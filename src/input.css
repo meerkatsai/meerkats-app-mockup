@@ -375,10 +375,10 @@
   #chat.on {
     @apply flex;
   }
-  #spineKids, #crKids {
+  #spineKids {
     @apply flex flex-col;
   }
-  #spineKids.closed, #crKids.closed {
+  #spineKids.closed {
     @apply hidden;
   }
   #toast {

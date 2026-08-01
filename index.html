@@ -33,14 +33,6 @@
   <div class="nav-sec">Recent chats <span class="plus" title="New session" onclick="newSession()">＋</span></div>
   <div id="recentsNav"></div>
 
-  <div class="nav-sec">Analytics</div>
-  <button class="ni" data-go="cdp"><span class="gi">◔</span><span class="lab">CDP Analytics</span></button>
-  <button class="ni" id="crHead" onclick="toggleCr()"><span class="gi">▣</span><span class="lab">Creatives</span><span class="caret" id="crCaret" style="transform:rotate(90deg)">›</span></button>
-  <div id="crKids">
-    <button class="sni" data-go="assets">Asset library</button>
-    <button class="sni" data-go="creatives">Creative analysis</button>
-  </div>
-
   <div class="nav-sec">Data</div>
   <button class="ni" id="spineHead" onclick="toggleSpine()"><span class="gi">◇</span><span class="lab">Data Spine</span><span class="caret" id="spineCaret" style="transform:rotate(90deg)">›</span></button>
   <div id="spineKids">
@@ -53,8 +45,13 @@
     <button class="sni" data-spine="creativestbl">Creatives</button>
     <button class="sni" data-spine="attribution">Attribution</button>
   </div>
+  <button class="ni" data-go="assets"><span class="gi">▣</span><span class="lab">Asset library</span></button>
   <button class="ni" data-go="integrations"><span class="gi">⌗</span><span class="lab">Integrations</span></button>
   <button class="ni" data-go="settings"><span class="gi">⚙</span><span class="lab">Settings</span></button>
+
+  <div class="nav-sec">Analytics</div>
+  <button class="ni" data-go="cdp"><span class="gi">◔</span><span class="lab">CDP Analytics</span></button>
+  <button class="ni" data-go="creatives"><span class="gi">▧</span><span class="lab">Creative analysis</span></button>
 
   <div class="nav-foot">
     <div class="who"><div class="av">S</div><div><b>Santanu</b><span>santanu@meerkats.ai</span></div><span class="cx" style="margin-left:auto;color:var(--color-ink-400);font-size:10px">▼</span></div>
@@ -1671,7 +1668,7 @@ function go(id){
   const nav=document.querySelector('#nav .ni[data-go="'+id+'"]');
   if(nav)nav.classList.add('active');
   const sn=document.querySelector('.sni[data-go="'+id+'"]');
-  if(sn){sn.classList.add('active');const hd=sn.closest('#spineKids')?'spineHead':sn.closest('#crKids')?'crHead':null;if(hd)document.getElementById(hd).classList.add('active');}
+  if(sn){sn.classList.add('active');document.getElementById('spineHead').classList.add('active');}
   if(id==='cdp')renderRetention();
   if(id==='creatives'){renderCrPlat();renderCreatives();}
   if(id==='assets')renderAssets();
@@ -1716,12 +1713,6 @@ document.querySelectorAll('#wsMenu .wrow:not(.create)').forEach(b=>b.addEventLis
   document.getElementById('wsMenu').classList.remove('on');
 }));
 
-/* creatives nav group */
-function toggleCr(){
-  const kids=document.getElementById('crKids');
-  kids.classList.toggle('closed');
-  document.getElementById('crCaret').style.transform=kids.classList.contains('closed')?'':'rotate(90deg)';
-}
 /* data spine */
 function toggleSpine(){
   const kids=document.getElementById('spineKids');
