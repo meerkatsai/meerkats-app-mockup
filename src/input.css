@@ -1461,4 +1461,42 @@
   .patbar .pfill { @apply h-full rounded; }
   .patbar .pv { @apply w-[48px] flex-none text-right font-mono text-[11.5px] font-semibold tabular-nums; }
   .patbar .ps { @apply w-[76px] flex-none text-right font-mono text-[10px] text-ink-400 tabular-nums; }
+
+  /* ---- campaign builder question cards (Claude-style) ---- */
+  .qcard { @apply mb-4 max-w-[580px] rounded-2xl border border-rule bg-white p-4; }
+  .qchip { @apply mb-2 inline-block rounded-full bg-off px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.06em] text-ink-500; }
+  .qask { @apply mb-1 text-[13.5px] font-semibold text-ink-900; }
+  .qnote { @apply mb-3 text-[11.5px] leading-[1.5] text-ink-400; }
+  .qopt { @apply mb-2 flex w-full cursor-pointer flex-col gap-0.5 rounded-xl border border-rule bg-white px-3.5 py-2.5 text-left text-[12.5px] transition-colors duration-100; }
+  .qopt:hover { @apply border-ink-400; }
+  .qopt.rec { border-color: color-mix(in srgb, var(--color-ember) 45%, var(--color-rule)); background: var(--color-tint); }
+  .qopt b { @apply text-[12.5px] font-semibold; }
+  .qopt span { @apply text-[11px] text-ink-400; }
+  .qdone { @apply mb-3 flex max-w-[580px] items-center gap-2.5 rounded-xl border border-rule bg-off px-3.5 py-2 text-[12.5px]; }
+  .qdone .ok2 { @apply text-[12px] font-bold text-good; }
+  .qmedia { @apply mb-3 grid grid-cols-5 gap-2; }
+  .qm { @apply relative cursor-pointer overflow-hidden rounded-lg border-2 border-transparent transition-all duration-100; }
+  .qm img { @apply block h-24 w-full object-cover; }
+  .qm .cap { @apply block truncate bg-off px-1.5 py-1 text-[9px] text-ink-500; }
+  .qm.on { border-color: var(--color-ember); }
+  .qm .pick { @apply absolute right-1 top-1 grid h-4.5 w-4.5 place-items-center rounded-full bg-white/90 text-[9px] font-bold text-ink-400; }
+  .qm.on .pick { background: var(--color-ember); color: #fff; }
+  .qfield { @apply mb-2 w-full rounded-lg border border-rule px-3 py-2 text-[12.5px]; }
+
+  /* ---- Meta review side panel ---- */
+  .cpanel { @apply fixed bottom-0 right-0 top-0 z-[96] hidden w-[min(560px,94vw)] flex-col border-l border-rule bg-white shadow-[-12px_0_40px_rgba(15,15,16,0.08)]; }
+  .cpanel.on { @apply flex; }
+  .cphead { @apply flex flex-none items-center gap-2.5 border-b border-rule px-5 py-3.5; }
+  .cpbody { @apply flex-1 overflow-y-auto px-5 py-4; }
+  .cpsec { @apply mb-2 text-[10px] font-bold uppercase tracking-[0.07em] text-ink-400; margin-top: 18px; }
+  .cpcard { @apply mb-3 rounded-xl border border-rule bg-white p-3.5; }
+  .cprow { @apply flex items-start justify-between gap-3 border-b border-rule py-[7px] text-[12.5px] last:border-0; }
+  .cprow .k { @apply w-[130px] flex-none text-ink-400; }
+  .cprow .v { @apply min-w-0 flex-1 text-right font-medium text-ink-900; }
+  .cprow .pj { @apply ml-1.5 cursor-pointer text-[11px] text-ink-400; }
+  .cprow .pj:hover { color: var(--color-ember); }
+  .cpfoot { @apply flex flex-none items-center gap-2.5 border-t border-rule bg-off px-5 py-3.5; }
+  .stchip { @apply rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide; }
+  .stchip.paused { @apply bg-watch-bg text-watch; }
+  .stchip.active { @apply bg-good-bg text-good; }
 }

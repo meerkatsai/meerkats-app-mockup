@@ -191,6 +191,8 @@
           </div>
         </div>
       </span>
+      <span class="spacer"></span>
+      <button class="btn btn-sm btn-orange" onclick="openNewCamp()">＋ Create campaign</button>
     </div>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
@@ -427,6 +429,36 @@
         <div class="flex items-center gap-2.5 py-2" id="mksug-3"><span class="thumb2" style="background:linear-gradient(135deg,#a16207,#713f12);width:36px;height:24px;font-size:10px">◈</span><div class="flex-1 text-[12.5px]"><b>Kapiva Slim Tea 60s</b> <span class="text-[10.5px] text-ink-400">· price cut 9% + review velocity 3× in 2 weeks</span></div><button class="mini mini-call" onclick="mkTrack('mksug-3','Kapiva Slim Tea 60s')">✓ Track</button><button class="mini" onclick="mkIgnore('mksug-3')">✕ Ignore</button></div>
         <div class="mt-3 border-t border-rule pt-3 text-[11px] text-ink-400">Currently tracking: <span class="railchip">OZiva Collagen 500g</span><span class="railchip">Plix Gummies</span><span class="railchip">Wellbeing Collagen</span><span class="railchip">Kapiva Tea 30s</span><span class="railchip">NutriMart Shake</span><span class="railchip">HealthKart MRP</span></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ======== NEW CAMPAIGN (Meta) ======== -->
+  <section class="screen" id="s-newcamp">
+    <div style="max-width:760px;margin:0 auto;padding-bottom:140px">
+      <div id="nc-clean">
+        <div class="mt-6 mb-1 flex items-center gap-2.5">
+          <h2 style="font-family:var(--font-serif);font-size:26px;font-weight:600">Launch a campaign.</h2>
+          <span class="spacer"></span>
+          <button class="mini" onclick="go('summary')">‹ Back to Cockpit</button>
+        </div>
+        <p class="mb-2 text-[13px] text-ink-500 max-w-[62ch]">A few question cards, one at a time — every card has a recommended answer, so you can be done in under two minutes.</p>
+        <p class="mb-6 text-[11.5px] text-ink-400">Everything is created <b class="text-ink-700">paused</b> on Meta. Nothing spends until you review and publish. · acct <span class="font-mono">Alby D2C (act_1094…)</span> · Page <b class="text-ink-700">Alby</b> · pixel <b class="text-ink-700">Alby Web ✓</b></p>
+        <div class="grid grid-cols-2 gap-2.5" style="max-width:640px">
+          <button class="qopt" onclick="ncStart('sales')"><b>🛍 Sales / conversions</b><span>Drive purchases — pixel-optimized, ROAS-ready</span></button>
+          <button class="qopt" onclick="ncStart('leads')"><b>✎ Leads</b><span>Instant forms, WhatsApp, or website sign-ups</span></button>
+          <button class="qopt" onclick="ncStart('traffic')"><b>→ Traffic</b><span>Landing-page views for the new drop</span></button>
+          <button class="qopt" onclick="ncStart('boost')"><b>▲ Boost a post</b><span>Put budget behind an existing IG post</span></button>
+          <button class="qopt" onclick="ncStart('retarget')"><b>⟲ Retarget</b><span>Build the audience + campaign in one flow</span></button>
+          <button class="qopt" onclick="ncStart('abtest')"><b>⚖ A/B test</b><span>Two creatives head-to-head, one winner metric</span></button>
+        </div>
+      </div>
+      <div id="nc-thread"></div>
+    </div>
+    <div class="wb-foot"></div>
+    <div class="fab-chat">
+      <span style="color:var(--color-ember);font-size:15px">✦</span>
+      <input id="nc-ask" placeholder="Or describe it: &quot;sales campaign for the new totes at ₹2K/day&quot;…" onkeydown="if(event.key==='Enter')ncRoute()">
+      <button class="send" onclick="ncRoute()">↑</button>
     </div>
   </section>
 
@@ -1552,6 +1584,20 @@
   </div>
 </div>
 
+<!-- ======== META CAMPAIGN REVIEW PANEL ======== -->
+<aside class="cpanel" id="campPanel">
+  <div class="cphead">
+    <span style="display:inline-grid;width:22px;height:22px;place-items:center;border-radius:6px;background:#1877F2;color:#fff;font-size:12px;font-weight:800">f</span>
+    <b class="text-[13.5px]">Campaign review</b>
+    <span class="text-[10.5px] font-mono text-ink-400">Ads Manager preview</span>
+    <span class="spacer"></span>
+    <span class="stchip paused" id="cp-status">⏸ PAUSED</span>
+    <button class="icbtn" onclick="closeCampPanel()" style="width:26px;height:26px">✕</button>
+  </div>
+  <div class="cpbody" id="cp-body"></div>
+  <div class="cpfoot" id="cp-foot"></div>
+</aside>
+
 <div id="toast"><span>✓</span><span id="toast-t">Logged</span></div>
 
 <!-- ======== SELECT COLUMNS MODAL ======== -->
@@ -1597,7 +1643,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],market:['Market — Shelf Intelligence',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],market:['Market — Shelf Intelligence',0],newcamp:['New Campaign — Meta',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1845,7 +1891,7 @@ function go(id){
   document.getElementById('viewBtn').style.display=(id==='summary')?'inline-flex':'none';
   document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
-  const NOTB=['cdp','creatives','assets','market','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
+  const NOTB=['cdp','creatives','assets','market','newcamp','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
@@ -2701,6 +2747,394 @@ function renderRetention(){
    `<div class="patbar"><span class="pl">${r[0]}</span><div class="ptrack"><div class="pfill" style="width:${r[1]/5210*100}%;background:${r[3]}"></div></div><span class="pv">₹${r[1].toLocaleString('en-IN')}</span><span class="ps">${r[2]} LTV:CAC</span></div>`).join('');
 }
 
+
+/* ================= NEW CAMPAIGN BUILDER (Meta) ================= */
+const ALBY=[
+ {id:'ALB-01',f:'assets/alb-01.jpg',n:'Mini Tote — Tan'},
+ {id:'ALB-02',f:'assets/alb-02.jpg',n:'Everyday Shoulder — Black'},
+ {id:'ALB-03',f:'assets/alb-03.jpg',n:'Structured Satchel — Ochre'},
+ {id:'ALB-04',f:'assets/alb-04.jpg',n:'Quilted Sling — Blush'},
+ {id:'ALB-05',f:'assets/alb-05.jpg',n:'Work Tote — Espresso'}];
+const NCFLOWS={
+sales:{label:'Create a sales campaign',obj:'OUTCOME_SALES',objName:'Sales',
+ intro:'Sales campaign → objective <b>OUTCOME_SALES</b>. Pre-filled from your account: Page <b>Alby</b>, pixel <b>Alby Web</b> (PURCHASE event verified ✓), currency INR, home country India. Five cards — everything is created <b>paused</b>; you publish at the end.',
+ cards:[
+ {key:'goal',chip:'Optimize for',ask:'What should Meta optimize toward?',note:'Sets optimization_goal + the pixel event on every ad set.',opts:[
+  {t:'Purchases',d:'OFFSITE_CONVERSIONS · pixel event PURCHASE — the standard Sales setup',rec:1,v:'Purchases · PURCHASE'},
+  {t:'Highest value (ROAS)',d:'VALUE — needs purchase values on the pixel; yours sends them ✓',v:'Highest value · VALUE'},
+  {t:'Add to cart',d:'Cheaper signal for young pixels — upgrade to purchases later',v:'Add to cart · ADD_TO_CART'}]},
+ {key:'budget',chip:'Budget',ask:'Daily budget?',note:'Advantage campaign budget (CBO) — Meta spreads it across ad sets automatically. Minimum ₹87/day.',opts:[
+  {t:'₹3,000 / day',d:'Recommended — your account median for Sales · ~₹90K/month',rec:1,v:3000},
+  {t:'₹1,500 / day',d:'Cautious start — slower learning phase',v:1500},
+  {t:'₹6,000 / day',d:'Aggressive — exits learning in ~3 days',v:6000},
+  {t:'Other amount…',other:1,ph:'Amount in ₹ per day'}]},
+ {key:'aud',chip:'Audience & geo',ask:'Who should see it?',note:'One card decides ad sets, targeting and geo — the split pre-fills each ad set.',opts:[
+  {t:'Broad · India · Advantage+ Audience',d:'1 ad set — Meta finds buyers; the best-performing default',rec:1,v:'broad'},
+  {t:'Prospecting + Retargeting split',d:'2 ad sets — broad India, plus site visitors 30d with purchasers excluded',v:'split'},
+  {t:'Metros only',d:'Bengaluru · Mumbai · Delhi NCR · Hyderabad',v:'metros'}]},
+ {key:'media',chip:'Creatives',type:'media',ask:'Pick the creatives.',note:'From your Asset library. Top 3 preselected by predicted CTR — tap to change.',pre:[0,1,3]},
+ {key:'copy',chip:'Copy & CTA',type:'copy',ask:'Copy draft — written from the Alby catalog and your past winners.',copy:{primary:'Buttery-soft vegan leather that carries everything and weighs nothing. Free shipping, this week only.',headline:'The everyday bag, upgraded.',desc:'4.8★ from 2,300+ carriers',cta:'SHOP_NOW',url:'https://alby.in/bestsellers'}},
+ {key:'adv',chip:'Advanced',ask:'Anything beyond best-practice defaults?',note:'Currently: lowest-cost autobid · Advantage+ placements · starts now, no end date · attribution 7-day click + 1-day view.',opts:[
+  {t:'Keep defaults',d:'Recommended — every one of these is editable in the review panel',rec:1,v:'defaults'},
+  {t:'Add a cost cap',d:'Cap your CPA — steadier costs, needs ~50 conversions/week to hold',other:1,ph:'Target CPA in ₹'},
+  {t:'Schedule start & end dates',d:'Run 5 Aug → 19 Aug instead of continuously',v:'sched'}]}]},
+leads:{label:'Create a lead gen campaign',obj:'OUTCOME_LEADS',objName:'Leads',
+ intro:'Lead campaign → objective <b>OUTCOME_LEADS</b>. Page <b>Alby</b> has accepted Lead Ads terms ✓, so instant forms are available. Everything is created <b>paused</b>.',
+ cards:[
+ {key:'ldest',chip:'Lead destination',ask:'Where do leads come in?',note:'This routes optimization goal + destination in one answer.',opts:[
+  {t:'Instant form on Facebook/IG',d:'LEAD_GENERATION — native form, zero page-load friction',rec:1,v:'Instant form · LEAD_GENERATION'},
+  {t:'WhatsApp',d:'CONVERSATIONS — click-to-WhatsApp on your business number',v:'WhatsApp · CONVERSATIONS'},
+  {t:'Website form',d:'OFFSITE_CONVERSIONS · pixel event LEAD on the thank-you page',v:'Website · LEAD event'}]},
+ {key:'form',chip:'Lead form',ask:'Which form?',skipIf:a=>!String(a.ldest||'').startsWith('Instant'),opts:[
+  {t:'Use “Alby Wholesale Waitlist”',d:'Existing form · name, phone, email prefilled · 62% completion',rec:1,v:'Alby Wholesale Waitlist'},
+  {t:'Build a new form',d:'Name + phone + email prefilled, one custom question',v:'New form · 4 fields'}]},
+ {key:'budget',chip:'Budget',ask:'Daily budget?',note:'CBO on.',opts:[
+  {t:'₹1,200 / day',d:'Recommended — ≈18–30 leads/day at your median CPL',rec:1,v:1200},
+  {t:'₹600 / day',d:'Trickle — test the form first',v:600},
+  {t:'Other amount…',other:1,ph:'Amount in ₹ per day'}]},
+ {key:'aud',chip:'Audience & geo',ask:'Who should see it?',opts:[
+  {t:'Broad · India · Advantage+',d:'Recommended — forms qualify, Meta finds volume',rec:1,v:'broad'},
+  {t:'Lookalike 1% of customers',d:'Seeded from your 2,300 buyers',v:'lal'},
+  {t:'Metros only',d:'Bengaluru · Mumbai · Delhi NCR',v:'metros'}]},
+ {key:'media',chip:'Creatives',type:'media',ask:'Pick the creatives.',pre:[1,4]},
+ {key:'copy',chip:'Copy & CTA',type:'copy',ask:'Copy draft.',copy:{primary:'Stocking Alby in your store? Wholesale prices, low MOQs, dispatch in 48h. Join the waitlist.',headline:'Alby, wholesale.',desc:'For boutiques & concept stores',cta:'SIGN_UP',url:'Instant form — no landing page needed'}}]},
+traffic:{label:'Send traffic to the new drop',obj:'OUTCOME_TRAFFIC',objName:'Traffic',
+ intro:'Traffic campaign → objective <b>OUTCOME_TRAFFIC</b>. No pixel event required — optimizing for quality visits. Created <b>paused</b>.',
+ cards:[
+ {key:'goal',chip:'Optimize for',ask:'Raw clicks or quality visits?',opts:[
+  {t:'Landing-page views',d:'Recommended — counts loaded pages, filters accidental taps',rec:1,v:'Landing-page views'},
+  {t:'Link clicks',d:'Cheapest — includes clicks that never load',v:'Link clicks'},
+  {t:'Instagram profile visits',d:'Grow the profile instead of the site',v:'IG profile visits'}]},
+ {key:'budget',chip:'Budget',ask:'Daily budget?',opts:[
+  {t:'₹800 / day',d:'Recommended — ≈220–400 landing-page views/day',rec:1,v:800},
+  {t:'₹400 / day',d:'Light touch',v:400},
+  {t:'Other amount…',other:1,ph:'Amount in ₹ per day'}]},
+ {key:'aud',chip:'Audience & geo',ask:'Who should see it?',opts:[
+  {t:'Broad · India · Advantage+',d:'Recommended',rec:1,v:'broad'},
+  {t:'IG engagers 90d',d:'Warm — people who already interacted',v:'engagers'}]},
+ {key:'media',chip:'Creatives',type:'media',ask:'Pick the creatives.',pre:[2,3]},
+ {key:'copy',chip:'Copy & CTA',type:'copy',ask:'Copy draft.',copy:{primary:'The new drop is live — 10 silhouettes, 14 colourways, all under ₹4K.',headline:'New in: the Autumn edit.',desc:'Free shipping over ₹1,999',cta:'LEARN_MORE',url:'https://alby.in/new'}}]},
+boost:{label:'Boost an Instagram post',obj:'OUTCOME_ENGAGEMENT',objName:'Engagement',
+ intro:'Boost flow → <b>ads_boost_ig_post</b>. Pick the post, a goal and a budget — everything else is defaulted. Created <b>paused</b>.',
+ cards:[
+ {key:'post',chip:'Post',type:'media',ask:'Which post?',note:'Your recent IG posts, by reach.',pre:[1],max:1,caps:['Reel · 12.4K views','Post · 8.1K reach','Reel · 5.9K views','Post · 4.2K reach','Post · 2.8K reach']},
+ {key:'goal',chip:'Goal',ask:'What should the boost drive?',opts:[
+  {t:'More engagement',d:'POST_ENGAGEMENT — likes, saves, shares',rec:1,v:'Engagement'},
+  {t:'Profile visits',d:'Send people to @alby.bags',v:'Profile visits'},
+  {t:'Website clicks',d:'LEARN_MORE button → alby.in',v:'Website clicks'}]},
+ {key:'budget',chip:'Budget & duration',ask:'How much, for how long?',opts:[
+  {t:'₹500/day × 7 days',d:'Recommended — ₹3,500 total',rec:1,v:'₹500/day × 7d'},
+  {t:'₹300/day × 14 days',d:'Slow burn — ₹4,200 total',v:'₹300/day × 14d'},
+  {t:'₹1,000/day × 3 days',d:'Spike — ₹3,000 total',v:'₹1,000/day × 3d'}]},
+ {key:'aud',chip:'Audience',ask:'Who sees it?',opts:[
+  {t:'Advantage+ · India',d:'Recommended — Meta expands from your engagers',rec:1,v:'broad'},
+  {t:'Saved audience — “Alby engaged 90d”',d:'People who touched the brand recently',v:'saved'}]}]},
+retarget:{label:'Retarget site visitors',obj:'OUTCOME_SALES',objName:'Sales · retargeting',
+ intro:'Retargeting → I build the <b>custom audience first</b>, then a Sales campaign with it pre-set and purchasers excluded. Created <b>paused</b>.',
+ cards:[
+ {key:'raud',chip:'Audience',ask:'Who are we bringing back?',note:'Built as a WEBSITE custom audience from the Alby Web pixel.',opts:[
+  {t:'Site visitors · 30 days',d:'Recommended — 41K people, purchasers auto-excluded',rec:1,v:'Site visitors 30d'},
+  {t:'Cart abandoners · 14 days',d:'6.2K people — highest intent, smallest pool',v:'Cart abandoners 14d'},
+  {t:'IG engagers · 90 days',d:'28K people — engagement audience, not pixel',v:'IG engagers 90d'}]},
+ {key:'budget',chip:'Budget',ask:'Daily budget?',note:'Retargeting saturates — small budgets go far.',opts:[
+  {t:'₹1,000 / day',d:'Recommended for a 41K pool · frequency ≈2.1/wk',rec:1,v:1000},
+  {t:'₹500 / day',d:'Minimum viable',v:500},
+  {t:'Other amount…',other:1,ph:'Amount in ₹ per day'}]},
+ {key:'media',chip:'Creatives',type:'media',ask:'Pick the creatives.',pre:[0,4]},
+ {key:'copy',chip:'Copy & CTA',type:'copy',ask:'Copy draft — offer-flavoured for warm traffic.',copy:{primary:'Still thinking about it? Your bag is waiting — and shipping is on us this week.',headline:'Come back to Alby — 10% off inside.',desc:'Use code BACK10',cta:'SHOP_NOW',url:'https://alby.in/cart'}}]},
+abtest:{label:'A/B test two creatives',obj:'OUTCOME_SALES',objName:'Sales · A/B test',
+ intro:'A/B test → <b>ads_experiment_abtest_create_test</b>. Two cells, one winner metric, auto-ends when significant. Created <b>paused</b>.',
+ cards:[
+ {key:'media',chip:'The two cells',type:'media',ask:'Pick exactly two creatives to test.',pre:[0,3],max:2},
+ {key:'metric',chip:'Winner metric',ask:'What decides the winner?',opts:[
+  {t:'Cost per purchase',d:'Recommended — the money metric',rec:1,v:'Cost per purchase'},
+  {t:'ROAS',d:'Needs value tracking (on ✓)',v:'ROAS'},
+  {t:'CTR',d:'Fastest signal, weakest proxy',v:'CTR'}]},
+ {key:'budget',chip:'Budget & duration',ask:'Test budget?',note:'Split evenly across both cells.',opts:[
+  {t:'₹2,000/day × 7 days',d:'Recommended — enough conversions for significance',rec:1,v:'₹2,000/day × 7d'},
+  {t:'₹1,000/day × 14 days',d:'Same power, slower answer',v:'₹1,000/day × 14d'}]}]}};
+
+let NCF=null,NCI=0,NCA={},NCSEL=new Set(),NCLIVE=false,NCC=null;
+function openNewCamp(){
+  NCF=null;NCLIVE=false;NCC=null;
+  document.getElementById('nc-thread').innerHTML='';
+  document.getElementById('nc-clean').style.display='';
+  document.getElementById('nc-ask').value='';
+  closeCampPanel();
+  go('newcamp');
+}
+function ncRoute(){
+  const q=document.getElementById('nc-ask').value.trim();if(!q)return;
+  document.getElementById('nc-ask').value='';
+  const s=q.toLowerCase();
+  const f=/lead|sign.?up|form|whatsapp/.test(s)?'leads':/boost|post/.test(s)?'boost':/retarget|come back|abandon/.test(s)?'retarget':/\bab\b|a\/b|test/.test(s)?'abtest':/traffic|click|visit|drop/.test(s)?'traffic':/sale|purchase|roas|conversion|shop|tote/.test(s)?'sales':null;
+  if(f)ncStart(f,q);
+  else{
+    document.getElementById('nc-clean').style.display='none';
+    ncAppend(`<div class="wb-user">${q}<div class="org">New campaign · Alby D2C · Meta connected</div></div>
+    <div class="wb-msg">One question to route this correctly — Meta only accepts six objectives, and everything downstream depends on it.</div>
+    <div class="qcard"><div class="qchip">Objective</div><div class="qask">What's the goal?</div>
+    ${['sales','leads','traffic','boost','retarget','abtest'].map(k=>`<button class="qopt${k==='sales'?' rec':''}" onclick="ncStart('${k}')"><b>${NCFLOWS[k].label}</b><span>${NCFLOWS[k].obj}</span></button>`).join('')}</div>`);
+  }
+}
+function ncAppend(h){document.getElementById('nc-thread').insertAdjacentHTML('beforeend',h);document.getElementById('scroll').scrollTop=1e6;}
+function ncStart(f,userText){
+  NCF=f;NCI=0;NCA={};NCLIVE=false;NCC=null;
+  const fl=NCFLOWS[f];
+  document.getElementById('nc-clean').style.display='none';
+  document.getElementById('nc-thread').innerHTML='';
+  ncAppend(`<div class="wb-user">${userText||fl.label}<div class="org">New campaign · Alby D2C · Meta connected</div></div>`);
+  setTimeout(()=>{ncAppend(`<div class="wb-msg">${fl.intro}</div>`);setTimeout(ncNextCard,350);},250);
+}
+function ncNextCard(){
+  const fl=NCFLOWS[NCF];
+  while(NCI<fl.cards.length&&fl.cards[NCI].skipIf&&fl.cards[NCI].skipIf(NCA))NCI++;
+  if(NCI>=fl.cards.length){ncBuild();return;}
+  const c=fl.cards[NCI];
+  let inner='';
+  if(c.type==='media'){
+    NCSEL=new Set(c.pre);
+    inner=`<div class="qmedia">${ALBY.map((a,i)=>`<div class="qm${NCSEL.has(i)?' on':''}" id="qm-${i}" onclick="ncMedia(${i},${c.max||0})"><img src="${a.f}" alt=""><span class="pick">✓</span><span class="cap">${(c.caps&&c.caps[i])||a.n}</span></div>`).join('')}</div>
+    <button class="mini mini-call" id="qm-go" onclick="ncMediaGo()">Use ${NCSEL.size} selected →</button>`;
+  }else if(c.type==='copy'){
+    const cp=c.copy;
+    inner=`<div id="qcopy" class="mb-3 rounded-xl border border-rule bg-off p-3 text-[12.5px] leading-[1.6]">
+      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Primary</span><br><span id="qc-primary">${cp.primary}</span></div>
+      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Headline</span><br><b id="qc-headline">${cp.headline}</b></div>
+      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Description</span><br><span id="qc-desc">${cp.desc}</span></div>
+      <div class="flex items-center gap-2 pt-1"><span class="tag tag-m">${cp.cta.replace('_',' ')}</span><span class="font-mono text-[10.5px] text-ink-400 truncate">${cp.url}</span></div></div>
+    <button class="qopt rec" onclick="ncPick(null,'draft')"><b>Use this draft</b><span>Recommended — editable again in review</span></button>
+    <button class="qopt" onclick="ncCopyEdit()"><b>Edit the copy</b><span>Rewrite primary text and headline inline</span></button>`;
+  }else{
+    inner=c.opts.map((o,i)=>o.other
+     ?`<button class="qopt" id="qo-${NCI}-${i}" onclick="ncOther(${i},'${o.ph}')"><b>${o.t}</b>${o.d?`<span>${o.d}</span>`:''}</button>`
+     :`<button class="qopt${o.rec?' rec':''}" onclick="ncPick(${i})"><b>${o.t}</b>${o.d?`<span>${o.d}${o.rec?' · recommended':''}</span>`:''}</button>`).join('');
+  }
+  ncAppend(`<div class="qcard" id="qcard-${NCI}"><div class="qchip">${c.chip}</div><div class="qask">${c.ask}</div>${c.note?`<div class="qnote">${c.note}</div>`:''}${inner}</div>`);
+}
+function ncDone(c,text){
+  document.getElementById('qcard-'+NCI).outerHTML=`<div class="qdone"><span class="ok2">✓</span><span class="qchip" style="margin:0">${c.chip}</span><span>${text}</span></div>`;
+  NCI++;setTimeout(ncNextCard,280);
+}
+function ncPick(i,special){
+  const c=NCFLOWS[NCF].cards[NCI];
+  if(special==='draft'){NCA[c.key]=c.copy;ncDone(c,'Draft accepted · '+c.copy.cta.replace('_',' '));return;}
+  const o=c.opts[i];NCA[c.key]=o.v;
+  ncDone(c,o.t);
+}
+function ncOther(i,ph){
+  const b=document.getElementById(`qo-${NCI}-${i}`);
+  b.outerHTML=`<div class="flex gap-2 mb-2"><input class="qfield" style="margin:0" id="qother-${NCI}" placeholder="${ph}" onkeydown="if(event.key==='Enter')ncOtherGo(${i})"><button class="mini mini-call" onclick="ncOtherGo(${i})">OK</button></div>`;
+  document.getElementById(`qother-${NCI}`).focus();
+}
+function ncOtherGo(i){
+  const c=NCFLOWS[NCF].cards[NCI];
+  const val=document.getElementById(`qother-${NCI}`).value.trim();if(!val)return;
+  const num=parseInt(val.replace(/[^0-9]/g,''));
+  if(c.key==='budget'){if(!num||num<87){toast('Minimum budget is ₹87/day for this account');return;}NCA[c.key]=num;ncDone(c,'₹'+num.toLocaleString('en-IN')+' / day');}
+  else{NCA[c.key]=c.opts[i].t+': '+val;ncDone(c,c.opts[i].t+' · '+val);}
+}
+function ncMedia(i,max){
+  if(max===1){NCSEL=new Set([i]);}
+  else{NCSEL.has(i)?NCSEL.delete(i):NCSEL.add(i);if(max&&NCSEL.size>max){NCSEL.delete(i);toast('Pick exactly '+max);}}
+  ALBY.forEach((a,j)=>document.getElementById('qm-'+j).classList.toggle('on',NCSEL.has(j)));
+  document.getElementById('qm-go').textContent=`Use ${NCSEL.size} selected →`;
+}
+function ncMediaGo(){
+  const c=NCFLOWS[NCF].cards[NCI];
+  if(!NCSEL.size){toast('Pick at least one');return;}
+  if(c.max&&NCSEL.size!==c.max){toast('Pick exactly '+c.max);return;}
+  NCA[c.key]=[...NCSEL];
+  ncDone(c,NCSEL.size+' selected · '+[...NCSEL].map(i=>ALBY[i].n.split(' — ')[0]).join(', '));
+}
+function ncCopyEdit(){
+  const c=NCFLOWS[NCF].cards[NCI],cp=c.copy;
+  document.getElementById('qcopy').outerHTML=`<div id="qcopy" class="mb-3">
+   <textarea class="qfield" id="qe-primary" rows="2">${cp.primary}</textarea>
+   <input class="qfield" id="qe-headline" value="${cp.headline}">
+   <input class="qfield" id="qe-desc" value="${cp.desc}">
+   <button class="mini mini-call" onclick="ncCopySave()">Save copy →</button></div>`;
+  document.querySelectorAll('#qcard-'+NCI+' .qopt').forEach(b=>b.remove());
+}
+function ncCopySave(){
+  const c=NCFLOWS[NCF].cards[NCI];
+  NCA[c.key]={...c.copy,primary:document.getElementById('qe-primary').value,headline:document.getElementById('qe-headline').value,desc:document.getElementById('qe-desc').value};
+  ncDone(c,'Custom copy · '+c.copy.cta.replace('_',' '));
+}
+/* ---- build (create paused) ---- */
+function ncToolRows(){
+  const f=NCF,a=NCA,fl=NCFLOWS[f];
+  const rows=[];
+  if(f==='retarget')rows.push(['✓','ads_create_custom_audience · WEBSITE · '+a.raud+' · purchasers excluded','id 4471… · ~'+(a.raud.startsWith('Cart')?'6.2K':a.raud.startsWith('IG')?'28K':'41K')+' people']);
+  if(f==='boost'){rows.push(['✓','ads_boost_ig_post · '+(NCFLOWS.boost.cards[0].caps[a.post[0]])+' · '+a.goal,'boost 8817… · PAUSED']);return rows;}
+  rows.push(['✓','ads_create_campaign · '+fl.obj+(typeof a.budget==='number'?' · CBO ₹'+a.budget.toLocaleString('en-IN')+'/day':' · '+(a.budget||'')),'campaign 120210948']);
+  const adsets=ncAdsets();
+  adsets.forEach((s,i)=>rows.push(['✓','ads_create_ad_set · '+s.n+' · '+s.opt,'ad set 23847110'+(i+2)]));
+  if(a.media)rows.push(['✓','ads_creative_upload_image ×'+a.media.length+' · '+a.media.map(i=>ALBY[i].id).join(', '),'hashes ok']);
+  if(a.copy)rows.push(['✓','ads_create_creative ×'+(a.media?a.media.length:1)+' · '+a.copy.cta+' · Page Alby','creatives ok']);
+  if(f==='abtest')rows.push(['✓','ads_experiment_abtest_create_test · winner: '+a.metric,'test 9912…']);
+  rows.push(['✓','ads_create_ad ×'+((a.media?a.media.length:1)*ncAdsets().length)+' — all PAUSED','conversion_domain alby.in']);
+  rows.push(['✓','ads_get_opportunity_score','92 / 100 · no blockers']);
+  return rows;
+}
+function ncAdsets(){
+  const a=NCA,f=NCF;
+  if(f==='boost')return[{n:'Boost',opt:a.goal||''}];
+  if(f==='abtest')return[{n:'Cell A — '+ALBY[a.media[0]].n.split(' — ')[0],opt:'OFFSITE_CONVERSIONS · PURCHASE',aud:'Broad · Advantage+',geo:'India'},{n:'Cell B — '+ALBY[a.media[1]].n.split(' — ')[0],opt:'OFFSITE_CONVERSIONS · PURCHASE',aud:'Broad · Advantage+',geo:'India'}];
+  if(f==='retarget')return[{n:'Retargeting — '+a.raud,opt:'OFFSITE_CONVERSIONS · PURCHASE',aud:a.raud+' · purchasers excluded',geo:'India'}];
+  const goal=String(a.goal||a.ldest||'Purchases');
+  const opt=goal.includes('·')?goal.split('·')[1].trim():goal;
+  if(a.aud==='split')return[
+   {n:'Prospecting — Broad IN',opt,aud:'Advantage+ Audience · broad',geo:'India'},
+   {n:'Retargeting — site 30d',opt,aud:'Site visitors 30d · purchasers excluded',geo:'India'}];
+  if(a.aud==='metros')return[{n:'Metros',opt,aud:'Advantage+ Audience',geo:'Bengaluru · Mumbai · Delhi NCR · Hyderabad'}];
+  if(a.aud==='lal')return[{n:'LAL 1% — customers',opt,aud:'Lookalike 1% of 2,300 buyers',geo:'India'}];
+  if(a.aud==='engagers')return[{n:'IG engagers 90d',opt,aud:'Engagement custom audience',geo:'India'}];
+  if(a.aud==='saved')return[{n:'Alby engaged 90d',opt,aud:'Saved audience',geo:'India'}];
+  return[{n:'Broad — IN',opt,aud:'Advantage+ Audience · broad',geo:'India'}];
+}
+function ncBuild(){
+  ncAppend(`<div class="wb-msg">Locked. Creating everything on Meta now — <b>paused</b>, nothing spends.</div><div id="nc-tools"></div>`);
+  const rows=ncToolRows();let i=0;
+  const tick=()=>{
+    if(i<rows.length){
+      document.getElementById('nc-tools').insertAdjacentHTML('beforeend',`<div class="toolrow"><span class="ok">${rows[i][0]}</span>${rows[i][1]}<span class="ms">${rows[i][2]}</span></div>`);
+      document.getElementById('scroll').scrollTop=1e6;i++;setTimeout(tick,320);
+    }else{
+      ncBuildCamp();
+      ncAppend(`<div class="wb-msg">Done — <b>${NCC.name}</b> is on Meta in <b>paused</b> state: ${NCC.adsets.length} ad set${NCC.adsets.length>1?'s':''}, ${NCC.ads.length} ad${NCC.ads.length>1?'s':''}, opportunity score 92/100. Review it exactly as Ads Manager will show it — edit anything, then publish.
+      <div class="mt-3"><button class="btn btn-sm btn-orange" onclick="openCampPanel()">Review campaign →</button></div></div>`);
+      setTimeout(openCampPanel,600);
+    }
+  };
+  setTimeout(tick,350);
+}
+/* ---- review panel ---- */
+function ncBuildCamp(){
+  const a=NCA,f=NCF,fl=NCFLOWS[f];
+  const budget=typeof a.budget==='number'?a.budget:null;
+  const media=a.media||a.post||[0];
+  const adsets=ncAdsets();
+  const cp=a.copy||{primary:(f==='boost'?'Existing post — copy unchanged':''),headline:'',desc:'',cta:f==='boost'?'—':'SHOP_NOW',url:'https://alby.in'};
+  NCC={
+   name:fl.objName+' · Alby · Aug 2026',
+   obj:fl.objName+' ('+fl.obj+')',
+   cbo:budget?'CBO · ₹'+budget.toLocaleString('en-IN')+'/day':(a.budget||'—'),
+   budget:budget,
+   bid:(typeof a.adv==='string'&&a.adv.startsWith('Add a cost cap'))?'Cost cap · '+a.adv.split(':')[1]:'Lowest cost (autobid)',
+   sched:a.adv==='sched'?'5 Aug → 19 Aug 2026':'Starts on publish · no end date',
+   attr:'7-day click · 1-day view',
+   special:'None declared',
+   adsets:adsets.map(s=>({...s,plc:'Advantage+ placements',event:s.opt&&s.opt.includes('PURCHASE')?'Alby Web · PURCHASE':s.opt&&s.opt.includes('LEAD_GEN')?'Instant form':s.opt&&s.opt.includes('LEAD')?'Alby Web · LEAD':'—'})),
+   ads:media.map(i=>({img:ALBY[i].f,name:ALBY[i].n,primary:cp.primary,headline:cp.headline,desc:cp.desc,cta:cp.cta,url:cp.url}))
+  };
+}
+function campEst(){
+  const M={sales:[2.3,6.4,'purchases'],retarget:[3.1,8.2,'purchases'],abtest:[2.3,6.4,'purchases / cell'],leads:[15,26,'leads'],traffic:[280,420,'landing-page views'],boost:[90,160,'engagements']}[NCF]||[2,5,'results'];
+  const b=NCC.budget||1000,k=b/1000;
+  return{rl:Math.round(3.1*k*10)/10,rh:Math.round(9.2*k*10)/10,cl:Math.max(1,Math.round(M[0]*k)),ch:Math.round(M[1]*k),lab:M[2]};
+}
+function openCampPanel(){
+  if(!NCC)return;
+  renderCampPanel();
+  document.getElementById('campPanel').classList.add('on');
+}
+function closeCampPanel(){document.getElementById('campPanel').classList.remove('on');}
+function renderCampPanel(){
+  const e=campEst();
+  const st=NCLIVE?'<span class="stchip active">● ACTIVE</span>':'<span class="stchip paused">⏸ PAUSED</span>';
+  document.getElementById('cp-status').outerHTML=NCLIVE?'<span class="stchip active" id="cp-status">● ACTIVE</span>':'<span class="stchip paused" id="cp-status">⏸ PAUSED</span>';
+  document.getElementById('cp-body').innerHTML=`
+  <div class="cpsec" style="margin-top:2px">Campaign</div>
+  <div class="cpcard">
+    <div class="cprow"><span class="k">Name</span><span class="v" id="cpv-name">${NCC.name}<span class="pj" onclick="cpEdit('name')">✎</span></span></div>
+    <div class="cprow"><span class="k">Objective</span><span class="v">${NCC.obj}</span></div>
+    <div class="cprow"><span class="k">Budget</span><span class="v" id="cpv-budget">${NCC.cbo}${NCC.budget?'<span class="pj" onclick="cpEdit(\'budget\')">✎</span>':''}</span></div>
+    <div class="cprow"><span class="k">Bidding</span><span class="v">${NCC.bid}</span></div>
+    <div class="cprow"><span class="k">Schedule</span><span class="v">${NCC.sched}</span></div>
+    <div class="cprow"><span class="k">Attribution</span><span class="v">${NCC.attr}</span></div>
+    <div class="cprow"><span class="k">Special categories</span><span class="v">${NCC.special}</span></div>
+    <div class="cprow"><span class="k">Status</span><span class="v">${st}</span></div>
+  </div>
+  <div class="cpcard" style="background:var(--color-off)">
+    <b class="text-[12px]">Estimated daily results</b>
+    <div class="mt-1.5 flex gap-7 text-[12.5px]"><span><b class="text-[17px] font-semibold">${e.rl}K–${e.rh}K</b><br><span class="text-[10.5px] text-ink-400">reach</span></span><span><b class="text-[17px] font-semibold">${e.cl}–${e.ch}</b><br><span class="text-[10.5px] text-ink-400">${e.lab}</span></span><span><b class="text-[17px] font-semibold">92<span class="text-[11px] text-ink-400">/100</span></b><br><span class="text-[10.5px] text-ink-400">opportunity score</span></span></div>
+  </div>
+  ${NCC.adsets.map((s,i)=>`
+  <div class="cpsec">Ad set ${NCC.adsets.length>1?(i+1)+' of '+NCC.adsets.length:''}</div>
+  <div class="cpcard">
+    <div class="cprow"><span class="k">Name</span><span class="v">${s.n}</span></div>
+    <div class="cprow"><span class="k">Optimization</span><span class="v">${s.opt||'—'}</span></div>
+    <div class="cprow"><span class="k">Tracking</span><span class="v">${s.event}</span></div>
+    <div class="cprow"><span class="k">Audience</span><span class="v">${s.aud||'—'}</span></div>
+    <div class="cprow"><span class="k">Locations</span><span class="v">${s.geo||'India'}</span></div>
+    <div class="cprow"><span class="k">Age · gender</span><span class="v">18–65+ · all <span class="text-[10px] text-ink-400">(Advantage+ suggestion)</span></span></div>
+    <div class="cprow"><span class="k">Placements</span><span class="v">${s.plc}</span></div>
+    <div class="cprow"><span class="k">Status</span><span class="v">${st}</span></div>
+  </div>`).join('')}
+  <div class="cpsec">Ads · ${NCC.ads.length}</div>
+  ${NCC.ads.map((ad,i)=>`
+  <div class="cpcard">
+    <div class="flex gap-3">
+      <img src="${ad.img}" style="width:86px;height:86px;object-fit:cover;border-radius:10px;flex:none" alt="">
+      <div class="min-w-0 flex-1 text-[12px] leading-[1.55]">
+        <div class="flex items-center gap-1.5 mb-0.5"><b class="text-[12.5px]">${ad.name}</b><span class="spacer"></span>${st}</div>
+        <div class="text-ink-700" id="cpv-primary-${i}">${ad.primary||'—'}<span class="pj" onclick="cpEditAd(${i},'primary')">✎</span></div>
+        <div class="mt-0.5"><b id="cpv-headline-${i}">${ad.headline||'—'}</b>${ad.headline?`<span class="pj" onclick="cpEditAd(${i},'headline')">✎</span>`:''}</div>
+        <div class="mt-1 flex items-center gap-2"><span class="tag tag-m">${String(ad.cta).replace('_',' ')}</span><span class="font-mono text-[10px] text-ink-400 truncate">${ad.url}</span></div>
+      </div>
+    </div>
+  </div>`).join('')}
+  <p class="text-[10.5px] text-ink-400 mt-3 mb-2">This mirrors exactly what Ads Manager will show — IDs are live on the account. Edits here call <span class="font-mono">ads_update_entity</span> on the paused objects.</p>`;
+  renderCampFoot();
+}
+let CPARM=false;
+function renderCampFoot(){
+  const ft=document.getElementById('cp-foot');
+  if(NCLIVE){
+    ft.innerHTML=`<span class="text-[12px] text-good font-semibold">● Live — first delivery data in ~2h</span><span class="spacer"></span>
+    <button class="btn btn-sm btn-ghost" onclick="campPause()">Pause campaign</button>
+    <button class="btn btn-sm" onclick="closeCampPanel()">Done</button>`;
+  }else if(CPARM){
+    ft.innerHTML=`<span class="text-[11.5px] text-ink-500">Sure? This starts real spend.</span><span class="spacer"></span>
+    <button class="btn btn-sm btn-ghost" onclick="CPARM=false;renderCampFoot()">Back</button>
+    <button class="btn btn-sm btn-orange" onclick="campPublish()">Confirm — start spending${NCC.budget?' ₹'+NCC.budget.toLocaleString('en-IN')+'/day':''}</button>`;
+  }else{
+    ft.innerHTML=`<span class="text-[11.5px] text-ink-400">Paused — publishing flips every object to ACTIVE.</span><span class="spacer"></span>
+    <button class="btn btn-sm btn-ghost" onclick="closeCampPanel();toast('Saved as draft — publish any time from this chat')">Keep as draft</button>
+    <button class="btn btn-sm btn-orange" onclick="CPARM=true;renderCampFoot()">Publish — set Active</button>`;
+  }
+}
+function campPublish(){
+  NCLIVE=true;CPARM=false;
+  renderCampPanel();
+  toast('Campaign is live on Meta — monitoring starts now');
+  ncAppend(`<div class="toolrow"><span class="ok">✓</span>ads_update_entity · campaign + ${NCC.adsets.length} ad set${NCC.adsets.length>1?'s':''} + ${NCC.ads.length} ad${NCC.ads.length>1?'s':''} → status ACTIVE<span class="ms">audit-logged</span></div>
+  <div class="wb-msg"><b>Live.</b> First delivery data lands in about two hours — I'll flag anything odd in your Inbox, and the ROAS-drop watch rule already covers this campaign.</div>`);
+  RECENTS.unshift({t:'Launch: '+NCC.name,w:'Just now',sid:'s_camp'});renderRecents();
+}
+function campPause(){
+  NCLIVE=false;CPARM=false;renderCampPanel();
+  toast('Paused — nothing is spending');
+}
+function cpInline(el,val,onSave){
+  el.innerHTML=`<input class="qfield" style="margin:0;padding:5px 9px;text-align:right;font-size:12px" value="${String(val).replace(/"/g,'&quot;')}">`;
+  const inp=el.querySelector('input');inp.focus();inp.select();
+  const commit=()=>{if(inp.dataset.done)return;inp.dataset.done=1;onSave(inp.value.trim());};
+  inp.addEventListener('keydown',ev=>{if(ev.key==='Enter')commit();if(ev.key==='Escape'){inp.dataset.done=1;renderCampPanel();}});
+  inp.addEventListener('blur',commit);
+}
+function cpEdit(k){
+  if(k==='name')cpInline(document.getElementById('cpv-name'),NCC.name,v=>{if(v)NCC.name=v;renderCampPanel();toast('Renamed · ads_update_entity');});
+  if(k==='budget')cpInline(document.getElementById('cpv-budget'),NCC.budget,v=>{
+    const n=parseInt(v.replace(/[^0-9]/g,''));
+    if(n&&n>=87){NCC.budget=n;NCC.cbo='CBO · ₹'+n.toLocaleString('en-IN')+'/day';toast('Budget updated on the paused campaign');}
+    else toast('Minimum ₹87/day — kept previous budget');
+    renderCampPanel();});
+}
+function cpEditAd(i,k){
+  cpInline(document.getElementById('cpv-'+k+'-'+i),NCC.ads[i][k],v=>{if(v)NCC.ads[i][k]=v;renderCampPanel();toast('Creative updated · ads_update_entity');});
+}
 
 /* ================= ONBOARDING ================= */
 const OBCONN=new Set();
