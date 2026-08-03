@@ -43,6 +43,7 @@
     <button class="sni" data-spine="meta">Meta</button>
     <button class="sni" data-spine="shopify">Shopify</button>
     <button class="sni" data-spine="creativestbl">Creatives</button>
+    <button class="sni" data-spine="marketplace">Marketplace</button>
     <button class="sni" data-spine="attribution">Attribution</button>
   </div>
   <button class="ni" data-go="assets"><span class="gi">▣</span><span class="lab">Asset library</span></button>
@@ -52,6 +53,7 @@
   <div class="nav-sec">Analytics</div>
   <button class="ni" data-go="cdp"><span class="gi">◔</span><span class="lab">CDP Analytics</span></button>
   <button class="ni" data-go="creatives"><span class="gi">▧</span><span class="lab">Creative analysis</span></button>
+  <button class="ni" data-go="market"><span class="gi">◈</span><span class="lab">Market</span><span class="badge" style="background:var(--color-ember-dim);color:var(--color-ember)">NEW</span></button>
 
   <div class="nav-foot">
     <div class="who"><div class="av">S</div><div><b>Santanu</b><span>santanu@meerkats.ai</span></div><span class="cx" style="margin-left:auto;color:var(--color-ink-400);font-size:10px">▼</span></div>
@@ -279,6 +281,153 @@
     </div>
     <div class="grid grid-cols-4 gap-4" id="as-grid"></div>
     <p class="mt-4 text-[11px] text-ink-400">Assets sync automatically from connected Meta &amp; Google ad accounts · hooks, angles and formats are tagged by the Creative Analyst agent · open any asset in Creative analysis for corrected performance.</p>
+  </section>
+
+  <!-- ======== MARKET — SHELF INTELLIGENCE ======== -->
+  <section class="screen" id="s-market">
+    <div class="mb-5 flex items-center gap-3">
+      <div class="views" style="margin-bottom:0" id="mkPlatRow">
+        <button class="view on" onclick="mkPlat(this)">All connected</button>
+        <button class="view" onclick="mkPlat(this)">Amazon</button>
+        <button class="view" style="color:var(--color-ink-400)" onclick="go('integrations');toast('Connect Flipkart from Integrations to crawl its shelf')">Flipkart 🔒</button>
+        <button class="view" style="color:var(--color-ink-400)" onclick="go('integrations');toast('Connect Zepto from Integrations — pincode-scoped crawl')">Zepto 🔒</button>
+        <button class="view" style="color:var(--color-ink-400)" onclick="go('integrations');toast('Connect Blinkit from Integrations — pincode-scoped crawl')">Blinkit 🔒</button>
+      </div>
+      <span class="spacer"></span>
+      <span class="font-mono text-[10.5px] text-ink-400">last crawl 2:10 pm · 4×/day · Bengaluru 560034 · 560095 · 560102</span>
+    </div>
+    <div class="rtabs">
+      <button class="cktab on" onclick="mkTab('overview',this)">Overview</button>
+      <button class="cktab" onclick="mkTab('price',this)">Price tracking</button>
+      <button class="cktab" onclick="mkTab('sov',this)">Share of voice</button>
+      <button class="cktab" onclick="mkTab('kw',this)">Keywords &amp; tracked</button>
+      <span class="spacer"></span>
+      <button class="mini" style="margin-bottom:8px" onclick="pinMkt()">⊕ Pin view to Cockpit</button>
+    </div>
+
+    <div class="mk-pane" id="mk-overview">
+      <div class="grid grid-cols-4 gap-x-8 mb-8">
+        <div class="kpimin"><div class="kl">Price index vs category</div><div class="kv">1.04×</div><div class="kn"><span class="delta delta-mut">▲ 0.03 — you price above the median</span></div></div>
+        <div class="kpimin"><div class="kl">SOV · tracked keywords</div><div class="kv">23%</div><div class="kn"><span class="delta delta-dn">▼ 3pp W/W — OZiva paid push</span></div></div>
+        <div class="kpimin"><div class="kl">Keywords in top 3</div><div class="kv">8 of 24</div><div class="kn"><span class="delta delta-up">▲ 2 vs last week</span></div></div>
+        <div class="kpimin"><div class="kl">Competitor moves</div><div class="kv" style="color:var(--color-watch)">6</div><div class="kn">4 price cuts · 2 stockouts · this week</div></div>
+      </div>
+      <div class="card p-4" style="max-width:900px">
+        <div class="mb-3 flex items-center gap-2"><b class="text-[13px]">What changed this window</b><span class="text-[10.5px] font-mono text-ink-400">watched by the Market Intelligence agent</span></div>
+        <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-crit" style="flex:none">Price</span><div class="text-[12.5px] leading-[1.55]"><b>OZiva cut Collagen 500g by 12% on Amazon</b> — ₹1,299 → ₹1,149 at 2:10 pm. Undercuts you by ₹150; you still hold the buy box.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="openTask('OZiva undercut us by ₹150 on Amazon collagen — respond or hold?','From Market · price history attached')">Investigate</button></div>
+        <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-warn" style="flex:none">Stock</span><div class="text-[12.5px] leading-[1.55]"><b>Glow Gummies out of stock in 2 of 3 Blinkit pincodes</b> since 11 am (560034, 560095) — availability 33%; on quick-commerce a stockout <i>is</i> lost SOV.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="toast('Alert rule created — availability <80% pings WhatsApp · manage in My Queue')">⚑ Alert me</button></div>
+        <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-warn" style="flex:none">Buy box</span><div class="text-[12.5px] leading-[1.55]"><b>Slim Shake lost the Amazon buy box</b> to NutriMart (₹1,849, faster promise) — held 3h yesterday, still lost now.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="go('myqueue');toast('Price match ₹1,849 staged for approval — never auto-executed')">Stage price match →</button></div>
+        <div class="flex items-start gap-2.5 py-2.5"><span class="sev sev-opp" style="flex:none">Rank</span><div class="text-[12.5px] leading-[1.55]"><b>"collagen for skin" moved #3 → #2 organic</b> on Amazon — one spot from the top without paid support.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="openTask('We hit #2 organic on collagen for skin — worth a paid push to take #1?','From Market · rank history attached')">Investigate</button></div>
+      </div>
+      <p class="mt-4 text-[11px] text-ink-400">Amazon crawling live · connect Flipkart, Zepto and Blinkit from <a href="#" style="color:var(--color-ember)" onclick="go('integrations');return false">Integrations</a> to extend coverage · observations land in Data Spine → Marketplace.</p>
+    </div>
+
+    <div class="mk-pane" id="mk-price" style="display:none">
+      <div class="card" style="overflow-x:auto">
+        <table class="dtable" style="min-width:980px">
+          <thead><tr><th>Product</th><th>Your price</th><th>Buy box</th><th>Comp. min</th><th>Median</th><th>Gap vs min</th><th>Comp. min · 7d</th><th>Platforms</th><th style="text-align:left">Alert</th></tr></thead>
+          <tbody>
+            <tr class="crow" onclick="document.getElementById('mkd-1').classList.toggle('open')">
+              <td style="min-width:200px"><b>Glow Ritual Collagen 500g</b><br><span class="text-[10.5px] text-ink-400">hero SKU · B0GLW500</span></td>
+              <td><b>₹1,299</b></td><td><span class="text-good font-semibold">✓ held</span></td>
+              <td>₹1,149 <span class="text-[10px] text-ink-400">OZiva</span></td><td>₹1,395</td>
+              <td><b class="text-bad">+₹150</b> <span class="text-[10px] text-ink-400">+13%</span></td>
+              <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-bad)" stroke-width="1.5" points="0,5 13,5 26,6 39,6 52,7 64,13"/></svg></td>
+              <td><span class="text-[10.5px] font-mono">AMZ · FK · BLK</span></td>
+              <td style="text-align:left"><span class="tag tag-w">⚑ on</span></td></tr>
+            <tr class="cdetail" id="mkd-1"><td colspan="9"><div class="flex flex-wrap gap-6">
+              <div><div class="slab">Competitors · Amazon</div><span class="text-[12px] text-ink-700">OZiva ₹1,149 <b class="text-bad">▼12% today</b> · Plix ₹1,275 ▼2% · Wellbeing ₹1,349 — · Kapiva ₹1,499 ▲3%</span></div>
+              <div><div class="slab">Last checked</div><span class="text-[12px] text-ink-700">2:10 pm · hourly on tracked SKUs</span></div>
+              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Should we respond to OZiva at ₹1,149 or hold ₹1,299?','From Market · margin + elasticity context attached')">Ask about this</button><button class="mini mini-call" onclick="event.stopPropagation();go('myqueue');toast('Price change staged — margin impact shown at approval')">Stage price change →</button></div>
+            </div></td></tr>
+            <tr class="crow" onclick="document.getElementById('mkd-2').classList.toggle('open')">
+              <td><b>Glow Gummies 60ct</b><br><span class="text-[10.5px] text-ink-400">B0GLWGUM</span></td>
+              <td><b>₹649</b></td><td><span class="text-good font-semibold">✓ held</span></td>
+              <td>₹599 <span class="text-[10px] text-ink-400">Plix</span></td><td>₹680</td>
+              <td><b>+₹50</b> <span class="text-[10px] text-ink-400">+8%</span></td>
+              <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-ink-400)" stroke-width="1.5" points="0,9 13,9 26,8 39,9 52,9 64,9"/></svg></td>
+              <td><span class="text-[10.5px] font-mono">AMZ · BLK · ZPT</span></td>
+              <td style="text-align:left"><span class="tag tag-w">⚑ on</span></td></tr>
+            <tr class="cdetail" id="mkd-2"><td colspan="9"><div class="flex flex-wrap gap-6">
+              <div><div class="slab">Competitors</div><span class="text-[12px] text-ink-700">Plix ₹599 — · Wellbeing ₹649 — · HealthKart ₹725 ▲1%</span></div>
+              <div><div class="slab">Quick-commerce</div><span class="text-[12px] text-ink-700">OOS in 2 of 3 Blinkit pincodes since 11 am — availability 33%</span></div>
+              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Glow Gummies OOS on Blinkit in 2 pincodes — restock impact?','From Market · availability history attached')">Ask about this</button></div>
+            </div></td></tr>
+            <tr class="crow" onclick="document.getElementById('mkd-3').classList.toggle('open')">
+              <td><b>Slim Shake Vanilla 1kg</b><br><span class="text-[10.5px] text-ink-400">B0SLMSHK</span></td>
+              <td><b>₹1,899</b></td><td><span class="text-bad font-semibold">✕ lost</span> <span class="text-[10px] text-ink-400">NutriMart</span></td>
+              <td>₹1,849 <span class="text-[10px] text-ink-400">NutriMart</span></td><td>₹2,100</td>
+              <td><b class="text-bad">+₹50</b> <span class="text-[10px] text-ink-400">+3%</span></td>
+              <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-bad)" stroke-width="1.5" points="0,6 13,7 26,7 39,10 52,11 64,12"/></svg></td>
+              <td><span class="text-[10.5px] font-mono">AMZ · FK</span></td>
+              <td style="text-align:left"><span class="tag">off</span></td></tr>
+            <tr class="cdetail" id="mkd-3"><td colspan="9"><div class="flex flex-wrap gap-6">
+              <div><div class="slab">Buy box</div><span class="text-[12px] text-ink-700">Lost to NutriMart at ₹1,849 + faster delivery promise · you held 61% of last 30d</span></div>
+              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();toast('Alert rule created — buy-box loss pings WhatsApp within 15 min')">⚑ Alert me</button><button class="mini mini-call" onclick="event.stopPropagation();go('myqueue');toast('Price match ₹1,849 staged for approval')">Stage price match →</button></div>
+            </div></td></tr>
+            <tr class="crow" onclick="document.getElementById('mkd-4').classList.toggle('open')">
+              <td><b>Metabolism Tea 30s</b><br><span class="text-[10.5px] text-ink-400">B0MTBTEA</span></td>
+              <td><b>₹499</b></td><td><span class="text-good font-semibold">✓ held</span></td>
+              <td>₹449 <span class="text-[10px] text-ink-400">Kapiva</span></td><td>₹520</td>
+              <td><b>+₹50</b> <span class="text-[10px] text-ink-400">+11%</span></td>
+              <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-good)" stroke-width="1.5" points="0,12 13,11 26,11 39,10 52,8 64,7"/></svg></td>
+              <td><span class="text-[10.5px] font-mono">AMZ</span></td>
+              <td style="text-align:left"><span class="tag">off</span></td></tr>
+            <tr class="cdetail" id="mkd-4"><td colspan="9"><div class="flex flex-wrap gap-6">
+              <div><div class="slab">Competitors</div><span class="text-[12px] text-ink-700">Kapiva ₹449 ▲2% · Baidyanath ₹475 — · category median rising 3 weeks straight</span></div>
+              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Metabolism tea category median rising — room to take price up?','From Market · price history attached')">Ask about this</button></div>
+            </div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2.5 text-[11px] text-ink-400">Prices observed by scheduled crawls, hourly on tracked SKUs · repricing is always a staged write — the agent can propose a match, only you approve it · click a row for competitor detail.</p>
+    </div>
+
+    <div class="mk-pane" id="mk-sov" style="display:none">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Page-1 share of voice — tracked clusters</div>
+          <div class="mb-3 text-[11px] text-ink-400">your share of page-1 results · organic + paid · Amazon</div>
+          <div class="patbar"><span class="pl">metabolism tea</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">31%</span><span class="ps">#1 · you lead</span></div>
+          <div class="patbar"><span class="pl">collagen powder</span><div class="ptrack"><div class="pfill" style="width:74%;background:var(--color-watch)"></div></div><span class="pv">23%</span><span class="ps">▼3pp W/W</span></div>
+          <div class="patbar"><span class="pl">meal replacement</span><div class="ptrack"><div class="pfill" style="width:35%;background:var(--color-ink-400)"></div></div><span class="pv">11%</span><span class="ps">#4 of 9</span></div>
+          <div class="patbar"><span class="pl">acv gummies</span><div class="ptrack"><div class="pfill" style="width:26%;background:var(--color-ink-400)"></div></div><span class="pv">8%</span><span class="ps">#6 of 11</span></div>
+        </div>
+        <div class="card p-4">
+          <div class="mb-1 text-[13px] font-semibold">Collagen cluster — leaderboard</div>
+          <div class="mb-3 text-[11px] text-ink-400">page-1 share across 9 tracked keywords · paid share in caption</div>
+          <div class="patbar"><span class="pl">OZiva</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-bad)"></div></div><span class="pv">31%</span><span class="ps">71% paid</span></div>
+          <div class="patbar"><span class="pl">You</span><div class="ptrack"><div class="pfill" style="width:74%;background:var(--color-ember)"></div></div><span class="pv">23%</span><span class="ps">39% paid</span></div>
+          <div class="patbar"><span class="pl">Wellbeing</span><div class="ptrack"><div class="pfill" style="width:58%;background:var(--color-ink-400)"></div></div><span class="pv">18%</span><span class="ps">44% paid</span></div>
+          <div class="patbar"><span class="pl">Plix</span><div class="ptrack"><div class="pfill" style="width:29%;background:var(--color-ink-400)"></div></div><span class="pv">9%</span><span class="ps">22% paid</span></div>
+          <div class="mt-3 border-t border-rule pt-3 text-[12px] text-ink-500">✦ OZiva's lead is <b>bought, not earned</b> — 71% of their page-1 presence is sponsored slots and their organic rank trails yours on 6 of 9 keywords. If their CAC math breaks, that share is available.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mk-pane" id="mk-kw" style="display:none">
+      <div class="card mb-4" style="overflow-x:auto">
+        <table class="dtable" style="min-width:820px">
+          <thead><tr><th>Keyword</th><th>Platform</th><th>Est. volume</th><th>Your rank</th><th>Δ W/W</th><th>#1 today</th></tr></thead>
+          <tbody>
+            <tr><td><b>collagen powder</b></td><td>Amazon</td><td>74K</td><td>#4</td><td class="text-bad">▼ 2</td><td>OZiva <span class="text-[10px] text-ink-400">paid</span></td></tr>
+            <tr><td><b>collagen for skin</b></td><td>Amazon</td><td>22K</td><td><b class="text-good">#2</b></td><td class="text-good">▲ 1</td><td>OZiva</td></tr>
+            <tr><td><b>marine collagen</b></td><td>Amazon</td><td>18K</td><td>#6</td><td class="text-bad">▼ 2</td><td>Wellbeing <span class="text-[10px] text-ink-400">paid</span></td></tr>
+            <tr><td><b>metabolism tea</b></td><td>Amazon</td><td>9K</td><td><b class="text-good">#1</b></td><td>—</td><td><b>You</b></td></tr>
+            <tr><td><b>acv gummies</b></td><td>Amazon</td><td>61K</td><td>#9</td><td>—</td><td>Plix <span class="text-[10px] text-ink-400">paid</span></td></tr>
+            <tr><td><b>meal replacement shake</b></td><td>Amazon</td><td>33K</td><td>#7</td><td class="text-good">▲ 1</td><td>HealthKart</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card p-4" style="max-width:900px">
+        <div class="mb-1 flex items-center gap-2"><b class="text-[13px]">Tracked products — agent-curated</b><span class="text-[10.5px] font-mono text-ink-400">Market Intelligence agent</span></div>
+        <p class="mb-3 text-[12px] text-ink-500">Found <b>14 listings</b> competing with your SKUs across 24 tracked keywords — tracking 6 by estimated sales share. New suggestions:</p>
+        <div class="flex items-center gap-2.5 py-2 border-b border-rule" id="mksug-1"><span class="thumb2" style="background:linear-gradient(135deg,#6d28d9,#4c1d95);width:36px;height:24px;font-size:10px">◈</span><div class="flex-1 text-[12.5px]"><b>OZiva Plant Collagen 250g</b> <span class="text-[10.5px] text-ink-400">· est. 12% share on "collagen powder" · launched 3w ago</span></div><button class="mini mini-call" onclick="mkTrack('mksug-1','OZiva Plant Collagen 250g')">✓ Track</button><button class="mini" onclick="mkIgnore('mksug-1')">✕ Ignore</button></div>
+        <div class="flex items-center gap-2.5 py-2 border-b border-rule" id="mksug-2"><span class="thumb2" style="background:linear-gradient(135deg,#0e7490,#155e75);width:36px;height:24px;font-size:10px">◈</span><div class="flex-1 text-[12.5px]"><b>Wellbeing Korean Marine Collagen</b> <span class="text-[10.5px] text-ink-400">· took #1 paid on "marine collagen" this week</span></div><button class="mini mini-call" onclick="mkTrack('mksug-2','Wellbeing Korean Marine Collagen')">✓ Track</button><button class="mini" onclick="mkIgnore('mksug-2')">✕ Ignore</button></div>
+        <div class="flex items-center gap-2.5 py-2" id="mksug-3"><span class="thumb2" style="background:linear-gradient(135deg,#a16207,#713f12);width:36px;height:24px;font-size:10px">◈</span><div class="flex-1 text-[12.5px]"><b>Kapiva Slim Tea 60s</b> <span class="text-[10.5px] text-ink-400">· price cut 9% + review velocity 3× in 2 weeks</span></div><button class="mini mini-call" onclick="mkTrack('mksug-3','Kapiva Slim Tea 60s')">✓ Track</button><button class="mini" onclick="mkIgnore('mksug-3')">✕ Ignore</button></div>
+        <div class="mt-3 border-t border-rule pt-3 text-[11px] text-ink-400">Currently tracking: <span class="railchip">OZiva Collagen 500g</span><span class="railchip">Plix Gummies</span><span class="railchip">Wellbeing Collagen</span><span class="railchip">Kapiva Tea 30s</span><span class="railchip">NutriMart Shake</span><span class="railchip">HealthKart MRP</span></div>
+      </div>
+    </div>
   </section>
 
   <!-- ======== ATTRIBUTION ======== -->
@@ -707,6 +856,9 @@
       <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>ROAS drop alert</b><div class="sub">Real ROAS −15% vs 7-day avg on any platform · hourly check</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Slack</span><span class="cad">WATCH</span><div class="toggle"></div></div>
       <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Spend pacing alert</b><div class="sub">Daily spend &gt;120% of plan before 6pm</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="cad">WATCH</span><div class="toggle off"></div></div>
       <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Corrected-conversion send-back</b><div class="sub">05:00 · custom + corrected events → Meta CAPI · monitor lives on Ad Performance</div></div><span class="spacer"></span><span class="tag tag-m">Meta CAPI</span><span class="cad">DAILY</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Competitor undercut — product scope</b><div class="sub">Any tracked competitor prices below a hero SKU on any platform · hourly crawl · ping within 15 min</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="cad">WATCH</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-good)"></span><div><b>Quick-commerce availability — platform scope</b><div class="sub">Availability &lt;80% across tracked pincodes on Zepto or Blinkit · a stockout is lost SOV</div></div><span class="spacer"></span><span class="tag tag-w">WhatsApp</span><span class="tag">Slack</span><span class="cad">WATCH</span><div class="toggle"></div></div>
+      <div class="arow"><span class="st" style="background:var(--color-rule)"></span><div><b>Category price shift — category scope</b><div class="sub">Category median moves &gt;3% W/W on any tracked category · weekly digest with per-SKU gaps</div></div><span class="spacer"></span><span class="tag">Email</span><span class="cad">WEEKLY</span><div class="toggle off"></div></div>
     </div>
     <p class="mt-4 text-[11.5px] text-ink-400">Tier is a property of the <b>tool</b>, not the model — write tools cannot auto-execute. Approving re-validates before-state against live data; every execution is audit-logged and reversible actions expose Undo.</p>
   </section>
@@ -980,6 +1132,15 @@
       <div class="costrow"><div class="ci">▤</div><div><b>Slack</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">#growth — alerts and weekly deep-dive</div></div><span class="spacer"></span><span class="perm-y stt">Connected</span></div>
       <div class="costrow"><div class="ci">✉</div><div><b>Email (Resend)</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Briefings &amp; reports</div></div><span class="spacer"></span><span class="perm-y stt">Connected</span></div>
       <div class="costrow"><div class="ci">%</div><div><b>COGS per SKU</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">CSV upload · 214 SKUs · powers Gross margin, Net profit and POAS on the Founder view</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Upload CSV — sku, unit_cogs · replaces current table')">Update CSV</button></div>
+    </div>
+
+    <div class="sec-h" style="margin-top:26px">Marketplace crawlers <span class="hint">— shelf intelligence: prices, ranks, availability → Data Spine → Marketplace → the Market view</span></div>
+    <div class="card">
+      <div class="costrow"><div class="ci">◈</div><div><b>Amazon — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Prices, buy box, search ranks for tracked SKUs + keywords · 4×/day, hourly on tracked SKUs · SP-API for your own listings</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>Flipkart — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Competitor prices + search pages · seller API for your listings</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Flipkart crawl scheduled — first observations within 24h')">Connect</button></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>Zepto — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Pincode-scoped: price + availability per dark store — pick 3–5 priority pincodes per city</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Zepto crawl — choose priority pincodes to begin')">Connect</button></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>Blinkit — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Pincode-scoped: price + availability per dark store</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Blinkit crawl — choose priority pincodes to begin')">Connect</button></div>
+      <div class="costrow"><div class="ci">⌖</div><div><b>Tracked pincodes</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Bengaluru · 560034, 560095, 560102 — quick-commerce price and stock vary per dark store</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Pincode editor — add up to 5 per city')">Edit</button></div>
     </div>
   </section>
 
@@ -1436,7 +1597,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],market:['Market — Shelf Intelligence',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1628,6 +1789,7 @@ ingest:{t:'Ingest Events',d:'The live event firehose — every click, view, and 
 google:{t:'Google — Source',d:'Google Ads ingestion: campaigns, cost, and gclid click stream, reconciled against orders nightly and on-demand.'},
 meta:{t:'Meta — Source',d:'Meta ingestion: campaigns, spend, and fbclid click stream, deduplicated against the first-party pixel.'},
 shopify:{t:'Shopify — Source',d:'Orders, refunds, customers, and catalog synced in real time — the revenue spine every metric reconciles to.'},
+marketplace:{t:'Marketplace — Shelf Observations',d:'External shelf intelligence from scheduled crawls: price_snapshot, search_rank and shelf_observation tables at SKU × platform × pincode grain — the substrate under the Market view. Amazon live · Flipkart, Zepto, Blinkit on connect.'},
 attribution:{t:'Attribution — Spine',d:'The deterministic click-ID join layer: how raw events become attributed revenue, with full lineage per order.'}};
 
 const GATES={
@@ -1683,7 +1845,7 @@ function go(id){
   document.getElementById('viewBtn').style.display=(id==='summary')?'inline-flex':'none';
   document.getElementById('viewMenu').classList.remove('on');
   if(id!=='workbench')toggleCtx(false);
-  const NOTB=['cdp','creatives','assets','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
+  const NOTB=['cdp','creatives','assets','market','summary','home','workbench','skills','myqueue','automations','queue','allleads','lead','crmteam','crmperf','settings'];
   document.getElementById('tb-ctls').style.display=NOTB.includes(id)?'none':'flex';
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
@@ -1760,7 +1922,8 @@ const RECS=[
  {sev:'crit',t:'"discount-banner-old" fatigued',ev:'Frequency 4.8, CTR down 44% · still spending ₹4,180/day.',type:'queue'},
  {sev:'opp',t:'Search · brand starved of budget',ev:'Losing 31% impression share at CAC ₹704 — cheapest volume available.',type:'queue'},
  {sev:'opp',t:'Extend email winback to 60–90d lapsed',ev:'winback-3 drove 41 orders at effective CAC ₹216 last week.',type:'agent'},
- {sev:'warn',t:'₹6.1K/day sitting on dead creatives',ev:'"discount-banner-old" and "holi-sale-carousel" are dead by CTR trend + frequency — retire and rotate winners in.',type:'creatives'}];
+ {sev:'warn',t:'₹6.1K/day sitting on dead creatives',ev:'"discount-banner-old" and "holi-sale-carousel" are dead by CTR trend + frequency — retire and rotate winners in.',type:'creatives'},
+ {sev:'warn',t:'OZiva undercut you by ₹150 on Amazon',ev:'Collagen 500g cut 12% to ₹1,149 at 2:10 pm — you hold the buy box at ₹1,299, but SOV on "collagen powder" fell 3pp this week.',type:'market'}];
 let RECD=new Set();
 function inboxCount(){return STAGED.filter(q=>q.status==='staged').length+RECS.filter((r,i)=>!RECD.has(i)).length;}
 function updInboxBadge(){
@@ -1796,6 +1959,7 @@ function renderInboxPanel(){
         ${r.type==='agent'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);openTask('${r.t.replace(/'/g,"\\'")}')">Fix with agent →</button>`
          :r.type==='queue'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('myqueue')">Review & approve →</button>`
          :r.type==='creatives'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);showCreatives()">Open Creatives →</button>`
+         :r.type==='market'?`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('market')">Open Market →</button>`
          :`<button class="btn btn-sm btn-orange" onclick="toggleInbox(false);go('integrations')">Connect →</button>`}
         <button class="btn btn-sm btn-ghost" onclick="toggleInbox(false);openTask('Explain: ${r.t.replace(/'/g,"\\'")}')">Explain</button>
         <button class="btn btn-sm btn-ghost" onclick="dismissRec(${r.i})">Dismiss</button>
@@ -2448,7 +2612,29 @@ function renderAssets(){
     </div></div>`).join('');
 }
 
-/* ---- Pin CDP views to Cockpit ---- */
+/* ---- Market (shelf intelligence) ---- */
+let MKTAB='overview';
+function mkTab(t,btn){
+  MKTAB=t;
+  document.querySelectorAll('#s-market .cktab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('#s-market .mk-pane').forEach(p=>p.style.display='none');
+  document.getElementById('mk-'+t).style.display='';
+}
+function mkPlat(btn){
+  document.querySelectorAll('#mkPlatRow .view').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  toast(btn.textContent.trim()==='Amazon'?'Amazon only — the one connected shelf source today':'Showing all connected platforms');
+}
+function mkTrack(id,name){
+  document.getElementById(id).innerHTML=`<span class="text-[12.5px] text-good font-semibold">✓ Tracking ${name}</span><span class="text-[10.5px] text-ink-400" style="margin-left:8px">first price + rank observations within the hour</span>`;
+  toast('Added to the watchlist — crawls start this hour');
+}
+function mkIgnore(id){
+  document.getElementById(id).remove();
+  toast('Ignored — the agent won\'t re-suggest this listing');
+}
+function pinMkt(){pinCdp(MKTAB==='sov'||MKTAB==='kw'?'mktsov':'mktidx');}
+
+/* ---- Pin views to Cockpit ---- */
 let PINNED=[];
 function pinCdp(k){
   if(PINNED.includes(k)){toast('Already pinned to your Cockpit');return;}
@@ -2465,8 +2651,15 @@ function renderPinned(){
    ltv:`<div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">LTV by first-touch channel</b><span class="railchip" style="font-size:9.5px">pinned · CDP Analytics</span><span class="spacer"></span><button class="mini" onclick="go('cdp')">Open →</button><button class="mini" title="Unpin" onclick="unpin('ltv')">✕</button></div>
      <div class="patbar"><span class="pl">Organic</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">₹5,210</span><span class="ps">2.8× LTV:CAC</span></div>
      <div class="patbar"><span class="pl">Google</span><div class="ptrack"><div class="pfill" style="width:79%;background:var(--color-google)"></div></div><span class="pv">₹4,120</span><span class="ps">2.4× LTV:CAC</span></div>
-     <div class="patbar"><span class="pl">Meta</span><div class="ptrack"><div class="pfill" style="width:67%;background:var(--color-meta)"></div></div><span class="pv">₹3,480</span><span class="ps">1.9× LTV:CAC</span></div></div>`};
-  x.innerHTML='<div class="ibx-sec" style="margin:28px 0 10px">Pinned from CDP Analytics</div><div class="grid grid-cols-2 gap-4" style="max-width:900px">'+PINNED.map(k=>CARD[k]).join('')+'</div>';
+     <div class="patbar"><span class="pl">Meta</span><div class="ptrack"><div class="pfill" style="width:67%;background:var(--color-meta)"></div></div><span class="pv">₹3,480</span><span class="ps">1.9× LTV:CAC</span></div></div>`,
+   mktidx:`<div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">Price position</b><span class="railchip" style="font-size:9.5px">pinned · Market</span><span class="spacer"></span><button class="mini" onclick="go('market')">Open →</button><button class="mini" title="Unpin" onclick="unpin('mktidx')">✕</button></div>
+     <div class="flex gap-7 text-[12.5px] mb-2"><span><b class="text-[19px] font-semibold">1.04×</b><br><span class="text-ink-400 text-[11px]">price index vs category</span></span><span><b class="text-[19px] font-semibold text-good">3 of 4</b><br><span class="text-ink-400 text-[11px]">buy boxes held</span></span><span><b class="text-[19px] font-semibold" style="color:var(--color-watch)">6</b><br><span class="text-ink-400 text-[11px]">competitor moves this wk</span></span></div>
+     <div class="text-[11.5px] text-ink-500">⚑ OZiva at ₹1,149 undercuts your hero SKU by ₹150 — alert live, any response stages for approval.</div></div>`,
+   mktsov:`<div class="card p-4"><div class="flex items-center gap-2 mb-3"><b class="text-[13px]">Share of voice — tracked keywords</b><span class="railchip" style="font-size:9.5px">pinned · Market</span><span class="spacer"></span><button class="mini" onclick="go('market')">Open →</button><button class="mini" title="Unpin" onclick="unpin('mktsov')">✕</button></div>
+     <div class="patbar"><span class="pl">metabolism tea</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">31%</span><span class="ps">#1 · you lead</span></div>
+     <div class="patbar"><span class="pl">collagen powder</span><div class="ptrack"><div class="pfill" style="width:74%;background:var(--color-watch)"></div></div><span class="pv">23%</span><span class="ps">▼3pp W/W</span></div>
+     <div class="patbar"><span class="pl">acv gummies</span><div class="ptrack"><div class="pfill" style="width:26%;background:var(--color-ink-400)"></div></div><span class="pv">8%</span><span class="ps">#6 of 11</span></div></div>`};
+  x.innerHTML='<div class="ibx-sec" style="margin:28px 0 10px">Pinned views</div><div class="grid grid-cols-2 gap-4" style="max-width:900px">'+PINNED.map(k=>CARD[k]).join('')+'</div>';
 }
 
 const COHORTS=[['Feb',100,41,33,29,26],['Mar',100,38,31,27,0],['Apr',100,36,30,0,0],['May',100,33,0,0,0],['Jun',100,29,0,0,0],['Jul',100,0,0,0,0]];
