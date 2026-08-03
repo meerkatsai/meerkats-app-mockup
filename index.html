@@ -191,8 +191,6 @@
           </div>
         </div>
       </span>
-      <span class="spacer"></span>
-      <button class="btn btn-sm btn-orange" onclick="openNewCamp()">＋ Create campaign</button>
     </div>
 
     <div class="grid grid-cols-4 gap-x-8 gap-y-8" id="ck-kpis"></div>
@@ -441,8 +439,8 @@
           <span class="spacer"></span>
           <button class="mini" onclick="go('summary')">‹ Back to Cockpit</button>
         </div>
-        <p class="mb-2 text-[13px] text-ink-500 max-w-[62ch]">A few question cards, one at a time — every card has a recommended answer, so you can be done in under two minutes.</p>
-        <p class="mb-6 text-[11.5px] text-ink-400">Everything is created <b class="text-ink-700">paused</b> on Meta. Nothing spends until you review and publish. · acct <span class="font-mono">Alby D2C (act_1094…)</span> · Page <b class="text-ink-700">Alby</b> · pixel <b class="text-ink-700">Alby Web ✓</b></p>
+        <p class="mb-2 text-[13px] text-ink-500 max-w-[64ch]">Questions come as staged cards — Campaign, Ad sets, Ads — with a counter, one-tap recommended answers, and Back whenever you change your mind.</p>
+        <p class="mb-6 text-[11.5px] text-ink-400"><b class="text-ink-700">Campaign Creator agent</b> · everything is created <b class="text-ink-700">paused</b> on Meta — nothing spends until you review and publish · acct <span class="font-mono">Alby D2C (act_1094…)</span> · Page <b class="text-ink-700">Alby</b> · pixel <b class="text-ink-700">Alby Web ✓</b></p>
         <div class="grid grid-cols-2 gap-2.5" style="max-width:640px">
           <button class="qopt" onclick="ncStart('sales')"><b>🛍 Sales / conversions</b><span>Drive purchases — pixel-optimized, ROAS-ready</span></button>
           <button class="qopt" onclick="ncStart('leads')"><b>✎ Leads</b><span>Instant forms, WhatsApp, or website sign-ups</span></button>
@@ -2279,6 +2277,7 @@ function approveAllLow(){STAGED.forEach(q=>{if(q.status==='staged'&&q.risk==='lo
 
 /* ================= SKILLS ================= */
 const AGENTS=[
+ ['✚','Campaign Creator','Builds a complete Meta campaign from a short question flow — full Ads Manager depth, created paused, live only on your approval.',['Meta Campaign Spine','Copy Drafter','Creative Picker'],['meta.ads','asset_library','pixel'],'New',1],
  ['◔','Performance Marketing Agent','Optimizes Google + Meta to your target CAC — finds waste, rebalances budgets, stages every write for approval.',['Account Audit','Ad Optimization'],['gaql_query','meta.ads','spine'],'17 runs'],
  ['⌖','Tracking & Attribution Auditor','Verifies the numbers are trustworthy — GTM, pixels, conversion actions, dedup, click-ID match rates.',['Tracking Audit'],['gtm_audit','conversion_status'],'9 runs'],
  ['▧','Creative Analyst','Catches fatigue before CAC feels it; drafts replacement copy from your winners and reviews.',['Ad Copy Writer','Creative Review'],['creative_metrics','meta.ads'],'21 runs'],
@@ -2293,8 +2292,8 @@ function renderSkills(){
     <div class="text-[10px] font-mono uppercase tracking-[0.1em] text-ink-400 mb-1">Built on</div>
     <div class="mb-3">${a[3].map(k=>'<span class="railchip">'+k+'</span>').join('')}${a[4].map(t=>'<span class="railchip" style="font-family:var(--font-mono);font-size:10px">'+t+'</span>').join('')}</div>
     <div class="mt-auto flex items-center gap-1.5">
-      <span class="tag tag-w">● Active · auto-called</span>
-      <button class="mini" onclick="go('automations');toast('Pick a schedule — a scheduled agent run is an Automation')">Schedule</button>
+      <span class="tag tag-w">● Active${a[6]?'':' · auto-called'}</span>
+      ${a[6]?'<button class="mini mini-call" onclick="openNewCamp()">Create campaign →</button>':'<button class="mini" onclick="go(\'automations\');toast(\'Pick a schedule — a scheduled agent run is an Automation\')">Schedule</button>'}
       <span class="ml-auto font-mono text-[10px] text-ink-400">${a[5]}</span></div></div>`).join('');
 }
 
@@ -2974,9 +2973,10 @@ function ncNodes(){
   return N;
 }
 
-/* ---- engine ---- */
+/* ---- engine: staged carousels (Claude question-card pattern) ---- */
+let NCAL={},NCSUB=new Set(),NCQI=0,NCOPEN=null,NCBUILT=false,NCCUR=null;
 function openNewCamp(){
-  NCF=null;NCLIVE=false;NCC=null;NCSTAGE='';
+  NCF=null;NCA={};NCAL={};NCSUB=new Set();NCQI=0;NCOPEN=null;NCBUILT=false;NCLIVE=false;NCC=null;NCSEL=[];
   document.getElementById('nc-thread').innerHTML='';
   document.getElementById('nc-clean').style.display='';
   document.getElementById('nc-ask').value='';
@@ -2991,125 +2991,181 @@ function ncRoute(){
   if(f)ncStart(f,q);
   else{
     document.getElementById('nc-clean').style.display='none';
-    ncAppend(`<div class="wb-user">${q}<div class="org">New campaign · Alby D2C · Meta connected</div></div>
+    ncAppend(`<div class="wb-user">${q}<div class="org">Campaign Creator · Alby D2C · Meta connected</div></div>
     <div class="wb-msg">One question to route this correctly — Meta accepts exactly six objectives, and everything downstream depends on the choice. I never guess it silently.</div>
     <div class="qcard"><div class="qchip">Objective</div><div class="qask">What's the goal?</div>
     ${['sales','leads','traffic','boost','retarget','abtest'].map(k=>`<button class="qopt${k==='sales'?' rec':''}" onclick="ncStart('${k}')"><b>${NCCFG[k].label}</b><span>${NCCFG[k].obj}</span></button>`).join('')}</div>`);
   }
 }
-function ncAppend(h){document.getElementById('nc-thread').insertAdjacentHTML('beforeend',h);document.getElementById('scroll').scrollTop=1e6;}
+function ncAppend(h){document.getElementById('nc-thread').insertAdjacentHTML('beforeend',h);ncScroll();}
+function ncScroll(){document.getElementById('scroll').scrollTop=1e6;}
 function ncStart(f,userText){
-  NCF=f;NCA={};NCLIVE=false;NCC=null;NCSTAGE='';NCSEL=[];
+  NCF=f;NCA={};NCAL={};NCSUB=new Set();NCQI=0;NCOPEN=null;NCBUILT=false;NCLIVE=false;NCC=null;NCSEL=[];
   const fl=NCCFG[f];
   document.getElementById('nc-clean').style.display='none';
   document.getElementById('nc-thread').innerHTML='';
-  ncAppend(`<div class="wb-user">${userText||fl.label}<div class="org">New campaign · Alby D2C · Meta connected</div></div>`);
-  setTimeout(()=>{ncAppend(`<div class="wb-msg">${fl.intro}</div>`);setTimeout(ncNextCard,320);},220);
+  ncAppend(`<div class="wb-user">${userText||fl.label}<div class="org">Campaign Creator · Alby D2C · Meta connected</div></div>`);
+  setTimeout(()=>{
+    ncAppend(`<div class="wb-msg">${fl.intro}</div><div id="nc-flow"></div>`);
+    setTimeout(renderFlow,300);
+  },220);
 }
-let NCCUR=null;
-function ncNextCard(){
-  const nodes=ncNodes();
-  const nxt=nodes.find(n=>!(n.key in NCA));
-  if(!nxt){ncBuild();return;}
-  NCCUR=nxt;
-  if(nxt.stage&&nxt.stage!==NCSTAGE){NCSTAGE=nxt.stage;ncAppend(`<div class="ibx-sec" style="margin:20px 0 10px">${nxt.stage}</div>`);}
-  let inner='';
-  if(nxt.type==='media'){
-    NCSEL=[...(nxt.pre||[])];
-    const A=ncAssets(nxt);
-    inner=`<div class="qmedia" style="grid-template-columns:repeat(${Math.min(A.length,5)},1fr)">${A.map((x,i)=>{
-      const sel=NCSEL.indexOf(i);
-      return `<div class="qm${sel>-1?' on':''}" id="qm-${i}" onclick="ncMedia(${i})"><img src="${x.f}" alt="">${x.vid?'<span style="position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:20px;text-shadow:0 1px 8px rgba(0,0,0,.5)">▶</span>':''}<span class="pick">${nxt.ordered&&sel>-1?sel+1:'✓'}</span><span class="cap">${x.n}</span></div>`;}).join('')}</div>
-    <button class="mini mini-call" id="qm-go" onclick="ncMediaGo()">Use ${NCSEL.length} selected →</button>`;
-  }else if(nxt.type==='copy'){
-    const cp=nxt.copy;
-    inner=`<div id="qcopy" class="mb-3 rounded-xl border border-rule bg-off p-3 text-[12.5px] leading-[1.6]">
-      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Primary</span><br><span id="qc-primary">${cp.primary}</span></div>
-      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Headline</span><br><b id="qc-headline">${cp.headline}</b></div>
-      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Description</span><br><span id="qc-desc">${cp.desc}</span></div>
-      <div class="flex items-center gap-2 pt-1"><span class="font-mono text-[10.5px] text-ink-400 truncate">→ ${cp.url}</span></div></div>
-    <button class="qopt rec" onclick="ncPick(null,'draft')"><b>Use this draft</b><span>Recommended — editable again in review</span></button>
-    <button class="qopt" onclick="ncCopyEdit()"><b>Edit the copy</b><span>Rewrite primary text, headline and description inline</span></button>`;
-  }else if(nxt.type==='multi'){
-    NCSEL=[];
-    inner=nxt.opts.map((o,i)=>`<button class="qopt${o.rec?' rec':''}" id="qmu-${i}" onclick="ncMulti(${i})"><b>${o.t}</b>${o.d?`<span>${o.d}</span>`:''}</button>`).join('')+
-    `<button class="mini mini-call" id="qmu-go" style="display:none" onclick="ncMultiGo()">Continue →</button>`;
-  }else{
-    inner=nxt.opts.map((o,i)=>o.other
-     ?`<button class="qopt" id="qo-${i}" onclick="ncOther(${i})"><b>${o.t}</b>${o.d?`<span>${o.d}</span>`:''}</button>`
-     :`<button class="qopt${o.rec?' rec':''}" onclick="ncPick(${i})"><b>${o.t}</b>${o.d?`<span>${o.d}${o.rec&&!/ecommended/.test(o.d)?' · recommended':''}</span>`:''}</button>`).join('');
+function ncStages(){const seen=[];ncNodes().forEach(n=>{if(!seen.includes(n.stage))seen.push(n.stage)});return seen;}
+const stName=st=>st.replace(/^\d+ · /,'');
+function ncStageNodes(st){return ncNodes().filter(n=>n.stage===st);}
+function renderFlow(){
+  const host=document.getElementById('nc-flow');if(!host||NCBUILT)return;
+  let html='',open=null;
+  for(const st of ncStages()){
+    const nodes=ncStageNodes(st);
+    if(NCSUB.has(st)&&nodes.every(n=>n.key in NCA)){html+=stageSummary(st,nodes);continue;}
+    open=st;break;
   }
-  ncAppend(`<div class="qcard" id="qcard-cur"><div class="qchip">${nxt.chip}</div><div class="qask">${nxt.ask}</div>${nxt.note?`<div class="qnote">${nxt.note}</div>`:''}${inner}</div>`);
+  if(!open){host.innerHTML=html;ncBuild();return;}
+  if(open!==NCOPEN){NCOPEN=open;const nodes=ncStageNodes(open);const idx=nodes.findIndex(n=>!(n.key in NCA));NCQI=idx===-1?nodes.length-1:idx;}
+  host.innerHTML=html+carouselHTML(open);
+  ncScroll();
 }
-function ncDone(text){
-  const el=document.getElementById('qcard-cur');
-  if(el)el.outerHTML=`<div class="qdone"><span class="ok2">✓</span><span class="qchip" style="margin:0">${NCCUR.chip}</span><span>${text}</span></div>`;
-  setTimeout(ncNextCard,240);
+function stageSummary(st,nodes){
+  return `<div class="qstage"><div class="mb-1 flex items-center gap-2"><span class="ok2">✓</span><b class="text-[12px]">${stName(st)}</b><span class="spacer"></span>${NCBUILT?'':`<button class="mini" onclick="ncEditStage('${st}')">✎ Edit</button>`}</div>
+  ${nodes.map(n=>`<div class="qsrow"><span class="qchip" style="margin:0;flex:none">${n.chip}</span><span class="min-w-0 truncate text-ink-700">${NCAL[n.key]||String(NCA[n.key])}</span></div>`).join('')}</div>`;
+}
+function ncEditStage(st){if(NCBUILT)return;NCSUB.delete(st);NCOPEN=null;renderFlow();}
+function carouselHTML(st){
+  const nodes=ncStageNodes(st);
+  if(NCQI>=nodes.length)NCQI=nodes.length-1;
+  const n=nodes[NCQI];NCCUR=n;
+  const allDone=nodes.every(x=>x.key in NCA);
+  return `<div class="qcard" id="qcard-cur">
+    <div class="mb-2 flex items-center gap-2"><div class="qchip" style="margin:0">${stName(st)}</div><span class="qcount">${NCQI+1} / ${nodes.length}</span></div>
+    <div class="qtabs">${nodes.map((x,i)=>`<span class="qtab${i===NCQI?' on':(x.key in NCA?' done':'')}" onclick="ncGoto(${i})">${(x.key in NCA&&i!==NCQI)?'✓ ':''}${x.chip}</span>`).join('')}</div>
+    <div class="qask">${n.ask}</div>${n.note?`<div class="qnote">${n.note}</div>`:''}
+    <div id="qbody">${qBody(n)}</div>
+    <div class="qnav">
+      <button class="mini"${NCQI===0?' disabled style="opacity:.35"':''} onclick="ncGoto(${NCQI-1})">‹ Back</button>
+      <button class="mini"${NCQI>=nodes.length-1?' disabled style="opacity:.35"':''} onclick="ncGoto(${NCQI+1})">Next ›</button>
+      <span class="spacer"></span>
+      <button class="mini mini-call"${allDone?'':' disabled style="opacity:.4"'} onclick="ncStageDone('${st}')">${stName(st)} done — continue →</button>
+    </div></div>`;
+}
+function qBody(n){
+  if(n.type==='media'){
+    const saved=NCA[n.key];NCSEL=saved?[...saved]:[...(n.pre||[])];
+    const A=ncAssets(n);
+    return `<div class="qmedia" style="grid-template-columns:repeat(${Math.min(A.length,5)},1fr)">${A.map((x,i)=>{const sel=NCSEL.indexOf(i);
+      return `<div class="qm${sel>-1?' on':''}" id="qm-${i}" onclick="ncMedia(${i})"><img src="${x.f}" alt="">${x.vid?'<span style="position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:20px;text-shadow:0 1px 8px rgba(0,0,0,.5)">▶</span>':''}<span class="pick">${n.ordered&&sel>-1?sel+1:'✓'}</span><span class="cap">${x.n}</span></div>`;}).join('')}</div>
+    <button class="mini mini-call" id="qm-go" onclick="ncMediaGo()">Use ${NCSEL.length} selected →</button>`;
+  }
+  if(n.type==='copy'){
+    const cp=NCA[n.key]||n.copy,isSaved=!!NCA[n.key];
+    return `<div id="qcopy" class="mb-3 rounded-xl border border-rule bg-off p-3 text-[12.5px] leading-[1.6]">
+      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Primary</span><br><span>${cp.primary}</span></div>
+      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Headline</span><br><b>${cp.headline}</b></div>
+      <div class="mb-1"><span class="text-[10px] font-bold uppercase text-ink-400">Description</span><br><span>${cp.desc}</span></div>
+      <div class="flex items-center gap-2 pt-1"><span class="font-mono text-[10.5px] text-ink-400 truncate">→ ${cp.url}</span></div></div>
+    <button class="qopt ${isSaved?'sel':'rec'}" onclick="ncPick(null,'draft')"><b>${isSaved?'✓ Using this copy':'Use this draft'}</b><span>${isSaved?'Saved — continue, or edit below':'Recommended — editable again in review'}</span></button>
+    <button class="qopt" onclick="ncCopyEdit()"><b>Edit the copy</b><span>Rewrite primary text, headline and description inline</span></button>`;
+  }
+  if(n.type==='multi'){
+    const savedStr=String(NCA[n.key]||'');
+    NCSEL=n.opts.map((o,i)=>savedStr.split(' + ').includes(o.v)?i:-1).filter(i=>i>-1);
+    return n.opts.map((o,i)=>`<button class="qopt${NCSEL.includes(i)?' sel':(o.rec&&!savedStr?' rec':'')}" id="qmu-${i}" onclick="ncMulti(${i})"><b>${NCSEL.includes(i)?'✓ ':''}${o.t}</b>${o.d?`<span>${o.d}</span>`:''}</button>`).join('')+
+    `<button class="mini mini-call" id="qmu-go" style="${NCSEL.length?'':'display:none'}" onclick="ncMultiGo()">Apply →</button>`;
+  }
+  const cur=NCA[n.key];
+  return n.opts.map((o,i)=>{
+    if(o.other)return `<button class="qopt" id="qo-${i}" onclick="ncOther(${i})"><b>${o.t}</b>${o.d?`<span>${o.d}</span>`:''}</button>`;
+    const isSel=cur!==undefined&&JSON.stringify(cur)===JSON.stringify(o.v);
+    return `<button class="qopt${isSel?' sel':(o.rec&&cur===undefined?' rec':'')}" onclick="ncPick(${i})"><b>${isSel?'✓ ':''}${o.t}</b>${o.d?`<span>${o.d}${o.rec&&cur===undefined&&!/ecommended/.test(o.d)?' · recommended':''}</span>`:''}</button>`;}).join('');
+}
+function ncGoto(i){
+  const nodes=ncStageNodes(NCOPEN);
+  if(i<0||i>=nodes.length)return;
+  NCQI=i;renderFlow();
+}
+function ncAnswer(key,val,label){
+  const changed=(key in NCA)&&JSON.stringify(NCA[key])!==JSON.stringify(val);
+  if(changed){
+    const order=ncNodes().map(n=>n.key),pos=order.indexOf(key);
+    order.slice(pos+1).forEach(k=>{delete NCA[k];delete NCAL[k];delete NCA[k+'_assets'];});
+    if(key==='budget')delete NCA.budgetLifetime;
+  }
+  NCA[key]=val;NCAL[key]=label;
+}
+function ncAdvance(){
+  const nodes=ncStageNodes(NCOPEN);
+  let nx=-1;
+  for(let i=NCQI+1;i<nodes.length;i++)if(!(nodes[i].key in NCA)){nx=i;break;}
+  if(nx===-1)nx=nodes.findIndex(x=>!(x.key in NCA));
+  NCQI=nx>-1?nx:Math.min(NCQI,nodes.length-1);
+  renderFlow();
+}
+function ncStageDone(st){
+  if(!ncStageNodes(st).every(n=>n.key in NCA))return;
+  NCSUB.add(st);NCOPEN=null;renderFlow();
 }
 function ncPick(i,special){
-  const c=NCCUR;
-  if(special==='draft'){NCA[c.key]={...c.copy};ncDone('Draft accepted');return;}
-  const o=c.opts[i];NCA[c.key]=o.v;
-  ncDone(o.t);
+  const n=NCCUR;
+  if(special==='draft'){ncAnswer(n.key,{...n.copy},'Draft accepted · '+(n.copy.headline||''));ncAdvance();return;}
+  const o=n.opts[i];ncAnswer(n.key,o.v,o.t);ncAdvance();
 }
 function ncMulti(i){
-  const c=NCCUR,o=c.opts[i];
-  if(o.solo){NCSEL=[i];}
-  else{NCSEL=NCSEL.filter(x=>!c.opts[x].solo);const p=NCSEL.indexOf(i);p>-1?NCSEL.splice(p,1):NCSEL.push(i);}
-  c.opts.forEach((x,j)=>document.getElementById('qmu-'+j).classList.toggle('rec',NCSEL.includes(j)));
-  document.getElementById('qmu-go').style.display=NCSEL.length?'':'none';
-  if(o.solo&&NCSEL.length===1)ncMultiGo();
+  const n=NCCUR,o=n.opts[i];
+  if(o.solo)NCSEL=[i];
+  else{NCSEL=NCSEL.filter(x=>!n.opts[x].solo);const p=NCSEL.indexOf(i);p>-1?NCSEL.splice(p,1):NCSEL.push(i);}
+  n.opts.forEach((x,j)=>{const el=document.getElementById('qmu-'+j);if(!el)return;el.classList.toggle('sel',NCSEL.includes(j));el.classList.remove('rec');});
+  const g=document.getElementById('qmu-go');if(g)g.style.display=NCSEL.length?'':'none';
+  if(o.solo)ncMultiGo();
 }
 function ncMultiGo(){
-  const c=NCCUR;
-  if(!NCSEL.length)return;
-  NCA[c.key]=NCSEL.map(i=>c.opts[i].v).join(' + ');
-  ncDone(NCSEL.map(i=>c.opts[i].t).join(' · '));
+  const n=NCCUR;if(!NCSEL.length)return;
+  ncAnswer(n.key,NCSEL.map(i=>n.opts[i].v).join(' + '),NCSEL.map(i=>n.opts[i].t).join(' · '));
+  ncAdvance();
 }
 function ncOther(i){
-  const c=NCCUR,o=c.opts[i];
-  document.getElementById('qo-'+i).outerHTML=`<div class="flex gap-2 mb-2"><input class="qfield" style="margin:0" id="qother" placeholder="${o.ph}" onkeydown="if(event.key==='Enter')ncOtherGo(${i})"><button class="mini mini-call" onclick="ncOtherGo(${i})">OK</button></div>`;
+  const o=NCCUR.opts[i];
+  document.getElementById('qo-'+i).outerHTML=`<div class="mb-2 flex gap-2"><input class="qfield" style="margin:0" id="qother" placeholder="${o.ph}" onkeydown="if(event.key==='Enter')ncOtherGo(${i})"><button class="mini mini-call" onclick="ncOtherGo(${i})">OK</button></div>`;
   document.getElementById('qother').focus();
 }
 function ncOtherGo(i){
-  const c=NCCUR,o=c.opts[i];
+  const n=NCCUR,o=n.opts[i];
   const val=document.getElementById('qother').value.trim();if(!val)return;
   const num=parseInt(val.replace(/[^0-9.]/g,''));
-  if(c.key==='budget'||c.key.startsWith('abud')){
+  if(n.key==='budget'||n.key.startsWith('abud')){
     if(!num||num<87){toast('Minimum budget is ₹87/day for this account');return;}
-    if(o.kind==='lifetime'){NCA.budgetLifetime=true;NCA[c.key]=num;ncDone('Lifetime ₹'+num.toLocaleString('en-IN')+' · end date required — set in review');}
-    else{NCA[c.key]=num;ncDone('₹'+num.toLocaleString('en-IN')+' / day');}
-  }else if(c.key==='count'){
+    if(o.kind==='lifetime'){ncAnswer(n.key,num,'Lifetime ₹'+num.toLocaleString('en-IN')+' · end date set in review');NCA.budgetLifetime=true;}
+    else ncAnswer(n.key,num,'₹'+num.toLocaleString('en-IN')+' / day');
+  }else if(n.key==='count'){
     if(!num||num<1||num>5){toast('1–5 ad sets');return;}
-    NCA[c.key]=num;ncDone(num+' ad sets');
-  }else if(o.kind==='cap'){NCA[c.key]='cap:'+num;ncDone('Cost cap · ₹'+num.toLocaleString('en-IN'));}
-  else if(o.kind==='roas'){NCA[c.key]='roas:'+val;ncDone('Min ROAS · '+val+'×');}
-  else{NCA[c.key]=val;ncDone(val);}
+    ncAnswer(n.key,num,num+' ad sets');
+  }else if(o.kind==='cap')ncAnswer(n.key,'cap:'+num,'Cost cap · ₹'+num.toLocaleString('en-IN'));
+  else if(o.kind==='roas')ncAnswer(n.key,'roas:'+val,'Min ROAS · '+val+'×');
+  else ncAnswer(n.key,val,val);
+  ncAdvance();
 }
 function ncMedia(i){
-  const c=NCCUR;
-  const p=NCSEL.indexOf(i);
-  if(c.max===1){NCSEL=[i];}
+  const n=NCCUR,p=NCSEL.indexOf(i);
+  if(n.max===1)NCSEL=[i];
   else if(p>-1)NCSEL.splice(p,1);
-  else{if(c.max&&NCSEL.length>=c.max){toast('Up to '+c.max+' here');return;}NCSEL.push(i);}
-  const A=ncAssets(c);
-  A.forEach((x,j)=>{
-    const el=document.getElementById('qm-'+j),sel=NCSEL.indexOf(j);
+  else{if(n.max&&NCSEL.length>=n.max){toast('Up to '+n.max+' here');return;}NCSEL.push(i);}
+  ncAssets(n).forEach((x,j)=>{
+    const el=document.getElementById('qm-'+j),sel=NCSEL.indexOf(j);if(!el)return;
     el.classList.toggle('on',sel>-1);
-    el.querySelector('.pick').textContent=c.ordered&&sel>-1?sel+1:'✓';
+    el.querySelector('.pick').textContent=n.ordered&&sel>-1?sel+1:'✓';
   });
   document.getElementById('qm-go').textContent=`Use ${NCSEL.length} selected →`;
 }
 function ncMediaGo(){
-  const c=NCCUR;
-  if(NCSEL.length<(c.min||1)){toast('Pick at least '+(c.min||1));return;}
-  if(c.max&&c.max>1&&NCF==='abtest'&&NCSEL.length!==2){toast('Pick exactly 2 — one per cell');return;}
-  NCA[c.key]=[...NCSEL];NCA[c.key+'_assets']=c.assets||'img';
-  const A=ncAssets(c);
-  ncDone(NCSEL.length+' selected · '+NCSEL.map(i=>A[i].n.split(' — ')[0]).join(', '));
+  const n=NCCUR;
+  if(NCSEL.length<(n.min||1)){toast('Pick at least '+(n.min||1));return;}
+  if(NCF==='abtest'&&n.key==='media'&&NCSEL.length!==2){toast('Pick exactly 2 — one per cell');return;}
+  const A=ncAssets(n);
+  ncAnswer(n.key,[...NCSEL],NCSEL.length+' selected · '+NCSEL.map(i=>A[i].n.split(' — ')[0]).join(', '));
+  NCA[n.key+'_assets']=n.assets||'img';
+  ncAdvance();
 }
 function ncCopyEdit(){
-  const cp=NCCUR.copy;
+  const cp=NCA[NCCUR.key]||NCCUR.copy;
   document.getElementById('qcopy').outerHTML=`<div id="qcopy" class="mb-3">
    <textarea class="qfield" id="qe-primary" rows="2">${cp.primary}</textarea>
    <input class="qfield" id="qe-headline" value="${cp.headline}">
@@ -3118,8 +3174,9 @@ function ncCopyEdit(){
   document.querySelectorAll('#qcard-cur .qopt').forEach(b=>b.remove());
 }
 function ncCopySave(){
-  NCA[NCCUR.key]={...NCCUR.copy,primary:document.getElementById('qe-primary').value,headline:document.getElementById('qe-headline').value,desc:document.getElementById('qe-desc').value};
-  ncDone('Custom copy saved');
+  const n=NCCUR;
+  ncAnswer(n.key,{...n.copy,primary:document.getElementById('qe-primary').value,headline:document.getElementById('qe-headline').value,desc:document.getElementById('qe-desc').value},'Custom copy saved');
+  ncAdvance();
 }
 
 /* ---- resolve answers → entities ---- */
@@ -3178,6 +3235,8 @@ function ncAdsCount(){
   return NCF==='abtest'?2:perSet*ncAdsets().length;
 }
 function ncBuild(){
+  if(NCBUILT)return;NCBUILT=true;
+  document.querySelectorAll('#nc-flow .qstage .mini').forEach(b=>b.remove());
   ncAppend(`<div class="ibx-sec" style="margin:20px 0 10px">Create — paused</div><div class="wb-msg">Spec locked. Creating everything on Meta now — <b>paused</b>, nothing spends until you publish (R8).</div><div id="nc-tools"></div>`);
   const rows=ncToolRows();let i=0;
   const tick=()=>{

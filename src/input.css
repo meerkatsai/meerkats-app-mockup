@@ -1482,6 +1482,15 @@
   .qm .pick { @apply absolute right-1 top-1 grid h-4.5 w-4.5 place-items-center rounded-full bg-white/90 text-[9px] font-bold text-ink-400; }
   .qm.on .pick { background: var(--color-ember); color: #fff; }
   .qfield { @apply mb-2 w-full rounded-lg border border-rule px-3 py-2 text-[12.5px]; }
+  .qopt.sel { border-color: var(--color-ember); background: var(--color-tint); }
+  .qtabs { @apply mb-3 flex flex-wrap gap-1.5; }
+  .qtab { @apply cursor-pointer rounded-full border border-rule bg-white px-2.5 py-1 text-[10.5px] font-semibold text-ink-500 transition-colors duration-100; }
+  .qtab.done { @apply border-good/40 bg-good-bg text-good; }
+  .qtab.on { border-color: var(--color-ember); color: var(--color-ember); background: var(--color-tint); }
+  .qcount { @apply ml-auto font-mono text-[10.5px] font-semibold text-ink-400 tabular-nums; }
+  .qnav { @apply mt-3 flex items-center gap-2 border-t border-rule pt-3; }
+  .qstage { @apply mb-4 max-w-[580px] rounded-2xl border border-rule bg-off px-4 py-3; }
+  .qsrow { @apply flex items-center gap-2.5 py-[3px] text-[12px]; }
 
   /* ---- Meta review side panel ---- */
   .cpanel { @apply fixed bottom-0 right-0 top-0 z-[96] hidden w-[min(560px,94vw)] flex-col border-l border-rule bg-white shadow-[-12px_0_40px_rgba(15,15,16,0.08)]; }
