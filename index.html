@@ -172,8 +172,8 @@
         <button class="ctl" id="platBtn" onclick="event.stopPropagation();togglePlatMenu()"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good)"></span><span id="plat-label">All platforms</span> <span class="cd">▼</span></button>
         <div class="pop" id="platMenu" style="left:0;top:calc(100% + 6px);width:230px;padding:6px" onclick="event.stopPropagation()"></div>
       </span>
-      <span style="position:relative">
-        <button class="ctl" id="tfBtn" onclick="event.stopPropagation();toggleTf()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="9.5" x2="21" y2="9.5"/></svg><span id="tf-label">20–26 Jul 2026</span> <span class="cd">▼</span></button>
+      <span style="position:relative" id="ckTfWrap">
+        <button class="ctl" id="tfBtn" onclick="event.stopPropagation();tfOpen('ck')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="9.5" x2="21" y2="9.5"/></svg><span id="tf-label">20–26 Jul 2026</span> <span class="cd">▼</span></button>
         <div class="pop" id="tfPop" style="left:0;top:calc(100% + 6px);padding:0" onclick="event.stopPropagation()">
           <div class="flex">
             <div class="tf-presets" id="tfPresets"></div>
@@ -285,14 +285,14 @@
 
   <!-- ======== MARKET — SHELF INTELLIGENCE ======== -->
   <section class="screen" id="s-market">
-    <div class="mb-5 flex items-center gap-3">
-      <div class="views" style="margin-bottom:0" id="mkPlatRow">
-        <button class="view on" onclick="mkPlat(this)">All connected</button>
-        <button class="view" onclick="mkPlat(this)">Amazon</button>
-        <button class="view" style="color:var(--color-ink-400)" onclick="go('integrations');toast('Connect Flipkart from Integrations to crawl its shelf')">Flipkart 🔒</button>
-        <button class="view" style="color:var(--color-ink-400)" onclick="go('integrations');toast('Connect Zepto from Integrations — pincode-scoped crawl')">Zepto 🔒</button>
-        <button class="view" style="color:var(--color-ink-400)" onclick="go('integrations');toast('Connect Blinkit from Integrations — pincode-scoped crawl')">Blinkit 🔒</button>
-      </div>
+    <div class="mb-5 flex flex-wrap items-center gap-2.5">
+      <span style="position:relative">
+        <button class="ctl" onclick="event.stopPropagation();toggleMkPlat()"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good)"></span><span id="mkplat-label">All platforms</span> <span class="cd">▼</span></button>
+        <div class="pop" id="mkPlatMenu" style="left:0;top:calc(100% + 6px);width:230px;padding:6px" onclick="event.stopPropagation()"></div>
+      </span>
+      <span style="position:relative" id="mkTfWrap">
+        <button class="ctl" onclick="event.stopPropagation();tfOpen('mk')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="3" y1="9.5" x2="21" y2="9.5"/></svg><span id="mktf-label">20–26 Jul 2026</span> <span class="cd">▼</span></button>
+      </span>
       <span class="spacer"></span>
       <span class="font-mono text-[10.5px] text-ink-400">last crawl 2:10 pm · 4×/day · Bengaluru 560034 · 560095 · 560102</span>
     </div>
@@ -319,7 +319,7 @@
         <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-warn" style="flex:none">Buy box</span><div class="text-[12.5px] leading-[1.55]"><b>Slim Shake lost the Amazon buy box</b> to NutriMart (₹1,849, faster promise) — held 3h yesterday, still lost now.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="go('myqueue');toast('Price match ₹1,849 staged for approval — never auto-executed')">Stage price match →</button></div>
         <div class="flex items-start gap-2.5 py-2.5"><span class="sev sev-opp" style="flex:none">Rank</span><div class="text-[12.5px] leading-[1.55]"><b>"collagen for skin" moved #3 → #2 organic</b> on Amazon — one spot from the top without paid support.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="openTask('We hit #2 organic on collagen for skin — worth a paid push to take #1?','From Market · rank history attached')">Investigate</button></div>
       </div>
-      <p class="mt-4 text-[11px] text-ink-400">Amazon crawling live · connect Flipkart, Zepto and Blinkit from <a href="#" style="color:var(--color-ember)" onclick="go('integrations');return false">Integrations</a> to extend coverage · observations land in Data Spine → Marketplace.</p>
+      <p class="mt-4 text-[11px] text-ink-400">Amazon, Flipkart, Zepto and Blinkit crawling live · manage cadence and pincodes from <a href="#" style="color:var(--color-ember)" onclick="go('integrations');return false">Integrations</a> · observations land in Data Spine → Marketplace.</p>
     </div>
 
     <div class="mk-pane" id="mk-price" style="display:none">
@@ -327,7 +327,7 @@
         <table class="dtable" style="min-width:980px">
           <thead><tr><th>Product</th><th>Your price</th><th>Buy box</th><th>Comp. min</th><th>Median</th><th>Gap vs min</th><th>Comp. min · 7d</th><th>Platforms</th><th style="text-align:left">Alert</th></tr></thead>
           <tbody>
-            <tr class="crow" onclick="document.getElementById('mkd-1').classList.toggle('open')">
+            <tr class="crow" data-plat="amazon flipkart blinkit" onclick="document.getElementById('mkd-1').classList.toggle('open')">
               <td style="min-width:200px"><b>Glow Ritual Collagen 500g</b><br><span class="text-[10.5px] text-ink-400">hero SKU · B0GLW500</span></td>
               <td><b>₹1,299</b></td><td><span class="text-good font-semibold">✓ held</span></td>
               <td>₹1,149 <span class="text-[10px] text-ink-400">OZiva</span></td><td>₹1,395</td>
@@ -335,12 +335,12 @@
               <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-bad)" stroke-width="1.5" points="0,5 13,5 26,6 39,6 52,7 64,13"/></svg></td>
               <td><span class="text-[10.5px] font-mono">AMZ · FK · BLK</span></td>
               <td style="text-align:left"><span class="tag tag-w">⚑ on</span></td></tr>
-            <tr class="cdetail" id="mkd-1"><td colspan="9"><div class="flex flex-wrap gap-6">
+            <tr class="cdetail" data-plat="amazon flipkart blinkit" id="mkd-1"><td colspan="9"><div class="flex flex-wrap gap-6">
               <div><div class="slab">Competitors · Amazon</div><span class="text-[12px] text-ink-700">OZiva ₹1,149 <b class="text-bad">▼12% today</b> · Plix ₹1,275 ▼2% · Wellbeing ₹1,349 — · Kapiva ₹1,499 ▲3%</span></div>
               <div><div class="slab">Last checked</div><span class="text-[12px] text-ink-700">2:10 pm · hourly on tracked SKUs</span></div>
               <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Should we respond to OZiva at ₹1,149 or hold ₹1,299?','From Market · margin + elasticity context attached')">Ask about this</button><button class="mini mini-call" onclick="event.stopPropagation();go('myqueue');toast('Price change staged — margin impact shown at approval')">Stage price change →</button></div>
             </div></td></tr>
-            <tr class="crow" onclick="document.getElementById('mkd-2').classList.toggle('open')">
+            <tr class="crow" data-plat="amazon blinkit zepto" onclick="document.getElementById('mkd-2').classList.toggle('open')">
               <td><b>Glow Gummies 60ct</b><br><span class="text-[10.5px] text-ink-400">B0GLWGUM</span></td>
               <td><b>₹649</b></td><td><span class="text-good font-semibold">✓ held</span></td>
               <td>₹599 <span class="text-[10px] text-ink-400">Plix</span></td><td>₹680</td>
@@ -348,12 +348,12 @@
               <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-ink-400)" stroke-width="1.5" points="0,9 13,9 26,8 39,9 52,9 64,9"/></svg></td>
               <td><span class="text-[10.5px] font-mono">AMZ · BLK · ZPT</span></td>
               <td style="text-align:left"><span class="tag tag-w">⚑ on</span></td></tr>
-            <tr class="cdetail" id="mkd-2"><td colspan="9"><div class="flex flex-wrap gap-6">
+            <tr class="cdetail" data-plat="amazon blinkit zepto" id="mkd-2"><td colspan="9"><div class="flex flex-wrap gap-6">
               <div><div class="slab">Competitors</div><span class="text-[12px] text-ink-700">Plix ₹599 — · Wellbeing ₹649 — · HealthKart ₹725 ▲1%</span></div>
               <div><div class="slab">Quick-commerce</div><span class="text-[12px] text-ink-700">OOS in 2 of 3 Blinkit pincodes since 11 am — availability 33%</span></div>
               <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Glow Gummies OOS on Blinkit in 2 pincodes — restock impact?','From Market · availability history attached')">Ask about this</button></div>
             </div></td></tr>
-            <tr class="crow" onclick="document.getElementById('mkd-3').classList.toggle('open')">
+            <tr class="crow" data-plat="amazon flipkart" onclick="document.getElementById('mkd-3').classList.toggle('open')">
               <td><b>Slim Shake Vanilla 1kg</b><br><span class="text-[10.5px] text-ink-400">B0SLMSHK</span></td>
               <td><b>₹1,899</b></td><td><span class="text-bad font-semibold">✕ lost</span> <span class="text-[10px] text-ink-400">NutriMart</span></td>
               <td>₹1,849 <span class="text-[10px] text-ink-400">NutriMart</span></td><td>₹2,100</td>
@@ -361,11 +361,11 @@
               <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-bad)" stroke-width="1.5" points="0,6 13,7 26,7 39,10 52,11 64,12"/></svg></td>
               <td><span class="text-[10.5px] font-mono">AMZ · FK</span></td>
               <td style="text-align:left"><span class="tag">off</span></td></tr>
-            <tr class="cdetail" id="mkd-3"><td colspan="9"><div class="flex flex-wrap gap-6">
+            <tr class="cdetail" data-plat="amazon flipkart" id="mkd-3"><td colspan="9"><div class="flex flex-wrap gap-6">
               <div><div class="slab">Buy box</div><span class="text-[12px] text-ink-700">Lost to NutriMart at ₹1,849 + faster delivery promise · you held 61% of last 30d</span></div>
               <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();toast('Alert rule created — buy-box loss pings WhatsApp within 15 min')">⚑ Alert me</button><button class="mini mini-call" onclick="event.stopPropagation();go('myqueue');toast('Price match ₹1,849 staged for approval')">Stage price match →</button></div>
             </div></td></tr>
-            <tr class="crow" onclick="document.getElementById('mkd-4').classList.toggle('open')">
+            <tr class="crow" data-plat="amazon" onclick="document.getElementById('mkd-4').classList.toggle('open')">
               <td><b>Metabolism Tea 30s</b><br><span class="text-[10.5px] text-ink-400">B0MTBTEA</span></td>
               <td><b>₹499</b></td><td><span class="text-good font-semibold">✓ held</span></td>
               <td>₹449 <span class="text-[10px] text-ink-400">Kapiva</span></td><td>₹520</td>
@@ -373,7 +373,7 @@
               <td><svg width="64" height="18" viewBox="0 0 64 18"><polyline fill="none" stroke="var(--color-good)" stroke-width="1.5" points="0,12 13,11 26,11 39,10 52,8 64,7"/></svg></td>
               <td><span class="text-[10.5px] font-mono">AMZ</span></td>
               <td style="text-align:left"><span class="tag">off</span></td></tr>
-            <tr class="cdetail" id="mkd-4"><td colspan="9"><div class="flex flex-wrap gap-6">
+            <tr class="cdetail" data-plat="amazon" id="mkd-4"><td colspan="9"><div class="flex flex-wrap gap-6">
               <div><div class="slab">Competitors</div><span class="text-[12px] text-ink-700">Kapiva ₹449 ▲2% · Baidyanath ₹475 — · category median rising 3 weeks straight</span></div>
               <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Metabolism tea category median rising — room to take price up?','From Market · price history attached')">Ask about this</button></div>
             </div></td></tr>
@@ -387,7 +387,7 @@
       <div class="grid grid-cols-2 gap-4">
         <div class="card p-4">
           <div class="mb-1 text-[13px] font-semibold">Page-1 share of voice — tracked clusters</div>
-          <div class="mb-3 text-[11px] text-ink-400">your share of page-1 results · organic + paid · Amazon</div>
+          <div class="mb-3 text-[11px] text-ink-400">your share of page-1 results · organic + paid · all connected platforms</div>
           <div class="patbar"><span class="pl">metabolism tea</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">31%</span><span class="ps">#1 · you lead</span></div>
           <div class="patbar"><span class="pl">collagen powder</span><div class="ptrack"><div class="pfill" style="width:74%;background:var(--color-watch)"></div></div><span class="pv">23%</span><span class="ps">▼3pp W/W</span></div>
           <div class="patbar"><span class="pl">meal replacement</span><div class="ptrack"><div class="pfill" style="width:35%;background:var(--color-ink-400)"></div></div><span class="pv">11%</span><span class="ps">#4 of 9</span></div>
@@ -410,12 +410,12 @@
         <table class="dtable" style="min-width:820px">
           <thead><tr><th>Keyword</th><th>Platform</th><th>Est. volume</th><th>Your rank</th><th>Δ W/W</th><th>#1 today</th></tr></thead>
           <tbody>
-            <tr><td><b>collagen powder</b></td><td>Amazon</td><td>74K</td><td>#4</td><td class="text-bad">▼ 2</td><td>OZiva <span class="text-[10px] text-ink-400">paid</span></td></tr>
-            <tr><td><b>collagen for skin</b></td><td>Amazon</td><td>22K</td><td><b class="text-good">#2</b></td><td class="text-good">▲ 1</td><td>OZiva</td></tr>
-            <tr><td><b>marine collagen</b></td><td>Amazon</td><td>18K</td><td>#6</td><td class="text-bad">▼ 2</td><td>Wellbeing <span class="text-[10px] text-ink-400">paid</span></td></tr>
-            <tr><td><b>metabolism tea</b></td><td>Amazon</td><td>9K</td><td><b class="text-good">#1</b></td><td>—</td><td><b>You</b></td></tr>
-            <tr><td><b>acv gummies</b></td><td>Amazon</td><td>61K</td><td>#9</td><td>—</td><td>Plix <span class="text-[10px] text-ink-400">paid</span></td></tr>
-            <tr><td><b>meal replacement shake</b></td><td>Amazon</td><td>33K</td><td>#7</td><td class="text-good">▲ 1</td><td>HealthKart</td></tr>
+            <tr data-plat="amazon"><td><b>collagen powder</b></td><td>Amazon</td><td>74K</td><td>#4</td><td class="text-bad">▼ 2</td><td>OZiva <span class="text-[10px] text-ink-400">paid</span></td></tr>
+            <tr data-plat="amazon"><td><b>collagen for skin</b></td><td>Amazon</td><td>22K</td><td><b class="text-good">#2</b></td><td class="text-good">▲ 1</td><td>OZiva</td></tr>
+            <tr data-plat="flipkart"><td><b>marine collagen</b></td><td>Flipkart</td><td>18K</td><td>#6</td><td class="text-bad">▼ 2</td><td>Wellbeing <span class="text-[10px] text-ink-400">paid</span></td></tr>
+            <tr data-plat="blinkit"><td><b>metabolism tea</b></td><td>Blinkit</td><td>9K</td><td><b class="text-good">#1</b></td><td>—</td><td><b>You</b></td></tr>
+            <tr data-plat="zepto"><td><b>acv gummies</b></td><td>Zepto</td><td>61K</td><td>#3</td><td>—</td><td>Plix <span class="text-[10px] text-ink-400">promoted</span></td></tr>
+            <tr data-plat="amazon"><td><b>meal replacement shake</b></td><td>Amazon</td><td>33K</td><td>#7</td><td class="text-good">▲ 1</td><td>HealthKart</td></tr>
           </tbody>
         </table>
       </div>
@@ -1137,9 +1137,9 @@
     <div class="sec-h" style="margin-top:26px">Marketplace crawlers <span class="hint">— shelf intelligence: prices, ranks, availability → Data Spine → Marketplace → the Market view</span></div>
     <div class="card">
       <div class="costrow"><div class="ci">◈</div><div><b>Amazon — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Prices, buy box, search ranks for tracked SKUs + keywords · 4×/day, hourly on tracked SKUs · SP-API for your own listings</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
-      <div class="costrow"><div class="ci">◈</div><div><b>Flipkart — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Competitor prices + search pages · seller API for your listings</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Flipkart crawl scheduled — first observations within 24h')">Connect</button></div>
-      <div class="costrow"><div class="ci">◈</div><div><b>Zepto — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Pincode-scoped: price + availability per dark store — pick 3–5 priority pincodes per city</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Zepto crawl — choose priority pincodes to begin')">Connect</button></div>
-      <div class="costrow"><div class="ci">◈</div><div><b>Blinkit — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Pincode-scoped: price + availability per dark store</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Blinkit crawl — choose priority pincodes to begin')">Connect</button></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>Flipkart — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Competitor prices + search pages · seller API for your listings · 4×/day</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>Zepto — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Pincode-scoped: price + availability per dark store · 3 pincodes tracked</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
+      <div class="costrow"><div class="ci">◈</div><div><b>Blinkit — shelf crawl</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Pincode-scoped: price + availability per dark store · 3 pincodes tracked</div></div><span class="spacer"></span><span class="perm-y stt">Live</span></div>
       <div class="costrow"><div class="ci">⌖</div><div><b>Tracked pincodes</b><div class="em" style="font-size:11.5px;color:var(--color-ink-400)">Bengaluru · 560034, 560095, 560102 — quick-commerce price and stock vary per dark store</div></div><span class="spacer"></span><button class="mini stt" onclick="toast('Pincode editor — add up to 5 per city')">Edit</button></div>
     </div>
   </section>
@@ -1789,7 +1789,7 @@ ingest:{t:'Ingest Events',d:'The live event firehose — every click, view, and 
 google:{t:'Google — Source',d:'Google Ads ingestion: campaigns, cost, and gclid click stream, reconciled against orders nightly and on-demand.'},
 meta:{t:'Meta — Source',d:'Meta ingestion: campaigns, spend, and fbclid click stream, deduplicated against the first-party pixel.'},
 shopify:{t:'Shopify — Source',d:'Orders, refunds, customers, and catalog synced in real time — the revenue spine every metric reconciles to.'},
-marketplace:{t:'Marketplace — Shelf Observations',d:'External shelf intelligence from scheduled crawls: price_snapshot, search_rank and shelf_observation tables at SKU × platform × pincode grain — the substrate under the Market view. Amazon live · Flipkart, Zepto, Blinkit on connect.'},
+marketplace:{t:'Marketplace — Shelf Observations',d:'External shelf intelligence from scheduled crawls: price_snapshot, search_rank and shelf_observation tables at SKU × platform × pincode grain — the substrate under the Market view. Crawled 4×/day across Amazon, Flipkart, Zepto and Blinkit, hourly on tracked SKUs.'},
 attribution:{t:'Attribution — Spine',d:'The deterministic click-ID join layer: how raw events become attributed revenue, with full lineage per order.'}};
 
 const GATES={
@@ -2392,6 +2392,10 @@ function tfLabel(r){
   if(r.s===r.e)return a.d+' '+a.mn+' 2026';
   return a.m===b.m?`${a.d}–${b.d} ${a.mn} 2026`:`${a.d} ${a.mn} – ${b.d} ${b.mn} 2026`;
 }
+function tfOpen(host){
+  document.getElementById(host==='mk'?'mkTfWrap':'ckTfWrap').appendChild(document.getElementById('tfPop'));
+  toggleTf();
+}
 function toggleTf(){
   const p=document.getElementById('tfPop');
   const on=!p.classList.contains('on');
@@ -2422,6 +2426,7 @@ function calPick(ser){
 function tfApply(){
   TFCUR={...TFPEND};
   document.getElementById('tf-label').textContent=tfLabel(TFCUR);
+  const ml=document.getElementById('mktf-label');if(ml)ml.textContent=tfLabel(TFCUR);
   document.getElementById('tfPop').classList.remove('on');
   renderCockpit();
 }
@@ -2620,9 +2625,33 @@ function mkTab(t,btn){
   document.querySelectorAll('#s-market .mk-pane').forEach(p=>p.style.display='none');
   document.getElementById('mk-'+t).style.display='';
 }
-function mkPlat(btn){
-  document.querySelectorAll('#mkPlatRow .view').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  toast(btn.textContent.trim()==='Amazon'?'Amazon only — the one connected shelf source today':'Showing all connected platforms');
+const MKPLAT={amazon:'Amazon',flipkart:'Flipkart',zepto:'Zepto',blinkit:'Blinkit'};
+const MKSEL=new Set();
+function renderMkPlat(){
+  const names=[...MKSEL].map(k=>MKPLAT[k]);
+  document.getElementById('mkplat-label').textContent=names.length===0?'All platforms':names.length===1?names[0]:names[0]+' + '+(names.length-1);
+  document.getElementById('mkPlatMenu').innerHTML=
+   `<button class="viewitem${MKSEL.size===0?' on':''}" onclick="MKSEL.clear();renderMkPlat();mkFilter()">All platforms ${MKSEL.size===0?'<span class="chk2">✓</span>':''}</button>
+    <div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>`+
+   Object.keys(MKPLAT).map(k=>`<button class="viewitem${MKSEL.has(k)?' on':''}" onclick="mkTogglePlat('${k}')"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good);flex:none"></span>${MKPLAT[k]}${MKSEL.has(k)?'<span class="chk2">✓</span>':'<span style="margin-left:auto;font-size:10px;color:var(--color-ink-400)">Connected</span>'}</button>`).join('');
+}
+function toggleMkPlat(){
+  const m=document.getElementById('mkPlatMenu');
+  const on=!m.classList.contains('on');
+  document.querySelectorAll('.pop').forEach(x=>x.classList.remove('on'));
+  if(on){renderMkPlat();m.classList.add('on');}
+}
+function mkTogglePlat(k){
+  MKSEL.has(k)?MKSEL.delete(k):MKSEL.add(k);
+  renderMkPlat();mkFilter();
+  document.getElementById('mkPlatMenu').classList.add('on');
+}
+function mkFilter(){
+  document.querySelectorAll('#s-market [data-plat]').forEach(r=>{
+    const show=MKSEL.size===0||r.dataset.plat.split(' ').some(p=>MKSEL.has(p));
+    r.style.display=show?'':'none';
+    if(!show)r.classList.remove('open');
+  });
 }
 function mkTrack(id,name){
   document.getElementById(id).innerHTML=`<span class="text-[12.5px] text-good font-semibold">✓ Tracking ${name}</span><span class="text-[10.5px] text-ink-400" style="margin-left:8px">first price + rank observations within the hour</span>`;
