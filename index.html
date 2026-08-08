@@ -2796,6 +2796,7 @@ const DL={
 const ACTLOG=[
  ['Today, 14:32','Bid ₹14.50 → ₹18.00 on “office tote” (Blinkit)','executed & verified · measuring until Aug 17, predicted +0.4 ROAS'],
  ['Today, 06:20','2 bid cuts on Zepto gifting keywords','held — awaiting_session until the portal is re-connected'],
+ ['Today, 07:02','Budget ₹1,900 → ₹1,600 on PLA — Category (Flipkart)','INDETERMINATE — verify timed out, target blocked pending retry'],
  ['Mon, 07:00','14 search terms → exact, 22 negatives (Amazon + Flipkart)','executed · est. ₹6,100/wk waste removed'],
  ['Mon, 07:05','1 campaign re-paced +12% (Search — Brand, Google)','executed · inside pacing guardrail, no approval needed (read-tier)'],
  ['Sun, 05:01','Ads paused in 3 throttled Blinkit zones','auto within guardrail · auto-resume armed on restock']];
@@ -2894,21 +2895,32 @@ const TRK=[
  {icon:'△',n:'CPC spike watch',what:'Catches paying more per click before it shows up in ROAS',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','warn','ok','ok'],
   last:{d:'47s',s:'540 keywords scanned, 4 CPC spikes flagged'},
   runs:[['ok','Today, 06:10 · 47s','540 keywords scanned, 4 CPC spikes flagged'],['ok','Yesterday, 06:10 · 45s','538 keywords scanned, 1 spike — auction pressure, held'],['warn','7 Aug, 06:12 · 51s','"laptop bag" CPC +38% — competitor push, defended hero only']]},
- {icon:'◌',n:'Wasted ad spend sweep',what:'Finds and clears runaway keywords, irrelevant terms and zero-conversion spend',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'crit',when:'Today',bars:['ok','ok','ok','ok','ok','ok','crit'],
-  last:{d:'—',s:'Zepto session expired — 2 approved actions held'},
-  session:{platform:'Zepto',portal:'brands.zepto.co.in',held:2,t:'Today, 06:20',
-   why:'The Zepto seller-portal session cookie expired. Detection still runs on synced data — but 2 approved bid cuts are held in awaiting_session and will not execute.',
-   items:'Held: lower bids on "tote bag under 999" ₹12.40 → ₹9.00 and "gift for her" ₹11.80 → ₹8.50 (both ROAS < floor for 6 days).'},
-  runs:[['crit','Today, 06:20 · —','Zepto session expired — 2 approved actions held'],['ok','Yesterday, 06:20 · 1m 08s','₹8,400 waste cut: 6 bids lowered, 9 negatives'],['ok','7 Aug, 06:21 · 58s','212 keywords scanned, none wasted']]},
+ {icon:'◌',n:'Wasted ad spend sweep',what:'Finds and clears runaway keywords, irrelevant terms and zero-conversion spend',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','warn','ok','ok','ok'],
+  last:{d:'1m 04s',s:'₹8,400 waste cut: 6 bids lowered, 9 negatives'},
+  runs:[['ok','Today, 06:20 · 1m 04s','₹8,400 waste cut: 6 bids lowered, 9 negatives'],['ok','Yesterday, 06:20 · 58s','212 keywords scanned, none wasted'],['warn','7 Aug, 06:21 · 1m 12s','2 Zepto bid cuts staged — approved, queued to execute']]},
  {icon:'▵',n:'SoV & keyword rank watch',what:'Hero-keyword share of voice, rank drops and competitor undercuts',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','warn','ok','ok','ok','ok'],
   last:{d:'41s',s:'38 hero keywords tracked, 2 rank drops'},
   runs:[['ok','Today, 06:30 · 41s','38 hero keywords tracked, 2 rank drops'],['ok','Yesterday, 06:30 · 39s','38 tracked, no material moves'],['warn','7 Aug, 06:32 · 46s','OZiva took #1 paid on "vegan leather bag" — watching']]},
- {icon:'◷',n:'Budget pacing check',what:'Daily spend pacing vs plan across every live campaign',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
-  last:{d:'22s',s:'21 campaigns paced, 1 re-paced (+12%)'},
-  runs:[['ok','Today, 07:00 · 22s','21 campaigns paced, 1 re-paced (+12%)'],['ok','Yesterday, 07:00 · 21s','21 campaigns paced, all on plan'],['ok','7 Aug, 07:02 · 24s','20 paced, 1 capped at daily ceiling']]},
- {icon:'✚',n:'Data & tracking health check',what:'Safety task — platform reconciliation and tracking-break protection',agent:'Unification Agent',scope:'blended view & data quality',cad:'Daily',st:'ok',when:'Today',safety:1,bars:['ok','ok','ok','ok','warn','ok','ok'],
-  last:{d:'33s',s:'4 platforms reconciled, all fresh'},
-  runs:[['ok','Today, 04:00 · 33s','4 platforms reconciled, all fresh'],['ok','Yesterday, 04:00 · 35s','4 platforms reconciled, all fresh'],['warn','7 Aug, 04:02 · 49s','4 reconciled, Zepto feed 6h late — caught up 10:00']]},
+ {icon:'◷',n:'Budget pacing check',what:'Daily spend pacing vs plan across every live campaign',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'crit',when:'Today',bars:['ok','ok','ok','ok','ok','ok','crit'],
+  last:{d:'—',s:'Flipkart budget write INDETERMINATE — verify could not confirm'},
+  wvf:{t:'Today, 07:02 · step 8 of 9 · write_verified_failed',h:'Flipkart budget update INDETERMINATE — submitted, but the verify step could not confirm it',
+   why:'PLA — Category daily budget ₹1,900 → ₹1,600 was submitted and the portal timed out on the re-read, twice, with backoff. The executor never assumes success: the write is marked INDETERMINATE and further writes to this campaign are blocked until it is resolved.',
+   items:'Evidence: post-submit screenshot captured · pre-change screenshot shows ₹1,900 · rollback plan (₹1,900) armed either way.'},
+  runs:[['crit','Today, 07:02 · —','Flipkart write INDETERMINATE — verify timed out ×2, blocked target'],['ok','Yesterday, 07:00 · 21s','21 campaigns paced, all on plan'],['ok','7 Aug, 07:02 · 24s','20 paced, 1 capped at daily ceiling']]},
+ {icon:'✚',n:'Data & tracking health check',what:'Safety task — platform reconciliation and tracking-break protection',agent:'Unification Agent',scope:'blended view & data quality',cad:'Daily',st:'crit',when:'Today',safety:1,bars:['ok','ok','ok','ok','ok','warn','crit'],
+  last:{d:'2m 05s',s:'6.4% duplicate click IDs — over the 2% threshold'},
+  alert:{sev:'crit',t:'Today, 04:20 · 2m 05s · tracking_break',h:'6.4% duplicate click IDs found, threshold is 2%',
+   why:'A Meta CAPI retry loop is resending the same click ID on timeout — every duplicate inflates attributed revenue, so ROAS on Meta is currently overstated by roughly 4%.',
+   act:'Quarantine the affected event batch and patch the CAPI retry handler to dedupe on click ID before resend. Rollback: the quarantined batch is retained 90d and can be replayed once deduped.',
+   fix:{done:'Fixed · 04:26 — batch quarantined, retry handler patched, re-run came back at 0.6% duplicates · Meta ROAS restated',run:['ok','Today, 04:26 · 1m 12s','Re-run after fix — 0.6% duplicates, healthy']}},
+  runs:[['crit','Today, 04:20 · 2m 05s','6.4% duplicates — CAPI retry loop suspected'],['warn','Yesterday, 04:18 · 1m 58s','2.9% duplicates — rising, watching'],['ok','7 Aug, 04:02 · 49s','4 platforms reconciled, all fresh']]},
+ {icon:'⇄',n:'Portal session & data sync check',what:'Sync plumbing only — portal sessions, feed freshness and the daily no-op canary per portal',agent:'Unification Agent',scope:'blended view & data quality',cad:'Daily',st:'crit',when:'Today',bars:['ok','ok','ok','ok','ok','ok','crit'],
+  last:{d:'18s',s:'5 of 6 sessions healthy — Zepto expired, 2 held actions'},
+  session:{platform:'Zepto',portal:'brands.zepto.co.in',held:2,t:'Today, 06:20 · awaiting_session',
+   why:'The Zepto seller-portal session cookie expired. Every detection task still runs on synced data — but 2 approved bid cuts from the Wasted ad spend sweep are held in awaiting_session and will not execute.',
+   items:'Held: lower bids on "tote bag under 999" ₹12.40 → ₹9.00 and "gift for her" ₹11.80 → ₹8.50 (both ROAS < floor for 6 days).',
+   canary:'Canary (no-op) runs passed this morning on Amazon, Flipkart and Blinkit — selectors verified, no UI drift. Feeds fresh on all platforms except the Zepto ads feed (paused with the session).'},
+  runs:[['crit','Today, 06:20 · 18s','5 of 6 sessions healthy — Zepto expired, 2 held actions'],['ok','Yesterday, 06:20 · 17s','6 of 6 sessions healthy · 4 canaries passed · feeds fresh'],['ok','7 Aug, 06:21 · 19s','6 of 6 sessions healthy · Zepto session renewed proactively (expiring_soon)']]},
  /* ===== WEEKLY ===== */
  {icon:'❧',n:'Search-term & negatives sweep',what:'Promotes converting search terms to exact, adds negatives to stop waste',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','ok'],
   last:{d:'1m 44s',s:'14 terms promoted to exact, 22 negatives added'},
@@ -2968,9 +2980,34 @@ function renderTracker(){
 }
 function trkAlertHTML(t,i){
   if(t.resolved)return `<div class="trk-alert" style="background:var(--color-good-bg)"><b class="block text-[13px]" style="color:var(--color-good)">${t.resolved}</b>${t.shots?`<div class="mt-2 flex gap-2"><span class="trk-shot">📸 pre · bid ₹14.50</span><span class="trk-shot">📸 post · bid ₹18.00</span><span class="railchip" style="font-size:9.5px;align-self:center">evidence kept 90d</span></div>`:''}</div>`;
+  if(t.alert)return `
+    <div class="trk-alert ${t.alert.sev}">
+      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.alert.t}</div>
+      <b class="h block text-[13.5px] mb-0.5">${t.alert.h}</b>
+      <div class="text-ink-700">${t.alert.why}</div>
+      <div class="mt-1"><span class="text-ink-400">Suggested action</span> — ${t.alert.act}</div>
+      <div class="mt-3 flex gap-2 flex-wrap">
+        <button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkApproveFix(${i})">Approve and run</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkChat(${i},'run')">Ask why</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkDismiss(${i})">Dismiss</button>
+      </div>
+    </div>`;
+  if(t.wvf)return `
+    <div class="trk-alert crit">
+      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.wvf.t}</div>
+      <b class="h block text-[13.5px] mb-0.5">${t.wvf.h}</b>
+      <div class="text-ink-700">${t.wvf.why}</div>
+      <div class="mt-1 text-[12px] text-ink-500">${t.wvf.items}</div>
+      <div class="mt-3 flex gap-2 flex-wrap">
+        <button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkRetryVerify(${i})">Retry verify</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();toast('Post-submit screenshot — the budget field was mid-refresh when the portal timed out')">📸 View evidence</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkChat(${i},'wvf')">Ask what happened</button>
+      </div>
+      <div class="mt-2 text-[10.5px] text-ink-400">Never assumed successful — the target stays blocked until the verify confirms one way or the other.</div>
+    </div>`;
   if(t.session)return `
     <div class="trk-alert crit">
-      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.session.t} · awaiting_session</div>
+      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.session.t}</div>
       <b class="h block text-[13.5px] mb-0.5">${t.session.platform} session expired — ${t.session.held} approved actions held</b>
       <div class="text-ink-700">${t.session.why}</div>
       <div class="mt-1 text-[12px] text-ink-500">${t.session.items}</div>
@@ -2978,6 +3015,7 @@ function trkAlertHTML(t,i){
         <button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkReauth(${i})">Re-connect ${t.session.platform} →</button>
         <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkChat(${i},'session')">Ask what's held</button>
       </div>
+      ${t.session.canary?`<div class="mt-2 rounded-lg bg-white border border-rule px-2.5 py-1.5 text-[11px] text-ink-500">${t.session.canary}</div>`:''}
       <div class="mt-2 text-[10.5px] text-ink-400">The held queue auto-resumes the moment the session refreshes — nothing is lost, nothing re-detects.</div>
     </div>`;
   if(t.insight){
@@ -3070,6 +3108,26 @@ function trkPlanRun(i){
     }else renderTracker();
   },550);
 }
+function trkApproveFix(i){
+  const t=TRK[i];
+  t.st='ok';t.resolved=t.alert.fix.done;
+  t.runs.unshift(t.alert.fix.run);t.runs=t.runs.slice(0,3);
+  t.alert=null;t.bars=t.bars.slice(1).concat(['ok']);
+  toast('Approved — fix executed and re-run verified, audit-logged');
+  renderTracker();
+}
+function trkRetryVerify(i){
+  const t=TRK[i];
+  toast('Re-reading the Flipkart budget field…');
+  setTimeout(()=>{
+    t.wvf=null;t.st='ok';
+    t.resolved='Verified on retry · the write HAD landed — budget shows ₹1,600 · block lifted, ledger corrected from INDETERMINATE to verified';
+    t.bars=t.bars.slice(1).concat(['ok']);
+    t.runs.unshift(['ok','Today, 14:40 · 6s','Retry verify — budget confirmed ₹1,600, block lifted']);t.runs=t.runs.slice(0,3);
+    toast('Confirmed — the write had landed; nothing was double-applied (idempotency key)');
+    renderTracker();
+  },1100);
+}
 function trkReauth(i){
   const t=TRK[i];
   toast('Opening Zepto login — session refreshes in the cookie vault');
@@ -3109,6 +3167,10 @@ function trkChat(i,kind){
     chatGrounded('What exactly is held on Zepto?','Asked from the tracker · awaiting_session',
     `<div class="wb-msg">Two approved bid cuts are parked in <b>awaiting_session</b>: “tote bag under 999” ₹12.40 → ₹9.00 and “gift for her” ₹11.80 → ₹8.50 — both under the ROAS floor for 6 straight days. The plans were frozen at detection with rollbacks pre-resolved; the moment you re-connect the Zepto portal, the queue replays them and verifies each on the live page. Nothing expires for another 150+ hours.
     <div class="mt-2 flex gap-1.5 flex-wrap">${srcChip('run ledger + frozen plans · 0 API calls')}${srcChip('decision snapshots · as of detection')}</div></div>`);
+  }else if(kind==='wvf'){
+    chatGrounded('What happened with the Flipkart budget write?','Asked from the tracker · action_status',
+    `<div class="wb-msg">The executor submitted the budget change (₹1,900 → ₹1,600 on PLA — Category), then the portal timed out before the verify step could re-read the field — twice, with backoff. Per the failure taxonomy it is classified <b>write_verified_failed → INDETERMINATE</b>: success is never assumed, further writes to that campaign are blocked, and both screenshots are retained. Retry the verify from the row — if the write landed, the ledger flips to verified; if it did not, the pre-resolved rollback restores ₹1,900. Either way the idempotency key guarantees nothing gets double-applied.
+    <div class="mt-2 flex gap-1.5 flex-wrap"><span class="railchip" style="font-family:var(--font-mono);font-size:9.5px">run ledger + evidence · 0 API calls</span><span class="railchip" style="font-family:var(--font-mono);font-size:9.5px">failure class: write_verified_failed</span></div></div>`);
   }else if(kind==='approve'){
     const s=t.insight;
     chatGrounded('Should I approve this?','Asked from the tracker · approval context — the trust moment',
