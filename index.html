@@ -25,10 +25,10 @@
     </div>
   </div>
 
-  <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span><span class="plus" style="font-size:13px;color:var(--color-ink-400)" title="New session" onclick="event.stopPropagation();newSession()">＋</span></button>
+  <button class="ni" data-go="summary"><span class="gi">▦</span><span class="lab">Cockpit</span></button>
+  <button class="ni" data-go="workbench"><span class="gi">✦</span><span class="lab">Chat</span><span class="plus" style="font-size:13px;color:var(--color-ink-400)" title="New chat" onclick="event.stopPropagation();wbNewChat()">＋</span></button>
   <button class="ni" data-go="skills"><span class="gi">▤</span><span class="lab">Agents</span></button>
   <button class="ni" data-go="automations"><span class="gi">≡</span><span class="lab">Automations</span></button>
-  <button class="ni" data-go="myqueue"><span class="gi">☑</span><span class="lab">My Queue</span><span class="badge" id="mq-badge" style="background:var(--color-bad-bg);color:var(--color-bad)">3 STAGED</span></button>
 
   <div class="nav-sec">Recent chats <span class="plus" title="New session" onclick="newSession()">＋</span></div>
   <div id="recentsNav"></div>
@@ -82,7 +82,6 @@
         <button class="viewitem" onclick="setCkRole('buyer',this)">Media buyer</button>
       </div>
     </span>
-    <button class="icbtn" style="position:relative" id="inboxBtn" title="Inbox — fixes &amp; recommendations" onclick="toggleInbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><span class="ibadge" id="ibx-n">8</span></button>
     <button class="icbtn" id="ctxBtn" title="Session context — instructions, channels, data" style="display:none" onclick="toggleCtx()">⚙</button>
   </div>
 
@@ -167,6 +166,7 @@
     </button>
 
     <div id="ck-dash">
+    <div id="ck-tracker" class="mb-10"></div>
     <div class="mb-7 flex flex-wrap items-center gap-2.5">
       <span style="position:relative">
         <button class="ctl" id="platBtn" onclick="event.stopPropagation();togglePlatMenu()"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good)"></span><span id="plat-label">All platforms</span> <span class="cd">▼</span></button>
@@ -243,7 +243,7 @@
           <span class="text-[12.5px] text-ink-700" id="cr-brief"></span>
           <span class="spacer"></span>
           <button class="mini" onclick="openTask('Draft creative briefs from this week&#39;s winning patterns','From Creatives · patterns attached')">Draft briefs with agent</button>
-          <button class="mini mini-call" onclick="go('myqueue');toast('Retirement of 2 dead creatives staged for approval')">Stage retirements →</button>
+          <button class="mini mini-call" onclick="toast('Retirement of 2 dead creatives staged for approval')">Stage retirements →</button>
         </div>
       </div>
       <!-- ad-level table -->
@@ -316,7 +316,7 @@
         <div class="mb-3 flex items-center gap-2"><b class="text-[13px]">What changed this window</b><span class="text-[10.5px] font-mono text-ink-400">watched by the Market Intelligence agent</span></div>
         <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-crit" style="flex:none">Price</span><div class="text-[12.5px] leading-[1.55]"><b>OZiva cut Collagen 500g by 12% on Amazon</b> — ₹1,299 → ₹1,149 at 2:10 pm. Undercuts you by ₹150; you still hold the buy box.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="openTask('OZiva undercut us by ₹150 on Amazon collagen — respond or hold?','From Market · price history attached')">Investigate</button></div>
         <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-warn" style="flex:none">Stock</span><div class="text-[12.5px] leading-[1.55]"><b>Glow Gummies out of stock in 2 of 3 Blinkit pincodes</b> since 11 am (560034, 560095) — availability 33%; on quick-commerce a stockout <i>is</i> lost SOV.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="toast('Alert rule created — availability <80% pings WhatsApp · manage in My Queue')">⚑ Alert me</button></div>
-        <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-warn" style="flex:none">Buy box</span><div class="text-[12.5px] leading-[1.55]"><b>Slim Shake lost the Amazon buy box</b> to NutriMart (₹1,849, faster promise) — held 3h yesterday, still lost now.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="go('myqueue');toast('Price match ₹1,849 staged for approval — never auto-executed')">Stage price match →</button></div>
+        <div class="flex items-start gap-2.5 py-2.5 border-b border-rule"><span class="sev sev-warn" style="flex:none">Buy box</span><div class="text-[12.5px] leading-[1.55]"><b>Slim Shake lost the Amazon buy box</b> to NutriMart (₹1,849, faster promise) — held 3h yesterday, still lost now.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="toast('Price match ₹1,849 staged for approval — never auto-executed')">Stage price match →</button></div>
         <div class="flex items-start gap-2.5 py-2.5"><span class="sev sev-opp" style="flex:none">Rank</span><div class="text-[12.5px] leading-[1.55]"><b>"collagen for skin" moved #3 → #2 organic</b> on Amazon — one spot from the top without paid support.</div><span class="spacer"></span><button class="mini" style="flex:none" onclick="openTask('We hit #2 organic on collagen for skin — worth a paid push to take #1?','From Market · rank history attached')">Investigate</button></div>
       </div>
       <p class="mt-4 text-[11px] text-ink-400">Amazon, Flipkart, Zepto and Blinkit crawling live · manage cadence and pincodes from <a href="#" style="color:var(--color-ember)" onclick="go('integrations');return false">Integrations</a> · observations land in Data Spine → Marketplace.</p>
@@ -338,7 +338,7 @@
             <tr class="cdetail" data-plat="amazon flipkart blinkit" id="mkd-1"><td colspan="9"><div class="flex flex-wrap gap-6">
               <div><div class="slab">Competitors · Amazon</div><span class="text-[12px] text-ink-700">OZiva ₹1,149 <b class="text-bad">▼12% today</b> · Plix ₹1,275 ▼2% · Wellbeing ₹1,349 — · Kapiva ₹1,499 ▲3%</span></div>
               <div><div class="slab">Last checked</div><span class="text-[12px] text-ink-700">2:10 pm · hourly on tracked SKUs</span></div>
-              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Should we respond to OZiva at ₹1,149 or hold ₹1,299?','From Market · margin + elasticity context attached')">Ask about this</button><button class="mini mini-call" onclick="event.stopPropagation();go('myqueue');toast('Price change staged — margin impact shown at approval')">Stage price change →</button></div>
+              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();openTask('Should we respond to OZiva at ₹1,149 or hold ₹1,299?','From Market · margin + elasticity context attached')">Ask about this</button><button class="mini mini-call" onclick="event.stopPropagation();toast('Price change staged — margin impact shown at approval')">Stage price change →</button></div>
             </div></td></tr>
             <tr class="crow" data-plat="amazon blinkit zepto" onclick="document.getElementById('mkd-2').classList.toggle('open')">
               <td><b>Glow Gummies 60ct</b><br><span class="text-[10.5px] text-ink-400">B0GLWGUM</span></td>
@@ -363,7 +363,7 @@
               <td style="text-align:left"><span class="tag">off</span></td></tr>
             <tr class="cdetail" data-plat="amazon flipkart" id="mkd-3"><td colspan="9"><div class="flex flex-wrap gap-6">
               <div><div class="slab">Buy box</div><span class="text-[12px] text-ink-700">Lost to NutriMart at ₹1,849 + faster delivery promise · you held 61% of last 30d</span></div>
-              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();toast('Alert rule created — buy-box loss pings WhatsApp within 15 min')">⚑ Alert me</button><button class="mini mini-call" onclick="event.stopPropagation();go('myqueue');toast('Price match ₹1,849 staged for approval')">Stage price match →</button></div>
+              <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end"><button class="mini" onclick="event.stopPropagation();toast('Alert rule created — buy-box loss pings WhatsApp within 15 min')">⚑ Alert me</button><button class="mini mini-call" onclick="event.stopPropagation();toast('Price match ₹1,849 staged for approval')">Stage price match →</button></div>
             </div></td></tr>
             <tr class="crow" data-plat="amazon" onclick="document.getElementById('mkd-4').classList.toggle('open')">
               <td><b>Metabolism Tea 30s</b><br><span class="text-[10.5px] text-ink-400">B0MTBTEA</span></td>
@@ -856,7 +856,7 @@
             <b class="text-[13px]">3 write actions staged — nothing executed</b>
             <span class="tag">Tier 2 · needs approval</span>
             <span class="spacer"></span>
-            <button class="btn btn-sm btn-orange" onclick="go('myqueue')">Review &amp; approve →</button>
+            <button class="btn btn-sm btn-orange" onclick="toast('Approved — executing with a 6h undo window')">Approve →</button>
           </div>
           <div class="mt-2 text-[12px] text-ink-500">Pause fatigued creative · shift ₹15,000/day to Search brand · +₹6,000/day on the winning ad set. Each is itemized in My Queue with before-state and undo.</div>
         </div>
@@ -1502,16 +1502,6 @@
   </div>
 </div>
 
-<!-- ======== INBOX OVERLAY ======== -->
-<div id="inboxModal" class="overlay">
-  <div class="modal-in" style="width:960px;max-height:88vh">
-    <div class="modal-h"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg><h3 style="margin-left:10px">Inbox</h3>
-      <span style="background:var(--color-ember-dim);color:var(--color-ember);border-radius:99px;padding:2px 8px;font-size:9.5px;font-weight:700;margin-left:10px">AI &middot; DAILY</span>
-      <span style="font-size:11.5px;color:var(--color-ink-400);margin-left:10px">Generated 11:26 am</span>
-      <button class="x" onclick="toggleInbox(false)">&#10005;</button></div>
-    <div style="overflow-y:auto;padding:18px 22px" id="inboxBody"></div>
-  </div>
-</div>
 
 <!-- ======== LOG INTERACTION SHEET ======== -->
 <div id="sheet" class="overlay">
@@ -1641,7 +1631,7 @@ const TITLES={analyst:['Chat',0],history:['History',0],automations:['Automations
 summary:['Cockpit',0],attribution:['Attribution',0],ppsurvey:['Post-Purchase Survey',0],media:['Media Manager',0],
 website:['Overall Website Performance',0],sitesearch:['Site Search',0],retention:['Email & SMS Attribution',1],
 aivis:['AI Visibility',0],social:['Social Monitoring',0],settings:['Settings',0],integrations:['Integrations',0],spine:['Data Spine',0],
-queue:['Call Queue',0],home:['Home',0],workbench:['Agent builder',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],market:['Market — Shelf Intelligence',0],newcamp:['New Campaign — Meta',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
+queue:['Call Queue',0],home:['Home',0],workbench:['Chat',0],skills:['Agents',0],myqueue:['My Queue — Approvals',0],cdp:['CDP Analytics',0],creatives:['Creative Analysis',0],assets:['Asset Library',0],market:['Market — Shelf Intelligence',0],newcamp:['New Campaign — Meta',0],allleads:['All Leads',0],crmteam:['Team',0],crmperf:['Performance',0],lead:['Lead',0]};
 
 /* ---------- LEAD DESK data ---------- */
 const LEADS=[
@@ -1943,12 +1933,7 @@ function updRpad(){
   document.documentElement.style.setProperty('--rpad',Math.round(r)+'px');
 }
 window.addEventListener('resize',updRpad);
-function toggleInbox(force){
-  const m=document.getElementById('inboxModal');
-  const on=typeof force==='boolean'?force:!m.classList.contains('on');
-  m.classList.toggle('on',on);
-  if(on)renderInboxPanel();
-}
+function toggleInbox(force){/* inbox removed — trackers + chat carry the feed */}
 function toggleCtx(force){
   const c=document.getElementById('ctxpanel');
   const on=typeof force==='boolean'?force:!c.classList.contains('on');
@@ -1970,10 +1955,7 @@ const RECS=[
  {sev:'warn',t:'OZiva undercut you by ₹150 on Amazon',ev:'Collagen 500g cut 12% to ₹1,149 at 2:10 pm — you hold the buy box at ₹1,299, but SOV on "collagen powder" fell 3pp this week.',type:'market'}];
 let RECD=new Set();
 function inboxCount(){return STAGED.filter(q=>q.status==='staged').length+RECS.filter((r,i)=>!RECD.has(i)).length;}
-function updInboxBadge(){
-  const n=inboxCount();const b=document.getElementById('ibx-n');
-  b.textContent=n;b.style.display=n?'grid':'none';
-}
+function updInboxBadge(){const b=document.getElementById('ibx-n');if(!b)return;const n=inboxCount();b.textContent=n;b.style.display=n?'grid':'none';}
 function renderInboxPanel(){
   const staged=STAGED.filter(q=>q.status==='staged');
   const recs=RECS.map((r,i)=>({...r,i})).filter(r=>!RECD.has(r.i));
@@ -2119,7 +2101,7 @@ buyer:{sub:'Which campaigns and creatives do I touch today?',verdict:'',
 
 function acardHTML(c,idx){
   const cta=c.cta==='agent'?`<button class="btn btn-sm btn-orange" onclick="openTask('${c.t.replace(/'/g,"\\'")}')">${c.lb}</button>`
-    :c.cta==='queue'?`<button class="btn btn-sm" onclick="go('myqueue')">${c.lb}</button>`
+    :c.cta==='queue'?`<button class="btn btn-sm" onclick="toast('Approve inline — writes stage with an undo window')">${c.lb}</button>`
     :`<button class="btn btn-sm btn-ghost" onclick="go('integrations')">${c.lb}</button>`;
   return `<div class="card acard" id="ac-${idx}"><div class="flex items-start gap-3 p-4">
     ${sevChip[c.sev]}
@@ -2168,9 +2150,10 @@ function wbClean(){
   document.getElementById('wb-greet').textContent=(h<12?'Good morning':h<17?'Good afternoon':'Good evening')+', Santanu.';
 }
 let CMD=null;
-const SLASH=[['create agent','Build a new specialist agent, right here in chat'],
+const SLASH=[['create campaign','Launch a Meta campaign — question cards, created paused'],
+ ['create agent','Build a new specialist agent, right here in chat'],
  ['create skill','Save a reusable workflow your agents can use'],
- ['schedule','Turn an agent or skill into an automation']];
+ ['schedule','Turn an agent or skill into an automation — daily, weekly or monthly']];
 function slashCheck(el){
   const m=document.getElementById('slashmenu');
   if(el.value.startsWith('/')&&!CMD){
@@ -2195,6 +2178,7 @@ function clearCmd(){
   const el=document.getElementById('wb-ask');
   if(el)el.placeholder='Ask anything, or describe what you want done… (type / for commands)';
 }
+function wbNewChat(){go('workbench');wbClean();}
 function newAgentFlow(){openBuilder('New specialist agent');}
 function openBuilder(desc){
   document.getElementById('bld-desc').textContent=desc||'Retention agent for lapsed leads';
@@ -2222,6 +2206,7 @@ function askFromChat(){
   const el=document.getElementById('wb-ask');
   const q=el.value.trim();el.value='';
   document.getElementById('slashmenu').classList.remove('on');
+  if(CMD==='create campaign'){clearCmd();openNewCamp();return;}
   if(CMD==='create agent'){const d=q;clearCmd();openBuilder(d);return;}
   if(CMD){const c=CMD;clearCmd();openTask('/'+c+(q?' — '+q:''),'Command run in Chat · Progen Method context attached');return;}
   openTask(q||'Open question — blank session',q?'Asked in Chat · Progen Method context attached':'');
@@ -2488,7 +2473,7 @@ const R_SHORT=[`<div class="wb-msg">Pulling that thread: the fatigued creative's
 const R_FULL=`<div class="wb-msg">Three-step diagnosis before any change: verify tracking is trustworthy, decompose CAC by campaign and creative, then quantify the rebalance. Delegating account pulls to the <b>ads_report</b> specialist.</div>
 <div class="wb-msg"><div class="toolrow"><span class="ok">✓</span>task · ads_report — account pulls<span class="ms">4 tool calls</span></div><div class="toolrow"><span class="ok">✓</span>gaql_query · campaigns, 28d, cost/conv<span class="ms">1.2s · 14 rows</span></div><div class="toolrow"><span class="ok" style="color:var(--color-watch)">⚠</span>gtm_container_audit · purchase tag fires 2× on /thank-you<span class="ms">1.1s</span></div>Tracking is usable — the duplicate tag inflates conversions ~4%, noted below.</div>
 <div class="wb-msg"><b>The CAC rise is one campaign, not the account.</b><br>· Advantage+ · GLP-1: CAC <b>₹1,412</b> (target ₹950), 38% of spend, frequency 4.2 — fatigued.<br>· Search · brand: CAC <b>₹704</b>, 31% impression share lost to budget — headroom.<br>· "glow-ritual-ugc-01": CAC <b>₹612</b> at frequency 1.9 — under-funded winner.</div>
-<div class="card" style="border-color:var(--color-ember-soft);background:var(--color-tint);padding:13px 16px;margin-bottom:14px"><div class="flex items-center gap-2.5"><b class="text-[13px]">3 write actions staged — nothing executed</b><span class="tag">Tier 2</span><span class="spacer"></span><button class="btn btn-sm btn-orange" onclick="go('myqueue')">Review &amp; approve →</button></div></div>`;
+<div class="card" style="border-color:var(--color-ember-soft);background:var(--color-tint);padding:13px 16px;margin-bottom:14px"><div class="flex items-center gap-2.5"><b class="text-[13px]">3 write actions staged — nothing executed</b><span class="tag">Tier 2</span><span class="spacer"></span><button class="btn btn-sm btn-orange" onclick="toast('Approved — executing with a 6h undo window')">Approve →</button></div></div>`;
 const SESSIONS={
  s_fix:{html:userB('Fix: CAC up 9% W/W — rebalance budget away from Advantage+ · GLP-1','Resumed session · started 2h ago')+R_FULL},
  s_audit:{html:userB('Audit conversion tracking + GTM','Resumed session · resolved yesterday')+`<div class="wb-msg">Resolved: the purchase tag fired twice on /thank-you, inflating conversions ~4%. GTM fix is live and verified — conversion counts now reconcile with the spine.</div>`},
@@ -2565,6 +2550,7 @@ function ckSlashCheck(el){
 function ckSlashPick(cmd){
   document.getElementById('ck-ask').value='';
   document.getElementById('ckSlash').classList.remove('on');
+  if(cmd==='create campaign'){openNewCamp();return;}
   if(cmd==='create agent')openBuilder('New specialist agent');
   else if(cmd==='create skill')toast('Run a session that works, then save it as a skill from Session context');
   else{go('automations');toast('Pick a schedule — a scheduled agent run is an Automation');}
@@ -2628,7 +2614,7 @@ function renderCreatives(){
         <div><div class="slab">Fatigue reasoning</div><span class="text-[12px] text-ink-700">freq ${c.freq||'n/a'} ${c.freq>2.5?'(>2.5 band)':c.freq>1.8?'(1.8–2.5 band)':'(<1.8)'} · CTR trend ${c.trend} → <b>${c.fat}</b></span></div>
         <div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end">
           <button class="mini" onclick="event.stopPropagation();openTask('Why is ${c.n} ${c.fat}?','From Creatives · creative context attached')">Ask about this</button>
-          ${c.fat==='dead'?'<button class="mini mini-call" onclick="event.stopPropagation();go(\'myqueue\');toast(\'Pause staged for approval\')">Stage pause →</button>':''}
+          ${c.fat==='dead'?'<button class="mini mini-call" onclick="event.stopPropagation();toast(\'Pause staged for approval\')">Stage pause →</button>':''}
         </div>
       </div></td></tr>`;
   }).join('');
@@ -2746,6 +2732,126 @@ function renderRetention(){
    `<div class="patbar"><span class="pl">${r[0]}</span><div class="ptrack"><div class="pfill" style="width:${r[1]/5210*100}%;background:${r[3]}"></div></div><span class="pv">₹${r[1].toLocaleString('en-IN')}</span><span class="ps">${r[2]} LTV:CAC</span></div>`).join('');
 }
 
+
+/* ================= TRACKER — Tufte board (view over scheduled agents) ================= */
+const TRK=[
+ {icon:'◉',n:'Identity match check',what:'Every ad click resolves to one customer identity',agent:'Tracking & Attribution Auditor',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'1m 48s',s:'312,904 identity keys resolved, 0 conflicts'},
+  runs:[['ok','Today, 04:02 · 1m 48s','312,904 identity keys resolved, 0 conflicts'],['ok','Yesterday, 04:01 · 1m 52s','308,441 identity keys resolved, 0 conflicts'],['ok','6 Aug, 04:03 · 1m 46s','301,880 identity keys resolved, 0 conflicts']]},
+ {icon:'▣',n:'Order sync check',what:'Shopify orders reconcile against payments and webhooks',agent:'Tracking & Attribution Auditor',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','warn','ok','ok','ok','ok'],
+  last:{d:'54s',s:'8,214 orders reconciled, 3 late webhooks retried'},
+  runs:[['ok','Today, 04:05 · 54s','8,214 orders reconciled, 3 late webhooks retried'],['ok','Yesterday, 04:04 · 51s','8,090 orders reconciled, 0 retries'],['warn','6 Aug, 04:06 · 2m 10s','214 webhooks late — Shopify partial outage, all recovered']]},
+ {icon:'◈',n:'Duplicate click-ID check',what:'Attribution stays trustworthy — duplicates under the 2% threshold',agent:'Tracking & Attribution Auditor',cad:'Daily',st:'crit',when:'Today',bars:['ok','ok','ok','ok','ok','warn','crit'],
+  last:{d:'2m 05s',s:'6.4% duplicate click IDs — over the 2% threshold'},
+  alert:{sev:'crit',t:'Today, 04:20 · 2m 05s',h:'6.4% duplicate click IDs found, threshold is 2%',why:'A Meta CAPI retry loop is resending the same click ID on timeout.',act:'Quarantine the affected event batch and patch the CAPI retry handler to dedupe before resend.'},
+  runs:[['crit','Today, 04:20 · 2m 05s','6.4% duplicates — retry loop suspected'],['warn','Yesterday, 04:18 · 1m 58s','2.9% duplicates — rising, watching'],['ok','6 Aug, 04:19 · 1m 44s','0.8% duplicates — healthy']]},
+ {icon:'▤',n:'Weekly performance report',what:'The Monday narrative — spend, CAC, winners, one action list',agent:'Insights & Reporting Agent',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'3m 12s',s:'Sent to 3 teammates · blended CAC ₹1,096 ▲7%'},
+  runs:[['ok','Mon, 08:00 · 3m 12s','Sent to 3 teammates · blended CAC ₹1,096 ▲7%'],['ok','28 Jul, 08:00 · 3m 04s','Sent · CAC ₹1,022 ▼2%'],['ok','21 Jul, 08:01 · 3m 18s','Sent · CAC ₹1,041 ▲1%']]},
+ {icon:'⊙',n:'Competitor price check',what:'Tracked SKUs vs rivals on Amazon, Flipkart, Zepto, Blinkit',agent:'Market Intelligence Agent',cad:'Weekly',st:'warn',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','warn'],
+  last:{d:'1m 21s',s:'OZiva undercuts your hero SKU by ₹150 on Amazon'},
+  alert:{sev:'warn',t:'Mon, 07:30 · 1m 21s',h:'OZiva undercuts your hero SKU by ₹150 on Amazon',why:'Collagen 500g cut 12% to ₹1,149 — you still hold the buy box at ₹1,299.',act:'Review the response in Market — a price match stages for your approval, it never auto-runs.',open:'market'},
+  runs:[['warn','Mon, 07:30 · 1m 21s','OZiva −12% on Collagen 500g — undercut by ₹150'],['ok','28 Jul, 07:30 · 1m 14s','No moves beyond ±2% on tracked SKUs'],['ok','21 Jul, 07:31 · 1m 19s','Kapiva +2% on Slim Tea — no action needed']]},
+ {icon:'◎',n:'Lead scoring refresh',what:'Re-scores open leads from behaviour and spend signals',agent:'Performance Marketing Agent',cad:'Weekly',st:'paused',when:'Paused',bars:['off','off','off','off','off','off','off'],
+  last:{d:'—',s:'Paused — resume to run on schedule'},
+  runs:[['ok','14 Jul, 06:00 · 2m 40s','1,204 leads re-scored, 86 moved tier'],['ok','7 Jul, 06:00 · 2m 33s','1,187 leads re-scored, 71 moved tier'],['ok','30 Jun, 06:01 · 2m 45s','1,143 leads re-scored, 90 moved tier']]},
+ {icon:'▧',n:'Creative fatigue check',what:'Frequency and CTR-trend fatigue bands per live creative',agent:'Creative Analyst',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','warn','ok','ok','ok','ok','ok'],
+  last:{d:'1m 02s',s:'11 live creatives scored — no new fatigue'},
+  runs:[['ok','Mon, 07:00 · 1m 02s','11 live creatives scored — no new fatigue'],['ok','28 Jul, 07:00 · 58s','2 fatiguing flagged — rotation drafted and approved'],['warn','21 Jul, 07:02 · 1m 11s','discount-banner-old crossed frequency 4.5']]},
+ {icon:'▦',n:'Monthly cohort report',what:'Retention heatmap and LTV:CAC by acquisition month',agent:'Insights & Reporting Agent',cad:'Monthly',st:'ok',when:'Aug 1',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'4m 40s',s:'Repeat rate 27% ▲2pp · emailed and pinned to Cockpit'},
+  runs:[['ok','1 Aug, 06:00 · 4m 40s','Repeat rate 27% ▲2pp · LTV:CAC 2.1×'],['ok','1 Jul, 06:00 · 4m 28s','Repeat rate 25% · LTV:CAC 2.0×'],['ok','1 Jun, 06:02 · 4m 51s','Repeat rate 25% · LTV:CAC 1.9×']]},
+ {icon:'⌕',n:'Brand & competitor scan',what:'New rivals, trademark hits, big creative swings in the category',agent:'Market Intelligence Agent',cad:'Monthly',st:'paused',when:'Paused',bars:['off','off','off','off','off','off','off'],
+  last:{d:'—',s:'Paused — resume to run on schedule'},
+  runs:[['ok','1 Jul, 09:00 · 6m 12s','2 new D2C entrants indexed, no trademark hits'],['ok','1 Jun, 09:00 · 5m 58s','No new entrants · OZiva creative refresh noted'],['ok','1 May, 09:03 · 6m 30s','1 trademark watch opened (resolved)']]}];
+let TRKF='All',TRKOPEN=-1;
+const TRKC={ok:'var(--color-good)',warn:'var(--color-watch)',crit:'var(--color-bad)',off:'#D8D8DC',paused:'#D8D8DC'};
+function renderTracker(){
+  const host=document.getElementById('ck-tracker');if(!host)return;
+  const cnt={ok:0,warn:0,crit:0,paused:0};
+  TRK.forEach(t=>cnt[t.st]++);
+  const total=TRK.length;
+  const seg=['ok','warn','crit','paused'].map(k=>cnt[k]?`<span style="width:${cnt[k]/total*100}%;background:${k==='paused'?'#B9B9BF':TRKC[k]}"></span>`:'').join('');
+  const rows=TRK.map((t,i)=>({t,i})).filter(x=>TRKF==='All'||x.t.cad===TRKF);
+  host.innerHTML=`
+  <div class="trk-segbar">${seg}</div>
+  <div class="trk-leg">
+    <span><b style="color:var(--color-good)">${cnt.ok}</b> healthy</span>
+    <span><b style="color:var(--color-watch)">${cnt.warn}</b> needs review</span>
+    <span><b style="color:var(--color-bad)">${cnt.crit}</b> critical</span>
+    <span><b>${cnt.paused}</b> paused</span>
+    <span class="spacer"></span>
+    <button class="icbtn" title="These tasks are run by your agents — manage them there" onclick="go('skills')" style="width:26px;height:26px">⋯</button>
+  </div>
+  <div class="views" style="margin-bottom:12px">
+    ${['All','Daily','Weekly','Monthly'].map(f=>`<button class="view${TRKF===f?' on':''}" onclick="TRKF='${f}';renderTracker()">${f==='All'?'All tasks':f}</button>`).join('')}
+  </div>
+  <div class="trk-card">${rows.map(x=>trkRow(x.t,x.i)).join('')}</div>`;
+}
+function trkRow(t,i){
+  const open=TRKOPEN===i;
+  const paused=t.st==='paused';
+  const bars=t.bars.map(b=>`<span class="trk-bar" style="background:${TRKC[paused?'off':b]}"></span>`).join('');
+  const tip=paused?'Paused — resume to run on schedule':`${t.what} · ${t.last.d} · ${t.last.s}`;
+  const alert=(!paused&&t.alert&&!t.resolved)?`
+    <div class="trk-alert ${t.alert.sev}">
+      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.alert.t}</div>
+      <b class="h block text-[13.5px] mb-0.5">${t.alert.h}</b>
+      <div class="text-ink-700">${t.alert.why}</div>
+      <div class="mt-1"><span class="text-ink-400">Suggested action</span> — ${t.alert.act}</div>
+      <div class="mt-3 flex gap-2">
+        ${t.alert.open?`<button class="btn btn-sm btn-orange" onclick="event.stopPropagation();go('${t.alert.open}')">Open Market →</button>`
+         :`<button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkApprove(${i})">Approve and run</button>`}
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkDismiss(${i})">Dismiss</button>
+      </div>
+    </div>`:(t.resolved?`<div class="trk-alert" style="background:var(--color-good-bg)"><b class="block text-[13px]" style="color:var(--color-good)">${t.resolved}</b></div>`:'');
+  return `<div class="trk-row${open?' open':''}" style="border-left-color:${paused?'#D8D8DC':TRKC[t.st]}">
+    <div class="trk-main" onclick="trkTog(${i})">
+      <span class="trk-bars">${bars}<span class="trk-tip">${tip}</span></span>
+      <span class="trk-when">${paused?'Paused':t.when}</span>
+      <span class="trk-ic">${t.icon}</span>
+      <b class="min-w-0 flex-1 truncate text-[13px] ${paused?'text-ink-400':''}">${t.n}</b>
+      <span class="trk-cad">${t.cad}</span>
+      <button class="icbtn" style="width:28px;height:28px;font-size:10px" title="${paused?'Resume':'Pause'}" onclick="event.stopPropagation();trkPause(${i})">${paused?'▶':'❚❚'}</button>
+      <span class="cd" style="flex:none;transition:transform .15s;transform:rotate(${open?180:0}deg)">▼</span>
+    </div>
+    <div class="trk-body">
+      <div class="mb-2.5 flex items-center gap-2">
+        <span class="text-[11.5px] text-ink-400">${t.what} · run by <b class="text-ink-700">${t.agent}</b> · ${t.cad.toLowerCase()}</span>
+        <span class="spacer"></span>
+        <button class="mini" onclick="event.stopPropagation();openBuilder('${t.n} — edit schedule, thresholds and delivery channels')">✎ Edit agent</button>
+      </div>
+      ${alert}
+      <div class="text-[11px] text-ink-400 mb-1">Last 3 runs</div>
+      <div class="rounded-xl border border-rule px-3.5">
+        ${t.runs.map(r=>`<div class="trk-run"><span class="trk-dot" style="background:${TRKC[r[0]]}"></span><div><div class="text-[11.5px] text-ink-400">${r[1]}</div><b class="text-[12.5px] font-medium">${r[2]}</b></div></div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+function trkTog(i){TRKOPEN=TRKOPEN===i?-1:i;renderTracker();}
+function trkPause(i){
+  const t=TRK[i];
+  if(t.st==='paused'){t.st=t.prev||'ok';toast('Resumed — next run on schedule');}
+  else{t.prev=t.st;t.st='paused';toast('Paused — nothing runs until you resume');}
+  renderTracker();
+}
+function trkApprove(i){
+  const t=TRK[i];
+  t.st='ok';t.resolved='Fixed · 04:26 — batch quarantined, retry handler patched, re-run came back at 0.6% duplicates';
+  t.bars=t.bars.slice(1).concat(['ok']);
+  t.runs.unshift(['ok','Today, 04:26 · 1m 12s','Re-run after fix — 0.6% duplicates, healthy']);t.runs=t.runs.slice(0,3);
+  toast('Approved — quarantine + patch executed, audit-logged with undo');
+  renderTracker();
+}
+function trkDismiss(i){
+  const t=TRK[i];
+  t.st=t.alert&&t.alert.sev==='crit'?'warn':'ok';
+  t.resolved='Dismissed — will re-flag automatically if it worsens';
+  toast('Dismissed — the agent keeps watching');
+  renderTracker();
+}
+renderTracker();
 
 /* ================= NEW CAMPAIGN BUILDER (Meta) ================= */
 const ALBY=[

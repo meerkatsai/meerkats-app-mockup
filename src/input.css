@@ -1492,6 +1492,31 @@
   .qstage { @apply mb-4 max-w-[580px] rounded-2xl border border-rule bg-off px-4 py-3; }
   .qsrow { @apply flex items-center gap-2.5 py-[3px] text-[12px]; }
 
+  /* ---- tracker board (Tufte) ---- */
+  .trk-segbar { @apply mb-2 flex h-[7px] w-full overflow-hidden rounded-full bg-off; }
+  .trk-leg { @apply mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] text-ink-500; }
+  .trk-card { @apply overflow-visible rounded-2xl border border-rule bg-white; }
+  .trk-row { @apply relative border-b border-rule last:border-0; border-left: 3px solid transparent; }
+  .trk-row:first-child { border-top-left-radius: 15px; border-top-right-radius: 15px; }
+  .trk-row:last-child { border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; }
+  .trk-main { @apply flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left; }
+  .trk-bars { @apply relative flex flex-none items-end gap-[3px]; }
+  .trk-bar { width: 5px; height: 15px; border-radius: 2px; }
+  .trk-tip { @apply pointer-events-none absolute left-0 top-[calc(100%+6px)] z-40 hidden whitespace-nowrap rounded-full border border-rule bg-white px-4 py-2 text-[12px] text-ink-700 shadow-[0_10px_30px_rgba(15,15,16,0.13)]; }
+  .trk-main:hover .trk-tip { @apply block; }
+  .trk-when { @apply w-[54px] flex-none text-[11.5px] text-ink-400; }
+  .trk-ic { @apply grid h-7 w-7 flex-none place-items-center rounded-lg bg-off text-[13px] text-ink-500; }
+  .trk-cad { @apply flex-none text-[11.5px] text-ink-400; }
+  .trk-body { @apply hidden border-t border-rule px-4 pb-4 pt-3; }
+  .trk-row.open .trk-body { @apply block; }
+  .trk-alert { @apply mb-3 rounded-xl p-4 text-[12.5px] leading-[1.65]; }
+  .trk-alert.crit { background: var(--color-bad-bg); }
+  .trk-alert.crit .h { color: var(--color-bad); }
+  .trk-alert.warn { background: var(--color-watch-bg); }
+  .trk-alert.warn .h { color: var(--color-watch); }
+  .trk-run { @apply flex items-start gap-2.5 border-b border-rule py-2.5 text-[12.5px] last:border-0; }
+  .trk-dot { @apply mt-1.5 h-2 w-2 flex-none rounded-full; }
+
   /* ---- Meta review side panel ---- */
   .cpanel { @apply fixed bottom-0 right-0 top-0 z-[96] hidden w-[min(560px,94vw)] flex-col border-l border-rule bg-white shadow-[-12px_0_40px_rgba(15,15,16,0.08)]; }
   .cpanel.on { @apply flex; }
