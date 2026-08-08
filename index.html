@@ -2209,6 +2209,8 @@ function askFromChat(){
   if(CMD==='create campaign'){clearCmd();openNewCamp();return;}
   if(CMD==='create agent'){const d=q;clearCmd();openBuilder(d);return;}
   if(CMD){const c=CMD;clearCmd();openTask('/'+c+(q?' — '+q:''),'Command run in Chat · Progen Method context attached');return;}
+  const g=q?groundedAnswer(q):null;
+  if(g){if(!g.handled)chatGrounded(q,g.origin,g.html);return;}
   openTask(q||'Open question — blank session',q?'Asked in Chat · Progen Method context attached':'');
 }
 
@@ -2293,8 +2295,14 @@ meta:{n:'Meta',kpis:[['Spend · Meta','₹2.14L','▲ 5%','mut'],['CAC · Meta',
 google:{n:'Google',kpis:[['Spend · Google','₹1.05L','▲ 2%','mut'],['CAC · Google','₹811','▼ 3%','up'],['ROAS · Google','3.9×','▲ 0.1 · platform-reported','up'],['New customers','93','▲ 8% · platform-reported','up'],['Impr. share · brand','69%','▼ 31% lost to budget','dn'],['CTR · search','4.2%','▲ 0.3pp','up'],['CPC','₹18.6','▼ 2%','up'],['Quality score · avg','7.1','— level','mut']],
  cmp:{spend:['Spend · Google','₹1.05L','▲ 2%','mut'],cac:['CAC · Google','₹811','▼ 3%','up'],roas:['ROAS · Google','3.9×','▲ 0.1','up'],orders:['Orders · Google','130','▲ 6% · platform','up']}},
 amazon:{n:'Amazon',kpis:[['Spend · Amazon','₹48.2K','▲ 11%','mut'],['CAC · Amazon','₹402','▼ 5%','up'],['ROAS · Amazon','3.1×','▲ 0.2 · platform-reported','up'],['Orders','118','▲ 9%','up'],['ACoS','32%','▼ 1.8pp','up'],['CPC','₹9.4','▲ 3%','mut'],['Top SKU','glow-ritual','61% of ad orders','mut'],['Organic halo','+18%','▲ vs pre-ads','up']],
- cmp:{spend:['Spend · Amazon','₹48.2K','▲ 11%','mut'],cac:['CAC · Amazon','₹402','▼ 5%','up'],roas:['ROAS · Amazon','3.1×','▲ 0.2','up'],orders:['Orders · Amazon','118','▲ 9% · platform','up']}}};
-const LOCKED=['Shopify','Zepto','Blinkit','Flipkart'];
+ cmp:{spend:['Spend · Amazon','₹48.2K','▲ 11%','mut'],cac:['CAC · Amazon','₹402','▼ 5%','up'],roas:['ROAS · Amazon','3.1×','▲ 0.2','up'],orders:['Orders · Amazon','118','▲ 9% · platform','up']}},
+flipkart:{n:'Flipkart',kpis:[['Spend · Flipkart','₹41.2K','▲ 3%','mut'],['ROAS · Flipkart','3.2×','— level','mut'],['CPC','₹7.8','— level','mut'],['Orders','118','▲ 5%','up'],['Buy Box held','97%','▲ 1pp','up'],['PLA impressions','412K','▲ 6%','up'],['Returns','6.1%','▼ 0.4pp','up'],['AOV','₹1,117','▲ 2%','up']],
+ cmp:{spend:['Spend · Flipkart','₹41.2K','▲ 3%','mut'],cac:['CAC · Flipkart','₹349','▼ 2%','up'],roas:['ROAS · Flipkart','3.2×','— level','mut'],orders:['Orders · Flipkart','118','▲ 5%','up']}},
+blinkit:{n:'Blinkit',kpis:[['Spend · Blinkit','₹24.1K','▲ 8%','mut'],['ROAS · Blinkit','4.2×','▲ 0.3 · best on the account','up'],['CPC','₹11.4','▼ 4%','up'],['Orders','96','▲ 11%','up'],['Availability','94%','3 zones throttled','mut'],['SoV · "office tote"','31%','▲ 2pp','up'],['Avg delivery','11 min','— level','mut'],['AOV','₹1,054','▲ 1%','up']],
+ cmp:{spend:['Spend · Blinkit','₹24.1K','▲ 8%','mut'],cac:['CAC · Blinkit','₹251','▼ 6%','up'],roas:['ROAS · Blinkit','4.2×','▲ 0.3','up'],orders:['Orders · Blinkit','96','▲ 11%','up']}},
+zepto:{n:'Zepto',kpis:[['Spend · Zepto','₹19.3K','▲ 2%','mut'],['ROAS · Zepto','3.3×','▼ 0.2 · gifting below floor','dn'],['CPC','₹10.8','▲ 6%','dn'],['Orders','61','▼ 3%','dn'],['Availability','88%','2 zones OOS','dn'],['Held actions','2','awaiting session','dn'],['SoV · totes','18%','— level','mut'],['AOV','₹1,026','— level','mut']],
+ cmp:{spend:['Spend · Zepto','₹19.3K','▲ 2%','mut'],cac:['CAC · Zepto','₹316','▲ 4%','dn'],roas:['ROAS · Zepto','3.3×','▼ 0.2','dn'],orders:['Orders · Zepto','61','▼ 3%','dn']}}};
+const LOCKED=[];
 function renderPills(){
   const label=document.getElementById('plat-label');if(!label)return;
   const names=[...FSEL].map(k=>PLAT[k].n);
@@ -2303,9 +2311,7 @@ function renderPills(){
   m.innerHTML=
    `<button class="viewitem${FSEL.size===0?' on':''}" onclick="FSEL.clear();renderPills();renderCockpit()">All platforms ${FSEL.size===0?'<span class="chk2">✓</span>':''}</button>
     <div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>`+
-   Object.keys(PLAT).map(k=>`<button class="viewitem${FSEL.has(k)?' on':''}" onclick="togglePlat('${k}')"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good);flex:none"></span>${PLAT[k].n}${FSEL.has(k)?'<span class="chk2">✓</span>':'<span style="margin-left:auto;font-size:10px;color:var(--color-ink-400)">Connected</span>'}</button>`).join('')+
-   `<div style="height:1px;background:var(--color-rule);margin:5px 4px"></div>`+
-   LOCKED.map(n=>`<button class="viewitem" style="color:var(--color-ink-400)" onclick="togglePlatMenu();go('integrations');toast('Connect ${n} from Integrations')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg><span style="margin-left:2px">${n}</span><span style="margin-left:auto;font-size:10px">Connect</span></button>`).join('');
+   Object.keys(PLAT).map(k=>`<button class="viewitem${FSEL.has(k)?' on':''}" onclick="togglePlat('${k}')"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good);flex:none"></span>${PLAT[k].n}${FSEL.has(k)?'<span class="chk2">✓</span>':'<span style="margin-left:auto;font-size:10px;color:var(--color-ink-400)">Connected</span>'}</button>`).join('');
 }
 function togglePlatMenu(){
   const m=document.getElementById('platMenu');
@@ -2391,6 +2397,10 @@ function renderCkExtra(){
       <div class="patbar"><span class="pl">Organic</span><div class="ptrack"><div class="pfill" style="width:100%;background:var(--color-good)"></div></div><span class="pv">₹5,210</span><span class="ps">2.8× LTV:CAC</span></div>
       <div class="patbar"><span class="pl">Google</span><div class="ptrack"><div class="pfill" style="width:79%;background:var(--color-google)"></div></div><span class="pv">₹4,120</span><span class="ps">2.4× LTV:CAC</span></div>
       <div class="patbar"><span class="pl">Meta</span><div class="ptrack"><div class="pfill" style="width:67%;background:var(--color-meta)"></div></div><span class="pv">₹3,480</span><span class="ps">1.9× LTV:CAC</span></div></div>`;
+  }else if(CKROLE==='default'){
+    x.innerHTML=`<div class="card p-4" style="max-width:660px"><div class="flex items-center gap-2 mb-1"><b class="text-[13px]">All platforms — key metrics</b><span class="text-[10.5px] font-mono text-ink-400">t7d · every platform connected</span></div>
+    <div class="mb-2 text-[11px] text-ink-400">tap a row to drill in — the answer comes from the semantic layer, grain stated</div>
+    ${Object.entries(DL.plats).map(([k,p])=>`<div class="flex items-center gap-2 border-b border-rule py-[5px] text-[12.5px] last:border-0" style="cursor:pointer" onclick="ckAskGrounded('${k}')"><span class="d" style="width:7px;height:7px;border-radius:99px;background:var(--color-good);flex:none"></span><b style="width:70px">${p.n}</b><span class="font-mono text-[11.5px]" style="width:80px">${fm(p.spend)}</span><span style="width:88px" class="${p.dr>0?'text-good':p.dr<0?'text-bad':''}">ROAS ${p.roas.toFixed(1)}×</span><span style="width:80px">CPC ₹${p.cpc.toFixed(1)}</span><span class="text-ink-500">${p.orders} orders</span></div>`).join('')}</div>`;
   }else x.innerHTML='';
 }
 function showCreatives(){go('creatives');}
@@ -2538,6 +2548,8 @@ function ckAsk(q){
 function askCockpit(){
   const el=document.getElementById('ck-ask');const q=el.value.trim();el.value='';
   document.getElementById('ckSlash').classList.remove('on');
+  const g=q?groundedAnswer(q):null;
+  if(g){if(!g.handled)chatGrounded(q,g.origin,g.html);return;}
   ckAsk(q||'Give me a quick read on the account');
 }
 function ckSlashCheck(el){
@@ -2736,6 +2748,138 @@ function renderRetention(){
 
 
 /* ================= TRACKER — Tufte board (view over scheduled agents) ================= */
+/* ================= SYNTHETIC DATA LAYER (Alby · 6 platforms · t7d) =================
+   Mirrors the meta-sim schema (dim_campaign/dim_adset/fact_ad_daily → vw_account_daily)
+   extended to google/amazon/flipkart/blinkit/zepto. Every grounded answer reads THIS. */
+const DL={
+ skus:[
+  {sku:'ALB-01',n:'Mini Tote — Tan',price:2499,cogs:900,rev7:118400,best:'blinkit'},
+  {sku:'ALB-02',n:'Everyday Shoulder — Black',price:3299,cogs:1250,rev7:196800,best:'meta'},
+  {sku:'ALB-03',n:'Structured Satchel — Ochre',price:4999,cogs:1950,rev7:84900,best:'amazon'},
+  {sku:'ALB-04',n:'Quilted Sling — Blush',price:2999,cogs:820,rev7:141200,best:'meta'},
+  {sku:'ALB-05',n:'Work Tote 15" — Espresso',price:5499,cogs:2150,rev7:132000,best:'amazon'},
+  {sku:'ALB-06',n:'Crescent Baguette — Olive',price:2299,cogs:900,rev7:48300,best:'flipkart'},
+  {sku:'ALB-07',n:'Hobo Slouch — Cognac',price:4299,cogs:1650,rev7:64500,best:'google'},
+  {sku:'ALB-08',n:'Top-Handle Mini — Ivory',price:3799,cogs:1450,rev7:72600,best:'google'},
+  {sku:'ALB-09',n:'Weekender Duffle — Charcoal',price:8999,cogs:6600,rev7:81000,best:'meta',flag:'High spend, thin margin — ROAS 1.9× on the Catalogue push; the single biggest TACOS drag'},
+  {sku:'ALB-10',n:'Bucket Bag — Wine',price:3499,cogs:1300,rev7:60700,best:'zepto'}],
+ plats:{
+  meta:{n:'Meta',spend:146200,rev:467800,roas:3.2,dr:+0.1,cpc:12.4,dc:-2,orders:214,camps:[
+   ['Prospecting — BAU',62400,2.8,12.9,88,'frequency 3.1 on top ad set — watch'],
+   ['Retargeting — 30d',18100,5.9,9.4,41,'best ROAS on the account'],
+   ['Catalogue — Advantage+',65700,3.1,13.8,85,'Duffle push dilutes it — ALB-09 at 1.9×']]},
+  google:{n:'Google',spend:105300,rev:399900,roas:3.8,dr:+0.2,cpc:18.6,dc:-1,orders:158,camps:[
+   ['Search — Brand',24800,6.2,11.2,52,'IS lost to budget 31% — cheapest headroom'],
+   ['PMax — Generic',41500,2.6,21.4,54,'feeds on brand queries — needs exclusions'],
+   ['Search — Category',28600,3.4,19.8,42,'steady'],
+   ['YouTube — Awareness',10400,1.1,8.2,10,'view-through only — judge on lift, not ROAS']]},
+  amazon:{n:'Amazon',spend:88400,rev:344800,roas:3.9,dr:+0.2,cpc:9.4,dc:+3,orders:186,camps:[
+   ['SP — Hero SKUs',31200,4.6,8.8,84,'holding — hero set healthy'],
+   ['SP — Category',22400,3.1,10.2,48,'CPC crept +9% this week'],
+   ['SB — Brand',12800,5.2,7.4,28,'defend — OZiva bidding on brand terms'],
+   ['SD — Retargeting',11600,2.4,9.1,16,'saturating at frequency 5.2'],
+   ['SP — Competitor conquest',10400,1.8,12.6,10,'expensive — review next bid cycle']]},
+  flipkart:{n:'Flipkart',spend:41200,rev:131800,roas:3.2,dr:0,cpc:7.8,dc:0,orders:118,camps:[
+   ['PLA — Bestsellers',19800,3.8,7.2,64,'steady'],
+   ['PLA — Category',13600,2.6,8.6,36,'two keywords carry 70% of spend'],
+   ['PCA — Brand',7800,4.1,7.1,18,'small but efficient']]},
+  blinkit:{n:'Blinkit',spend:24100,rev:101200,roas:4.2,dr:+0.3,cpc:11.4,dc:-4,orders:96,camps:[
+   ['Search — Office tote cluster',11800,6.1,10.9,52,'“office tote” bid capped — the tracker recommendation'],
+   ['Search — Gifting',7200,3.4,12.2,28,'seasonal — building'],
+   ['Display — Category',5100,2.2,11.0,16,'awareness tier']]},
+  zepto:{n:'Zepto',spend:19300,rev:62600,roas:3.3,dr:-0.2,cpc:10.8,dc:+6,orders:61,camps:[
+   ['Search — Totes',9400,4.0,10.2,34,'healthy'],
+   ['Search — Gifting',5600,2.1,12.4,15,'below floor 6 days — 2 bid cuts held on session'],
+   ['Display — New drop',4300,2.9,9.8,12,'fine for a launch tier']]}},
+ tot(){const p=Object.values(this.plats);return{spend:p.reduce((a,x)=>a+x.spend,0),rev:p.reduce((a,x)=>a+x.rev,0),orders:p.reduce((a,x)=>a+x.orders,0),camps:p.reduce((a,x)=>a+x.camps.length,0)};},
+ tacos:8.2,tacosD:+0.4};
+const ACTLOG=[
+ ['Today, 14:32','Bid ₹14.50 → ₹18.00 on “office tote” (Blinkit)','executed & verified · measuring until Aug 17, predicted +0.4 ROAS'],
+ ['Today, 06:20','2 bid cuts on Zepto gifting keywords','held — awaiting_session until the portal is re-connected'],
+ ['Mon, 07:00','14 search terms → exact, 22 negatives (Amazon + Flipkart)','executed · est. ₹6,100/wk waste removed'],
+ ['Mon, 07:05','1 campaign re-paced +12% (Search — Brand, Google)','executed · inside pacing guardrail, no approval needed (read-tier)'],
+ ['Sun, 05:01','Ads paused in 3 throttled Blinkit zones','auto within guardrail · auto-resume armed on restock']];
+const fm=v=>v>=100000?'₹'+(v/100000).toFixed(2)+'L':'₹'+Math.round(v/1000)+'K';
+/* ---- grounded query router (query-routing.yaml intents, over DL + ledger) ---- */
+function groundedAnswer(q){
+  const s=q.toLowerCase();
+  const chip=t=>`<span class="railchip" style="font-family:var(--font-mono);font-size:9.5px">${t}</span>`;
+  const wrap=(html,chips)=>`<div class="wb-msg">${html}<div class="mt-2 flex gap-1.5 flex-wrap">${chips.map(chip).join('')}</div></div>`;
+  const pk=Object.keys(DL.plats).find(k=>s.includes(k)||(k==='meta'&&/facebook|instagram/.test(s)));
+  const P=pk?DL.plats[pk]:null;
+  /* what-if — simulate against the frozen snapshot, no re-detection */
+  if(/what if|instead of|preview at/.test(s))
+    return{origin:'What-if · re-runs only the benefit model against the frozen snapshot',html:wrap(
+     `Re-ran the elasticity model with your parameters against the inputs frozen at detection. At <b>₹20.00</b> the model projects +₹11,300/wk revenue but CPC rises past the point where marginal ROAS drops below your 3.0× floor at ~₹18.70 — <b>₹18.00 keeps you on the efficient part of the curve</b>. If you approve at modified params, the plan regenerates with a fresh idempotency key and the guardrail re-check runs as usual.`,
+     ['what-if · frozen snapshot inputs · no re-detection','model: elasticity · 2.1s'])};
+  /* approval context */
+  if(/should i approve|is (this|it) safe|what happens if i approve/.test(s)){const i=TRK.findIndex(t=>t.insight&&t.st==='warn');if(i>-1){trkChat(i,'approve');return{handled:1};}
+    return{origin:'Approval context',html:wrap('Nothing is waiting on your approval right now — the last recommendation was executed and verified; its Learn window closes Aug 17.',['run ledger · 0 API calls'])};}
+  /* session / held */
+  if(/held|session|re-?connect|awaiting/.test(s)){const i=TRK.findIndex(t=>t.session);if(i>-1){trkChat(i,'session');return{handled:1};}
+    return{origin:'Session status',html:wrap('All portal sessions are healthy — Amazon, Flipkart, Blinkit and Zepto probes passed within the last 30 minutes; nothing is held.',['session vault · probe cache 30m'])};}
+  /* action status */
+  if(/what actions|actions ran|what ran|what did (it|the agents?) do|executed this week|did it fix|is it working/.test(s)){
+    if(/did it fix|is it working/.test(s))return{origin:'Action status · Learn record',html:wrap(
+     `The “office tote” bid raise is <b>still inside its Learn window</b> — measuring realized vs predicted until <b>Aug 17</b> (predicted +0.4 ROAS). Early ledger reads show impression share on that keyword up from 39% to 58% with CPC at ₹13.10, tracking the elasticity model. I'll write the realized number to the ledger when the horizon closes — no early verdicts.`,
+     ['learn record · horizon Aug 17','run ledger · 0 API calls'])};
+    return{origin:'Action status · from the run ledger',html:wrap(
+     `<b>${ACTLOG.length} actions this week:</b><br>`+ACTLOG.map(a=>`· <b>${a[1]}</b> — ${a[2]} <span class="text-[10.5px] text-ink-400">(${a[0]})</span>`).join('<br>'),
+     ['run ledger · executions · 0 API calls','writes verified post-change'])};}
+  /* run status per task */
+  const taskHit=TRK.find(t=>{const words=t.n.toLowerCase().split(/[^a-z]+/).filter(w=>w.length>3);return words.some(w=>s.includes(w))&&/run|happen|fail|critical|red|status|check|sweep|guard|paused/.test(s);});
+  if(taskHit||/why.*(fail|critical|red)|what happened|last run/.test(s)){
+    const t=taskHit||TRK.find(x=>x.st==='crit')||TRK[0];
+    return{origin:'Run status · row context is the scope',html:wrap(
+     `<b>${t.n}</b> — ${t.st==='crit'?'is critical: '+(t.session?t.session.platform+' session expired with '+t.session.held+' approved actions held; detection still runs, execution is parked and auto-resumes on re-connect.':'see the tracker row for the alert.'):t.st==='warn'?'has one recommendation awaiting your approval — the row has the frozen plan.':'ran clean.'} Last run: ${t.runs[0][1]} — ${t.runs[0][2]}. Run by ${t.agent}, ${t.cad.toLowerCase()}.`,
+     ['run ledger · 0 API calls · 180ms','summary written at run time'])};}
+  /* compare across platforms */
+  if(/compare|across|by platform|all platforms|every platform|each platform/.test(s)){
+    const rows=Object.values(DL.plats).map(p=>`<div class="flex gap-2 py-[3px] text-[12px] border-b border-rule"><b style="width:70px">${p.n}</b><span style="width:78px">${fm(p.spend)}</span><span style="width:64px">ROAS ${p.roas.toFixed(1)}×</span><span style="width:70px">CPC ₹${p.cpc.toFixed(1)}</span><span>${p.orders} orders</span></div>`).join('');
+    const T=DL.tot();
+    return{origin:'Metric drilldown · semantic layer',html:wrap(
+     `Trailing 7 days, all six platforms:<div class="mt-1.5 rounded-lg border border-rule px-3 py-1 bg-white" style="max-width:440px">${rows}</div>Blended: ${fm(T.spend)} spend → ${fm(T.rev)} revenue · ROAS ${(T.rev/T.spend).toFixed(1)}× · TACOS ${DL.tacos}%. Blinkit is the efficiency leader (4.2×), Zepto the only decliner (−0.2× W/W — the gifting cluster below floor).`,
+     ['semantic layer · metric(brand, *, t7d)','grain stated · trailing 7 days'])};}
+  /* campaign rankings */
+  if(/campaign|worst|best|dragging|top spend|underperform/.test(s)&&!/sku|product/.test(s)){
+    const pool=(P?[[pk,P]]:Object.entries(DL.plats)).flatMap(([k,p])=>p.camps.map(c=>({plat:p.n,n:c[0],spend:c[1],roas:c[2],cpc:c[3],orders:c[4],note:c[5]})));
+    const worst=/worst|dragging|underperform|cut/.test(s);
+    const top=pool.sort((a,b)=>worst?a.roas-b.roas:b.roas-a.roas).slice(0,3);
+    return{origin:'Metric drilldown · ranked group-by',html:wrap(
+     `${worst?'Weakest':'Strongest'} campaigns${P?' on '+P.n:''} by ROAS, t7d:<br>`+top.map((c,i)=>`${i+1}. <b>${c.n}</b> (${c.plat}) — ROAS ${c.roas.toFixed(1)}× on ${fm(c.spend)} · ${c.note}`).join('<br>'),
+     ['semantic layer · ranked by roas, t7d','scope: '+(P?P.n:'all platforms')])};}
+  /* SKU rankings */
+  if(/sku|product/.test(s)){
+    if(/drag|tacos|worst/.test(s)){const d=DL.skus.find(x=>x.flag);
+     return{origin:'Metric drilldown · SKU decomposition',html:wrap(`<b>${d.n}</b> is the drag: ${d.flag}. It contributes ${fm(d.rev7)} revenue but at ₹${d.cogs} COGS on ₹${d.price} price, the ad-supported units barely clear contribution — the Hero SKU review (Aug 1) already proposes pulling it from the Catalogue push.`,['semantic layer · sku × platform, t7d','flagged by Portfolio Agent'])};}
+    const top=[...DL.skus].sort((a,b)=>b.rev7-a.rev7).slice(0,3);
+    return{origin:'Metric drilldown · SKU ranking',html:wrap('Top SKUs by revenue, t7d:<br>'+top.map((x,i)=>`${i+1}. <b>${x.n}</b> — ${fm(x.rev7)} · strongest on ${DL.plats[x.best].n}`).join('<br>'),['semantic layer · sku grain, t7d'])};}
+  /* single-metric drilldown */
+  const metric=/roas/.test(s)?'roas':/tacos/.test(s)?'tacos':/cpc|cost per click/.test(s)?'cpc':/spend/.test(s)?'spend':/revenue|sales/.test(s)?'rev':/orders/.test(s)?'orders':null;
+  if(metric){
+    if(metric==='tacos')return{origin:'Metric drilldown · semantic layer',html:wrap(`Blended TACOS is <b>${DL.tacos}% trailing 7 days</b> (${DL.tacosD>0?'+':''}${DL.tacosD}pp W/W) — rising but ${(8-DL.tacos)<0?'above':'still under'} the 8% ceiling watch zone. The rise is spend-led on Amazon SP — Category (+9% CPC), not organic erosion: organic revenue is flat. The TACOS & organic revenue watch runs Mondays; the Ad spend ceiling review is currently paused.`,['semantic layer · metric(brand, tacos, t7d)','organic checked — flat, not eroding'])};
+    if(P){const v=metric==='roas'?P.roas.toFixed(1)+'×':metric==='cpc'?'₹'+P.cpc.toFixed(2):metric==='spend'?fm(P.spend):metric==='rev'?fm(P.rev):P.orders;
+     const extra=metric==='roas'?` (${P.dr>0?'+':''}${P.dr}× W/W)`:metric==='cpc'?` (${P.dc>0?'+':''}${P.dc}% W/W)`:'';
+     const best=[...P.camps].sort((a,b)=>b[2]-a[2])[0],worstC=[...P.camps].sort((a,b)=>a[2]-b[2])[0];
+     return{origin:'Metric drilldown · semantic layer',html:wrap(`${P.n} ${metric==='rev'?'revenue':metric.toUpperCase()} is <b>${v} trailing 7 days</b>${extra}. Spread: <b>${best[0]}</b> leads at ${best[2].toFixed(1)}×, <b>${worstC[0]}</b> trails at ${worstC[2].toFixed(1)}× — ${worstC[5]}. Grain: campaign-level daily, summed over t7d.`,['semantic layer · metric('+pk+', '+metric+', t7d)','grain stated · trailing 7 days'])};}
+    const T=DL.tot();
+    const v=metric==='roas'?(T.rev/T.spend).toFixed(1)+'×':metric==='cpc'?'₹12.9 blended':metric==='spend'?fm(T.spend):metric==='rev'?fm(T.rev):T.orders;
+    return{origin:'Metric drilldown · semantic layer',html:wrap(`Blended ${metric==='rev'?'revenue':metric.toUpperCase()} is <b>${v} trailing 7 days</b> across all six platforms. Ask with a platform name for the split, or say “compare platforms” for the full table.`,['semantic layer · metric(brand, '+metric+', t7d)','grain stated · trailing 7 days'])};}
+  return null;
+}
+function trkRunAsk(i,ri){
+  const t=TRK[i],r=t.runs[ri];
+  chatGrounded('What happened in this run — '+t.n+', '+r[1].split(' · ')[0]+'?','Asked from the run ledger · row context is the scope',
+  `<div class="wb-msg"><b>${r[2]}.</b> The run ${r[0]==='ok'?'finished clean':r[0]==='warn'?'flagged one item for review':'ended critical'} in ${r[1].split('· ')[1]||'—'}; the summary line was written by ${t.agent} at run time, so answering this cost zero platform calls. ${r[0]!=='ok'?'The insight it emitted is on the tracker row with its frozen plan.':''}
+  <div class="mt-2 flex gap-1.5 flex-wrap"><span class="railchip" style="font-family:var(--font-mono);font-size:9.5px">run ledger · 0 API calls · 180ms</span><span class="railchip" style="font-family:var(--font-mono);font-size:9.5px">${t.cad.toLowerCase()} · ${t.agent}</span></div></div>`);
+}
+
+function ckAskGrounded(pk){
+  const p=DL.plats[pk];const q='What\u2019s my ROAS on '+p.n+' this week?';
+  const g=groundedAnswer(q.toLowerCase());
+  if(g&&!g.handled)chatGrounded(q,g.origin,g.html);
+}
+
 const TRK=[
  /* ===== DAILY (phase-1 roster · naming-registry.yaml) ===== */
  {icon:'⌂',n:'Blinkit & Zepto availability watch',what:'Stock and zone availability on quick-commerce — a stockout silently destroys ROAS',agent:'Availability Agent',scope:'stock, listings & SKU portfolio',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','warn','ok','ok','ok'],
@@ -2745,8 +2889,8 @@ const TRK=[
   last:{d:'29s',s:'86 ASINs checked, all holding Buy Box'},
   runs:[['ok','Today, 05:05 · 29s','86 ASINs checked, all holding Buy Box'],['ok','Yesterday, 05:04 · 31s','86 ASINs checked, all holding Buy Box'],['warn','7 Aug, 05:06 · 40s','1 Buy Box loss (Slim Shake) — ads paused, restored 14:20']]},
  {icon:'◔',n:'Marketplace ROAS guard',what:'North-star guard — flags campaigns below the ROAS floor and triages the cause',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
-  last:{d:'52s',s:'31 campaigns scanned, all above floor'},
-  runs:[['ok','Today, 06:00 · 52s','31 campaigns scanned, all above floor'],['ok','Yesterday, 06:00 · 50s','31 campaigns scanned, all above floor'],['ok','7 Aug, 06:01 · 55s','31 scanned, 1 below floor — routed to CPC spike watch']]},
+  last:{d:'52s',s:'21 campaigns scanned, all above floor'},
+  runs:[['ok','Today, 06:00 · 52s','21 campaigns scanned, all above floor'],['ok','Yesterday, 06:00 · 50s','21 campaigns scanned, all above floor'],['ok','7 Aug, 06:01 · 55s','21 scanned, 1 below floor — routed to CPC spike watch']]},
  {icon:'△',n:'CPC spike watch',what:'Catches paying more per click before it shows up in ROAS',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','warn','ok','ok'],
   last:{d:'47s',s:'540 keywords scanned, 4 CPC spikes flagged'},
   runs:[['ok','Today, 06:10 · 47s','540 keywords scanned, 4 CPC spikes flagged'],['ok','Yesterday, 06:10 · 45s','538 keywords scanned, 1 spike — auction pressure, held'],['warn','7 Aug, 06:12 · 51s','"laptop bag" CPC +38% — competitor push, defended hero only']]},
@@ -2760,8 +2904,8 @@ const TRK=[
   last:{d:'41s',s:'38 hero keywords tracked, 2 rank drops'},
   runs:[['ok','Today, 06:30 · 41s','38 hero keywords tracked, 2 rank drops'],['ok','Yesterday, 06:30 · 39s','38 tracked, no material moves'],['warn','7 Aug, 06:32 · 46s','OZiva took #1 paid on "vegan leather bag" — watching']]},
  {icon:'◷',n:'Budget pacing check',what:'Daily spend pacing vs plan across every live campaign',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
-  last:{d:'22s',s:'31 campaigns paced, 1 re-paced (+12%)'},
-  runs:[['ok','Today, 07:00 · 22s','31 campaigns paced, 1 re-paced (+12%)'],['ok','Yesterday, 07:00 · 21s','31 campaigns paced, all on plan'],['ok','7 Aug, 07:02 · 24s','30 paced, 1 capped at daily ceiling']]},
+  last:{d:'22s',s:'21 campaigns paced, 1 re-paced (+12%)'},
+  runs:[['ok','Today, 07:00 · 22s','21 campaigns paced, 1 re-paced (+12%)'],['ok','Yesterday, 07:00 · 21s','21 campaigns paced, all on plan'],['ok','7 Aug, 07:02 · 24s','20 paced, 1 capped at daily ceiling']]},
  {icon:'✚',n:'Data & tracking health check',what:'Safety task — platform reconciliation and tracking-break protection',agent:'Unification Agent',scope:'blended view & data quality',cad:'Daily',st:'ok',when:'Today',safety:1,bars:['ok','ok','ok','ok','warn','ok','ok'],
   last:{d:'33s',s:'4 platforms reconciled, all fresh'},
   runs:[['ok','Today, 04:00 · 33s','4 platforms reconciled, all fresh'],['ok','Yesterday, 04:00 · 35s','4 platforms reconciled, all fresh'],['warn','7 Aug, 04:02 · 49s','4 reconciled, Zepto feed 6h late — caught up 10:00']]},
@@ -2896,7 +3040,7 @@ function trkRow(t,i){
       ${trkAlertHTML(t,i)}
       <div class="text-[11px] text-ink-400 mb-1">Last 3 runs — from the run ledger</div>
       <div class="rounded-xl border border-rule px-3.5">
-        ${t.runs.map(r=>`<div class="trk-run"><span class="trk-dot" style="background:${TRKC[r[0]]}"></span><div><div class="text-[11.5px] text-ink-400">${r[1]}</div><b class="text-[12.5px] font-medium">${r[2]}</b></div></div>`).join('')}
+        ${t.runs.map((r,ri)=>`<div class="trk-run" style="cursor:pointer" title="Ask about this run" onclick="event.stopPropagation();trkRunAsk(${i},${ri})"><span class="trk-dot" style="background:${TRKC[r[0]]}"></span><div><div class="text-[11.5px] text-ink-400">${r[1]}</div><b class="text-[12.5px] font-medium">${r[2]}</b></div></div>`).join('')}
       </div>
     </div>
   </div>`;
