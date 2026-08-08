@@ -1491,6 +1491,13 @@
   .qnav { @apply mt-3 flex items-center gap-2 border-t border-rule pt-3; }
   .qstage { @apply mb-4 max-w-[580px] rounded-2xl border border-rule bg-off px-4 py-3; }
   .qsrow { @apply flex items-center gap-2.5 py-[3px] text-[12px]; }
+  .trk-pstep { @apply flex items-center gap-2.5 py-[3px] text-[11.5px] text-ink-700; }
+  .trk-pstep .pn { @apply grid h-[17px] w-[17px] flex-none place-items-center rounded-full bg-off font-mono text-[9px] font-bold text-ink-500; }
+  .trk-pstep.done .pn { @apply bg-good-bg text-good; }
+  .trk-pstep.cur .pn { background: var(--color-ember); color: #fff; }
+  .trk-pstep.cur { @apply font-semibold; }
+  .trk-pstep .ms { @apply font-mono text-[10px] text-ink-400; }
+  .trk-shot { @apply rounded-lg border border-rule bg-white px-2.5 py-1.5 font-mono text-[10px] text-ink-500; }
 
   /* ---- tracker board (Tufte) ---- */
   .trk-segbar { @apply mb-2 flex h-[7px] w-full overflow-hidden rounded-full bg-off; }

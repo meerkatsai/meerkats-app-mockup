@@ -780,7 +780,7 @@
         <button class="sugg" onclick="openTask('Why did CAC rise last week?')">Why did CAC rise last week?</button>
         <button class="sugg" onclick="openTask('Audit my conversion tracking')">Audit my conversion tracking</button>
         <button class="sugg" onclick="openTask('Which creatives are fatiguing?')">Which creatives are fatiguing?</button>
-        <button class="sugg" onclick="openTask('Compare Meta vs Google on true CAC')">Compare Meta vs Google on true CAC</button>
+        <button class="sugg" onclick="chatGrounded('What&#39;s my ROAS on Blinkit this week?','Asked in Chat · metric drilldown · semantic layer',&quot;<div class='wb-msg'>Blinkit ROAS is <b>4.2× trailing 7 days</b> (₹86.4K revenue on ₹20.5K spend), up 0.3× on the prior week — the “office tote” bid recommendation waiting in your tracker would push more spend into its best keyword. Grain: campaign-level daily, summed over t7d.<div class='mt-2 flex gap-1.5 flex-wrap'><span class='railchip' style='font-family:var(--font-mono);font-size:9.5px'>semantic layer · metric(brand, roas, t7d)</span><span class='railchip' style='font-family:var(--font-mono);font-size:9.5px'>grain stated · trailing 7 days</span></div></div>&quot;)">What's my ROAS on Blinkit this week?</button>
         <button class="sugg" onclick="openTask('Draft this week&#39;s performance summary')">Draft this week&#39;s performance summary</button>
       </div>
       <div class="chat-ask" style="margin-bottom:26px">
@@ -2242,12 +2242,14 @@ function renderInbox(){
   const list=document.getElementById('inboxList');if(!list)return;
   list.innerHTML=STAGED.map((q,i)=>qitemHTML(q,i)).join('');
   const n=STAGED.filter(q=>q.status==='staged').length;
-  const badge=document.getElementById('mq-badge');badge.textContent=n?n+' STAGED':'CLEAR';
-  if(!n)badge.style.cssText='background:var(--color-good-bg);color:var(--color-good)';
+  const badge=document.getElementById('mq-badge');
+  if(badge){badge.textContent=n?n+' STAGED':'CLEAR';if(!n)badge.style.cssText='background:var(--color-good-bg);color:var(--color-good)';}
   const low=STAGED.filter(q=>q.status==='staged'&&q.risk==='low').length;
-  const lb=document.getElementById('lowriskbtn');lb.textContent='Approve all low-risk ('+low+')';lb.style.display=low?'':'none';
+  const lb=document.getElementById('lowriskbtn');
+  if(lb){lb.textContent='Approve all low-risk ('+low+')';lb.style.display=low?'':'none';}
   if(document.getElementById('ibx-n'))updInboxBadge();
-  if(document.getElementById('inboxModal').classList.contains('on'))renderInboxPanel();
+  const im=document.getElementById('inboxModal');
+  if(im&&im.classList.contains('on'))renderInboxPanel();
 }
 function approveQ(i){
   const q=STAGED[i];
@@ -2323,10 +2325,10 @@ const REVCARD={sev:'Critical',t:'Enable Revenue Tracking',
 const CK={
 creatives:{h:'Creatives',kpis:[]},
 default:{h:'Default view',q:'"The whole account at a glance — profitability, efficiency, and what to touch."',
- kpis:[['Net revenue','—','no comparison data',''],['Blended CAC','₹1,096','▲ 7% · window-based','dn'],
-  ['Ad spend','₹3.67L','▲ 4%','mut'],['New customers','214','▲ 6% · platform-reported','up'],
-  ['ROAS · Meta','2.4×','▼ 0.3 · platform-reported','dn'],['ROAS · Google','3.9×','▲ 0.1 · platform-reported','up'],
-  ['Frequency · top 5','3.6','▲ 0.4','dn'],['In learning','3 of 11','▲ 1','dn']]},
+ kpis:[['ROAS · blended','3.1×','▲ 0.1 · north star','up'],['TACOS','8.2%','▲ 0.4pp · north star','mut'],
+  ['CPC · blended','₹11.40','▼ 2% · north star','up'],['Ad spend','₹3.67L','▲ 4%','mut'],
+  ['Blended CAC','₹1,096','▲ 7% · window-based','dn'],['New customers','214','▲ 6% · platform-reported','up'],
+  ['Net revenue','—','no comparison data',''],['In learning','3 of 11','▲ 1','dn']]},
 founder:{h:'Founder / CEO',q:'"Are we growing profitably, is cash healthy?"',
  cards:[REVCARD,
   {sev:'Warning',t:'CAC up 9% W/W — driven by one Meta campaign',
@@ -2735,36 +2737,68 @@ function renderRetention(){
 
 /* ================= TRACKER — Tufte board (view over scheduled agents) ================= */
 const TRK=[
- {icon:'◉',n:'Identity match check',what:'Every ad click resolves to one customer identity',agent:'Tracking & Attribution Auditor',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
-  last:{d:'1m 48s',s:'312,904 identity keys resolved, 0 conflicts'},
-  runs:[['ok','Today, 04:02 · 1m 48s','312,904 identity keys resolved, 0 conflicts'],['ok','Yesterday, 04:01 · 1m 52s','308,441 identity keys resolved, 0 conflicts'],['ok','6 Aug, 04:03 · 1m 46s','301,880 identity keys resolved, 0 conflicts']]},
- {icon:'▣',n:'Order sync check',what:'Shopify orders reconcile against payments and webhooks',agent:'Tracking & Attribution Auditor',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','warn','ok','ok','ok','ok'],
-  last:{d:'54s',s:'8,214 orders reconciled, 3 late webhooks retried'},
-  runs:[['ok','Today, 04:05 · 54s','8,214 orders reconciled, 3 late webhooks retried'],['ok','Yesterday, 04:04 · 51s','8,090 orders reconciled, 0 retries'],['warn','6 Aug, 04:06 · 2m 10s','214 webhooks late — Shopify partial outage, all recovered']]},
- {icon:'◈',n:'Duplicate click-ID check',what:'Attribution stays trustworthy — duplicates under the 2% threshold',agent:'Tracking & Attribution Auditor',cad:'Daily',st:'crit',when:'Today',bars:['ok','ok','ok','ok','ok','warn','crit'],
-  last:{d:'2m 05s',s:'6.4% duplicate click IDs — over the 2% threshold'},
-  alert:{sev:'crit',t:'Today, 04:20 · 2m 05s',h:'6.4% duplicate click IDs found, threshold is 2%',why:'A Meta CAPI retry loop is resending the same click ID on timeout.',act:'Quarantine the affected event batch and patch the CAPI retry handler to dedupe before resend.'},
-  runs:[['crit','Today, 04:20 · 2m 05s','6.4% duplicates — retry loop suspected'],['warn','Yesterday, 04:18 · 1m 58s','2.9% duplicates — rising, watching'],['ok','6 Aug, 04:19 · 1m 44s','0.8% duplicates — healthy']]},
- {icon:'▤',n:'Weekly performance report',what:'The Monday narrative — spend, CAC, winners, one action list',agent:'Insights & Reporting Agent',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','ok'],
-  last:{d:'3m 12s',s:'Sent to 3 teammates · blended CAC ₹1,096 ▲7%'},
-  runs:[['ok','Mon, 08:00 · 3m 12s','Sent to 3 teammates · blended CAC ₹1,096 ▲7%'],['ok','28 Jul, 08:00 · 3m 04s','Sent · CAC ₹1,022 ▼2%'],['ok','21 Jul, 08:01 · 3m 18s','Sent · CAC ₹1,041 ▲1%']]},
- {icon:'⊙',n:'Competitor price check',what:'Tracked SKUs vs rivals on Amazon, Flipkart, Zepto, Blinkit',agent:'Market Intelligence Agent',cad:'Weekly',st:'warn',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','warn'],
-  last:{d:'1m 21s',s:'OZiva undercuts your hero SKU by ₹150 on Amazon'},
-  alert:{sev:'warn',t:'Mon, 07:30 · 1m 21s',h:'OZiva undercuts your hero SKU by ₹150 on Amazon',why:'Collagen 500g cut 12% to ₹1,149 — you still hold the buy box at ₹1,299.',act:'Review the response in Market — a price match stages for your approval, it never auto-runs.',open:'market'},
-  runs:[['warn','Mon, 07:30 · 1m 21s','OZiva −12% on Collagen 500g — undercut by ₹150'],['ok','28 Jul, 07:30 · 1m 14s','No moves beyond ±2% on tracked SKUs'],['ok','21 Jul, 07:31 · 1m 19s','Kapiva +2% on Slim Tea — no action needed']]},
- {icon:'◎',n:'Lead scoring refresh',what:'Re-scores open leads from behaviour and spend signals',agent:'Performance Marketing Agent',cad:'Weekly',st:'paused',when:'Paused',bars:['off','off','off','off','off','off','off'],
+ /* ===== DAILY (phase-1 roster · naming-registry.yaml) ===== */
+ {icon:'⌂',n:'Blinkit & Zepto availability watch',what:'Stock and zone availability on quick-commerce — a stockout silently destroys ROAS',agent:'Availability Agent',scope:'stock, listings & SKU portfolio',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','warn','ok','ok','ok'],
+  last:{d:'38s',s:'412 listings checked, 3 zones throttled'},
+  runs:[['ok','Today, 05:00 · 38s','412 listings checked, 3 zones throttled'],['ok','Yesterday, 05:00 · 36s','409 listings checked, all in stock'],['warn','7 Aug, 05:01 · 44s','Glow Gummies OOS in 2 Blinkit zones — ads paused there']]},
+ {icon:'◈',n:'Buy Box & listing status check',what:'Binary health check — every ASIN holding the Buy Box, every listing live',agent:'Availability Agent',scope:'stock, listings & SKU portfolio',cad:'Daily',st:'ok',when:'Today',bars:['ok','warn','ok','ok','ok','ok','ok'],
+  last:{d:'29s',s:'86 ASINs checked, all holding Buy Box'},
+  runs:[['ok','Today, 05:05 · 29s','86 ASINs checked, all holding Buy Box'],['ok','Yesterday, 05:04 · 31s','86 ASINs checked, all holding Buy Box'],['warn','7 Aug, 05:06 · 40s','1 Buy Box loss (Slim Shake) — ads paused, restored 14:20']]},
+ {icon:'◔',n:'Marketplace ROAS guard',what:'North-star guard — flags campaigns below the ROAS floor and triages the cause',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'52s',s:'31 campaigns scanned, all above floor'},
+  runs:[['ok','Today, 06:00 · 52s','31 campaigns scanned, all above floor'],['ok','Yesterday, 06:00 · 50s','31 campaigns scanned, all above floor'],['ok','7 Aug, 06:01 · 55s','31 scanned, 1 below floor — routed to CPC spike watch']]},
+ {icon:'△',n:'CPC spike watch',what:'Catches paying more per click before it shows up in ROAS',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','warn','ok','ok'],
+  last:{d:'47s',s:'540 keywords scanned, 4 CPC spikes flagged'},
+  runs:[['ok','Today, 06:10 · 47s','540 keywords scanned, 4 CPC spikes flagged'],['ok','Yesterday, 06:10 · 45s','538 keywords scanned, 1 spike — auction pressure, held'],['warn','7 Aug, 06:12 · 51s','"laptop bag" CPC +38% — competitor push, defended hero only']]},
+ {icon:'◌',n:'Wasted ad spend sweep',what:'Finds and clears runaway keywords, irrelevant terms and zero-conversion spend',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'crit',when:'Today',bars:['ok','ok','ok','ok','ok','ok','crit'],
+  last:{d:'—',s:'Zepto session expired — 2 approved actions held'},
+  session:{platform:'Zepto',portal:'brands.zepto.co.in',held:2,t:'Today, 06:20',
+   why:'The Zepto seller-portal session cookie expired. Detection still runs on synced data — but 2 approved bid cuts are held in awaiting_session and will not execute.',
+   items:'Held: lower bids on "tote bag under 999" ₹12.40 → ₹9.00 and "gift for her" ₹11.80 → ₹8.50 (both ROAS < floor for 6 days).'},
+  runs:[['crit','Today, 06:20 · —','Zepto session expired — 2 approved actions held'],['ok','Yesterday, 06:20 · 1m 08s','₹8,400 waste cut: 6 bids lowered, 9 negatives'],['ok','7 Aug, 06:21 · 58s','212 keywords scanned, none wasted']]},
+ {icon:'▵',n:'SoV & keyword rank watch',what:'Hero-keyword share of voice, rank drops and competitor undercuts',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','warn','ok','ok','ok','ok'],
+  last:{d:'41s',s:'38 hero keywords tracked, 2 rank drops'},
+  runs:[['ok','Today, 06:30 · 41s','38 hero keywords tracked, 2 rank drops'],['ok','Yesterday, 06:30 · 39s','38 tracked, no material moves'],['warn','7 Aug, 06:32 · 46s','OZiva took #1 paid on "vegan leather bag" — watching']]},
+ {icon:'◷',n:'Budget pacing check',what:'Daily spend pacing vs plan across every live campaign',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Daily',st:'ok',when:'Today',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'22s',s:'31 campaigns paced, 1 re-paced (+12%)'},
+  runs:[['ok','Today, 07:00 · 22s','31 campaigns paced, 1 re-paced (+12%)'],['ok','Yesterday, 07:00 · 21s','31 campaigns paced, all on plan'],['ok','7 Aug, 07:02 · 24s','30 paced, 1 capped at daily ceiling']]},
+ {icon:'✚',n:'Data & tracking health check',what:'Safety task — platform reconciliation and tracking-break protection',agent:'Unification Agent',scope:'blended view & data quality',cad:'Daily',st:'ok',when:'Today',safety:1,bars:['ok','ok','ok','ok','warn','ok','ok'],
+  last:{d:'33s',s:'4 platforms reconciled, all fresh'},
+  runs:[['ok','Today, 04:00 · 33s','4 platforms reconciled, all fresh'],['ok','Yesterday, 04:00 · 35s','4 platforms reconciled, all fresh'],['warn','7 Aug, 04:02 · 49s','4 reconciled, Zepto feed 6h late — caught up 10:00']]},
+ /* ===== WEEKLY ===== */
+ {icon:'❧',n:'Search-term & negatives sweep',what:'Promotes converting search terms to exact, adds negatives to stop waste',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'1m 44s',s:'14 terms promoted to exact, 22 negatives added'},
+  runs:[['ok','Mon, 07:00 · 1m 44s','14 terms promoted to exact, 22 negatives added'],['ok','4 Aug, 07:00 · 1m 38s','9 promoted, 31 negatives added'],['ok','28 Jul, 07:01 · 1m 51s','11 promoted, 18 negatives added']]},
+ {icon:'⚖',n:'Keyword bid review',what:'Weekly bid rebalance — up on proven winners, down where ROAS sags',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Weekly',st:'warn',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','warn'],
+  last:{d:'2m 10s',s:'38 bids reviewed, 1 recommendation awaiting approval'},
+  insight:{
+   title:'Raise bid to ₹18 on “office tote” (Blinkit)',
+   detected:'Mon, 06:10 · frozen at detection',
+   friction:'“office tote” converts at ROAS 6.1× but the ₹14.50 bid cap loses 61% of impression share — you are under-bidding a proven winner.',
+   cause:'Root cause — <b>our_bids</b> branch matched: bid unchanged for 41 days while the auction moved; not competitor pressure (SoV stable), not relevance (CTR flat).',
+   benefit:'Predicted <b>+₹9,800/wk revenue at stable ACOS</b> · confidence high · model: elasticity',
+   plan:{binding:'browser_playbook',pb:'pb.blinkit.keyword_bid_update · v1',idem:'idem 7f3a-91c2',expires:'expires in 154h',
+    guards:['Lever cooldown clear — last bid change on this keyword 41d ago','No freeze scope on target or ancestors','Plan fresh — frozen Mon 06:10, well inside 168h','Target freshness within tolerance (synced 22m ago)','Zepto/Blinkit session healthy — probed 12m ago'],
+    steps:[['session check — brands.blinkit.com','logged-in marker ✓ (cached 12m)'],['navigate','/ads/campaigns/CAMP-8213/keywords'],['wait for keyword row','“office tote” · kw_812'],['screenshot','pre_change captured'],['assert bid field shows ₹14.50','precondition — abort if the page disagrees'],['fill bid → ₹18.00','the single write in this whole plan'],['click Save',''],['verify — re-read shows ₹18.00','retries ×2 with backoff'],['screenshot','post_change captured']],
+    rollback:'Rollback pre-resolved: bid back to ₹14.50 — one click, no re-detection.'}},
+  runs:[['warn','Mon, 06:10 · 2m 10s','38 bids reviewed, 1 recommendation awaiting approval'],['ok','4 Aug, 06:10 · 2m 02s','38 bids changed: 21 up, 17 down — est. +0.3 ROAS'],['ok','28 Jul, 06:12 · 2m 15s','29 bids changed, est. +0.2 ROAS']]},
+ {icon:'◐',n:'TACOS & organic revenue watch',what:'Blended ad-load trend and the organic halo that keeps TACOS honest',agent:'Organic Agent',scope:'TACOS & organic revenue',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'58s',s:'TACOS 8.2% (+0.4pp), organic flat on Amazon'},
+  runs:[['ok','Mon, 08:00 · 58s','TACOS 8.2% (+0.4pp), organic flat on Amazon'],['ok','4 Aug, 08:00 · 55s','TACOS 7.8%, organic +3% on Blinkit'],['ok','28 Jul, 08:01 · 1m 01s','TACOS 7.8%, steady across platforms']]},
+ {icon:'▣',n:'Cross-marketplace SKU review',what:'Ranks every SKU across platforms; finds under-funded winners',agent:'Portfolio Agent',scope:'hero SKUs & budget split',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'1m 30s',s:'64 SKUs ranked, 2 under-funded winners found'},
+  runs:[['ok','Mon, 08:30 · 1m 30s','64 SKUs ranked, 2 under-funded winners found'],['ok','4 Aug, 08:30 · 1m 27s','64 SKUs ranked, split holding'],['ok','28 Jul, 08:32 · 1m 34s','63 SKUs ranked, 1 rising star flagged']]},
+ /* ===== MONTHLY ===== */
+ {icon:'♛',n:'Hero SKU & budget split review',what:'Which SKUs deserve hero budgets next month, with a drafted split',agent:'Portfolio Agent',scope:'hero SKUs & budget split',cad:'Monthly',st:'ok',when:'Aug 1',bars:['ok','ok','ok','ok','ok','ok','ok'],
+  last:{d:'3m 05s',s:'2 hero SKUs proposed, budget split drafted'},
+  runs:[['ok','1 Aug, 06:00 · 3m 05s','2 hero SKUs proposed, budget split drafted'],['ok','1 Jul, 06:00 · 2m 58s','Hero set unchanged, split re-confirmed'],['ok','1 Jun, 06:03 · 3m 12s','1 hero added (Everyday Shoulder)']]},
+ {icon:'⚑',n:'Category share & competition review',what:'Category share of voice and rival moves, with a defend plan when needed',agent:'Efficiency Agent',scope:'ROAS, CPC, bids & wasted spend',cad:'Monthly',st:'ok',when:'Aug 1',bars:['ok','ok','ok','ok','ok','warn','ok'],
+  last:{d:'2m 20s',s:'Category SoV 31% (−2pp), defend plan drafted'},
+  runs:[['ok','1 Aug, 09:00 · 2m 20s','Category SoV 31% (−2pp), defend plan drafted'],['warn','1 Jul, 09:00 · 2m 26s','OZiva paid push took 4pp — hero keywords defended'],['ok','1 Jun, 09:04 · 2m 15s','SoV 33%, stable']]},
+ {icon:'∎',n:'Ad spend ceiling review',what:'Monthly TACOS vs the ad-load ceiling, with a reset plan on breach',agent:'Organic Agent',scope:'TACOS & organic revenue',cad:'Monthly',st:'paused',when:'Paused',bars:['off','off','off','off','off','off','off'],
   last:{d:'—',s:'Paused — resume to run on schedule'},
-  runs:[['ok','14 Jul, 06:00 · 2m 40s','1,204 leads re-scored, 86 moved tier'],['ok','7 Jul, 06:00 · 2m 33s','1,187 leads re-scored, 71 moved tier'],['ok','30 Jun, 06:01 · 2m 45s','1,143 leads re-scored, 90 moved tier']]},
- {icon:'▧',n:'Creative fatigue check',what:'Frequency and CTR-trend fatigue bands per live creative',agent:'Creative Analyst',cad:'Weekly',st:'ok',when:'Mon',bars:['ok','warn','ok','ok','ok','ok','ok'],
-  last:{d:'1m 02s',s:'11 live creatives scored — no new fatigue'},
-  runs:[['ok','Mon, 07:00 · 1m 02s','11 live creatives scored — no new fatigue'],['ok','28 Jul, 07:00 · 58s','2 fatiguing flagged — rotation drafted and approved'],['warn','21 Jul, 07:02 · 1m 11s','discount-banner-old crossed frequency 4.5']]},
- {icon:'▦',n:'Monthly cohort report',what:'Retention heatmap and LTV:CAC by acquisition month',agent:'Insights & Reporting Agent',cad:'Monthly',st:'ok',when:'Aug 1',bars:['ok','ok','ok','ok','ok','ok','ok'],
-  last:{d:'4m 40s',s:'Repeat rate 27% ▲2pp · emailed and pinned to Cockpit'},
-  runs:[['ok','1 Aug, 06:00 · 4m 40s','Repeat rate 27% ▲2pp · LTV:CAC 2.1×'],['ok','1 Jul, 06:00 · 4m 28s','Repeat rate 25% · LTV:CAC 2.0×'],['ok','1 Jun, 06:02 · 4m 51s','Repeat rate 25% · LTV:CAC 1.9×']]},
- {icon:'⌕',n:'Brand & competitor scan',what:'New rivals, trademark hits, big creative swings in the category',agent:'Market Intelligence Agent',cad:'Monthly',st:'paused',when:'Paused',bars:['off','off','off','off','off','off','off'],
-  last:{d:'—',s:'Paused — resume to run on schedule'},
-  runs:[['ok','1 Jul, 09:00 · 6m 12s','2 new D2C entrants indexed, no trademark hits'],['ok','1 Jun, 09:00 · 5m 58s','No new entrants · OZiva creative refresh noted'],['ok','1 May, 09:03 · 6m 30s','1 trademark watch opened (resolved)']]}];
-let TRKF='All',TRKOPEN=-1;
+  runs:[['ok','1 Jul, 10:00 · 1m 40s','TACOS 7.4%, within ceiling on all platforms'],['ok','1 Jun, 10:00 · 1m 38s','TACOS 7.1%, within ceiling'],['ok','1 May, 10:02 · 1m 45s','TACOS 7.6%, within ceiling']]}];
+let TRKF='All',TRKOPEN=-1,TRKEXEC=null;
 const TRKC={ok:'var(--color-good)',warn:'var(--color-watch)',crit:'var(--color-bad)',off:'#D8D8DC',paused:'#D8D8DC'};
 function renderTracker(){
   const host=document.getElementById('ck-tracker');if(!host)return;
@@ -2788,23 +2822,60 @@ function renderTracker(){
   </div>
   <div class="trk-card">${rows.map(x=>trkRow(x.t,x.i)).join('')}</div>`;
 }
+function trkAlertHTML(t,i){
+  if(t.resolved)return `<div class="trk-alert" style="background:var(--color-good-bg)"><b class="block text-[13px]" style="color:var(--color-good)">${t.resolved}</b>${t.shots?`<div class="mt-2 flex gap-2"><span class="trk-shot">📸 pre · bid ₹14.50</span><span class="trk-shot">📸 post · bid ₹18.00</span><span class="railchip" style="font-size:9.5px;align-self:center">evidence kept 90d</span></div>`:''}</div>`;
+  if(t.session)return `
+    <div class="trk-alert crit">
+      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.session.t} · awaiting_session</div>
+      <b class="h block text-[13.5px] mb-0.5">${t.session.platform} session expired — ${t.session.held} approved actions held</b>
+      <div class="text-ink-700">${t.session.why}</div>
+      <div class="mt-1 text-[12px] text-ink-500">${t.session.items}</div>
+      <div class="mt-3 flex gap-2 flex-wrap">
+        <button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkReauth(${i})">Re-connect ${t.session.platform} →</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkChat(${i},'session')">Ask what's held</button>
+      </div>
+      <div class="mt-2 text-[10.5px] text-ink-400">The held queue auto-resumes the moment the session refreshes — nothing is lost, nothing re-detects.</div>
+    </div>`;
+  if(t.insight){
+    const s=t.insight;
+    if(TRKEXEC&&TRKEXEC.i===i){
+      const done=TRKEXEC.step;
+      return `<div class="trk-alert warn">
+        <b class="block text-[13px] mb-2">Executing — replaying the frozen plan, zero platform reads</b>
+        ${s.plan.steps.map((st,j)=>`<div class="trk-pstep${j<done?' done':j===done?' cur':''}"><span class="pn">${j<done?'✓':j===done?'●':j+1}</span><span>${st[0]}</span><span class="ms" style="margin-left:auto">${j<done?st[1]:''}</span></div>`).join('')}
+      </div>`;
+    }
+    return `
+    <div class="trk-alert warn">
+      <div class="text-[11.5px] text-ink-400 mb-0.5">${s.detected}</div>
+      <b class="h block text-[13.5px] mb-1">${s.title}</b>
+      <div class="text-ink-700">${s.friction}</div>
+      <div class="mt-1 text-[12px] text-ink-500">${s.cause}</div>
+      <div class="mt-1 text-[12px]">${s.benefit}</div>
+      <div class="mt-3 flex gap-2 flex-wrap">
+        <button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkPlanRun(${i})">Approve and run</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();TRK[${i}].showPlan=!TRK[${i}].showPlan;renderTracker()">${t.showPlan?'Hide steps':'See exact steps'}</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkChat(${i},'approve')">Should I approve this?</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkDismiss(${i})">Dismiss</button>
+      </div>
+      ${t.showPlan?`
+      <div class="mt-3 rounded-xl border border-rule bg-white p-3">
+        <div class="flex flex-wrap items-center gap-1.5 mb-2"><b class="text-[12px]">Frozen execution plan</b><span class="railchip" style="font-size:9.5px">${s.plan.binding}</span><span class="railchip" style="font-size:9.5px;font-family:var(--font-mono)">${s.plan.pb}</span><span class="railchip" style="font-size:9.5px;font-family:var(--font-mono)">${s.plan.idem}</span><span class="railchip" style="font-size:9.5px">${s.plan.expires}</span></div>
+        <div class="text-[10.5px] font-bold uppercase tracking-wide text-ink-400 mb-1">Approval re-check — graph reads only, zero platform calls</div>
+        ${s.plan.guards.map(g=>`<div class="text-[11.5px] text-ink-700 py-[2px]"><span style="color:var(--color-good)">✓</span> ${g}</div>`).join('')}
+        <div class="text-[10.5px] font-bold uppercase tracking-wide text-ink-400 mb-1 mt-2.5">Steps the executor replays</div>
+        ${s.plan.steps.map((st,j)=>`<div class="trk-pstep"><span class="pn">${j+1}</span><span>${st[0]}</span><span class="ms" style="margin-left:auto">${st[1]}</span></div>`).join('')}
+        <div class="mt-2 text-[11.5px] text-ink-500">↩ ${s.plan.rollback}</div>
+      </div>`:''}
+    </div>`;
+  }
+  return '';
+}
 function trkRow(t,i){
   const open=TRKOPEN===i;
   const paused=t.st==='paused';
   const bars=t.bars.map(b=>`<span class="trk-bar" style="background:${TRKC[paused?'off':b]}"></span>`).join('');
   const tip=paused?'Paused — resume to run on schedule':`${t.what} · ${t.last.d} · ${t.last.s}`;
-  const alert=(!paused&&t.alert&&!t.resolved)?`
-    <div class="trk-alert ${t.alert.sev}">
-      <div class="text-[11.5px] text-ink-400 mb-0.5">${t.alert.t}</div>
-      <b class="h block text-[13.5px] mb-0.5">${t.alert.h}</b>
-      <div class="text-ink-700">${t.alert.why}</div>
-      <div class="mt-1"><span class="text-ink-400">Suggested action</span> — ${t.alert.act}</div>
-      <div class="mt-3 flex gap-2">
-        ${t.alert.open?`<button class="btn btn-sm btn-orange" onclick="event.stopPropagation();go('${t.alert.open}')">Open Market →</button>`
-         :`<button class="btn btn-sm" style="background:var(--color-ink-900);color:#fff;border-color:var(--color-ink-900)" onclick="event.stopPropagation();trkApprove(${i})">Approve and run</button>`}
-        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();trkDismiss(${i})">Dismiss</button>
-      </div>
-    </div>`:(t.resolved?`<div class="trk-alert" style="background:var(--color-good-bg)"><b class="block text-[13px]" style="color:var(--color-good)">${t.resolved}</b></div>`:'');
   return `<div class="trk-row${open?' open':''}" style="border-left-color:${paused?'#D8D8DC':TRKC[t.st]}">
     <div class="trk-main" onclick="trkTog(${i})">
       <span class="trk-bars">${bars}<span class="trk-tip">${tip}</span></span>
@@ -2816,13 +2887,14 @@ function trkRow(t,i){
       <span class="cd" style="flex:none;transition:transform .15s;transform:rotate(${open?180:0}deg)">▼</span>
     </div>
     <div class="trk-body">
-      <div class="mb-2.5 flex items-center gap-2">
-        <span class="text-[11.5px] text-ink-400">${t.what} · run by <b class="text-ink-700">${t.agent}</b> · ${t.cad.toLowerCase()}</span>
+      <div class="mb-2.5 flex items-center gap-2 flex-wrap">
+        <span class="text-[11.5px] text-ink-400">${t.what} · run by <b class="text-ink-700">${t.agent}</b> <span class="text-ink-400">(${t.scope})</span> · ${t.cad.toLowerCase()}</span>
         <span class="spacer"></span>
+        <button class="mini" onclick="event.stopPropagation();trkChat(${i},'run')">Ask about this run</button>
         <button class="mini" onclick="event.stopPropagation();openBuilder('${t.n} — edit schedule, thresholds and delivery channels')">✎ Edit agent</button>
       </div>
-      ${alert}
-      <div class="text-[11px] text-ink-400 mb-1">Last 3 runs</div>
+      ${trkAlertHTML(t,i)}
+      <div class="text-[11px] text-ink-400 mb-1">Last 3 runs — from the run ledger</div>
       <div class="rounded-xl border border-rule px-3.5">
         ${t.runs.map(r=>`<div class="trk-run"><span class="trk-dot" style="background:${TRKC[r[0]]}"></span><div><div class="text-[11.5px] text-ink-400">${r[1]}</div><b class="text-[12.5px] font-medium">${r[2]}</b></div></div>`).join('')}
       </div>
@@ -2833,23 +2905,74 @@ function trkTog(i){TRKOPEN=TRKOPEN===i?-1:i;renderTracker();}
 function trkPause(i){
   const t=TRK[i];
   if(t.st==='paused'){t.st=t.prev||'ok';toast('Resumed — next run on schedule');}
-  else{t.prev=t.st;t.st='paused';toast('Paused — nothing runs until you resume');}
+  else if(t.safety&&!t.parm){t.parm=true;toast('⚠ Safety task — pausing turns off tracking-break and reconciliation protection. Press pause again to confirm.');return;}
+  else{t.prev=t.st;t.st='paused';t.parm=false;toast(t.safety?'Paused — tracking-break protection is OFF until you resume':'Paused — nothing runs until you resume');}
   renderTracker();
 }
-function trkApprove(i){
+function trkPlanRun(i){
   const t=TRK[i];
-  t.st='ok';t.resolved='Fixed · 04:26 — batch quarantined, retry handler patched, re-run came back at 0.6% duplicates';
-  t.bars=t.bars.slice(1).concat(['ok']);
-  t.runs.unshift(['ok','Today, 04:26 · 1m 12s','Re-run after fix — 0.6% duplicates, healthy']);t.runs=t.runs.slice(0,3);
-  toast('Approved — quarantine + patch executed, audit-logged with undo');
-  renderTracker();
+  TRKEXEC={i,step:0};renderTracker();
+  const total=t.insight.plan.steps.length;
+  const tick=setInterval(()=>{
+    TRKEXEC.step++;
+    if(TRKEXEC.step>total){
+      clearInterval(tick);TRKEXEC=null;
+      t.st='ok';t.shots=true;
+      t.resolved='Executed & verified · bid ₹14.50 → ₹18.00 on “office tote” (Blinkit) — rollback armed · measuring until Aug 17, predicted +0.4 ROAS';
+      t.bars=t.bars.slice(1).concat(['ok']);
+      t.runs.unshift(['ok','Today, 14:32 · 41s','Bid raised to ₹18 on “office tote” — verified, post-screenshot captured']);t.runs=t.runs.slice(0,3);
+      toast('Verified on the live page — ledger updated, Learn timer running');
+      renderTracker();
+    }else renderTracker();
+  },550);
+}
+function trkReauth(i){
+  const t=TRK[i];
+  toast('Opening Zepto login — session refreshes in the cookie vault');
+  setTimeout(()=>{
+    t.session=null;t.st='ok';
+    t.resolved='Session restored · 2 held actions executed and verified — both Zepto bids lowered, rollbacks armed';
+    t.bars=t.bars.slice(1).concat(['ok']);
+    t.runs.unshift(['ok','Today, 14:35 · 52s','Held queue resumed: 2 bids lowered on Zepto, verified']);t.runs=t.runs.slice(0,3);
+    toast('Zepto session restored — held queue executed automatically');
+    renderTracker();
+  },1200);
 }
 function trkDismiss(i){
   const t=TRK[i];
-  t.st=t.alert&&t.alert.sev==='crit'?'warn':'ok';
-  t.resolved='Dismissed — will re-flag automatically if it worsens';
+  t.st='ok';
+  t.resolved='Dismissed — the insight is archived; the spec re-flags automatically if it worsens';
   toast('Dismissed — the agent keeps watching');
   renderTracker();
+}
+/* ---- grounded chat answers (query-routing.yaml intents) ---- */
+const srcChip=(s)=>`<span class="railchip" style="font-family:var(--font-mono);font-size:9.5px">${s}</span>`;
+function chatGrounded(q,origin,body){
+  archiveCurrent();
+  SESSION={id:'s'+Math.random().toString(36).slice(2,9),title:q};CKN=1;
+  RECENTS.unshift({t:q,w:'Just now',sid:SESSION.id});renderRecents();
+  document.getElementById('ck-thread').innerHTML=userB(q,origin)+body;
+  go('summary');ckChatOn();
+  document.getElementById('scroll').scrollTop=0;
+}
+function trkChat(i,kind){
+  const t=TRK[i];
+  if(kind==='run'){
+    chatGrounded('What happened in the last run of "'+t.n+'"?','Asked from the tracker · row context is the scope',
+    `<div class="wb-msg">${t.last.s.replace(/^(.)/,c=>c.toUpperCase())} — the run took ${t.last.d==='—'?'no time (held)':t.last.d} and finished ${t.st==='ok'?'clean':t.st==='crit'?'in a critical state':'with one item for review'}. ${t.st==='ok'?'Nothing needs you.':'The row above has the detail and the actions.'}
+    <div class="mt-2 flex gap-1.5 flex-wrap">${srcChip('run ledger · 0 API calls · 180ms')}${srcChip('summary written at run time')}</div></div>`);
+  }else if(kind==='session'){
+    chatGrounded('What exactly is held on Zepto?','Asked from the tracker · awaiting_session',
+    `<div class="wb-msg">Two approved bid cuts are parked in <b>awaiting_session</b>: “tote bag under 999” ₹12.40 → ₹9.00 and “gift for her” ₹11.80 → ₹8.50 — both under the ROAS floor for 6 straight days. The plans were frozen at detection with rollbacks pre-resolved; the moment you re-connect the Zepto portal, the queue replays them and verifies each on the live page. Nothing expires for another 150+ hours.
+    <div class="mt-2 flex gap-1.5 flex-wrap">${srcChip('run ledger + frozen plans · 0 API calls')}${srcChip('decision snapshots · as of detection')}</div></div>`);
+  }else if(kind==='approve'){
+    const s=t.insight;
+    chatGrounded('Should I approve this?','Asked from the tracker · approval context — the trust moment',
+    `<div class="wb-msg"><b>Yes — and here is exactly what happens, mechanically.</b><br><br>
+    The plan was frozen when the insight was detected (Mon 06:10): raise the “office tote” bid ₹14.50 → ₹18.00 on Blinkit via browser playbook <span class="font-mono text-[11px]">pb.blinkit.keyword_bid_update</span>. On approve, the only checks that run are graph reads — cooldown, freeze scope, plan freshness, session health — then the executor replays the frozen steps. <b>Step 5 asserts the live page still shows ₹14.50 before touching anything</b>; if the page disagrees, it aborts with zero writes and re-queues. Predicted +₹9,800/wk revenue at stable ACOS (elasticity model, high confidence), rollback to ₹14.50 pre-resolved, pre/post screenshots kept 90 days, and the Learn timer measures realized vs predicted until Aug 17.
+    <div class="mt-2 flex gap-1.5 flex-wrap">${srcChip('decision snapshot + frozen plan · 0 API calls')}${srcChip('guardrails: cooldown · rollback · idempotency')}</div>
+    <div class="mt-3"><button class="btn btn-sm btn-orange" onclick="go('summary');TRKOPEN=${i};renderTracker();trkPlanRun(${i})">Approve and run →</button></div></div>`);
+  }
 }
 renderTracker();
 
